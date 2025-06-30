@@ -1,27 +1,419 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Pertamaku di GitHub Pages</title>
+    <title>nurimator - Koleksi Aplikasi Web Gratis</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        /* CSS Variables and Styles */
+        :root {
+            font-family: 'Inter', sans-serif;
+            --bg-dark: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-header: #1e293b; 
+            --border-color: #334155;
+            --border-color-light: #475569;
+            --text-primary: #f8fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-color: #3b82f6;
+            --accent-color-hover: #2563eb;
+            --danger-color: #ef4444;
+            --danger-color-hover: #dc2626;
+        }
+
+        html {
+             scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            padding-top: 68px; /* Adjusted padding for fixed header */
+        }
+
+        /* Component Styling */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
             text-align: center;
-            margin-top: 50px;
-            background-color: #f0f0f0;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            cursor: pointer;
         }
-        h1 {
-            color: #333;
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
         }
-        p {
-            color: #666;
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color-hover);
+            border-color: var(--accent-color-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-panel);
+            border-color: var(--border-color-light);
+        }
+
+        .card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 0; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        
+        .card-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+        }
+        
+        .nav-link {
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Animation for Hero Background */
+        @keyframes scroll-background {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .animated-background {
+            animation: scroll-background 60s linear infinite;
         }
     </style>
 </head>
-<body>
-    <h1>Halo Dunia!</h1>
-    <p>Ini adalah website pertamaku yang di-host di GitHub Pages.</p>
-    <p>Selamat datang!</p>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-[#1e293b] shadow-lg">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-2">
+                <svg class="h-8 w-8 text-accent-color" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <span class="text-xl font-bold text-text-primary">nurimator</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#projects" class="nav-link font-medium">Proyek</a>
+                <a href="#support" class="nav-link font-medium">Dukung Kami</a>
+                <a href="#testimonials" class="nav-link font-medium">Testimoni</a>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#" class="btn btn-secondary btn-sm">Daftar</a>
+                <a href="#support" class="btn btn-primary btn-sm">Donasi</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-text-primary focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1e293b] px-6 pb-4">
+            <a href="#projects" class="block py-2 nav-link">Proyek</a>
+            <a href="#support" class="block py-2 nav-link">Dukung Kami</a>
+            <a href="#testimonials" class="block py-2 nav-link">Testimoni</a>
+            <div class="mt-4 pt-4 border-t border-border-color space-y-2">
+                 <a href="#" class="block w-full btn btn-secondary">Daftar</a>
+                <a href="#support" class="block w-full btn btn-primary">Donasi</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative pt-12 md:pt-20 pb-20 overflow-hidden">
+            <!-- Animated Background Container -->
+            <div class="absolute inset-0 z-0 opacity-15" style="filter: blur(8px);">
+                <div class="absolute inset-0 flex animated-background" style="width: 200%;">
+                    <!-- 5 images duplicated for seamless loop -->
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 1]" class="w-[20%] h-full object-cover">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 2]" class="w-[20%] h-full object-cover scale-x-[-1]">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 3]" class="w-[20%] h-full object-cover">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 4]" class="w-[20%] h-full object-cover scale-x-[-1]">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 5]" class="w-[20%] h-full object-cover">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 1]" class="w-[20%] h-full object-cover">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 2]" class="w-[20%] h-full object-cover scale-x-[-1]">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 3]" class="w-[20%] h-full object-cover">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 4]" class="w-[20%] h-full object-cover scale-x-[-1]">
+                    <img src="https://i.imgur.com/cEtoJp4.png" alt="[Gambar latar belakang 5]" class="w-[20%] h-full object-cover">
+                </div>
+            </div>
+            
+            <!-- Hero Content -->
+            <div class="relative z-10 container mx-auto px-6">
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-6xl font-extrabold section-title leading-tight mb-4">
+                        Koleksi Aplikasi Web Gratis untuk Anda
+                    </h1>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto section-subtitle mb-8">
+                        Jelajahi berbagai alat dan aplikasi berbasis web yang dibuat untuk membantu pekerjaan Anda. Gratis, open source, dan didukung oleh komunitas.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <a href="#projects" class="btn btn-primary btn-lg w-full sm:w-auto">Jelajahi Proyek</a>
+                        <a href="#support" class="btn btn-secondary btn-lg w-full sm:w-auto">Beri Dukungan</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 bg-bg-dark">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold section-title">Proyek Unggulan</h2>
+                    <p class="mt-4 text-lg max-w-2xl mx-auto section-subtitle">
+                        Beberapa aplikasi yang telah kami buat. Klik untuk mencoba langsung di browser Anda.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card 1 -->
+                    <div class="card">
+                        <img src="https://i.imgur.com/cEtoJp4.png" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/94a3b8?text=Editor+Markdown';" alt="[Gambar pratinjau Editor Markdown]" class="w-full h-48 object-cover">
+                        <div class="card-content"><h3 class="text-xl font-bold text-text-primary mb-2">Editor Markdown</h3><p class="text-text-muted mb-6 flex-grow">Aplikasi editor Markdown sederhana dengan pratinjau langsung. Tulis dan format dokumen Anda dengan mudah.</p><a href="#" class="btn btn-secondary mt-auto">Buka Aplikasi</a></div>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="card">
+                        <img src="https://i.imgur.com/cEtoJp4.png" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/94a3b8?text=Generator+Palet';" alt="[Gambar pratinjau Generator Palet Warna]" class="w-full h-48 object-cover">
+                        <div class="card-content"><h3 class="text-xl font-bold text-text-primary mb-2">Generator Palet Warna</h3><p class="text-text-muted mb-6 flex-grow">Buat skema warna yang harmonis untuk proyek desain Anda. Simpan dan ekspor palet dalam berbagai format.</p><a href="#" class="btn btn-secondary mt-auto">Buka Aplikasi</a></div>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="card">
+                        <img src="https://i.imgur.com/cEtoJp4.png" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/94a3b8?text=Kuis+Interaktif';" alt="[Gambar pratinjau Kuis Interaktif]" class="w-full h-48 object-cover">
+                        <div class="card-content"><h3 class="text-xl font-bold text-text-primary mb-2">Kuis Interaktif</h3><p class="text-text-muted mb-6 flex-grow">Buat dan bagikan kuis sederhana. Cocok untuk pembelajaran, presentasi, atau sekadar bersenang-senang.</p><a href="#" class="btn btn-secondary mt-auto">Buka Aplikasi</a></div>
+                    </div>
+                </div>
+                <!-- View All Projects Button -->
+                <div class="text-center mt-12">
+                    <a href="#" class="btn btn-primary btn-lg">Lihat Daftar Proyek Lengkap</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Donation/Support Section -->
+        <section id="support" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="bg-bg-panel border border-border-color rounded-lg p-8 md:p-12 overflow-hidden">
+                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                        <div class="w-full md:w-1/3 flex-shrink-0"><img src="https://i.imgur.com/cEtoJp4.png" onerror="this.onerror=null;this.src='https://placehold.co/400x400/1e293b/94a3b8?text=Support';" alt="[Gambar dukungan]" class="rounded-lg w-full h-auto object-cover"></div>
+                        <div class="text-center md:text-left"><h2 class="text-3xl md:text-4xl font-bold section-title">Suka dengan Proyek Ini?</h2><p class="mt-4 text-lg max-w-2xl section-subtitle">Semua aplikasi di sini gratis dan akan selalu begitu. Jika Anda merasa aplikasi ini bermanfaat dan ingin mendukung pengembangan di masa depan, pertimbangkan untuk memberikan donasi. Setiap kontribusi sangat berarti!</p><div class="mt-8"><a href="#" class="btn btn-primary btn-lg">Donasi Sekarang</a></div><p class="text-sm text-text-muted mt-4">Kami menerima donasi melalui PayPal, Trakteer, dan Saweria.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-20 bg-bg-dark">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold section-title">Apa Kata Pengguna?</h2>
+                </div>
+                <div id="testimonial-slider" class="relative">
+                    <!-- Slider Container -->
+                    <div class="overflow-hidden">
+                        <!-- Slider Track -->
+                        <div id="testimonial-track" class="flex transition-transform duration-500 ease-in-out">
+                            <!-- Cards will be injected here by JS -->
+                        </div>
+                    </div>
+                    <!-- Prev Button -->
+                    <button id="prev-testimonial" class="absolute top-1/2 -left-4 -translate-y-1/2 bg-bg-panel/50 hover:bg-bg-panel p-2 rounded-full transition-colors focus:outline-none">
+                        <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <!-- Next Button -->
+                    <button id="next-testimonial" class="absolute top-1/2 -right-4 -translate-y-1/2 bg-bg-panel/50 hover:bg-bg-panel p-2 rounded-full transition-colors focus:outline-none">
+                        <svg class="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border-color">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-text-muted">&copy; 2025 nurimator. Dirilis di bawah Lisensi AGPL.</p>
+            <p class="text-sm text-text-muted mt-2">Dibuat dengan ❤️ untuk komunitas.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Close Mobile Menu on Link Click ---
+            const navLinks = document.querySelectorAll('#mobile-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Testimonial Slider ---
+            const testimonials = [
+                { name: 'Dian', role: 'Desainer Grafis', quote: 'Generator palet warnanya sangat membantu! Menghemat banyak waktu saya dalam mencari kombinasi warna yang pas. Terima kasih!', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Eko', role: 'Mahasiswa', quote: 'Sederhana tapi sangat fungsional. Editor Markdown-nya persis seperti yang saya butuhkan untuk catatan cepat. Hebat!', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Fajar', role: 'Web Developer', quote: 'Senang melihat ada developer yang membuat alat gratis berkualitas. Saya sudah memberikan donasi untuk mendukung proyek ini. Terus berkarya!', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Gina', role: 'Content Creator', quote: 'Aplikasi kuisnya seru banget buat interaksi sama audiens. Gampang dipakai dan hasilnya bagus. Keren!', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Hadi', role: 'Guru', quote: 'Saya pakai ini untuk membuat materi ajar yang lebih interaktif. Murid-murid jadi lebih semangat belajar. Sangat bermanfaat.', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Indah', role: 'Penulis', quote: 'Fitur-fiturnya sangat intuitif. Membantu saya fokus menulis tanpa terganggu hal-hal teknis yang rumit.', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Joko', role: 'Manajer Proyek', quote: 'Alat-alat dari nurimator ini meningkatkan produktivitas tim kami. Semuanya ada di satu tempat dan mudah diakses.', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Kartika', role: 'UI/UX Designer', quote: 'Sebagai desainer, saya sangat menghargai estetika dan fungsionalitas aplikasi ini. Bersih, modern, dan to the point.', img: 'https://i.imgur.com/cEtoJp4.png' },
+                { name: 'Lia', role: 'Digital Marketer', quote: 'Sangat berguna untuk kebutuhan marketing sehari-hari. Dari membuat konten visual sampai analisis singkat. Top!', img: 'https://i.imgur.com/cEtoJp4.png' },
+            ];
+
+            const track = document.getElementById('testimonial-track');
+            const slider = document.getElementById('testimonial-slider');
+            const nextButton = document.getElementById('next-testimonial');
+            const prevButton = document.getElementById('prev-testimonial');
+            let autoSlideInterval;
+
+            if (track) {
+                // Populate testimonials
+                testimonials.forEach(t => {
+                    track.innerHTML += `
+                        <div class="card w-full md:w-1/2 lg:w-1/3 flex-shrink-0 p-4">
+                            <div class="bg-bg-panel h-full p-6 rounded-lg">
+                                <p class="text-text-muted mb-6 flex-grow">"${t.quote}"</p>
+                                <div class="flex items-center">
+                                    <img src="${t.img}" onerror="this.onerror=null;this.src='https://placehold.co/40x40/475569/f8fafc?text=${t.name.charAt(0)}';" class="w-10 h-10 rounded-full mr-4 object-cover" alt="Avatar ${t.name}">
+                                    <div>
+                                        <p class="font-semibold text-text-primary">${t.name}</p>
+                                        <p class="text-sm text-text-muted">${t.role}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                let currentIndex = 0;
+
+                const getSlidesToShow = () => {
+                    if (window.innerWidth >= 1024) return 3;
+                    if (window.innerWidth >= 768) return 2;
+                    return 1;
+                };
+                
+                let slidesToShow = getSlidesToShow();
+                const totalSlides = testimonials.length;
+                const maxIndex = Math.ceil(totalSlides / slidesToShow) - 1;
+
+                const updateSlider = () => {
+                    const cardWidth = track.children[0].getBoundingClientRect().width;
+                    track.style.transform = `translateX(-${currentIndex * cardWidth * slidesToShow}px)`;
+                };
+
+                const showNext = () => {
+                    currentIndex = (currentIndex + 1) > maxIndex ? 0 : currentIndex + 1;
+                    updateSlider();
+                };
+
+                const showPrev = () => {
+                    currentIndex = (currentIndex - 1) < 0 ? maxIndex : currentIndex - 1;
+                    updateSlider();
+                };
+                
+                const startAutoSlide = () => {
+                    stopAutoSlide(); // Prevent multiple intervals
+                    autoSlideInterval = setInterval(showNext, 5000);
+                };
+
+                const stopAutoSlide = () => {
+                    clearInterval(autoSlideInterval);
+                };
+
+                nextButton.addEventListener('click', () => {
+                    showNext();
+                    stopAutoSlide();
+                });
+                prevButton.addEventListener('click', () => {
+                    showPrev();
+                    stopAutoSlide();
+                });
+                slider.addEventListener('mouseenter', stopAutoSlide);
+                slider.addEventListener('mouseleave', startAutoSlide);
+
+                window.addEventListener('resize', () => {
+                    slidesToShow = getSlidesToShow();
+                    updateSlider();
+                });
+
+                startAutoSlide();
+            }
+        });
+    </script>
+
 </body>
 </html>
