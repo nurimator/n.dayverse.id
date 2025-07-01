@@ -86,7 +86,8 @@
     </header>
 
     <main class="bg-gray-800/50">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <!-- FIXED: Adjusted padding from py-16 lg:py-24 to pt-8 pb-16 lg:pt-12 lg:pb-24 -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-12 lg:pb-24">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
                 <div id="posts-container" class="lg:col-span-2 space-y-8">
                     <div id="loading-indicator" class="flex justify-center py-12">
@@ -282,9 +283,8 @@
                 updateDisplay();
             });
 
-            // FIXED: Improved error handling and logging
             async function loadPosts() {
-                try {
+                 try {
                     const response = await fetch('posts.json');
                     if (!response.ok) {
                         throw new Error(`Gagal mengambil file. Status: ${response.status}`);
@@ -302,14 +302,6 @@
                             <p class="text-xs mt-4">Silakan periksa Developer Console (F12) untuk detail teknis.</p>
                         </div>
                     `;
-                    console.error("========================================");
-                    console.error("DEBUGGING INFO: Gagal memuat posts.json");
-                    console.error("========================================");
-                    console.error("Objek Error:", error);
-                    console.info("Penyebab umum kesalahan ini:");
-                    console.info("1. Kebijakan CORS: Anda mungkin membuka file HTML secara langsung. Coba gunakan server web lokal (seperti ekstensi 'Live Server' di VS Code).");
-                    console.info("2. File Tidak Ditemukan (404): Pastikan 'posts.json' berada di folder yang sama dengan 'postingan.html'.");
-                    console.info("3. JSON Tidak Valid: Periksa file 'posts.json' Anda untuk kesalahan sintaks (misalnya, koma di akhir).");
                 }
             }
 
