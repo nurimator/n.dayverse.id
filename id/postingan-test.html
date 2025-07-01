@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judul Postingan | ProyekKita</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Prism JS for Code Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+        }
+        .article-content h2 {
+            font-size: 1.875rem; font-weight: 800; color: #ffffff;
+            margin-top: 2.5rem; margin-bottom: 1rem;
+            border-bottom: 1px solid #374151; padding-bottom: 0.5rem;
+        }
+        .article-content p { line-height: 1.75; margin-bottom: 1.5rem; }
+        .article-content a { color: #60a5fa; text-decoration: underline; text-decoration-color: #60a5fa; transition: color 0.3s; }
+        .article-content a:hover { color: #93c5fd; }
+        .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
+        .article-content blockquote { border-left: 4px solid #3b82f6; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #9ca3af; }
+        pre[class*="language-"] { background: #1f2937; border-radius: 0.75rem; border: 1px solid #374151; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- ===== Header Section ===== -->
+    <header id="header" class="bg-gray-900/80 backdrop-blur-sm sticky top-0 left-0 right-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-white tracking-wider">Proyek<span class="text-blue-500">Kita</span></a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html#hero" class="text-gray-300 hover:text-blue-400">Beranda</a>
+                    <a href="index.html#proyek" class="text-gray-300 hover:text-blue-400">Proyek</a>
+                    <a href="index.html#komunitas" class="text-gray-300 hover:text-blue-400">Komunitas</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:block relative">
+                        <input type="text" id="search-input" placeholder="Cari artikel..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
+                    </div>
+                    <div class="hidden lg:block relative" id="desktop-dropdown-container">
+                        <button id="desktop-dropdown-button" class="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 flex items-center space-x-2">
+                            <span>Menu</span> <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
+                           <a href="index.html#proyek" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Proyek</a>
+                           <a href="postingan.html" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Postingan</a>
+                           <a href="index.html#komunitas" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Donasi</a>
+                           <a href="#" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">FAQ</a>
+                        </div>
+                    </div>
+                    <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-gray-900/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html#hero" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Beranda</a>
+                <a href="index.html#proyek" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Proyek</a>
+                <a href="index.html#komunitas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Komunitas</a>
+                <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+                      <a href="postingan.html" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700">Postingan</a>
+                      <a href="index.html#komunitas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Donasi</a>
+                      <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="bg-gray-800/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                
+                <article class="lg:col-span-8 xl:col-span-9">
+                    <!-- Post Header -->
+                    <div class="mb-8">
+                        <p class="text-base font-semibold text-blue-400">TUTORIAL</p>
+                        <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">Menguasai State Management di React dengan Zustand</h1>
+                        <div class="mt-6 flex items-center space-x-4 text-sm text-gray-400">
+                            <span>Oleh: Andini Putri</span>
+                            <span class="text-gray-600">•</span>
+                            <span>28 Juni 2025</span>
+                        </div>
+                    </div>
+
+                    <img src="https://placehold.co/1200x600/111827/60a5fa?text=Zustand%20Tutorial" alt="[Gambar utama artikel]" class="w-full rounded-2xl shadow-lg mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Image+Not+Found';">
+
+                    <div class="prose prose-invert max-w-none article-content">
+                        <p>Dalam ekosistem React, manajemen state adalah salah satu topik yang paling sering dibicarakan. Meskipun Redux telah lama menjadi standar de facto, banyak developer mencari alternatif yang lebih sederhana dan tidak terlalu _boilerplate_. Di sinilah Zustand hadir sebagai solusi yang elegan, ringan, dan sangat mudah digunakan.</p>
+                        
+                        <blockquote>Zustand adalah sebuah library manajemen state yang kecil, cepat, dan terukur dengan API yang nyaman berdasarkan hooks. Ia tidak memerlukan banyak kode boilerplate seperti Redux, dan terasa lebih "React-ish".</blockquote>
+
+                        <h2>Membuat Store Pertama Anda</h2>
+                        <p>Memulai dengan Zustand sangatlah mudah. Pertama, instal pustakanya:</p>
+                        <pre><code class="language-bash">npm install zustand</code></pre>
+                        
+                        <p>Anda dapat mengunduh file contoh proyek dari tautan di bawah ini untuk memulai.</p>
+                        <a href="/path/to/your/downloadable/file.zip" download class="no-underline inline-flex items-center justify-center space-x-2 bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300 my-4">
+                            <i data-lucide="download-cloud" class="w-5 h-5"></i>
+                            <span>Unduh File Proyek (ZIP, 15MB)</span>
+                        </a>
+
+                        <h2>Menggunakan Store di Komponen</h2>
+                        <p>Untuk menggunakan store di dalam komponen React, Anda cukup mengimpor custom hook yang telah Anda buat (`useBearStore`) dan memanggilnya seperti hook biasa.</p>
+                        <pre><code class="language-jsx">
+import React from 'react';
+import useBearStore from './store';
+
+function BearCounter() {
+  const bears = useBearStore((state) => state.bears)
+  return &lt;h1&gt;{bears} around here ...&lt;/h1&gt;
+}
+
+function Controls() {
+  const increasePopulation = useBearStore((state) => state.increasePopulation)
+  return &lt;button onClick={increasePopulation}&gt;one up&lt;/button&gt;
+}
+                        </code></pre>
+                        <p>Seperti yang Anda lihat, kodenya sangat bersih dan intuitif. Tidak ada `connect`, tidak ada `mapStateToProps`, dan tidak ada `useDispatch`. Semuanya terasa alami dalam paradigma hooks React.</p>
+                    </div>
+                   
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="lg:col-span-4 xl:col-span-3">
+                    <div class="sticky top-28 space-y-8">
+                        <!-- Author Box -->
+                        <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700/80 text-center">
+                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="[Foto Andini Putri]" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                            <h4 class="text-xl font-bold text-white">Andini Putri</h4>
+                            <p class="text-sm text-gray-400 mt-1">Frontend Developer</p>
+                            <p class="text-xs text-gray-500 mt-4">Menulis tentang React, CSS, dan semua hal tentang desain web modern.</p>
+                        </div>
+                        <!-- Related Posts -->
+                        <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700/80">
+                            <h3 class="text-lg font-bold text-white mb-4">Baca Juga</h3>
+                            <div id="related-posts-container" class="space-y-4">
+                                <!-- Related posts will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== Footer Section ===== -->
+        <footer class="bg-gray-900 border-t border-gray-800">
+        <!-- Footer content remains the same -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="col-span-2 lg:col-span-2">
+                    <a href="index.html" class="text-2xl font-bold text-white tracking-wider">Proyek<span class="text-blue-500">Kita</span></a>
+                    <p class="mt-4 text-gray-400 max-w-xs">Membangun ekosistem digital yang kolaboratif dan inovatif untuk masa depan yang lebih baik.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Navigasi</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#proyek" class="text-gray-400 hover:text-blue-400">Portofolio</a></li>
+                        <li><a href="index.html#komunitas" class="text-gray-400 hover:text-blue-400">Komunitas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Karir</a></li>
+                        <li><a href="postingan.html" class="text-gray-400 hover:text-blue-400">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Lisensi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="github" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>&copy; 2024 ProyekKita. Semua Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- CONFIGURATION FOR THIS POST ---
+            const CURRENT_POST_ID = 1; 
+            const CURRENT_POST_CATEGORY = 'Tutorial';
+
+            lucide.createIcons();
+            Prism.highlightAll();
+            
+            // --- DYNAMIC RELATED POSTS LOGIC ---
+            async function loadRelatedPosts() {
+                const container = document.getElementById('related-posts-container');
+                if (!container) return;
+                
+                container.innerHTML = '<p class="text-sm text-gray-500">Memuat artikel terkait...</p>';
+
+                try {
+                    const response = await fetch('posts.json'); 
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const allPosts = await response.json();
+
+                    const related = allPosts.filter(post =>
+                        post.category.toLowerCase() === CURRENT_POST_CATEGORY.toLowerCase() &&
+                        post.id !== CURRENT_POST_ID
+                    ).slice(0, 2);
+
+                    if (related.length > 0) {
+                        let relatedHTML = '';
+                        related.forEach(post => {
+                            relatedHTML += `
+                                <a href="${post.url}" class="flex items-center space-x-4 group">
+                                    <img src="${post.imageUrl}" alt="[Gambar] ${post.title}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
+                                    <div>
+                                        <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">${post.title}</p>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                        container.innerHTML = relatedHTML;
+                    } else {
+                        container.innerHTML = '<p class="text-sm text-gray-500">Tidak ada artikel terkait.</p>';
+                    }
+
+                } catch (error) {
+                    console.error("Gagal memuat artikel terkait:", error);
+                    container.innerHTML = '<p class="text-sm text-red-400">Gagal memuat data.</p>';
+                }
+            }
+
+            loadRelatedPosts();
+        });
+    </script>
+</body>
+</html>
