@@ -69,7 +69,16 @@
             </div>
         </div>
         <div id="mobile-menu" class="hidden lg:hidden bg-gray-900/95 backdrop-blur-sm">
-            <!-- Mobile menu links... -->
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html#hero" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Beranda</a>
+                <a href="index.html#proyek" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Proyek</a>
+                <a href="index.html#komunitas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Komunitas</a>
+                <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+                      <a href="postingan.html" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700">Postingan</a>
+                      <a href="index.html#komunitas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Donasi</a>
+                      <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">FAQ</a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -90,16 +99,68 @@
         </div>
     </main>
 
+    <!-- ===== Footer Section ===== -->
     <footer class="bg-gray-900 border-t border-gray-800">
-        <!-- Footer content... -->
+        <!-- Footer content remains the same -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="col-span-2 lg:col-span-2">
+                    <a href="index.html" class="text-2xl font-bold text-white tracking-wider">Proyek<span class="text-blue-500">Kita</span></a>
+                    <p class="mt-4 text-gray-400 max-w-xs">Membangun ekosistem digital yang kolaboratif dan inovatif untuk masa depan yang lebih baik.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Navigasi</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#proyek" class="text-gray-400 hover:text-blue-400">Portofolio</a></li>
+                        <li><a href="index.html#komunitas" class="text-gray-400 hover:text-blue-400">Komunitas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Karir</a></li>
+                        <li><a href="postingan.html" class="text-gray-400 hover:text-blue-400">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Lisensi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="github" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>&copy; 2024 ProyekKita. Semua Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // --- Menu & UI Logic ---
             lucide.createIcons();
-            // ... (Menu toggle logic is the same)
-            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+            if (desktopDropdownButton) {
+                desktopDropdownButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    desktopDropdownMenu.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (event) => {
+                    if (!desktopDropdownContainer.contains(event.target)) {
+                        desktopDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
             // --- Mobile Search Toggle Logic ---
             const headerMainContent = document.getElementById('header-main-content');
             const mobileSearchView = document.getElementById('mobile-search-view');
@@ -139,10 +200,98 @@
             let currentPage = 1;
             
             function updateDisplay() {
-                // ... (This function remains the same)
+                let tempPosts = [...allPosts];
+                if (currentCategory !== 'all') {
+                    tempPosts = tempPosts.filter(post => post.category.toLowerCase() === currentCategory.toLowerCase());
+                }
+                if (currentSearchTerm) {
+                    const searchTerm = currentSearchTerm.toLowerCase();
+                    tempPosts = tempPosts.filter(post =>
+                        post.title.toLowerCase().includes(searchTerm) ||
+                        post.summary.toLowerCase().includes(searchTerm)
+                    );
+                }
+                filteredPosts = tempPosts;
+                if (filteredPosts.length === 0) {
+                    postsContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang cocok dengan kriteria Anda.</p>`;
+                    paginationContainer.innerHTML = '';
+                } else {
+                    renderPosts(1);
+                }
+                updateActiveCategoryButton();
             }
-            // ... (renderPosts, renderPagination, renderCategories, etc. remain the same)
 
+            function renderPosts(page) {
+                currentPage = page;
+                postsContainer.innerHTML = ''; 
+                const start = (page - 1) * POSTS_PER_PAGE;
+                const end = start + POSTS_PER_PAGE;
+                const paginatedPosts = filteredPosts.slice(start, end);
+                paginatedPosts.forEach(post => {
+                    const postCard = `
+                        <div class="bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-col md:flex-row">
+                            <a href="${post.url}" class="block md:w-1/3 lg:w-2/5 xl:w-1/3 flex-shrink-0">
+                                <img src="${post.imageUrl}" alt="[Gambar] ${post.title}" class="w-full h-56 md:h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';">
+                            </a>
+                            <div class="p-6 flex flex-col">
+                                <span class="text-sm font-semibold text-blue-400">${post.category.toUpperCase()}</span>
+                                <a href="${post.url}" class="block mt-2 flex-grow">
+                                    <h3 class="text-xl font-bold text-white hover:text-blue-400 transition-colors">${post.title}</h3>
+                                    <p class="mt-2 text-gray-400 text-sm">${post.summary}</p>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    postsContainer.innerHTML += postCard;
+                });
+                renderPagination();
+            }
+            
+            function renderPagination() {
+                paginationContainer.innerHTML = '';
+                const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+                if (totalPages <= 1) return;
+                let paginationHTML = '<nav class="flex items-center space-x-2" aria-label="Pagination">';
+                paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})" class="relative inline-flex items-center px-2 py-2 rounded-l-md bg-gray-700 text-sm font-medium text-gray-400 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"><i data-lucide="chevron-left" class="h-5 w-5"></i></button>`;
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHTML += `<button onclick="changePage(${i})" class="relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${currentPage === i ? 'z-10 text-white bg-blue-600' : 'text-gray-300 bg-gray-700 hover:bg-gray-600'}">${i}</button>`;
+                }
+                paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})" class="relative inline-flex items-center px-2 py-2 rounded-r-md bg-gray-700 text-sm font-medium text-gray-400 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"><i data-lucide="chevron-right" class="h-5 w-5"></i></button>`;
+                paginationHTML += '</nav>';
+                paginationContainer.innerHTML = paginationHTML;
+                lucide.createIcons();
+            }
+
+            function renderCategories() {
+                const categoryCounts = allPosts.reduce((acc, post) => {
+                    acc[post.category] = (acc[post.category] || 0) + 1;
+                    return acc;
+                }, {});
+                categoriesList.innerHTML = `<li><button data-category="all" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors"><span>Semua Kategori</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">${allPosts.length}</span></button></li>`;
+                for (const category in categoryCounts) {
+                    categoriesList.innerHTML += `<li><button data-category="${category.toLowerCase()}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors"><span>${category.charAt(0).toUpperCase() + category.slice(1)}</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">${categoryCounts[category]}</span></button></li>`;
+                }
+                document.querySelectorAll('.category-btn').forEach(button => {
+                    button.addEventListener('click', (e) => filterByCategory(e.currentTarget.dataset.category));
+                });
+            }
+            
+            function updateActiveCategoryButton() {
+                document.querySelectorAll('.category-btn').forEach(button => {
+                    button.classList.toggle('text-blue-400', button.dataset.category === currentCategory);
+                    button.classList.toggle('font-bold', button.dataset.category === currentCategory);
+                });
+            }
+
+            function filterByCategory(category) {
+                currentCategory = category.toLowerCase();
+                updateDisplay();
+            }
+            
+            function changePage(page) {
+                renderPosts(page);
+                window.scrollTo(0, 0);
+            }
             // FIXED: Add event listener for the mobile search input
             searchInput.addEventListener('input', (e) => {
                 currentSearchTerm = e.target.value;
@@ -156,7 +305,25 @@
             });
 
             async function loadPosts() {
-                // ... (This function remains the same)
+                 try {
+                    const response = await fetch('posts.json');
+                    if (!response.ok) {
+                        throw new Error(`Gagal mengambil file. Status: ${response.status}`);
+                    }
+                    allPosts = await response.json();
+                    loadingIndicator.style.display = 'none';
+                    renderCategories();
+                    updateDisplay();
+                } catch (error) {
+                    loadingIndicator.style.display = 'none';
+                    postsContainer.innerHTML = `
+                        <div class="text-center text-red-300 bg-red-900/20 p-6 rounded-2xl border border-red-500/30">
+                            <h3 class="font-bold text-lg mb-2 text-red-200">Oops! Gagal Memuat Postingan</h3>
+                            <p class="text-sm">Terjadi kesalahan saat mencoba mengambil data dari <strong>posts.json</strong>.</p>
+                            <p class="text-xs mt-4">Silakan periksa Developer Console (F12) untuk detail teknis.</p>
+                        </div>
+                    `;
+                }
             }
 
             loadPosts();
