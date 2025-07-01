@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Postingan | nurimator</title>
+    <title>Halaman Postingan | ProyekKita</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,7 +51,6 @@
                     <a href="index.html#komunitas" class="text-gray-300 hover:text-blue-400">Komunitas</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <!-- FIXED: Added id="search-input" for JavaScript targeting -->
                     <div class="hidden md:block relative">
                         <input type="text" id="search-input" placeholder="Cari artikel..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
@@ -88,12 +87,8 @@
     </header>
 
     <main class="bg-gray-800/50">
+        <!-- FIXED: Removed the page header section -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-            <div class="text-center mb-16">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-white">Jelajahi Artikel Kami</h1>
-                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Temukan wawasan, tutorial, dan berita terbaru dari dunia teknologi dan pengembangan.</p>
-            </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
                 <div id="posts-container" class="lg:col-span-2 space-y-8">
                     <div id="loading-indicator" class="flex justify-center py-12">
@@ -158,7 +153,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- Menu Logic (same as before) ---
+            // --- Menu Logic ---
             lucide.createIcons();
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -185,23 +180,19 @@
             const categoriesList = document.getElementById('categories-list');
             const searchInput = document.getElementById('search-input');
             
-            const POSTS_PER_PAGE = 3;
+            // FIXED: Changed posts per page to 5
+            const POSTS_PER_PAGE = 5;
             let allPosts = [];
             let filteredPosts = [];
             let currentCategory = 'all';
             let currentSearchTerm = '';
             let currentPage = 1;
             
-            // --- Main Function to Update Display ---
             function updateDisplay() {
                 let tempPosts = [...allPosts];
-
-                // 1. Filter by category
                 if (currentCategory !== 'all') {
                     tempPosts = tempPosts.filter(post => post.category.toLowerCase() === currentCategory.toLowerCase());
                 }
-
-                // 2. Filter by search term
                 if (currentSearchTerm) {
                     const searchTerm = currentSearchTerm.toLowerCase();
                     tempPosts = tempPosts.filter(post =>
@@ -209,41 +200,37 @@
                         post.summary.toLowerCase().includes(searchTerm)
                     );
                 }
-                
                 filteredPosts = tempPosts;
-
                 if (filteredPosts.length === 0) {
                     postsContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang cocok dengan kriteria Anda.</p>`;
                     paginationContainer.innerHTML = '';
                 } else {
-                    renderPosts(1); // Always go to page 1 after a filter change
+                    renderPosts(1);
                 }
                 updateActiveCategoryButton();
             }
 
-            // --- Render Functions ---
             function renderPosts(page) {
                 currentPage = page;
-                postsContainer.innerHTML = ''; // Clear previous posts or "not found" message
+                postsContainer.innerHTML = ''; 
 
                 const start = (page - 1) * POSTS_PER_PAGE;
                 const end = start + POSTS_PER_PAGE;
                 const paginatedPosts = filteredPosts.slice(start, end);
 
                 paginatedPosts.forEach(post => {
-                    // FIXED: Removed author and readTime elements
+                    // FIXED: New card layout (image left, content right on desktop) and removed date
                     const postCard = `
-                        <div class="bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-col">
-                            <a href="${post.url}" class="block">
-                                <img src="${post.imageUrl}" alt="[Gambar] ${post.title}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';">
+                        <div class="bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-col md:flex-row">
+                            <a href="${post.url}" class="block md:w-1/3 lg:w-2/5 xl:w-1/3 flex-shrink-0">
+                                <img src="${post.imageUrl}" alt="[Gambar] ${post.title}" class="w-full h-56 md:h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';">
                             </a>
-                            <div class="p-6 flex flex-col flex-grow">
+                            <div class="p-6 flex flex-col">
                                 <span class="text-sm font-semibold text-blue-400">${post.category.toUpperCase()}</span>
                                 <a href="${post.url}" class="block mt-2 flex-grow">
                                     <h3 class="text-xl font-bold text-white hover:text-blue-400 transition-colors">${post.title}</h3>
                                     <p class="mt-2 text-gray-400 text-sm">${post.summary}</p>
                                 </a>
-                                <p class="text-gray-500 text-xs mt-4">${post.date}</p>
                             </div>
                         </div>
                     `;
@@ -273,42 +260,22 @@
                     acc[post.category] = (acc[post.category] || 0) + 1;
                     return acc;
                 }, {});
-
-                categoriesList.innerHTML = '';
-                // Add 'All' button first
-                categoriesList.innerHTML += `<li><button data-category="all" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors"><span>Semua Kategori</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">${allPosts.length}</span></button></li>`;
-
+                categoriesList.innerHTML = `<li><button data-category="all" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors"><span>Semua Kategori</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">${allPosts.length}</span></button></li>`;
                 for (const category in categoryCounts) {
-                    const categoryHTML = `
-                        <li>
-                            <button data-category="${category.toLowerCase()}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors">
-                                <span>${category.charAt(0).toUpperCase() + category.slice(1)}</span>
-                                <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">${categoryCounts[category]}</span>
-                            </button>
-                        </li>
-                    `;
-                    categoriesList.innerHTML += categoryHTML;
+                    categoriesList.innerHTML += `<li><button data-category="${category.toLowerCase()}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors"><span>${category.charAt(0).toUpperCase() + category.slice(1)}</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">${categoryCounts[category]}</span></button></li>`;
                 }
-                
-                // Add event listeners to new buttons
                 document.querySelectorAll('.category-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        filterByCategory(e.currentTarget.dataset.category);
-                    });
+                    button.addEventListener('click', (e) => filterByCategory(e.currentTarget.dataset.category));
                 });
             }
             
             function updateActiveCategoryButton() {
                 document.querySelectorAll('.category-btn').forEach(button => {
-                    if (button.dataset.category === currentCategory) {
-                        button.classList.add('text-blue-400', 'font-bold');
-                    } else {
-                        button.classList.remove('text-blue-400', 'font-bold');
-                    }
+                    button.classList.toggle('text-blue-400', button.dataset.category === currentCategory);
+                    button.classList.toggle('font-bold', button.dataset.category === currentCategory);
                 });
             }
 
-            // --- Event Handlers & Initial Load ---
             function filterByCategory(category) {
                 currentCategory = category.toLowerCase();
                 updateDisplay();
@@ -316,7 +283,7 @@
             
             function changePage(page) {
                 renderPosts(page);
-                window.scrollTo(0, postsContainer.offsetTop - 100);
+                window.scrollTo(0, 0); // Scroll to top on page change
             }
 
             searchInput.addEventListener('input', (e) => {
@@ -335,13 +302,10 @@
                 } catch (error) {
                     loadingIndicator.style.display = 'none';
                     postsContainer.innerHTML = `<p class="text-center text-red-400">Gagal memuat postingan. Pastikan file 'posts.json' ada dan formatnya benar.</p>`;
-                    console.error("Error loading posts:", error);
                 }
             }
 
             loadPosts();
-            
-            // Make functions globally available for inline onclick handlers in pagination
             window.changePage = changePage;
         });
     </script>
