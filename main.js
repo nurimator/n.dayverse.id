@@ -1,38 +1,25 @@
-/**
- * main.js
- * Skrip ini menangani pemuatan komponen bersama (seperti header dan footer)
- * dan menginisialisasi logika interaktifnya.
- */
-
-/**
- * Mengambil konten HTML dari URL dan menyuntikkannya ke dalam elemen target.
- * @param {string} url - URL file HTML yang akan dimuat.
- * @param {string} elementId - ID elemen tempat HTML akan disuntikkan.
- */
+// Fungsi untuk memuat HTML dan menyuntikkannya ke elemen target
 async function loadComponent(url, elementId) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Gagal mengambil ${url}: ${response.statusText}`);
+            throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
         }
         const text = await response.text();
         const element = document.getElementById(elementId);
         if (element) {
             element.innerHTML = text;
         } else {
-            console.warn(`Elemen dengan ID '${elementId}' tidak ditemukan.`);
+            console.warn(`Element with ID '${elementId}' not found.`);
         }
     } catch (error) {
-        console.error(`Error memuat komponen untuk ${elementId}:`, error);
+        console.error(`Error loading component for ${elementId}:`, error);
     }
 }
 
-/**
- * Menginisialisasi semua elemen UI interaktif yang ditemukan di dalam header.
- * Fungsi ini harus dipanggil SETELAH header dimuat.
- */
+// Inisialisasi logika interaktif untuk header setelah dimuat
 function initializeHeaderLogic() {
-    // --- Logika untuk Menu Mobile ---
+    // Mobile Menu
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenuButton && mobileMenu) {
@@ -41,7 +28,7 @@ function initializeHeaderLogic() {
         });
     }
 
-    // --- Logika untuk Dropdown Desktop ---
+    // Desktop Dropdown
     const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
     const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
     const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
@@ -50,7 +37,6 @@ function initializeHeaderLogic() {
             event.stopPropagation();
             desktopDropdownMenu.classList.toggle('hidden');
         });
-        // Menutup dropdown jika klik di luar container
         window.addEventListener('click', (event) => {
             if (!desktopDropdownContainer.contains(event.target)) {
                 desktopDropdownMenu.classList.add('hidden');
@@ -58,7 +44,7 @@ function initializeHeaderLogic() {
         });
     }
 
-    // --- Logika untuk Tampilan Pencarian Mobile ---
+    // Mobile Search Toggle
     const headerMainContent = document.getElementById('header-main-content');
     const mobileSearchView = document.getElementById('mobile-search-view');
     const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
@@ -80,30 +66,24 @@ function initializeHeaderLogic() {
         });
     }
 
-    // Inisialisasi ulang ikon Lucide setelah komponen baru dimuat ke DOM.
-    // Ini penting agar ikon di dalam header.html dapat dirender.
+    // Inisialisasi ulang ikon jika Lucide tersedia
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     } else {
-        console.warn('Lucide Icons tidak terdefinisi. Pastikan skripnya sudah dimuat.');
+        console.warn('Lucide Icons not defined. Make sure the script is loaded.');
     }
 }
 
-/**
- * Fungsi utama untuk memuat semua komponen bersama dan menginisialisasinya.
- */
+// Fungsi utama untuk memuat komponen bersama
 async function initializeSharedComponents() {
-    // Gunakan Promise.all untuk memuat header dan footer secara bersamaan
-    // untuk efisiensi.
     await Promise.all([
         loadComponent('/header.html', 'header-container'),
         loadComponent('/footer.html', 'footer-container')
     ]);
 
-    // Setelah SEMUA komponen di atas selesai dimuat,
-    // jalankan logika untuk membuat header menjadi interaktif.
+    // Setelah komponen dimuat, aktifkan logika interaktif
     initializeHeaderLogic();
 }
 
-// Jalankan proses inisialisasi utama saat DOM siap.
+// Jalankan inisialisasi saat DOM siap
 document.addEventListener('DOMContentLoaded', initializeSharedComponents);
