@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyek | ProyekKita</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+            overflow-x: hidden;
+        }
+        /* Indikator Loading */
+        .loader { 
+            border: 4px solid #374151; /* border-gray-700 */
+            border-top: 4px solid #3b82f6; /* border-blue-500 */
+            border-radius: 50%; 
+            width: 40px; 
+            height: 40px; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- ===== Header Section (Akan dimuat oleh main.js) ===== -->
+    <div id="header-container">
+        <!-- Konten header.html akan dimuat di sini -->
+    </div>
+
+    <!-- ===== Main Content: Halaman Proyek ===== -->
+    <main class="bg-gray-800/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            
+            <!-- Judul Halaman -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">Proyek Kami</h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Jelajahi berbagai proyek inovatif yang telah kami kerjakan.</p>
+            </div>
+
+            <!-- Grid untuk Kartu Proyek (Akan diisi oleh JavaScript) -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Indikator loading akan muncul di sini pertama kali -->
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== Footer Section (Akan dimuat oleh main.js) ===== -->
+    <div id="footer-container">
+        <!-- Konten footer.html akan dimuat di sini -->
+    </div>
+
+    <!-- Skrip utama untuk memuat komponen dan fungsionalitas -->
+    <script src="main.js" defer></script>
+
+    <!-- Skrip untuk memuat data proyek secara dinamis -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /**
+             * Memuat data proyek dari file JSON dan menampilkannya di halaman.
+             */
+            async function loadProjects() {
+                const projectsGrid = document.getElementById('projects-grid');
+                
+                // Tampilkan indikator loading
+                projectsGrid.innerHTML = `
+                    <div class="col-span-full flex justify-center py-12">
+                        <div class="loader"></div>
+                    </div>
+                `;
+
+                try {
+                    const response = await fetch('projects.json');
+                    if (!response.ok) {
+                        throw new Error(`Gagal mengambil projects.json: ${response.statusText}`);
+                    }
+                    const projects = await response.json();
+                    
+                    // Hapus indikator loading
+                    projectsGrid.innerHTML = '';
+
+                    if (projects.length === 0) {
+                        projectsGrid.innerHTML = `<p class="col-span-full text-center text-gray-400">Belum ada proyek yang ditambahkan.</p>`;
+                        return;
+                    }
+
+                    // Buat dan tampilkan setiap kartu proyek
+                    projects.forEach(project => {
+                        // Membuat HTML untuk tag teknologi
+                        const tagsHtml = project.tags.map(tag => 
+                            `<span class="inline-block bg-gray-500/10 text-gray-300 text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full">${tag}</span>`
+                        ).join('');
+
+                        // Membuat HTML untuk kartu proyek
+                        const cardHtml = `
+                            <div class="bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 hover:shadow-blue-500/10 hover:-translate-y-1 flex flex-col">
+                                <a href="${project.url}" class="block">
+                                    <img src="${project.imageUrl}" alt="Gambar untuk ${project.title}" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';">
+                                </a>
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <h3 class="text-xl font-bold text-white">${project.title}</h3>
+                                    <p class="mt-2 text-gray-400 text-sm flex-grow">${project.description}</p>
+                                    <div class="mt-4">
+                                        ${tagsHtml}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        projectsGrid.innerHTML += cardHtml;
+                    });
+
+                } catch (error) {
+                    console.error("Error memuat proyek:", error);
+                    projectsGrid.innerHTML = `
+                        <div class="col-span-full text-center text-red-300 bg-red-900/20 p-6 rounded-2xl border border-red-500/30">
+                            <h3 class="font-bold text-lg mb-2 text-red-200">Oops! Gagal Memuat Proyek</h3>
+                            <p class="text-sm">Terjadi kesalahan saat mencoba memuat data.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            // Panggil fungsi untuk memuat proyek
+            loadProjects();
+        });
+    </script>
+
+</body>
+</html>
