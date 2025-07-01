@@ -96,8 +96,8 @@ async function initializeSharedComponents() {
     // Gunakan Promise.all untuk memuat header dan footer secara bersamaan
     // untuk efisiensi.
     await Promise.all([
-        loadComponent('header.html', 'header-container'),
-        loadComponent('footer.html', 'footer-container')
+        loadComponent('/header.html', 'header-container'),
+        loadComponent('/footer.html', 'footer-container')
     ]);
 
     // Setelah SEMUA komponen di atas selesai dimuat,
