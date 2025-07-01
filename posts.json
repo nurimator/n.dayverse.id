@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Menguasai State Management di React dengan Zustand",
+    "url": "/posts/menguasai-zustand.html",
+    "summary": "Pelajari cara mengelola state aplikasi React Anda secara efisien dengan library Zustand yang ringan dan powerful.",
+    "category": "Tutorial",
+    "date": "28 Juni 2025",
+    "readTime": "6 menit baca",
+    "imageUrl": "https://placehold.co/600x400/111827/60a5fa?text=Post%201",
+    "author": {
+      "name": "Andini Putri",
+      "avatarUrl": "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+    }
+  },
+  {
+    "id": 2,
+    "title": "Era Baru AI Generatif: Apa Dampaknya bagi Developer?",
+    "url": "/posts/dampak-ai-generatif.html",
+    "summary": "Analisis mendalam tentang bagaimana model AI generatif terbaru akan mengubah lanskap pengembangan software.",
+    "category": "Berita Teknologi",
+    "date": "25 Juni 2025",
+    "readTime": "8 menit baca",
+    "imageUrl": "https://placehold.co/600x400/111827/38bdf8?text=Post%202",
+    "author": {
+      "name": "Budi Santoso",
+      "avatarUrl": "https://i.pravatar.cc/150?u=a042581f4e29026704e"
+    }
+  },
+  {
+    "id": 3,
+    "title": "10 Ekstensi VS Code yang Wajib Dimiliki di Tahun 2025",
+    "url": "/posts/ekstensi-vs-code.html",
+    "summary": "Tingkatkan alur kerja coding Anda dengan daftar ekstensi Visual Studio Code pilihan kami untuk berbagai bahasa.",
+    "category": "Produktivitas",
+    "date": "22 Juni 2025",
+    "readTime": "5 menit baca",
+    "imageUrl": "https://placehold.co/600x400/111827/22c55e?text=Post%203",
+    "author": {
+      "name": "Citra Lestari",
+      "avatarUrl": "https://i.pravatar.cc/150?u=a042581f4e29026704f"
+    }
+  },
+  {
+    "id": 4,
+    "title": "Panduan Lengkap Flexbox untuk Pemula",
+    "url": "/posts/panduan-flexbox.html",
+    "summary": "Dari dasar hingga konsep lanjutan, kuasai tata letak modern dengan CSS Flexbox melalui panduan komprehensif ini.",
+    "category": "Tutorial",
+    "date": "20 Juni 2025",
+    "readTime": "12 menit baca",
+    "imageUrl": "https://placehold.co/600x400/111827/8b5cf6?text=Post%204",
+    "author": {
+      "name": "Andini Putri",
+      "avatarUrl": "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+    }
+  }
+]
