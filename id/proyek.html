@@ -88,9 +88,9 @@
                 `;
 
                 try {
-                    const response = await fetch('projects.json');
+                    const response = await fetch('/id/proyek.json');
                     if (!response.ok) {
-                        throw new Error(`Gagal mengambil projects.json: ${response.statusText}`);
+                        throw new Error(`Gagal memuat: ${response.statusText}`);
                     }
                     const projects = await response.json();
                     
