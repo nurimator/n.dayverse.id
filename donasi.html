@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Donasi | ProyekKita</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+            overflow-x: hidden;
+        }
+        /* FIXED: Added blob animation styles */
+        @keyframes move-blobs {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            25% {
+                transform: translateY(20px) translateX(-30px) scale(1.1);
+            }
+            50% {
+                transform: translateY(-20px) translateX(30px) scale(0.9);
+            }
+            75% {
+                transform: translateY(30px) translateX(20px) scale(1.05);
+            }
+        }
+        .animated-blob-1 {
+            animation: move-blobs 15s infinite ease-in-out;
+        }
+        .animated-blob-2 {
+            animation: move-blobs 20s infinite ease-in-out reverse;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- ===== Header Section ===== -->
+    <header id="header" class="bg-gray-900/80 backdrop-blur-sm sticky top-0 left-0 right-0 z-50 border-b border-gray-700/50">
+        <!-- Header content remains the same -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="header-main-content" class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-white tracking-wider">Proyek<span class="text-blue-500">Kita</span></a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html#hero" class="text-gray-300 hover:text-blue-400">Beranda</a>
+                    <a href="index.html#proyek" class="text-gray-300 hover:text-blue-400">Proyek</a>
+                    <a href="post.html" class="text-gray-300 hover:text-blue-400">Postingan</a>
+                </nav>
+                <div class="hidden lg:flex items-center space-x-4">
+                    <form action="postingan.html" method="GET" class="relative">
+                        <input type="text" name="q" placeholder="Cari..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-3 text-gray-500 hover:text-white flex items-center rounded-l-full">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                    <div class="relative" id="desktop-dropdown-container">
+                        <button id="desktop-dropdown-button" class="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 flex items-center space-x-2">
+                            <span>Menu</span><i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
+                           <a href="index.html#proyek" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Proyek</a>
+                           <a href="post.html" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Postingan</a>
+                           <a href="donasi.html" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Donasi</a>
+                           <a href="#" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center lg:hidden space-x-2">
+                    <button id="mobile-search-open-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700"><i data-lucide="search" class="w-6 h-6"></i></button>
+                    <button id="mobile-menu-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                </div>
+            </div>
+            <div id="mobile-search-view" class="hidden items-center h-20">
+                <form action="postingan.html" method="GET" class="relative w-full flex items-center">
+                    <input type="text" name="q" id="mobile-search-input" placeholder="Cari di situs ini..." class="bg-gray-800 border border-gray-700 rounded-full py-3 pl-12 pr-4 text-base w-full focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-4 text-gray-500 flex items-center rounded-l-full"><i data-lucide="search" class="w-5 h-5"></i></button>
+                    <button id="mobile-search-close-button" type="button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 ml-2 flex-shrink-0"><i data-lucide="x" class="w-6 h-6"></i></button>
+                </form>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-gray-900/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html#hero" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Beranda</a>
+                <a href="index.html#proyek" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Proyek</a>
+                <a href="post.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Postingan</a>
+                <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+                    <a href="donasi.html" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700">Donasi</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FIXED: Added relative positioning to main to contain the blobs -->
+    <main class="bg-gray-800/50 relative overflow-hidden">
+        <!-- FIXED: Added animated blob background -->
+        <div class="absolute inset-0 z-0 opacity-20">
+            <div class="absolute top-0 -left-24 w-96 h-96 bg-teal-500 rounded-full filter blur-3xl animated-blob-1"></div>
+            <div class="absolute bottom-0 -right-24 w-80 h-80 bg-pink-500 rounded-full filter blur-3xl animated-blob-2"></div>
+        </div>
+
+        <!-- FIXED: Added relative and z-10 to the container to place it above the blobs -->
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10">
+            <!-- Page Header -->
+            <div class="text-center max-w-3xl mx-auto">
+                <!-- FIXED: Changed heading text -->
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">Dukung Kami</h1>
+                <p class="mt-4 text-lg text-gray-400">Setiap kontribusi Anda, besar maupun kecil, sangat berarti bagi kami untuk terus mengembangkan proyek-proyek open-source yang bermanfaat dan dapat diakses oleh semua orang.</p>
+            </div>
+
+            <!-- Donation Cards -->
+            <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Local Donation Card -->
+                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
+                    <img src="https://placehold.co/150x80/1f2937/2dd4bf?text=Lynk.id" alt="[Logo Lynk.id]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Image+Not+Found';">
+                    <h2 class="text-2xl font-bold text-white mb-2">Donasi Lokal</h2>
+                    <p class="text-gray-400 mb-8 flex-grow">Untuk donatur di Indonesia, Anda dapat memberikan dukungan dengan mudah dan aman melalui platform Lynk.id.</p>
+                    <a href="https://lyn.id/proyekkita" target="_blank" rel="noopener noreferrer" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-teal-700 transition-colors duration-300 flex items-center justify-center space-x-2">
+                        <span>Donasi via Lynk.id</span>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Global Donation Card -->
+                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-500/20">
+                    <img src="https://placehold.co/150x80/1f2937/ec4899?text=Ko-fi" alt="[Logo Ko-fi]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Image+Not+Found';">
+                    <h2 class="text-2xl font-bold text-white mb-2">Donasi Global</h2>
+                    <p class="text-gray-400 mb-8 flex-grow">For our international supporters, you can easily contribute by buying us a coffee on Ko-fi. Thank you!</p>
+                    <a href="https://ko-fi.com/proyekkita" target="_blank" rel="noopener noreferrer" class="w-full bg-pink-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-pink-700 transition-colors duration-300 flex items-center justify-center space-x-2">
+                        <span>Support us on Ko-fi</span>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== Footer Section ===== -->
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="col-span-2 lg:col-span-2">
+                    <a href="#" class="text-2xl font-bold text-white tracking-wider">
+                        Proyek<span class="text-blue-500">Kita</span>
+                    </a>
+                    <p class="mt-4 text-gray-400 max-w-xs">Membangun ekosistem digital yang kolaboratif dan inovatif untuk masa depan yang lebih baik.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Navigasi</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#proyek" class="text-gray-400 hover:text-blue-400">Portofolio</a></li>
+                        <li><a href="#komunitas" class="text-gray-400 hover:text-blue-400">Komunitas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Karir</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400">Lisensi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="github" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>&copy; 2024 ProyekKita. Semua Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lucide.createIcons();
+            // Menu logic
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            
+            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+            if (desktopDropdownButton) {
+                desktopDropdownButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    desktopDropdownMenu.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (event) => {
+                    if (!desktopDropdownContainer.contains(event.target)) {
+                        desktopDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Mobile Search Toggle Logic
+            const headerMainContent = document.getElementById('header-main-content');
+            const mobileSearchView = document.getElementById('mobile-search-view');
+            const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+            if (mobileSearchOpenButton) {
+                mobileSearchOpenButton.addEventListener('click', () => {
+                    headerMainContent.classList.add('hidden');
+                    mobileSearchView.classList.remove('hidden');
+                    mobileSearchView.classList.add('flex');
+                    mobileSearchInput.focus();
+                });
+            }
+            if (mobileSearchCloseButton) {
+                mobileSearchCloseButton.addEventListener('click', () => {
+                    headerMainContent.classList.remove('hidden');
+                    mobileSearchView.classList.add('hidden');
+                    mobileSearchView.classList.remove('flex');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
