@@ -36,10 +36,12 @@
                     <a href="#komunitas" class="text-gray-300 hover:text-blue-400">Komunitas</a>
                 </nav>
                 <div class="hidden lg:flex items-center space-x-4">
-                    <!-- FIXED: Wrapped in a form to redirect to the posts page -->
-                    <form action="postingan.html" method="GET" class="relative">
+                    <!-- FIXED: The search icon is now a submit button -->
+                    <form action="post.html" method="GET" class="relative">
                         <input type="text" name="q" placeholder="Cari..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
+                        <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-3 text-gray-500 hover:text-white flex items-center rounded-l-full">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </button>
                     </form>
                     <div class="relative" id="desktop-dropdown-container">
                         <button id="desktop-dropdown-button" class="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 flex items-center space-x-2">
@@ -59,10 +61,12 @@
                 </div>
             </div>
             <div id="mobile-search-view" class="hidden items-center h-20">
-                <!-- FIXED: Wrapped in a form to redirect to the posts page -->
-                <form action="postingan.html" method="GET" class="relative w-full flex items-center">
+                <!-- FIXED: The search icon is now a submit button -->
+                <form action="post.html" method="GET" class="relative w-full flex items-center">
                     <input type="text" name="q" id="mobile-search-input" placeholder="Cari di situs ini..." class="bg-gray-800 border border-gray-700 rounded-full py-3 pl-12 pr-4 text-base w-full focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                    <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-4 text-gray-500 flex items-center rounded-l-full">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
                     <button id="mobile-search-close-button" type="button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 ml-2 flex-shrink-0">
                         <i data-lucide="x" class="w-6 h-6"></i>
                     </button>
@@ -322,10 +326,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             lucide.createIcons();
-            // Menu logic is the same...
+            // Menu logic
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            
             const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
             const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
             const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
@@ -341,7 +346,7 @@
                 });
             }
 
-            // Mobile Search Toggle Logic...
+            // Mobile Search Toggle Logic
             const headerMainContent = document.getElementById('header-main-content');
             const mobileSearchView = document.getElementById('mobile-search-view');
             const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
