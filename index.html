@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Modern | Tema Gelap</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+            overflow-x: hidden;
+        }
+        @keyframes move-blobs {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+            25% { transform: translateY(20px) translateX(-30px) scale(1.1); }
+            50% { transform: translateY(-20px) translateX(30px) scale(0.9); }
+            75% { transform: translateY(30px) translateX(20px) scale(1.05); }
+        }
+        .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
+        .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
+        .slider-track { transition: transform 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- ===== Header Section ===== -->
+    <header id="header" class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Main Header Content -->
+            <div id="header-main-content" class="flex items-center justify-between h-20">
+                <a href="#" class="text-2xl font-bold text-white tracking-wider">
+                    Proyek<span class="text-blue-500">Kita</span>
+                </a>
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="#hero" class="text-gray-300 hover:text-blue-400 transition-colors duration-300">Beranda</a>
+                    <a href="#proyek" class="text-gray-300 hover:text-blue-400 transition-colors duration-300">Proyek</a>
+                    <a href="#komunitas" class="text-gray-300 hover:text-blue-400 transition-colors duration-300">Komunitas</a>
+                </nav>
+                <div class="hidden lg:flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Cari..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"></i>
+                    </div>
+                    <div class="relative" id="desktop-dropdown-container">
+                        <button id="desktop-dropdown-button" class="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-300 flex items-center space-x-2">
+                            <span>Menu</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-300"></i>
+                        </button>
+                        <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
+                           <a href="#proyek" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Proyek</a>
+                           <a href="postingan.html" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Postingan</a>
+                           <a href="#komunitas" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Donasi</a>
+                           <a href="#" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Mobile Action Buttons -->
+                <div class="flex items-center lg:hidden space-x-2">
+                    <button id="mobile-search-open-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700">
+                        <i data-lucide="search" class="w-6 h-6"></i>
+                    </button>
+                    <button id="mobile-menu-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search View (Initially Hidden) -->
+            <div id="mobile-search-view" class="hidden items-center h-20">
+                <div class="relative w-full">
+                    <input type="text" id="mobile-search-input" placeholder="Cari di situs ini..." class="bg-gray-800 border border-gray-700 rounded-full py-3 pl-12 pr-4 text-base w-full focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                </div>
+                <button id="mobile-search-close-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 ml-2 flex-shrink-0">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-gray-900/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#hero" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700">Beranda</a>
+                <a href="#proyek" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Proyek</a>
+                <a href="#komunitas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Komunitas</a>
+                <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+                      <a href="postingan.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Postingan</a>
+                      <a href="#komunitas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Donasi</a>
+                      <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Rest of the landing page content... -->
+    <main>
+        <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 lg:pt-20">
+            <div class="absolute inset-0 z-0 opacity-20">
+                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
+            </div>
+            <div class="hidden lg:block absolute inset-0 z-0">
+                <div class="absolute top-1/2 left-12 -translate-y-1/2 -rotate-12 opacity-40 blur-sm">
+                    <img src="https://placehold.co/600x400/111827/3b82f6?text=Gambar%20Kiri" alt="[Gambar Latar Kiri]" class="rounded-2xl shadow-2xl max-w-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                </div>
+                <div class="absolute top-1/2 right-12 -translate-y-1/2 rotate-12 opacity-40 blur-sm">
+                     <img src="https://placehold.co/600x400/111827/60a5fa?text=Gambar%20Kanan" alt="[Gambar Latar Kanan]" class="rounded-2xl shadow-2xl max-w-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                </div>
+            </div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <img src="https://placehold.co/800x400/1f2937/3b82f6?text=Gambar%20Hero" alt="[Gambar Hero Utama]" class="lg:hidden mx-auto rounded-2xl shadow-2xl mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1f2937/FFFFFF?text=Image%20Not%20Found';">
+                <div class="max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+                        Bangun Masa Depan Digital <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-400">Bersama Kami</span>.
+                    </h1>
+                    <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10">
+                        Wujudkan ide-ide inovatif Anda menjadi proyek nyata yang menginspirasi dan memberikan dampak.
+                    </p>
+                    <a href="#proyek" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
+                        Lihat Portofolio
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- Other sections... -->
+    </main>
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <!-- Footer content... -->
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lucide.createIcons();
+
+            // --- Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+            if (desktopDropdownButton) {
+                desktopDropdownButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    desktopDropdownMenu.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (event) => {
+                    if (!desktopDropdownContainer.contains(event.target)) {
+                        desktopDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- Mobile Search Toggle Logic ---
+            const headerMainContent = document.getElementById('header-main-content');
+            const mobileSearchView = document.getElementById('mobile-search-view');
+            const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+
+            if (mobileSearchOpenButton) {
+                mobileSearchOpenButton.addEventListener('click', () => {
+                    headerMainContent.classList.add('hidden');
+                    mobileSearchView.classList.remove('hidden');
+                    mobileSearchView.classList.add('flex');
+                    mobileSearchInput.focus();
+                });
+            }
+
+            if (mobileSearchCloseButton) {
+                mobileSearchCloseButton.addEventListener('click', () => {
+                    headerMainContent.classList.remove('hidden');
+                    mobileSearchView.classList.add('hidden');
+                    mobileSearchView.classList.remove('flex');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
