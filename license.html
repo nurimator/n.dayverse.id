@@ -1,3 +1,7 @@
+---
+layout: null
+---
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -13,9 +17,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     <!-- Custom Styles -->
     <style>
         body { 
@@ -41,8 +42,7 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header Placeholder -->
-    <div id="header-container"></div>
+    {% include header.html %}
 
     <!-- Main Content -->
     <main class="py-16 sm:py-24">
@@ -102,7 +102,6 @@
                     <p>This site uses several assets and libraries from third parties, each with its own license. These include, but are not limited to:</p>
                     <ul class="list-disc list-inside space-y-2 pl-4 mt-4">
                         <li><strong>Tailwind CSS:</strong> Licensed under the <a href="https://github.com/tailwindlabs/tailwindcss/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>.</li>
-                        <li><strong>Lucide Icons:</strong> Licensed under the <a href="https://github.com/lucide-icons/lucide/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">ISC License</a>.</li>
                         <li><strong>Inter Font:</strong> Licensed under the <a href="https://github.com/rsms/inter/blob/master/LICENSE.txt" target="_blank" rel="noopener noreferrer">SIL Open Font License 1.1</a>.</li>
                     </ul>
                     <p class="mt-4">We do not claim ownership of these assets. Please refer to their respective licenses for terms of use.</p>
@@ -117,8 +116,7 @@
         </div>
     </main>
 
-    <!-- Footer Placeholder -->
-    <div id="footer-container"></div>
+    {% include footer.html %}
 
     <script src="main.js" defer></script>
 </body>
