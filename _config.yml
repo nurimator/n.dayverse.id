@@ -14,6 +14,14 @@ github_username:  nurimator
 paginate: 5
 paginate_path: "/id/post/page:num/"
 
+collections:
+  posts_id:
+    output: true
+    permalink: /id/post/:title/
+  posts_en:
+    output: true
+    permalink: /en/post/:title/
+
 # -- Pengaturan Build --
 # Plugin yang digunakan oleh GitHub Pages
 plugins:
