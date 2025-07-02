@@ -7,97 +7,109 @@ lang: id
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Postingan | Nurimator</title>
-    {% include favicon.html %}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
-        .loader { border: 4px solid #374151; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* Menambahkan kelas untuk memotong teks */
-        .line-clamp-2 {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Postingan | Nurimator</title>
+  {% include favicon.html %}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  {% assign first_post = site.posts_id | first %}
+  {% if first_post.image %}
+    <link
+      rel="preload"
+      as="image"
+      href="{{ first_post.image | relative_url }}"
+      fetchpriority="high"
+      type="image/webp"
+    >
+  {% endif %}
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+    .loader { border: 4px solid #374151; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .line-clamp-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
+  {% include header.html %}
 
-    {% include header.html %}
+  <main class="bg-gray-800/50 pt-16 lg:pt-18">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <div class="lg:col-span-2">
 
-    <!-- Menambahkan padding responsif untuk header sticky -->
-    <main class="bg-gray-800/50 pt-16 lg:pt-18">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-24">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-                <div class="lg:col-span-2">
-                    <!-- Penambahan Fitur Urutkan Postingan -->
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
-                        <h2 class="text-3xl font-bold text-white mb-4 sm:mb-0">Semua Postingan</h2>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-sm text-gray-400">Urutkan:</span>
-                            <!-- Mengubah padding vertikal agar tombol lebih pendek -->
-                            <button id="sort-newest" class="sort-btn bg-blue-600 text-white px-3 py-1 text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">Terbaru</button>
-                            <button id="sort-oldest" class="sort-btn bg-gray-700 text-gray-300 px-3 py-1 text-sm font-semibold rounded-lg hover:bg-blue-600 transition-colors">Terlama</button>
-                        </div>
-                    </div>
-
-                    <div id="posts-container" class="space-y-2 sm:space-y-8">
-                        {% for post in site.posts_id %}
-                            <!-- Menambahkan data-category untuk filter JavaScript (meskipun filter kategori sidebar dihapus, data ini bisa tetap berguna untuk tujuan lain atau di masa depan) -->
-                            <div class="post-item bg-gray-800 rounded-2xl border overflow-hidden border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row " 
-                                 data-date="{{ post.date | date_to_xmlschema }}" 
-                                 data-category="{{ post.categories | first | default: 'UNCATEGORIZED' | upcase }}">
-                                <!-- Memberi lebar tetap pada gambar -->
-                                <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0">
-                                    <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found{% endif %}" 
-                                            alt="[Gambar] {{ post.title }}" 
-                                            class="w-full h-full object-cover" 
-                                            loading="lazy" 
-                                            width="600" 
-                                            height="400">
-                                </a>
-                                <!-- Menambahkan 'overflow-hidden' untuk memastikan teks terpotong dengan benar -->
-                                <div class="p-4 sm:p-6 flex flex-col flex-grow overflow-hidden">
-                                    <span class="text-sm font-semibold text-blue-400">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
-                                    <a href="{{ post.url | relative_url }}" class="block mt-1 flex-grow">
-                                        <!-- Mengubah ukuran font untuk mobile: text-base (sebelumnya text-lg) -->
-                                        <h3 class="text-base sm:text-xl font-bold text-white hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</h3>
-                                        <!-- Mengubah ukuran font untuk mobile: text-xs (sebelumnya text-sm) -->
-                                        <p class="mt-1 text-gray-400 text-xs sm:text-sm hidden sm:block line-clamp-2">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang ditemukan.</p>
-                        {% endfor %}
-                    </div>
-                </div>
-                <aside class="lg:col-span-1 space-y-8">
-                    <!-- Bagian Proyek Baru dengan Gaya yang Diperbarui -->
-                    <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20 sticky top-28">
-                        <img src="https://placehold.co/150x80/1f2937/2dd4bf?text=proyek-kami" alt="[[proyek]]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Gambar+Tidak+Tersedia';">
-                        <h2 class="text-2xl font-bold text-white mb-2">Projek</h2>
-                        <p class="text-gray-400 mb-8 flex-grow">Selain membahas animasi dan desain, kami juga mengembangkan beragam proyek web app kecil yang mungkin dapat membantu Anda.</p>
-                        <a href="/id/proyek" target="_blank" rel="noopener noreferrer" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-teal-700 transition-colors duration-300 flex items-center justify-center space-x-2">
-                            <span>Cek Proyek</span>
-                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </aside>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
+            <h2 class="text-3xl font-bold text-white mb-4 sm:mb-0">Semua Postingan</h2>
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-gray-400">Urutkan:</span>
+              <button id="sort-newest" class="sort-btn bg-blue-600 text-white px-3 py-1 text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">Terbaru</button>
+              <button id="sort-oldest" class="sort-btn bg-gray-700 text-gray-300 px-3 py-1 text-sm font-semibold rounded-lg hover:bg-blue-600 transition-colors">Terlama</button>
             </div>
+          </div>
+
+          <div id="posts-container" class="space-y-2 sm:space-y-8">
+            {% for post in site.posts_id %}
+              <div class="post-item bg-gray-800 rounded-2xl border overflow-hidden border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row" 
+                   data-date="{{ post.date | date_to_xmlschema }}" 
+                   data-category="{{ post.categories | first | default: 'UNCATEGORIZED' | upcase }}">
+
+                <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0">
+                  {% assign image_url = post.image | default: 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found' %}
+                  <img
+                    src="{{ image_url | relative_url }}"
+                    alt="[Gambar] {{ post.title }}"
+                    class="w-full h-full object-cover"
+                    width="600"
+                    height="400"
+                    {% if forloop.index == 1 %}
+                      loading="eager" fetchpriority="high"
+                    {% else %}
+                      loading="lazy"
+                    {% endif %}
+                  >
+                </a>
+
+                <div class="p-4 sm:p-6 flex flex-col flex-grow overflow-hidden">
+                  <span class="text-sm font-semibold text-blue-400">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
+                  <a href="{{ post.url | relative_url }}" class="block mt-1 flex-grow">
+                    <h3 class="text-base sm:text-xl font-bold text-white hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</h3>
+                    <p class="mt-1 text-gray-400 text-xs sm:text-sm hidden sm:block line-clamp-2">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+                  </a>
+                </div>
+              </div>
+            {% else %}
+              <p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang ditemukan.</p>
+            {% endfor %}
+          </div>
         </div>
-    </main>
-    {% include footer.html %}
+
+        <aside class="lg:col-span-1 space-y-8">
+          <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20 sticky top-28">
+            <img src="https://placehold.co/150x80/1f2937/2dd4bf?text=proyek-kami" alt="[[proyek]]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Gambar+Tidak+Tersedia';">
+            <h2 class="text-2xl font-bold text-white mb-2">Projek</h2>
+            <p class="text-gray-400 mb-8 flex-grow">Selain membahas animasi dan desain, kami juga mengembangkan beragam proyek web app kecil yang mungkin dapat membantu Anda.</p>
+            <a href="/id/proyek" target="_blank" rel="noopener noreferrer" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-teal-700 transition-colors duration-300 flex items-center justify-center space-x-2">
+              <span>Cek Proyek</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  {% include footer.html %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
