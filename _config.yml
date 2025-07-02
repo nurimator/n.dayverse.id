@@ -1,16 +1,22 @@
-# _config.yml
+# ========================
+# Konfigurasi Situs
+# ========================
 
-# -- Pengaturan Situs --
 title: Nurimator
 email: rotamirun@gmail.com
-description: >- # Deskripsi ini akan muncul di meta tag dan feed RSS
-  Membangun ekosistem digital yang kolaboratif dan inovatif 
+description: >-
+  Membangun ekosistem digital yang kolaboratif dan inovatif
   untuk masa depan yang lebih baik.
-baseurl: "" # biarkan kosong jika situs Anda di username.github.io
-url: "https://nurimator.github.io" # ganti 'username' dengan nama pengguna GitHub Anda
+baseurl: "" # kosongkan jika di username.github.io
+url: "https://nurimator.github.io"
 author: nurimator
 twitter_username: nurimator
-github_username:  nurimator
+github_username: nurimator
+
+# ========================
+# Konfigurasi Postingan
+# ========================
+
 paginate: 5
 paginate_path: "/id/post/page:num/"
 
@@ -22,29 +28,37 @@ collections:
     output: true
     permalink: /en/posts/:title/
 
-# -- Pengaturan Build --
-# Plugin yang digunakan oleh GitHub Pages
+# ========================
+# Plugin
+# ========================
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
   - jekyll-paginate
 
-# -- Front Matter Defaults --
-# Menetapkan layout default untuk semua postingan dan halaman
+# ========================
+# Default Layout
+# ========================
+
 defaults:
   - scope:
-      path: "" # semua file
-      type: "posts" # hanya untuk postingan
+      path: ""
+      type: "posts"
     values:
       layout: "post"
+
   - scope:
       path: ""
       type: "pages"
     values:
       layout: "default"
 
-# -- Pengecualian dari Build --
-# File/folder yang tidak akan diproses oleh Jekyll
+# ========================
+# Pengecualian Build
+# ========================
+
 exclude:
   - Gemfile
   - Gemfile.lock
