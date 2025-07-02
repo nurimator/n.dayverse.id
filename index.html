@@ -26,6 +26,7 @@ lang: id
         }
         .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
+        .animated-blob-3 { animation: move-blobs 18s infinite ease-in-out; }
         .hero-title {
             /* Responsive font size: min 40px, preferred 7vw, max 72px */
             font-size: clamp(2.5rem, 7vw, 4.5rem);
@@ -38,132 +39,136 @@ lang: id
     {% include header.html %}
 
     <main>
-        <!-- ===== Hero Section ===== -->
-        <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 lg:pt-20">
+        <!-- Wrapper for Hero and Works sections to contain blobs -->
+        <div class="relative overflow-hidden">
             <!-- Animated Background Blobs -->
-            <div class="absolute inset-0 z-0 opacity-30">
-                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[30%] w-[500px] h-[500px] bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
-                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[30%] w-[450px] h-[450px] bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
+            <div class="absolute inset-0 z-0 opacity-20">
+                <div class="absolute top-0 left-0 w-96 h-96 lg:w-[600px] lg:h-[600px] bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
+                <div class="absolute top-1/3 right-0 w-96 h-96 lg:w-[700px] lg:h-[700px] bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
+                <div class="absolute bottom-0 left-1/4 w-96 h-96 lg:w-[500px] lg:h-[500px] bg-blue-700 rounded-full filter blur-3xl animated-blob-3"></div>
             </div>
 
-            <!-- Background Images for Desktop -->
-            <div class="hidden lg:block absolute inset-0 z-5">
-                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
-                    <img src="/assets/image/hello.webp" alt="Hello Nurimator" class="rounded-2xl h-[75vh] w-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
-                </div>
-                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
-                     <img src="/assets/image/hello2.webp" alt="Hello Nurimator for the second time" class="rounded-2xl h-[75vh] w-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
-                </div>
-            </div>
-
-            <!-- Main content container -->
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                <!-- Image for mobile only -->
-                <img src="/assets/image/hello3.webp" alt="Gambar Hero Nurimator" class="lg:hidden mx-auto rounded-2xl shadow-2xl mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1f2937/FFFFFF?text=Image%20Not%20Found';">
-                
-                <!-- Text content -->
-                <div class="max-w-4xl mx-auto">
-                    <h1 class="hero-title font-extrabold text-white mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">
-                        Selamat Datang di Website <span class="text-blue-600">Nurimator</span>.
-                    </h1>
-                    <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10 [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">
-                        Seorang animator dan 3D artist dengan fokus pada dunia Minecraft. Di sini, saya berbagi karya, proses kreatif, dan minat saya dalam belajar hal-hal baru di dunia digital.
-                    </p>
-                    <a href="#karya" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
-                        Lihat Karya Saya
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== Works Portfolio Section ===== -->
-        <section id="karya" class="py-20 sm:py-28 bg-gray-900">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Portofolio Karya Unggulan</h2>
-                    <p class="text-gray-400 text-lg">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Work Card 1 -->
-                    <div class="project-card bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
-                        <img src="https://placehold.co/600x400/111827/60a5fa?text=Animasi%20Pertarungan" alt="Gambar Animasi Pertarungan Epik" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">Animasi Pertarungan Epik</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Sebuah animasi pendek yang menampilkan pertarungan sengit antar karakter Minecraft.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                <span class="bg-red-500/20 text-red-300 text-xs font-semibold px-2.5 py-1 rounded-full">After Effects</span>
-                            </div>
-                        </div>
+            <!-- ===== Hero Section ===== -->
+            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-visible pt-28 pb-16 lg:pt-20">
+                <!-- Background Images for Desktop -->
+                <div class="hidden lg:block absolute inset-0 z-5">
+                    <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
+                        <img src="https://placehold.co/600x800/111827/3b82f6?text=Minecraft%20Scene%201" alt="Latar Adegan Minecraft 1" class="rounded-2xl h-[75vh] w-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
                     </div>
-                    <!-- Work Card 2 -->
-                    <div class="project-card bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
-                        <img src="https://placehold.co/600x400/111827/38bdf8?text=Animasi%20Petualangan" alt="Gambar Animasi Petualangan" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">Petualangan di Desa</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Kisah petualangan seru menjelajahi desa dan bertemu dengan berbagai karakter unik.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold px-2.5 py-1 rounded-full">Mine-imator</span>
-                                <span class="bg-purple-500/20 text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full">Premiere Pro</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Work Card 3 -->
-                    <div class="project-card bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
-                        <img src="https://placehold.co/600x400/111827/3b82f6?text=Animasi%20Komedi" alt="Gambar Animasi Komedi" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">Momen Kocak Minecraft</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Kompilasi momen-momen lucu dan tak terduga dari dunia Minecraft dalam bentuk animasi.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                <span class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold px-2.5 py-1 rounded-full">CapCut</span>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Work Card 4 -->
-                    <div class="project-card bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
-                        <img src="https://placehold.co/600x400/111827/0ea5e9?text=Character%20Rig" alt="Gambar Character Rig 3D" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">Rig Karakter Kustom</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Model rig karakter 3D yang dibuat khusus untuk animasi, lengkap dengan kontrol wajah dan tubuh.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                <span class="bg-green-500/20 text-green-300 text-xs font-semibold px-2.5 py-1 rounded-full">Rigging</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Work Card 5 -->
-                    <div class="project-card bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
-                        <img src="https://placehold.co/600x400/111827/2563eb?text=Asset%20Pack" alt="Gambar Minecraft Asset Pack" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">Paket Aset Minecraft</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Kumpulan model 3D berkualitas tinggi (furnitur, senjata, dll) untuk digunakan dalam adegan Minecraft.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blockbench</span>
-                                <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-2.5 py-1 rounded-full">3D Modeling</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Work Card 6 -->
-                    <div class="project-card bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
-                        <img src="https://placehold.co/600x400/111827/0284c7?text=3D%20Environment" alt="Gambar Lingkungan 3D" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white mb-2">Desain Lingkungan 3D</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Pembuatan diorama lingkungan 3D yang detail dan atmosferik untuk latar belakang animasi.</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                <span class="bg-teal-500/20 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">World-Building</span>
-                            </div>
-                        </div>
+                    <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
+                         <img src="https://placehold.co/600x800/111827/60a5fa?text=Minecraft%20Scene%202" alt="Latar Adegan Minecraft 2" class="rounded-2xl h-[75vh] w-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
                     </div>
                 </div>
 
-            </div>
-        </section>
+                <!-- Main content container -->
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <!-- Image for mobile only -->
+                    <img src="https://placehold.co/800x400/1f2937/3b82f6?text=Nurimator" alt="Gambar Hero Nurimator" class="lg:hidden mx-auto rounded-2xl shadow-2xl mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1f2937/FFFFFF?text=Image%20Not%20Found';">
+                    
+                    <!-- Text content -->
+                    <div class="max-w-4xl mx-auto">
+                        <h1 class="hero-title font-extrabold text-white mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">
+                            Selamat Datang di Website <span class="text-blue-400">Nurimator</span>.
+                        </h1>
+                        <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10 [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">
+                            Seorang animator dan 3D artist dengan fokus pada dunia Minecraft. Di sini, saya berbagi karya, proses kreatif, dan minat saya dalam belajar hal-hal baru di dunia digital.
+                        </p>
+                        <a href="#karya" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
+                            Lihat Karya Saya
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Works Portfolio Section ===== -->
+            <section id="karya" class="relative z-10 py-20 sm:py-28 bg-transparent">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
+                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Work Card 1 -->
+                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+                            <img src="https://placehold.co/600x400/111827/60a5fa?text=Animasi%20Pertarungan" alt="Gambar Animasi Pertarungan Epik" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Animasi Pertarungan Epik</h3>
+                                <p class="text-gray-400 mb-4 text-sm">Sebuah animasi pendek yang menampilkan pertarungan sengit antar karakter Minecraft.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
+                                    <span class="bg-red-500/20 text-red-300 text-xs font-semibold px-2.5 py-1 rounded-full">After Effects</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Work Card 2 -->
+                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
+                            <img src="https://placehold.co/600x400/111827/38bdf8?text=Animasi%20Petualangan" alt="Gambar Animasi Petualangan" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Petualangan di Desa</h3>
+                                <p class="text-gray-400 mb-4 text-sm">Kisah petualangan seru menjelajahi desa dan bertemu dengan berbagai karakter unik.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold px-2.5 py-1 rounded-full">Mine-imator</span>
+                                    <span class="bg-purple-500/20 text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full">Premiere Pro</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Work Card 3 -->
+                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+                            <img src="https://placehold.co/600x400/111827/3b82f6?text=Animasi%20Komedi" alt="Gambar Animasi Komedi" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Momen Kocak Minecraft</h3>
+                                <p class="text-gray-400 mb-4 text-sm">Kompilasi momen-momen lucu dan tak terduga dari dunia Minecraft dalam bentuk animasi.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
+                                    <span class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold px-2.5 py-1 rounded-full">CapCut</span>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Work Card 4 -->
+                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
+                            <img src="https://placehold.co/600x400/111827/0ea5e9?text=Character%20Rig" alt="Gambar Character Rig 3D" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Rig Karakter Kustom</h3>
+                                <p class="text-gray-400 mb-4 text-sm">Model rig karakter 3D yang dibuat khusus untuk animasi, lengkap dengan kontrol wajah dan tubuh.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
+                                    <span class="bg-green-500/20 text-green-300 text-xs font-semibold px-2.5 py-1 rounded-full">Rigging</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Work Card 5 -->
+                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+                            <img src="https://placehold.co/600x400/111827/2563eb?text=Asset%20Pack" alt="Gambar Minecraft Asset Pack" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Paket Aset Minecraft</h3>
+                                <p class="text-gray-400 mb-4 text-sm">Kumpulan model 3D berkualitas tinggi (furnitur, senjata, dll) untuk digunakan dalam adegan Minecraft.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blockbench</span>
+                                    <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-2.5 py-1 rounded-full">3D Modeling</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Work Card 6 -->
+                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
+                            <img src="https://placehold.co/600x400/111827/0284c7?text=3D%20Environment" alt="Gambar Lingkungan 3D" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2">Desain Lingkungan 3D</h3>
+                                <p class="text-gray-400 mb-4 text-sm">Pembuatan diorama lingkungan 3D yang detail dan atmosferik untuk latar belakang animasi.</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
+                                    <span class="bg-teal-500/20 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">World-Building</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
 
         <!-- ===== Community Section ===== -->
-        <section id="komunitas" class="py-20 sm:py-28 bg-gray-800/50">
+        <section id="komunitas" class="py-20 sm:py-28" style="background-color: #18212f;">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <!-- Community Call to Action -->
