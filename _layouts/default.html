@@ -43,10 +43,12 @@
 <body class="bg-gray-900 text-gray-300">
 
     
-  <!-- Menyisipkan file header.html -->
-  {% include header.html %}
+ <!-- Menyisipkan file header.html -->
+ {% include header.html %}
 
-    <main>
+    <!-- ===== PERUBAHAN DI SINI ===== -->
+    <!-- Menambahkan 'pt-20' untuk memberi ruang bagi header yang sticky -->
+    <main class="pt-10 lg:pt-20">
         <!-- Jarak vertikal dikurangi dari py-16 lg:py-24 menjadi py-8 lg:py-12 -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -116,7 +118,7 @@
     </main>
 
     <!-- Menyisipkan file footer.html -->
-  {% include footer.html %}
+ {% include footer.html %}
     
     <!-- Prism JS and Lucide Icons Initializer -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
@@ -339,7 +341,7 @@
 
             // Initial setup calls when the DOM is fully loaded
             updateLanguageLinksHref(); // Set correct hrefs for language links
-            setInitialLanguage();     // Attempt to redirect based on browser language preference
+            setInitialLanguage();      // Attempt to redirect based on browser language preference
         });
     </script>
 </body>
