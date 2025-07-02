@@ -22,6 +22,7 @@ Hal kecil seperti jarak antar elemen, konsistensi warna, atau keselarasan ikon b
 
 ## 3. Aktif Bertanya dan Berdiskusi
 
+![tiga variasi](/assets/image/trivar.webp)
 Dalam tim, saling bertanya bukan tanda kelemahan, tapi tanda ingin memahami. Diskusi terbuka, baik dengan sesama developer maupun desainer, bisa membuka wawasan dan mempercepat proses pengembangan.
 
 ## 4. Mengikuti Perkembangan Industri
