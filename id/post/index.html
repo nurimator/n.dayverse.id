@@ -59,7 +59,7 @@ lang: id
                    data-date="{{ post.date | date_to_xmlschema }}" 
                    data-category="{{ post.categories | first | default: 'UNCATEGORIZED' | upcase }}">
 
-                <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0 relative"> {# ADDED relative CLASS HERE #}
+                <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0 relative">
                   {% assign image_url = post.image | default: 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found' %}
                   
                   <!-- Shimmer Placeholder -->
@@ -69,7 +69,7 @@ lang: id
                   <img
                     src="{{ image_url | relative_url }}"
                     alt="[Gambar] {{ post.title }}"
-                    class="w-full h-full object-cover opacity-0 transition-opacity duration-700" {# REMOVED absolute inset-0 HERE #}
+                    class="w-full h-full object-cover opacity-0 transition-opacity duration-700"
                     loading="lazy"
                     onload="
                       const shimmer = this.previousElementSibling;
