@@ -4,9 +4,7 @@ permalink: /id/posts/
 lang: id
 pagination:
   enabled: true
-  collection: posts_id
-  sort_field: 'date'
-  sort_reverse: true
+  collection: posts_id # Tentukan koleksi yang ingin dipaginasi
 ---
 
 <!DOCTYPE html>
@@ -45,30 +43,39 @@ pagination:
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-24">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
                 <div class="lg:col-span-2">
+                    <!-- Penambahan Fitur Urutkan Postingan -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
-                        <!-- Judul halaman akan diambil dari front matter halaman yang menggunakan layout ini -->
-                        <h2 class="text-3xl font-bold text-white mb-4 sm:mb-0">{{ page.title | default: "Semua Postingan" }}</h2>
+                        <h2 class="text-3xl font-bold text-white mb-4 sm:mb-0">Semua Postingan</h2>
                         <div class="flex items-center space-x-2">
                             <span class="text-sm text-gray-400">Urutkan:</span>
-                            <!-- ===== PERUBAHAN: Tombol menjadi link, dengan status aktif ===== -->
-                            <a href="{{ '/id/posts/' | relative_url }}" class="sort-btn px-3 py-1 text-sm font-semibold rounded-lg shadow-md transition-colors {% if page.permalink == '/id/posts/' or page.permalink == '/id/posts/index.html' %}bg-blue-600 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Terbaru</a>
-                            <a href="{{ '/id/posts/oldest/' | relative_url }}" class="sort-btn px-3 py-1 text-sm font-semibold rounded-lg shadow-md transition-colors {% if page.permalink == '/id/posts/oldest/' or page.permalink == '/id/posts/oldest/index.html' %}bg-blue-600 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Terlama</a>
+                            <!-- ===== PERUBAHAN DI SINI ===== -->
+                            <!-- Mengubah padding vertikal agar tombol lebih pendek -->
+                            <button id="sort-newest" class="sort-btn bg-blue-600 text-white px-3 py-1 text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">Terbaru</button>
+                            <button id="sort-oldest" class="sort-btn bg-gray-700 text-gray-300 px-3 py-1 text-sm font-semibold rounded-lg hover:bg-gray-600 transition-colors">Terlama</button>
                         </div>
                     </div>
 
                     <div id="posts-container" class="space-y-8">
-                        <!-- Looping menggunakan paginator.posts -->
-                        {% for post in paginator.posts %}
-                            <div class="post-item bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row h-36">
+                        {% for post in site.posts_id %}
+                            <!-- ===== PERUBAHAN LAYOUT KARTU POSTINGAN ===== -->
+                            <!-- Menambahkan tinggi tetap 'h-32' atau 'h-36' untuk mobile agar rasio lebih landai -->
+                            <div class="post-item bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row h-36" data-date="{{ post.date | date_to_xmlschema }}">
+                                <!-- Memberi lebar tetap pada gambar -->
                                 <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0">
                                     <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found{% endif %}" 
-                                        alt="[Gambar] {{ post.title }}" 
-                                        class="w-full h-full object-cover">
+                                         alt="[Gambar] {{ post.title }}" 
+                                         class="w-full h-full object-cover" 
+                                         loading="lazy" 
+                                         width="600" 
+                                         height="400">
                                 </a>
+                                <!-- Menambahkan 'overflow-hidden' untuk memastikan teks terpotong dengan benar -->
                                 <div class="p-4 sm:p-6 flex flex-col flex-grow overflow-hidden">
                                     <span class="text-sm font-semibold text-blue-400">{% if post.categories %}{{ post.categories | first | upcase }}{% else %}UNCATEGORIZED{% endif %}</span>
                                     <a href="{{ post.url | relative_url }}" class="block mt-1 flex-grow">
+                                        <!-- Menambahkan 'line-clamp-2' untuk membatasi judul menjadi 2 baris -->
                                         <h3 class="text-lg sm:text-xl font-bold text-white hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</h3>
+                                        <!-- Menambahkan 'line-clamp-2' dan menyembunyikannya di layar sangat kecil (xs) -->
                                         <p class="mt-1 text-gray-400 text-sm hidden sm:block line-clamp-2">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
                                     </a>
                                 </div>
@@ -77,45 +84,7 @@ pagination:
                             <p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang ditemukan.</p>
                         {% endfor %}
                     </div>
-
-                    <!-- ===== NAVIGASI PAGINATION ===== -->
-                    <nav class="mt-12 flex items-center justify-between text-white" aria-label="Pagination">
-                        <!-- Tombol Sebelumnya -->
-                        {% if paginator.previous_page %}
-                            <a href="{{ paginator.previous_page_path | relative_url }}" class="flex items-center space-x-2 px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
-                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                                <span>Sebelumnya</span>
-                            </a>
-                        {% else %}
-                            <span class="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-gray-500 rounded-lg cursor-not-allowed">
-                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                                <span>Sebelumnya</span>
-                            </span>
-                        {% endif %}
-
-                        <!-- Indikator Halaman -->
-                        <div class="hidden md:block">
-                            <span class="text-sm text-gray-400">
-                                Halaman {{ paginator.page }} dari {{ paginator.total_pages }}
-                            </span>
-                        </div>
-
-                        <!-- Tombol Berikutnya -->
-                        {% if paginator.next_page %}
-                            <a href="{{ paginator.next_page_path | relative_url }}" class="flex items-center space-x-2 px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
-                                <span>Berikutnya</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </a>
-                        {% else %}
-                            <span class="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-gray-500 rounded-lg cursor-not-allowed">
-                                <span>Berikutnya</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </span>
-                        {% endif %}
-                    </nav>
-
                 </div>
-                <!-- ===== PERUBAHAN: Menambahkan kembali sidebar ===== -->
                 <aside class="lg:col-span-1 space-y-8">
                     <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700/80 sticky top-28">
                         <h3 class="text-lg font-bold text-white mb-4">Kategori</h3>

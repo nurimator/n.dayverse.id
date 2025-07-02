@@ -12,7 +12,7 @@ author: nurimator
 twitter_username: nurimator
 github_username:  nurimator
 paginate: 5
-paginate_path: "/id/posts/page:num/"
+paginate_path: "/id/post/page:num/"
 
 collections:
   posts_id:
@@ -20,52 +20,14 @@ collections:
     permalink: /id/posts/:title/
   posts_en:
     output: true
-    permalink: /en/post/:title/
+    permalink: /en/posts/:title/
 
 # -- Pengaturan Build --
 # Plugin yang digunakan oleh GitHub Pages
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-paginate-v2
-  - jekyll-archive
-
-pagination:
-  enabled: true
-  per_page: 6 # Jumlah postingan per halaman
-  permalink: '/page:num/' # Format URL untuk halaman berikutnya, misal: /page2/
-  title: ':title - Halaman :num'
-  limit: 0
-  sort_field: 'date'
-  sort_reverse: true
-
-#
-# Konfigurasi Autogen (dari jekyll-paginate-v2)
-# Ini akan membuat halaman-halaman untuk koleksi Anda
-#
-autopages:
-  enabled: true
-  
-  collections:
-    enabled: true
-    layouts: 
-      - 'collection_archive.html' # Layout untuk arsip koleksi
-    title: 'Arsip :collection'
-    permalink: '/:collection/'
-
-  categories:
-    enabled: true
-    layouts:
-      - 'category_archive.html' # Layout untuk arsip kategori
-    title: 'Kategori: :cat'
-    permalink: '/id/posts/:cat' # Sesuaikan dengan struktur URL Anda
-
-  tags:
-    enabled: false # Aktifkan jika Anda menggunakan tag
-    layouts:
-      - 'tag_archive.html'
-    title: 'Tag: :tag'
-    permalink: '/tag/:tag'
+  - jekyll-paginate
 
 # -- Front Matter Defaults --
 # Menetapkan layout default untuk semua postingan dan halaman
