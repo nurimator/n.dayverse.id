@@ -3,10 +3,10 @@ layout: default
 title: "Panduan Ringkas Optimasi Performa Aplikasi React"
 date: 2025-05-20 08:15:00 +0700
 category: "Tutorial"
-author: "Andini Putri"
-author_role: "Frontend Developer"
-author_bio: "Menulis tentang React, CSS, dan semua hal tentang desain web modern."
-author_avatar: "https://avatars.githubusercontent.com/u/12345678?v=4"
+author: "Nurhidayat"
+author_role: "Penulis"
+author_bio: "Menulis tentang apa saja yang menurutku menarik."
+author_avatar: "/assets/image/nurimator-logo-512.webp"
 image: "https://placehold.co/1200x600/111827/81c784?text=Optimasi+React"
 ---
 

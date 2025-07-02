@@ -1,13 +1,13 @@
 ---
 layout: default
 title: "Pentingnya Istirahat untuk Developer: Jangan Terus di Depan Layar!"
-date: 2025-06-15 15:45:00 +0700
+date: 2025-06-07 15:45:00 +0700
 category: "Kesehatan Digital"
-author: "Andini Putri"
-author_role: "Frontend Developer"
-author_bio: "Menulis tentang React, CSS, dan semua hal tentang desain web modern."
-author_avatar: "https://avatars.githubusercontent.com/u/12345678?v=4"
-image: "https://placehold.co/1200x600/111827/ff8a65?text=Istirahat+Itu+Penting"
+author: "Nurhidayat"
+author_role: "Penulis"
+author_bio: "Menulis tentang apa saja yang menurutku menarik."
+author_avatar: "/assets/image/nurimator-logo-512.webp"
+image: "/assets/image/morning-breeze.webp"
 ---
 
 Sebagai developer, kita sering terjebak dalam alur kerja yang intens. Tanpa sadar, mata lelah, punggung pegal, dan ide mulai buntu. Di sinilah pentingnya mengambil istirahat.

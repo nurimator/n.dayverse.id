@@ -3,11 +3,11 @@ layout: default
 title: "Kebiasaan Baik Seorang Frontend Developer"
 date: 2025-06-01 10:00:00 +0700
 category: "Pengembangan Diri"
-author: "Andini Putri"
-author_role: "Frontend Developer"
-author_bio: "Menulis tentang React, CSS, dan semua hal tentang desain web modern."
-author_avatar: "/assets/images/authors/andini-putri.jpg"
-image: "https://placehold.co/1200x600/111827/4fc3f7?text=Kebiasaan+Developer"
+author: "Nurhidayat"
+author_role: "Penulis"
+author_bio: "Menulis tentang apa saja yang menurutku menarik."
+author_avatar: "/assets/image/nurimator-logo-512.webp"
+image: "/assets/image/armor-trim.webp"
 ---
 
 Menjadi seorang frontend developer bukan hanya soal memahami teknologi dan framework terbaru. Ada kebiasaan-kebiasaan kecil yang jika dibentuk sejak awal, bisa memberikan dampak besar pada kualitas kerja dan perkembangan karier.

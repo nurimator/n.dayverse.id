@@ -3,10 +3,10 @@ layout: default
 title: "Menguasai State Management di React dengan Zustand"
 date: 2025-05-05 10:30:00 +0700
 category: "Tutorial"
-author: "Andini Putri"
-author_role: "Frontend Developer"
-author_bio: "Menulis tentang React, CSS, dan semua hal tentang desain web modern."
-author_avatar: "[/assets/images/authors/andini-putri.jpg](https://i.pravatar.cc/150?u=a042581f4e29026704d)"
+author: "Nurhidayat"
+author_role: "Penulis"
+author_bio: "Menulis tentang apa saja yang menurutku menarik."
+author_avatar: "/assets/image/nurimator-logo-512.webp"
 image: "https://placehold.co/1200x600/111827/60a5fa?text=Zustand%20Tutorial"
 ---
 
