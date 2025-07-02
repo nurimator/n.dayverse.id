@@ -46,7 +46,7 @@ layout: null
 
     <!-- Main Content -->
     <main class="py-16 sm:py-24">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pt-8 pb-16 lg:pt-10 lg:pb-24">
             
             <!-- Page Title -->
             <div class="text-center mb-12">
@@ -118,6 +118,52 @@ layout: null
 
     {% include footer.html %}
 
-    <script src="main.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- Header Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            }
+            
+            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+            if (desktopDropdownButton) {
+                desktopDropdownButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    desktopDropdownMenu.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (event) => {
+                    if (desktopDropdownContainer && !desktopDropdownContainer.contains(event.target)) {
+                        desktopDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            const headerMainContent = document.getElementById('header-main-content');
+            const mobileSearchView = document.getElementById('mobile-search-view');
+            const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+            if (mobileSearchOpenButton) {
+                mobileSearchOpenButton.addEventListener('click', () => {
+                    headerMainContent.classList.add('hidden');
+                    mobileSearchView.classList.remove('hidden');
+                    mobileSearchView.classList.add('flex');
+                    mobileSearchInput.focus();
+                });
+            }
+            if (mobileSearchCloseButton) {
+                mobileSearchCloseButton.addEventListener('click', () => {
+                    headerMainContent.classList.remove('hidden');
+                    mobileSearchView.classList.add('hidden');
+                    mobileSearchView.classList.remove('flex');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
