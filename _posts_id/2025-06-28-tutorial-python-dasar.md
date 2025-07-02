@@ -30,6 +30,20 @@ Beberapa konsep dasar dalam Python antara lain:
 - Fungsi dan pemanggilannya
 - List, tuple, dan dictionary
 
+```python
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+for num in range(1, 101):
+    if is_prime(num):
+        print(num)
+```
+
 ## Cocok untuk Siapa?
 
 Python sangat cocok untuk pelajar, mahasiswa, ataupun profesional yang ingin memperluas keterampilan di bidang pemrograman atau data.

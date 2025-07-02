@@ -30,6 +30,20 @@ Beberapa elemen dasar yang sering digunakan:
 - Daftar dan tabel
 - Formulir dan input
 
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Halaman Sederhana</title>
+</head>
+<body>
+  <h1>Selamat Datang!</h1>
+  <p>Ini adalah contoh halaman HTML sederhana.</p>
+  <button onclick="alert('Tombol diklik!')">Klik Saya</button>
+</body>
+</html>
+```
+
 ## Untuk Siapa Tutorial Ini?
 
 Tutorial ini cocok untuk pemula yang baru ingin memulai membuat website. Cocok juga untuk siapa pun yang ingin memahami cara kerja halaman web dari dalam.
