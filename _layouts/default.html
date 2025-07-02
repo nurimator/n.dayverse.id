@@ -41,10 +41,24 @@
 
         /* ===== PERUBAHAN CSS: Menambahkan kelas untuk memotong teks ===== */
         .line-clamp-2 {
-           overflow: hidden;
-           display: -webkit-box;
-           -webkit-box-orient: vertical;
-           -webkit-line-clamp: 2;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        /* ===== Styling untuk Gambar dalam Konten Markdown ===== */
+        .article-content img {
+            max-width: 100%; /* Memastikan gambar tidak melebihi lebar kontainer */
+            height: auto; /* Mempertahankan rasio aspek gambar */
+            border-radius: 0.75rem; /* rounded-xl */
+            margin-top: 2rem; /* mt-8 */
+            margin-bottom: 2rem; /* mb-8 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            border: 1px solid #374151; /* border border-gray-700 */
+            display: block; /* Menghilangkan spasi ekstra di bawah gambar */
+            margin-left: auto; /* Pusatkan gambar */
+            margin-right: auto; /* Pusatkan gambar */
         }
     </style>
 </head>
@@ -105,38 +119,25 @@
                             </div>
                         </div>
                         
-                        <!-- ===== PERUBAHAN RELATED POSTS ===== -->
-                        {% assign max_related = 3 %}
-                        {% assign related_posts_by_cat = '' | split: '' %}
-                        {% assign current_post_cat = page.categories.first %}
-
-                        {% if current_post_cat %}
-                            {% for post in site.posts %}
-                                {% if post.url != page.url %}
-                                    {% if post.categories contains current_post_cat %}
-                                        {% assign related_posts_by_cat = related_posts_by_cat | push: post %}
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        
-                        {% if related_posts_by_cat.size > 0 %}
+                        <!-- ===== PERUBAHAN LATEST POSTS ===== -->
                         <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
-                            <h3 class="text-lg font-bold text-white mb-4">Baca Juga</h3>
+                            <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
                             <div class="space-y-4">
-                                <!-- Menampilkan hingga 3 postingan terkait -->
-                                {% for post in related_posts_by_cat limit:max_related %}
-                                <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
-                                    <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
-                                    <div>
-                                        <!-- Menambahkan kelas 'line-clamp-2' untuk memotong judul -->
-                                        <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</p>
-                                    </div>
-                                </a>
+                                {% assign latest_posts = site.posts | sort: "date" | reverse %}
+                                {% assign count = 0 %}
+                                {% for post in latest_posts %}
+                                    {% if post.url != page.url and count < 3 %}
+                                    <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
+                                        <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
+                                        <div>
+                                            <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                        </div>
+                                    </a>
+                                    {% assign count = count | plus: 1 %}
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
-                        {% endif %}
                     </div>
                 </aside>
             </div>
@@ -152,11 +153,91 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <script>
-        // Script dari file sebelumnya bisa disalin di sini jika dibutuhkan
-        // untuk fungsionalitas menu, search, dll.
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Lucide icons
             lucide.createIcons();
-            // ... (sisa script dari file sebelumnya)
+
+            // --- Menu & UI Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            }
+
+            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+            if (desktopDropdownButton) {
+                desktopDropdownButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    desktopDropdownMenu.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (event) => {
+                    if (desktopDropdownContainer && !desktopDropdownContainer.contains(event.target)) {
+                        desktopDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- Mobile Search Toggle Logic ---
+            const headerMainContent = document.getElementById('header-main-content');
+            const mobileSearchView = document.getElementById('mobile-search-view');
+            const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+            
+            if (mobileSearchOpenButton) {
+                mobileSearchOpenButton.addEventListener('click', () => {
+                    headerMainContent.classList.add('hidden');
+                    mobileSearchView.classList.remove('hidden');
+                    mobileSearchView.classList.add('flex');
+                    document.getElementById('mobile-search-input').focus();
+                });
+            }
+
+            if (mobileSearchCloseButton) {
+                mobileSearchCloseButton.addEventListener('click', () => {
+                    headerMainContent.classList.remove('hidden');
+                    mobileSearchView.classList.add('hidden');
+                    mobileSearchView.classList.remove('flex');
+                });
+            }
+
+            // --- Post Sorting Logic ---
+            const sortNewestBtn = document.getElementById('sort-newest');
+            const sortOldestBtn = document.getElementById('sort-oldest');
+            const postsContainer = document.getElementById('posts-container');
+
+            if (sortNewestBtn && sortOldestBtn && postsContainer) {
+                const sortPosts = (direction) => {
+                    const posts = Array.from(postsContainer.querySelectorAll('.post-item'));
+                    
+                    posts.sort((a, b) => {
+                        const dateA = new Date(a.dataset.date);
+                        const dateB = new Date(b.dataset.date);
+                        return direction === 'desc' ? dateB - dateA : dateA - dateB;
+                    });
+                    
+                    // Re-append sorted posts
+                    posts.forEach(post => postsContainer.appendChild(post));
+                };
+
+                const setActiveButton = (activeBtn, inactiveBtn) => {
+                    activeBtn.classList.add('bg-blue-600', 'text-white');
+                    activeBtn.classList.remove('bg-gray-700', 'text-gray-300');
+                    inactiveBtn.classList.add('bg-gray-700', 'text-gray-300');
+                    inactiveBtn.classList.remove('bg-blue-600', 'text-white');
+                };
+
+                sortNewestBtn.addEventListener('click', () => {
+                    sortPosts('desc');
+                    setActiveButton(sortNewestBtn, sortOldestBtn);
+                });
+
+                sortOldestBtn.addEventListener('click', () => {
+                    sortPosts('asc');
+                    setActiveButton(sortOldestBtn, sortNewestBtn);
+                });
+            }
         });
     </script>
 </body>
