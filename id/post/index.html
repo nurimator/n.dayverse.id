@@ -7,33 +7,33 @@ lang: id
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halaman Postingan | Nurimator</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
-    .loader { border: 4px solid #374151; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Postingan | Nurimator</title>
     
-    /* Menambahkan kelas untuk memotong teks */
-    .line-clamp-2 {
-       overflow: hidden;
-       display: -webkit-box;
-       -webkit-box-orient: vertical;
-       -webkit-line-clamp: 2;
-    }
-  </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+        .loader { border: 4px solid #374151; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Menambahkan kelas untuk memotong teks */
+        .line-clamp-2 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
 
- {% include header.html %}
+    {% include header.html %}
 
     <!-- Menambahkan padding responsif untuk header sticky -->
     <main class="bg-gray-800/50 pt-16 lg:pt-20">
@@ -56,19 +56,22 @@ lang: id
                         {% for post in site.posts_id %}
                             <!-- ===== PERUBAHAN LAYOUT KARTU POSTINGAN ===== -->
                             <!-- Menambahkan tinggi tetap 'h-32' atau 'h-36' untuk mobile agar rasio lebih landai -->
-                            <div class="post-item bg-gray-800 rounded-2xl border overflow-hidden border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row " data-date="{{ post.date | date_to_xmlschema }}">
+                            <!-- Menambahkan data-category untuk filter JavaScript -->
+                            <div class="post-item bg-gray-800 rounded-2xl border overflow-hidden border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row " 
+                                 data-date="{{ post.date | date_to_xmlschema }}" 
+                                 data-category="{{ post.categories | first | default: 'UNCATEGORIZED' | upcase }}">
                                 <!-- Memberi lebar tetap pada gambar -->
                                 <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0">
                                     <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found{% endif %}" 
-                                         alt="[Gambar] {{ post.title }}" 
-                                         class="w-full h-full object-cover" 
-                                         loading="lazy" 
-                                         width="600" 
-                                         height="400">
+                                            alt="[Gambar] {{ post.title }}" 
+                                            class="w-full h-full object-cover" 
+                                            loading="lazy" 
+                                            width="600" 
+                                            height="400">
                                 </a>
                                 <!-- Menambahkan 'overflow-hidden' untuk memastikan teks terpotong dengan benar -->
                                 <div class="p-4 sm:p-6 flex flex-col flex-grow overflow-hidden">
-                                    <span class="text-sm font-semibold text-blue-400">{% if post.categories %}{{ post.categories | first | upcase }}{% else %}UNCATEGORIZED{% endif %}</span>
+                                    <span class="text-sm font-semibold text-blue-400">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
                                     <a href="{{ post.url | relative_url }}" class="block mt-1 flex-grow">
                                         <!-- Menambahkan 'line-clamp-2' untuk membatasi judul menjadi 2 baris -->
                                         <h3 class="text-lg sm:text-xl font-bold text-white hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</h3>
@@ -86,9 +89,11 @@ lang: id
                     <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700/80 sticky top-28">
                         <h3 class="text-lg font-bold text-white mb-4">Kategori</h3>
                         <ul class="space-y-3">
-                            <li><a href="{{ '/id/posts/' | relative_url }}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors {% if page.url == '/id/posts/' %}text-blue-400 font-bold{% endif %}"><span>Semua Kategori</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">{{ site.posts_id.size }}</span></a></li>
+                            <!-- Menambahkan data-category untuk filter JavaScript -->
+                            <li><a href="{{ '/id/posts/' | relative_url }}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors {% if page.url == '/id/posts/' %}text-blue-400 font-bold{% endif %}" data-category="ALL"><span>Semua Kategori</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">{{ site.posts_id.size }}</span></a></li>
                             {% for category in site.categories %}
-                                <li><a href="{{ '/' | append: page.lang | append: '/category/' | append: (category | first) | slugify | append: '/' | relative_url }}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors {% if page.url contains '/category/' and page.url contains (category | first | slugify) %}text-blue-400 font-bold{% endif %}"><span>{{ category | first | capitalize }}</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">{{ category | last | size }}</span></a></li>
+                                <!-- Menambahkan data-category untuk filter JavaScript -->
+                                <li><a href="{{ '/' | append: page.lang | append: '/category/' | append: (category | first) | slugify | append: '/' | relative_url }}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors {% if page.url contains '/category/' and page.url contains (category | first | slugify) %}text-blue-400 font-bold{% endif %}" data-category="{{ category | first | upcase }}"><span>{{ category | first | capitalize }}</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">{{ category | last | size }}</span></a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -96,14 +101,14 @@ lang: id
             </div>
         </div>
     </main>
- {% include footer.html %}
+    {% include footer.html %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Lucide icons
             lucide.createIcons();
 
-            // --- Menu & UI Logic ---
+            // --- Menu & UI Logic (Existing) ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuButton) {
@@ -125,7 +130,6 @@ lang: id
                 });
             }
 
-            // --- Mobile Search Toggle Logic ---
             const headerMainContent = document.getElementById('header-main-content');
             const mobileSearchView = document.getElementById('mobile-search-view');
             const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
@@ -148,41 +152,116 @@ lang: id
                 });
             }
 
-            // --- Post Sorting Logic ---
+            // --- Post Filtering and Sorting Logic ---
             const sortNewestBtn = document.getElementById('sort-newest');
             const sortOldestBtn = document.getElementById('sort-oldest');
             const postsContainer = document.getElementById('posts-container');
+            const categoryButtons = document.querySelectorAll('.category-btn'); // Select all category buttons
 
-            if (sortNewestBtn && sortOldestBtn && postsContainer) {
-                const sortPosts = (direction) => {
-                    const posts = Array.from(postsContainer.querySelectorAll('.post-item'));
-                    
-                    posts.sort((a, b) => {
-                        const dateA = new Date(a.dataset.date);
-                        const dateB = new Date(b.dataset.date);
-                        return direction === 'desc' ? dateB - dateA : dateA - dateB;
+            // Store all original post elements
+            const allPosts = Array.from(postsContainer.querySelectorAll('.post-item'));
+
+            // Initial state for sorting and filtering
+            let currentSortDirection = 'desc'; // 'desc' for newest, 'asc' for oldest
+            let currentCategoryFilter = 'ALL'; // 'ALL' or a specific category name (uppercase)
+
+            /**
+             * Clears the posts container and appends the given posts.
+             * @param {HTMLElement[]} postsToDisplay - An array of post elements to display.
+             */
+            const displayPosts = (postsToDisplay) => {
+                // Clear existing posts
+                while (postsContainer.firstChild) {
+                    postsContainer.removeChild(postsContainer.firstChild);
+                }
+                // Append sorted and filtered posts
+                postsToDisplay.forEach(post => postsContainer.appendChild(post));
+            };
+
+            /**
+             * Applies the current category filter and sort direction to the posts, then displays them.
+             */
+            const applyFilterAndSort = () => {
+                let filteredPosts = allPosts;
+
+                // Apply category filter
+                if (currentCategoryFilter !== 'ALL') {
+                    filteredPosts = allPosts.filter(post => {
+                        const postCategory = post.dataset.category;
+                        return postCategory === currentCategoryFilter;
                     });
-                    
-                    // Re-append sorted posts
-                    posts.forEach(post => postsContainer.appendChild(post));
-                };
+                }
 
-                const setActiveButton = (activeBtn, inactiveBtn) => {
-                    activeBtn.classList.add('bg-blue-600', 'text-white');
-                    activeBtn.classList.remove('bg-gray-700', 'text-gray-300');
-                    inactiveBtn.classList.add('bg-gray-700', 'text-gray-300');
-                    inactiveBtn.classList.remove('bg-blue-600', 'text-white');
-                };
+                // Apply sorting
+                filteredPosts.sort((a, b) => {
+                    const dateA = new Date(a.dataset.date);
+                    const dateB = new Date(b.dataset.date);
+                    return currentSortDirection === 'desc' ? dateB - dateA : dateA - dateB;
+                });
 
+                displayPosts(filteredPosts);
+            };
+
+            /**
+             * Sets the active styling for sort buttons.
+             * @param {HTMLElement} activeBtn - The button to set as active.
+             * @param {HTMLElement} inactiveBtn - The button to set as inactive.
+             */
+            const setActiveSortButton = (activeBtn, inactiveBtn) => {
+                activeBtn.classList.add('bg-blue-600', 'text-white');
+                activeBtn.classList.remove('bg-gray-700', 'text-gray-300');
+                inactiveBtn.classList.add('bg-gray-700', 'text-gray-300');
+                inactiveBtn.classList.remove('bg-blue-600', 'text-white');
+            };
+
+            /**
+             * Sets the active styling for category buttons.
+             * @param {HTMLElement} clickedButton - The category button that was clicked.
+             */
+            const setActiveCategoryButton = (clickedButton) => {
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove('text-blue-400', 'font-bold');
+                    btn.classList.add('text-gray-300');
+                });
+                clickedButton.classList.add('text-blue-400', 'font-bold');
+                clickedButton.classList.remove('text-gray-300');
+            };
+
+            // Event listeners for sorting buttons
+            if (sortNewestBtn && sortOldestBtn && postsContainer) {
                 sortNewestBtn.addEventListener('click', () => {
-                    sortPosts('desc');
-                    setActiveButton(sortNewestBtn, sortOldestBtn);
+                    currentSortDirection = 'desc';
+                    setActiveSortButton(sortNewestBtn, sortOldestBtn);
+                    applyFilterAndSort();
                 });
 
                 sortOldestBtn.addEventListener('click', () => {
-                    sortPosts('asc');
-                    setActiveButton(sortOldestBtn, sortNewestBtn);
+                    currentSortDirection = 'asc';
+                    setActiveSortButton(sortOldestBtn, sortNewestBtn);
+                    applyFilterAndSort();
                 });
+
+                // Set initial active sort button (Terbaru)
+                setActiveSortButton(sortNewestBtn, sortOldestBtn);
+            }
+
+            // Event listeners for category buttons
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default link behavior to handle filtering via JS
+                    const selectedCategory = button.dataset.category;
+                    currentCategoryFilter = selectedCategory;
+                    setActiveCategoryButton(button);
+                    applyFilterAndSort();
+                });
+            });
+
+            // Initial display of posts (sorted by newest, all categories)
+            applyFilterAndSort();
+            // Set initial active category button (Semua Kategori)
+            const initialCategoryButton = document.querySelector('.category-btn[data-category="ALL"]');
+            if (initialCategoryButton) {
+                setActiveCategoryButton(initialCategoryButton);
             }
         });
     </script>
