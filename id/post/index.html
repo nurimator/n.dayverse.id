@@ -59,7 +59,7 @@ pagination:
                         {% for post in site.posts_id %}
                             <!-- ===== PERUBAHAN LAYOUT KARTU POSTINGAN ===== -->
                             <!-- Menambahkan tinggi tetap 'h-32' atau 'h-36' untuk mobile agar rasio lebih landai -->
-                            <div class="post-item bg-gray-800 rounded-2xl border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row " data-date="{{ post.date | date_to_xmlschema }}">
+                            <div class="post-item bg-gray-800 rounded-2xl border overflow-hidden border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-row " data-date="{{ post.date | date_to_xmlschema }}">
                                 <!-- Memberi lebar tetap pada gambar -->
                                 <a href="{{ post.url | relative_url }}" class="block w-1/3 flex-shrink-0">
                                     <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found{% endif %}" 

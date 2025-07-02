@@ -26,7 +26,7 @@ Dalam tim, saling bertanya bukan tanda kelemahan, tapi tanda ingin memahami. Dis
 
 ## 4. Mengikuti Perkembangan Industri
 
-![tiga variasi](/assets/image/trivar.webp)
+![tiga variasi](/assets/image/triver.webp)
 Dunia frontend sangat dinamis. Bukan berarti harus selalu mengikuti tren, tapi dengan terus belajar hal-hal baru—seperti pendekatan desain baru, prinsip aksesibilitas, atau praktik UI terkini—developer bisa lebih adaptif dan siap menghadapi tantangan berikutnya.
 
 ## 5. Menulis Dokumentasi Kecil untuk Diri Sendiri
