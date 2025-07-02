@@ -14,12 +14,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons CDN -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+        
     <!-- Prism JS for Code Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="{{ '/assets/prism/prism.css' | relative_url }}">
     
     <style>
         body {
@@ -67,7 +64,7 @@
 
     
  <!-- Menyisipkan file header.html -->
- {% include header.html %}
+    {% include header.html %}
 
     <!-- Menambahkan padding responsif untuk header sticky -->
     <main class="pt-16 lg:pt-18">
@@ -146,17 +143,13 @@
     </main>
 
     <!-- Menyisipkan file footer.html -->
- {% include footer.html %}
+    {% include footer.html %}
     
-    <!-- Prism JS and Lucide Icons Initializer -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <!-- Prism JS Initializer -->
+    <script src="{{ '/assets/prism/prism.js' | relative_url }}"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Initialize Lucide icons
-            lucide.createIcons();
 
             // --- Menu & UI Logic ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
