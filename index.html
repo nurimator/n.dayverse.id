@@ -26,6 +26,11 @@ lang: id
         }
         .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
+        .hero-title {
+            /* Responsive font size: min 40px, preferred 7vw, max 72px */
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            line-height: 1.1;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
@@ -36,32 +41,32 @@ lang: id
         <!-- ===== Hero Section ===== -->
         <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 lg:pt-20">
             <!-- Animated Background Blobs -->
-            <div class="absolute inset-0 z-0 opacity-20">
-                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
-                <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
+            <div class="absolute inset-0 z-0 opacity-30">
+                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[30%] w-[500px] h-[500px] bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
+                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[30%] w-[450px] h-[450px] bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
             </div>
 
             <!-- Background Images for Desktop -->
-            <div class="hidden lg:block absolute inset-0 z-0">
-                <div class="absolute top-1/2 left-12 -translate-y-1/2 -rotate-12 opacity-30 blur-sm">
-                    <img src="https://placehold.co/600x400/111827/3b82f6?text=Minecraft%20Scene%201" alt="Latar Adegan Minecraft 1" class="rounded-2xl shadow-2xl max-w-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+            <div class="hidden lg:block absolute inset-0 z-5">
+                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
+                    <img src="/assets/image/hello.webp" alt="Hello Nurimator" class="rounded-2xl h-[75vh] w-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
                 </div>
-                <div class="absolute top-1/2 right-12 -translate-y-1/2 rotate-12 opacity-30 blur-sm">
-                     <img src="https://placehold.co/600x400/111827/60a5fa?text=Minecraft%20Scene%202" alt="Latar Adegan Minecraft 2" class="rounded-2xl shadow-2xl max-w-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image%20Not%20Found';">
+                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
+                     <img src="/assets/image/hello2.webp" alt="Hello Nurimator for the second time" class="rounded-2xl h-[75vh] w-auto" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
                 </div>
             </div>
 
             <!-- Main content container -->
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
                 <!-- Image for mobile only -->
-                <img src="https://placehold.co/800x400/1f2937/3b82f6?text=Nurimator" alt="Gambar Hero Nurimator" class="lg:hidden mx-auto rounded-2xl shadow-2xl mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1f2937/FFFFFF?text=Image%20Not%20Found';">
+                <img src="/assets/image/hello3.webp" alt="Gambar Hero Nurimator" class="lg:hidden mx-auto rounded-2xl shadow-2xl mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/800x400/1f2937/FFFFFF?text=Image%20Not%20Found';">
                 
                 <!-- Text content -->
                 <div class="max-w-4xl mx-auto">
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-                        Selamat Datang di Website <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-400">Nurimator</span>.
+                    <h1 class="hero-title font-extrabold text-white mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">
+                        Selamat Datang di Website <span class="text-blue-600">Nurimator</span>.
                     </h1>
-                    <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10">
+                    <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10 [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">
                         Seorang animator dan 3D artist dengan fokus pada dunia Minecraft. Di sini, saya berbagi karya, proses kreatif, dan minat saya dalam belajar hal-hal baru di dunia digital.
                     </p>
                     <a href="#karya" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
@@ -190,7 +195,7 @@ lang: id
                     <!-- Testimonials Slider -->
                     <div id="testimonial-slider" class="relative w-full max-w-lg mx-auto min-w-0">
                         <div class="overflow-hidden rounded-2xl bg-gray-800 border border-gray-700">
-                            <div id="slider-track" class="slider-track flex transition-transform duration-500 ease-in-out">
+                            <div id="slider-track" class="slider-track flex">
                                 <!-- Testimonial 1 -->
                                 <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
                                     <i data-lucide="quote" class="w-10 h-10 text-blue-400 mb-4"></i>
@@ -227,6 +232,30 @@ lang: id
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Testimonial 4 -->
+                                <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
+                                    <i data-lucide="quote" class="w-10 h-10 text-blue-400 mb-4"></i>
+                                    <p class="text-lg text-gray-300 mb-6">"Tutorial rigging-nya sangat membantu saya belajar. Penjelasannya mudah dipahami."</p>
+                                    <div class="flex items-center">
+                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704a" alt="Foto Pengguna 4" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=DF';">
+                                        <div>
+                                            <h4 class="font-bold text-white">Doni Firmansyah</h4>
+                                            <p class="text-sm text-gray-500">Animator Pemula</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Testimonial 5 -->
+                                <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
+                                    <i data-lucide="quote" class="w-10 h-10 text-blue-400 mb-4"></i>
+                                    <p class="text-lg text-gray-300 mb-6">"Kualitas model 3D-nya top-notch! Sangat detail dan profesional."</p>
+                                    <div class="flex items-center">
+                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704b" alt="Foto Pengguna 5" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=EW';">
+                                        <div>
+                                            <h4 class="font-bold text-white">Eka Wijaya</h4>
+                                            <p class="text-sm text-gray-500">Game Developer</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Slider Controls -->
@@ -249,37 +278,73 @@ lang: id
             lucide.createIcons();
             
             // --- Testimonial Slider Logic ---
-            const sliderTrack = document.getElementById('slider-track');
-            if (sliderTrack) {
-                const slides = document.querySelectorAll('.testimonial-slide');
-                const prevButton = document.getElementById('prev-slide');
-                const nextButton = document.getElementById('next-slide');
+            const slider = document.getElementById('testimonial-slider');
+            if (slider) {
+                const sliderTrack = slider.querySelector('#slider-track');
+                const prevButton = slider.querySelector('#prev-slide');
+                const nextButton = slider.querySelector('#next-slide');
+                const initialSlides = Array.from(sliderTrack.children);
+                const slideCount = initialSlides.length;
                 let currentIndex = 0;
-                const totalSlides = slides.length;
+                let autoPlayInterval;
 
-                function updateSliderPosition() {
-                    if (sliderTrack) {
-                       sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-                    }
-                }
+                if (slideCount > 1) {
+                    // Clone slides for infinite loop effect
+                    initialSlides.forEach(slide => {
+                        const clone = slide.cloneNode(true);
+                        sliderTrack.appendChild(clone);
+                    });
 
-                function showNextSlide() {
-                    currentIndex = (currentIndex + 1) % totalSlides;
-                    updateSliderPosition();
-                }
+                    const updateSliderPosition = (withTransition = true) => {
+                        if (withTransition) {
+                            sliderTrack.style.transition = 'transform 0.5s ease-in-out';
+                        } else {
+                            sliderTrack.style.transition = 'none';
+                        }
+                        sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    };
 
-                function showPrevSlide() {
-                    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-                    updateSliderPosition();
-                }
+                    const handleNext = () => {
+                        currentIndex++;
+                        updateSliderPosition();
+                    };
 
-                if (prevButton && nextButton) {
-                    prevButton.addEventListener('click', showPrevSlide);
-                    nextButton.addEventListener('click', showNextSlide);
-                }
-                
-                if (totalSlides > 1) {
-                    setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+                    const handlePrev = () => {
+                        if (currentIndex <= 0) {
+                            currentIndex = slideCount;
+                            updateSliderPosition(false);
+                        }
+                        // Use a timeout to allow the browser to apply the 'none' transition before changing back
+                        setTimeout(() => {
+                            currentIndex--;
+                            updateSliderPosition();
+                        }, 20);
+                    };
+                    
+                    const resetAutoPlay = () => {
+                        clearInterval(autoPlayInterval);
+                        autoPlayInterval = setInterval(handleNext, 5000);
+                    };
+
+                    sliderTrack.addEventListener('transitionend', () => {
+                        if (currentIndex >= slideCount) {
+                            currentIndex = 0;
+                            updateSliderPosition(false);
+                        }
+                    });
+
+                    nextButton.addEventListener('click', () => {
+                        handleNext();
+                        resetAutoPlay();
+                    });
+
+                    prevButton.addEventListener('click', () => {
+                        handlePrev();
+                        resetAutoPlay();
+                    });
+                    
+                    // Start auto-play
+                    resetAutoPlay();
                 }
             }
 
