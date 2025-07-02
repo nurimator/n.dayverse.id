@@ -32,6 +32,10 @@ jobs:
         with:
           ruby-version: '3.1' # Sesuaikan dengan versi Ruby Anda jika perlu
           bundler-cache: true # Meng-cache gem untuk mempercepat build berikutnya
+      # Langkah tambahan untuk memastikan semua dependensi terinstal dengan benar.
+      # Ini membantu mengatasi error seperti 'cannot load such file -- jekyll-feed'.
+      - name: Install dependencies
+        run: bundle install
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
