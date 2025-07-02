@@ -1,0 +1,143 @@
+---
+layout: null
+permalink: /id/post/
+lang: id
+paginate: 5
+---
+
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Postingan | Nurimator</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+    .loader { border: 4px solid #374151; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+  {% include header.html %}
+
+    <main class="bg-gray-800/50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+                <div class="lg:col-span-2 space-y-8">
+                    {% if paginator.posts.size > 0 %}
+                        {% for post in paginator.posts %}
+                            <div class="bg-gray-800 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:border-blue-500/50 flex flex-col md:flex-row">
+                                <a href="{{ post.url | relative_url }}" class="block md:w-1/3 lg:w-2/5 xl:w-1/3 flex-shrink-0">
+                                    <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found{% endif %}" alt="[Gambar] {{ post.title }}" class="w-full h-56 md:h-full object-cover">
+                                </a>
+                                <div class="p-6 flex flex-col">
+                                    <span class="text-sm font-semibold text-blue-400">{% if post.categories %}{{ post.categories | first | upcase }}{% else %}UNCATEGORIZED{% endif %}</span>
+                                    <a href="{{ post.url | relative_url }}" class="block mt-2 flex-grow">
+                                        <h3 class="text-xl font-bold text-white hover:text-blue-400 transition-colors">{{ post.title }}</h3>
+                                        <p class="mt-2 text-gray-400 text-sm">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang ditemukan.</p>
+                    {% endif %}
+                </div>
+                <aside class="lg:col-span-1 space-y-8">
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700/80 sticky top-28">
+                        <h3 class="text-lg font-bold text-white mb-4">Kategori</h3>
+                        <ul class="space-y-3">
+                            <li><a href="{{ '/postingan/' | relative_url }}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors {% if page.url == '/postingan/' %}text-blue-400 font-bold{% endif %}"><span>Semua Kategori</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">{{ site.posts | size }}</span></a></li>
+                            {% for category in site.categories %}
+                                <li><a href="{{ '/category/' | append: category | first | slugify | append: '/' | relative_url }}" class="category-btn w-full flex justify-between items-center text-gray-300 hover:text-blue-400 transition-colors {% if page.url contains '/category/' and page.url contains (category | first | slugify) %}text-blue-400 font-bold{% endif %}"><span>{{ category | first | capitalize }}</span> <span class="text-xs font-semibold text-gray-500 bg-gray-700 px-2 py-0.5 rounded-full">{{ category | last | size }}</span></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+            <div class="flex justify-center pt-8 mt-8">
+                {% if paginator.total_pages > 1 %}
+                    <nav class="flex items-center space-x-2" aria-label="Pagination">
+                        {% if paginator.previous_page %}
+                            <a href="{{ paginator.previous_page_path | relative_url }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md bg-gray-700 text-sm font-medium text-gray-400 hover:bg-gray-600"><i data-lucide="chevron-left" class="h-5 w-5"></i></a>
+                        {% else %}
+                            <button disabled class="relative inline-flex items-center px-2 py-2 rounded-l-md bg-gray-700 text-sm font-medium text-gray-400 opacity-50 cursor-not-allowed"><i data-lucide="chevron-left" class="h-5 w-5"></i></button>
+                        {% endif %}
+
+                        {% for page in (1..paginator.total_pages) %}
+                            <a href="{% if page == 1 %}{{ '/postingan/' | relative_url }}{% else %}{{ '/postingan/page' | append: page | append: '/' | relative_url }}{% endif %}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md {% if page == paginator.page %}z-10 text-white bg-blue-600{% else %}text-gray-300 bg-gray-700 hover:bg-gray-600{% endif %}">{{ page }}</a>
+                        {% endfor %}
+
+                        {% if paginator.next_page %}
+                            <a href="{{ paginator.next_page_path | relative_url }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md bg-gray-700 text-sm font-medium text-gray-400 hover:bg-gray-600"><i data-lucide="chevron-right" class="h-5 w-5"></i></a>
+                        {% else %}
+                            <button disabled class="relative inline-flex items-center px-2 py-2 rounded-r-md bg-gray-700 text-sm font-medium text-gray-400 opacity-50 cursor-not-allowed"><i data-lucide="chevron-right" class="h-5 w-5"></i></button>
+                        {% endif %}
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+  {% include footer.html %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Lucide icons
+            lucide.createIcons();
+
+            // --- Menu & UI Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            }
+
+            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+            if (desktopDropdownButton) {
+                desktopDropdownButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    desktopDropdownMenu.classList.toggle('hidden');
+                });
+                window.addEventListener('click', (event) => {
+                    if (!desktopDropdownContainer.contains(event.target)) {
+                        desktopDropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- Mobile Search Toggle Logic ---
+            const headerMainContent = document.getElementById('header-main-content');
+            const mobileSearchView = document.getElementById('mobile-search-view');
+            const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
+            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+            
+            if (mobileSearchOpenButton) {
+                mobileSearchOpenButton.addEventListener('click', () => {
+                    headerMainContent.classList.add('hidden');
+                    mobileSearchView.classList.remove('hidden');
+                    mobileSearchView.classList.add('flex');
+                    document.getElementById('mobile-search-input').focus();
+                });
+            }
+
+            if (mobileSearchCloseButton) {
+                mobileSearchCloseButton.addEventListener('click', () => {
+                    headerMainContent.classList.remove('hidden');
+                    mobileSearchView.classList.add('hidden');
+                    mobileSearchView.classList.remove('flex');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
