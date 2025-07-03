@@ -1,0 +1,200 @@
+---
+layout: null
+permalink: /id/posts/
+lang: id
+---
+
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
+  <title>Halaman Postingan | Nurimator</title>
+  {% include favicon.html %}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+    .line-clamp-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .shimmer {
+      background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite linear;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+  {% include header.html %}
+
+  <main class="bg-gray-800/50 pt-16 lg:pt-18">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-20">
+      <div>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
+          <h2 class="text-3xl font-bold text-white mb-4 sm:mb-0">Semua Resource</h2>
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-gray-400">Urutkan:</span>
+            <button id="sort-newest" class="sort-btn bg-blue-600 text-white px-3 py-1 text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">Terbaru</button>
+            <button id="sort-oldest" class="sort-btn bg-gray-700 text-gray-300 px-3 py-1 text-sm font-semibold rounded-lg hover:bg-blue-600 transition-colors">Terlama</button>
+          </div>
+        </div>
+
+        <div id="posts-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {% for post in site.posts_id %}
+            <div class="post-item" 
+                 data-date="{{ post.date | date_to_xmlschema }}" 
+                 data-category="{{ post.categories | first | default: 'UNCATEGORIZED' | upcase }}">
+
+              <a href="{{ post.url | relative_url }}" class="block group">
+                
+                <!-- ### PERUBAHAN UTAMA: Layout Mobile diubah menjadi blok solid ### -->
+                <div class="relative overflow-hidden rounded-2xl sm:hidden shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50">
+                  {% assign image_url = post.image | default: 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found' %}
+                  <div class="absolute inset-0 shimmer"></div>
+                  <img src="{{ image_url | relative_url }}" alt="[Gambar] {{ post.title }}" class="w-full aspect-[16/9] object-cover opacity-0 transition-opacity duration-700" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
+                  <!-- Latar belakang solid di bagian bawah -->
+                  <div class="absolute bottom-0 left-0 right-0 bg-gray-900/95 p-4">
+                    <span class="text-xs font-semibold text-blue-400">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
+                    <h3 class="text-white font-bold mt-1 line-clamp-2">{{ post.title }}</h3>
+                  </div>
+                </div>
+
+                <!-- Layout Desktop: Kartu vertikal standar -->
+                <div class="hidden sm:flex flex-col bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">
+                  <div class="relative flex-shrink-0">
+                    {% assign image_url_desktop = post.image | default: 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found' %}
+                    <div class="absolute inset-0 shimmer"></div>
+                    <img src="{{ image_url_desktop | relative_url }}" alt="[Gambar] {{ post.title }}" class="w-full h-48 object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
+                  </div>
+                  <div class="p-5 flex flex-col flex-grow">
+                    <span class="text-sm font-semibold text-blue-400">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
+                    <h3 class="mt-1 text-lg font-bold text-white transition-colors group-hover:text-blue-400 line-clamp-2">{{ post.title }}</h3>
+                    <p class="mt-2 text-gray-400 text-sm flex-grow line-clamp-2">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+                    <div class="mt-4 pt-4 border-t border-gray-700/80">
+                      <p class="text-xs text-gray-500">
+                        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</time>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% else %}
+            <p class="text-center text-gray-400 col-span-full">Tidak ada postingan yang ditemukan.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  {% include footer.html %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // --- Menu & UI Logic (Tidak Berubah) ---
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      }
+
+      const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
+      const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
+      const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
+      if (desktopDropdownButton) {
+        desktopDropdownButton.addEventListener('click', (event) => {
+          event.stopPropagation();
+          desktopDropdownMenu.classList.toggle('hidden');
+        });
+        window.addEventListener('click', (event) => {
+          if (desktopDropdownContainer && !desktopDropdownContainer.contains(event.target)) {
+            desktopDropdownMenu.classList.add('hidden');
+          }
+        });
+      }
+
+      const headerMainContent = document.getElementById('header-main-content');
+      const mobileSearchView = document.getElementById('mobile-search-view');
+      const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
+      const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
+      
+      if (mobileSearchOpenButton) {
+        mobileSearchOpenButton.addEventListener('click', () => {
+          headerMainContent.classList.add('hidden');
+          mobileSearchView.classList.remove('hidden');
+          mobileSearchView.classList.add('flex');
+          document.getElementById('mobile-search-input').focus();
+        });
+      }
+
+      if (mobileSearchCloseButton) {
+        mobileSearchCloseButton.addEventListener('click', () => {
+          headerMainContent.classList.remove('hidden');
+          mobileSearchView.classList.add('hidden');
+          mobileSearchView.classList.remove('flex');
+        });
+      }
+
+      // --- Logika Pengurutan Postingan (Tidak Berubah) ---
+      const sortNewestBtn = document.getElementById('sort-newest');
+      const sortOldestBtn = document.getElementById('sort-oldest');
+      const postsContainer = document.getElementById('posts-container');
+      const allPosts = Array.from(postsContainer.querySelectorAll('.post-item'));
+      let currentSortDirection = 'desc';
+
+      const displayPosts = (postsToDisplay) => {
+        postsContainer.innerHTML = '';
+        postsToDisplay.forEach(post => postsContainer.appendChild(post));
+      };
+
+      const applySort = () => {
+        let sortedPosts = [...allPosts];
+        sortedPosts.sort((a, b) => {
+          const dateA = new Date(a.dataset.date);
+          const dateB = new Date(b.dataset.date);
+          return currentSortDirection === 'desc' ? dateB - dateA : dateA - dateB;
+        });
+        displayPosts(sortedPosts);
+      };
+
+      const setActiveSortButton = (activeBtn, inactiveBtn) => {
+        activeBtn.classList.add('bg-blue-600', 'text-white');
+        activeBtn.classList.remove('bg-gray-700', 'text-gray-300');
+        inactiveBtn.classList.add('bg-gray-700', 'text-gray-300');
+        inactiveBtn.classList.remove('bg-blue-600', 'text-white');
+      };
+
+      if (sortNewestBtn && sortOldestBtn && postsContainer) {
+        sortNewestBtn.addEventListener('click', () => {
+          currentSortDirection = 'desc';
+          setActiveSortButton(sortNewestBtn, sortOldestBtn);
+          applySort();
+        });
+
+        sortOldestBtn.addEventListener('click', () => {
+          currentSortDirection = 'asc';
+          setActiveSortButton(sortOldestBtn, sortOldestBtn);
+          applySort();
+        });
+
+        setActiveSortButton(sortNewestBtn, sortOldestBtn);
+      }
+      
+      applySort();
+    });
+  </script>
+</body>
+</html>
