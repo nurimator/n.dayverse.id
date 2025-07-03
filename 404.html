@@ -120,7 +120,7 @@ lang: id
             let isDeleting = false;
             const typingSpeed = 120;
             const deletingSpeed = 80;
-            const delayAfterTyping = 2000;
+            const delayAfterTyping = 2200;
 
             // Fungsi utama untuk animasi typewriter
             function typewriterEffect() {
@@ -149,7 +149,7 @@ lang: id
                 if (nextCharIsSpace) {
                     // Saat jeda sebelum spasi, kursor berkedip
                     cursor.classList.add('cursor-blink');
-                    const pilihanJeda = [500, 1000, 1300];
+                    const pilihanJeda = [100, 800, 1000, 1200, 1800];
                     const indeksAcak = Math.floor(Math.random() * pilihanJeda.length);
                     timeout = pilihanJeda[indeksAcak];
                 }
