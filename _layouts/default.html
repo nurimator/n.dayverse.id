@@ -19,45 +19,109 @@
     <link rel="stylesheet" href="{{ '/assets/prism/prism.css' | relative_url }}">
     
     <style>
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #111827; /* bg-gray-900 */
             color: #d1d5db; /* text-gray-300 */
         }
-        /* Styling untuk konten yang dibuat dari Markdown */
+
+        /* font isi */
+        .article-content p {
+            font-size: 1rem; /* 1rem = 16px */
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        /* Headings */
         .article-content h2 {
-            font-size: 1.875rem; font-weight: 800; color: #ffffff;
-            margin-top: 2.5rem; margin-bottom: 1rem;
-            border-bottom: 1px solid #374151; padding-bottom: 0.5rem;
-        }
-        .article-content p { line-height: 1.75; margin-bottom: 1.5rem; }
-        .article-content a { color: #60a5fa; text-decoration: underline; text-decoration-color: #60a5fa; transition: color 0.3s; }
-        .article-content a:hover { color: #93c5fd; }
-        .article-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
-        .article-content blockquote { border-left: 4px solid #3b82f6; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #9ca3af; }
-        pre[class*="language-"] { background: #1f2937 !important; border-radius: 0.75rem; border: 1px solid #374151; }
-
-        /* ===== PERUBAHAN CSS: Menambahkan kelas untuk memotong teks ===== */
-        .line-clamp-2 {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+            font-size: 1.25rem;   /* 20px - mobile */
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 0.5rem;
         }
 
-        /* ===== Styling untuk Gambar dalam Konten Markdown ===== */
+        .article-content h3 {
+            font-size: 1.125rem;  /* 18px - mobile */
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Responsive scaling for larger screens */
+        @media (min-width: 768px) {
+            .article-content h2 { font-size: 1.75rem; }  /* 28px */
+            .article-content h3 { font-size: 1.5rem; }   /* 24px */
+        }
+
+        /* Link Styling */
+        .article-content a {
+            font-size: 1rem; /* match p size */
+            color: #60a5fa;
+            text-decoration: underline;
+            text-decoration-color: #60a5fa;
+            transition: color 0.3s;
+        }
+        .article-content a:hover {
+            color: #93c5fd;
+        }
+
+        /* Unordered List */
+        .article-content ul {
+            list-style-type: disc;
+            font-size: 1rem;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+        /* Ordered List */
+        .article-content ol {
+            list-style-type: decimal;
+            font-size: 1rem;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Blockquote */
+        .article-content blockquote {
+            font-size: 1rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #9ca3af;
+        }
+
+        /* Code Block */
+        pre[class*="language-"] {
+            font-size: 0.875rem; /* Sedikit lebih kecil dari teks isi */
+            background: #111827 !important;
+            border-radius: 0.75rem;
+            border: 1px solid #374151;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        /* images */
         .article-content img {
-            max-width: 100%; /* Memastikan gambar tidak melebihi lebar kontainer */
-            height: auto; /* Mempertahankan rasio aspek gambar */
-            border-radius: 0.75rem; /* rounded-xl */
-            margin-top: 2rem; /* mt-8 */
-            margin-bottom: 2rem; /* mb-8 */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
-            border: 1px solid #374151; /* border border-gray-700 */
-            display: block; /* Menghilangkan spasi ekstra di bawah gambar */
-            margin-left: auto; /* Pusatkan gambar */
-            margin-right: auto; /* Pusatkan gambar */
+            width: 100%; /* Sama seperti class="w-full" */
+            height: auto;
+            border-radius: 1rem; /* rounded-2xl (16px) */
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                        0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            border: 4px solid rgba(55, 65, 81, 0.5); /* border-4 border-gray-700/50 */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
+
     </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
