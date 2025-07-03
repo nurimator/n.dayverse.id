@@ -26,13 +26,12 @@ ini isinya buat coba coba aja
 
 wkwkwk
 
-#### header kecil
+- bullet point
+- bayangkan ini adalah list
+- list pertama atau kedua, tidak ini ketiga
 
-apakah perlu penjelasan
-
-#### header kecil unyu
-
-tak perlu sepertinya
+disini ada teks
+    Hidup adalah serangkaian titik
 
 
 Hal kecil seperti jarak antar elemen, konsistensi warna, atau keselarasan ikon bisa membuat perbedaan besar pada pengalaman pengguna. Developer yang memiliki kepekaan visual biasanya mampu menghasilkan antarmuka yang terasa lebih rapi dan profesional.
