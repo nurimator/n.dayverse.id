@@ -18,6 +18,23 @@ Desain responsif bukan hanya tanggung jawab desainer. Developer yang baik akan t
 
 ## 2. Peduli pada Detail Visual
 
+### a. Hierari itu penting
+
+ini isinya buat coba coba aja
+
+### b. Warnanya tolong diperhatikan lagi soalnya keliatan belepotan tuh
+
+wkwkwk
+
+#### header kecil
+
+apakah perlu penjelasan
+
+#### header kecil unyu
+
+tak perlu sepertinya
+
+
 Hal kecil seperti jarak antar elemen, konsistensi warna, atau keselarasan ikon bisa membuat perbedaan besar pada pengalaman pengguna. Developer yang memiliki kepekaan visual biasanya mampu menghasilkan antarmuka yang terasa lebih rapi dan profesional.
 
 ## 3. Aktif Bertanya dan Berdiskusi
