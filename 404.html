@@ -48,7 +48,7 @@ lang: id
     </style>
 </head>
 <body class="bg-gray-900">
-
+    {% include header.html %}
     <main class="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
         <!-- Latar belakang dengan blob animasi -->
         <div class="absolute inset-0 z-0 opacity-20">
@@ -91,7 +91,7 @@ lang: id
             </div>
         </div>
     </main>
-    {% include favicon.html %}
+    {% include footer.html %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Mengambil elemen teks dan kursor secara terpisah
