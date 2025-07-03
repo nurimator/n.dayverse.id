@@ -14,14 +14,7 @@ lang: id
     {% include favicon.html %}
 
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-        
-        <style>
+    <style>
         /* Gaya dasar dan animasi blob dari referensi baru */
         body {
             font-family: 'Inter', sans-serif;
@@ -69,7 +62,9 @@ lang: id
                         
                         <!-- Elemen untuk efek typewriter -->
                         <div id="typewriter-container" class="mt-4 mb-6 h-12 md:h-14 flex items-center justify-center">
-                             <p id="typewriter-text" class="text-xl md:text-2xl font-bold text-white whitespace-pre-wrap"></p>
+                             <p class="text-xl md:text-2xl font-bold text-white">
+                                <span id="typewriter-text" class="whitespace-pre-wrap"></span><span id="cursor" class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white align-bottom ml-1"></span>
+                             </p>
                         </div>
     
                         <div class="text-gray-400 max-w-sm mx-auto">
@@ -89,25 +84,27 @@ lang: id
             </div>
         </div>
     </main>
-
     {% include favicon.html %}
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Elemen target untuk teks typewriter
+            // Mengambil elemen teks dan kursor secara terpisah
             const typewriterText = document.getElementById('typewriter-text');
+            const cursor = document.getElementById('cursor');
             
             // Daftar frasa dalam berbagai bahasa
             const phrases = [
                 "Halaman Tidak Ditemukan",
                 "Page Not Found",
-                "ページが見つかりません", // Japanese
-                "Page Introuvable",      // French
+                "ページが見つかりません",
+                "Page Introuvable",
                 "Halaman Tidak Ditemukan",
                 "Page Not Found",
                 "ページが見つかりません",
-                "Page Introuvable",
-                "Sian Halamannye"     
+                "Page Introuvable",                
+                "Suddenly you’re nowhere to be found",
+                "I turn around and everything has changed",
+                "Looking for a way to work it out",
+                "I’m trying to find some peace to navigate"                
             ];
 
             // Variabel untuk mengontrol animasi
@@ -116,42 +113,49 @@ lang: id
             let isDeleting = false;
             const typingSpeed = 120;
             const deletingSpeed = 80;
-            const delayAfterTyping = 2200;
+            const delayAfterTyping = 2000;
 
             // Fungsi utama untuk animasi typewriter
             function typewriterEffect() {
                 const currentPhrase = phrases[phraseIndex];
-                let textToDisplay = '';
+                
+                // PERUBAHAN: Logika untuk mengontrol kedipan kursor
+                // Secara default, kursor solid (tidak berkedip)
+                cursor.classList.remove('cursor-blink');
 
-                // Logika untuk mengetik atau menghapus
                 if (isDeleting) {
-                    textToDisplay = currentPhrase.substring(0, charIndex - 1);
+                    // Saat menghapus, kursor berkedip
+                    cursor.classList.add('cursor-blink');
+                    typewriterText.textContent = currentPhrase.substring(0, charIndex - 1);
                     charIndex--;
                 } else {
-                    textToDisplay = currentPhrase.substring(0, charIndex + 1);
+                    // Saat mengetik
+                    typewriterText.textContent = currentPhrase.substring(0, charIndex + 1);
                     charIndex++;
                 }
-
-                // Kursor selalu terlihat dan berkedip
-                const cursorSpan = `<span class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white cursor-blink align-bottom ml-1"></span>`;
-                typewriterText.innerHTML = textToDisplay + cursorSpan;
 
                 // Atur kecepatan timeout default
                 let timeout = isDeleting ? deletingSpeed : typingSpeed;
 
-                // PERUBAHAN: Jeda terjadi SEBELUM spasi diketik
+                // Cek untuk jeda acak saat spasi akan diketik
                 const nextCharIsSpace = !isDeleting && currentPhrase.charAt(charIndex) === ' ';
                 if (nextCharIsSpace) {
-                    const minDelay = 600;
-                    const maxDelay = 1200;
-                    timeout = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+                    // Saat jeda sebelum spasi, kursor berkedip
+                    cursor.classList.add('cursor-blink');
+                    const pilihanJeda = [500, 1000, 1300];
+                    const indeksAcak = Math.floor(Math.random() * pilihanJeda.length);
+                    timeout = pilihanJeda[indeksAcak];
                 }
 
                 // Cek kondisi untuk mengubah status (mengetik/menghapus)
                 if (!isDeleting && charIndex === currentPhrase.length) {
+                    // Saat selesai mengetik, kursor berkedip
+                    cursor.classList.add('cursor-blink');
                     timeout = delayAfterTyping;
                     isDeleting = true;
                 } else if (isDeleting && charIndex === 0) {
+                    // Saat selesai menghapus, kursor berkedip
+                    cursor.classList.add('cursor-blink');
                     isDeleting = false;
                     phraseIndex = (phraseIndex + 1) % phrases.length;
                     timeout = 500;
