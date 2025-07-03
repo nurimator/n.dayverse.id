@@ -21,7 +21,7 @@ lang: id
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
         
-    <style>
+        <style>
         /* Gaya dasar dan animasi blob dari referensi baru */
         body {
             font-family: 'Inter', sans-serif;
@@ -37,11 +37,19 @@ lang: id
         }
         .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
+
+        /* Animasi kedip untuk kursor */
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-900">
-    {% include header.html %}
-    <main class="relative min-h-screen flex items-center justify-center p-4 overflow-hidden pt-16 lg:pt-28">
+
+    <main class="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
         <!-- Latar belakang dengan blob animasi -->
         <div class="absolute inset-0 z-0 opacity-20">
             <div class="absolute top-0 -left-24 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
@@ -50,35 +58,109 @@ lang: id
 
         <!-- Konten utama halaman 404 -->
         <div class="relative z-10 container mx-auto">
-            <!-- Menambahkan 'group' untuk mengontrol hover pada elemen anak -->
-            <div class="max-w-md mx-auto relative group">
-                <!-- Kartu Konten -->
-                <!-- z-10 menempatkan kartu ini di atas gambar -->
+            <div class="max-w-md mx-auto relative">
+                
+                <!-- Kartu Konten dengan efek hover -->
                 <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 relative z-10">
                     
-                    <!-- Header 404 -->
-                    <div class="mb-6">
-                        <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight">ERROR:404</h1>
-                        <p class="mt-4 text-xl md:text-2xl font-semibold text-white">Halaman Tidak Ditemukan</p>
+                    <!-- Konten di Depan -->
+                    <div class="relative z-10">
+                        <h1 class="text-8xl md:text-9xl font-extrabold text-white tracking-tight">404</h1>
+                        
+                        <!-- Elemen untuk efek typewriter -->
+                        <div id="typewriter-container" class="mt-4 mb-6 h-12 md:h-14 flex items-center justify-center">
+                             <p id="typewriter-text" class="text-xl md:text-2xl font-bold text-white whitespace-pre-wrap"></p>
+                        </div>
+    
+                        <div class="text-gray-400 max-w-sm mx-auto">
+                            <p>
+                               Sepertinya Anda mengambil jalan yang salah atau halaman yang Anda cari sudah tidak ada lagi.
+                            </p>
+                        </div>
+    
+                        <div class="mt-10">
+                             <a href="/" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300 inline-block">
+                                Kembali ke Beranda
+                            </a>
+                        </div>
                     </div>
 
-                    <!-- Konten Penjelasan -->
-                    <div class="text-gray-400 max-w-sm mx-auto">
-                        <p>
-                           Sepertinya Anda mengambil jalan yang salah atau halaman yang Anda cari sudah tidak ada lagi.
-                        </p>
-                    </div>
-
-                    <!-- Tombol Kembali -->
-                    <div class="mt-10">
-                         <a href="/" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300 inline-block">
-                            Kembali ke Beranda
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
     </main>
-    {% include footer.html %}
+
+    {% include favicon.html %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Elemen target untuk teks typewriter
+            const typewriterText = document.getElementById('typewriter-text');
+            
+            // Daftar frasa dalam berbagai bahasa
+            const phrases = [
+                "Halaman Tidak Ditemukan",
+                "Page Not Found",
+                "Página No Encontrada",
+                "ページが見つかりません", // Japanese
+                "Page Introuvable"      // French
+            ];
+
+            // Variabel untuk mengontrol animasi
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingSpeed = 120;
+            const deletingSpeed = 80;
+            const delayAfterTyping = 2200;
+
+            // Fungsi utama untuk animasi typewriter
+            function typewriterEffect() {
+                const currentPhrase = phrases[phraseIndex];
+                let textToDisplay = '';
+
+                // Logika untuk mengetik atau menghapus
+                if (isDeleting) {
+                    textToDisplay = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    textToDisplay = currentPhrase.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                // Kursor selalu terlihat dan berkedip
+                const cursorSpan = `<span class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white cursor-blink align-bottom ml-1"></span>`;
+                typewriterText.innerHTML = textToDisplay + cursorSpan;
+
+                // Atur kecepatan timeout default
+                let timeout = isDeleting ? deletingSpeed : typingSpeed;
+
+                // PERUBAHAN: Jeda terjadi SEBELUM spasi diketik
+                const nextCharIsSpace = !isDeleting && currentPhrase.charAt(charIndex) === ' ';
+                if (nextCharIsSpace) {
+                    const minDelay = 600;
+                    const maxDelay = 1200;
+                    timeout = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+                }
+
+                // Cek kondisi untuk mengubah status (mengetik/menghapus)
+                if (!isDeleting && charIndex === currentPhrase.length) {
+                    timeout = delayAfterTyping;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    timeout = 500;
+                }
+
+                // Melanjutkan loop animasi
+                setTimeout(typewriterEffect, timeout);
+            }
+
+            // Memulai animasi saat halaman dimuat
+            typewriterEffect();
+        });
+    </script>
+
 </body>
 </html>
