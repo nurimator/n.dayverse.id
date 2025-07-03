@@ -126,17 +126,14 @@ lang: id
             function typewriterEffect() {
                 const currentPhrase = phrases[phraseIndex];
                 
-                // PERUBAHAN: Logika untuk mengontrol kedipan kursor
-                // Secara default, kursor solid (tidak berkedip)
+                // Logika untuk mengontrol kedipan kursor
                 cursor.classList.remove('cursor-blink');
 
                 if (isDeleting) {
-                    // Saat menghapus, kursor berkedip
                     cursor.classList.add('cursor-blink');
                     typewriterText.textContent = currentPhrase.substring(0, charIndex - 1);
                     charIndex--;
                 } else {
-                    // Saat mengetik
                     typewriterText.textContent = currentPhrase.substring(0, charIndex + 1);
                     charIndex++;
                 }
@@ -144,24 +141,28 @@ lang: id
                 // Atur kecepatan timeout default
                 let timeout = isDeleting ? deletingSpeed : typingSpeed;
 
-                // Cek untuk jeda acak saat spasi akan diketik
+                // PERUBAHAN: Logika jeda sebelum spasi dengan kondisi panjang kata
                 const nextCharIsSpace = !isDeleting && currentPhrase.charAt(charIndex) === ' ';
                 if (nextCharIsSpace) {
-                    // Saat jeda sebelum spasi, kursor berkedip
-                    cursor.classList.add('cursor-blink');
-                    const pilihanJeda = [100, 800, 1000, 1200, 1800];
-                    const indeksAcak = Math.floor(Math.random() * pilihanJeda.length);
-                    timeout = pilihanJeda[indeksAcak];
+                    // Temukan kata terakhir sebelum spasi
+                    const lastWordIndex = currentPhrase.substring(0, charIndex).lastIndexOf(' ');
+                    const lastWord = currentPhrase.substring(lastWordIndex + 1, charIndex);
+
+                    // Jika panjang kata > 3, berikan jeda acak
+                    if (lastWord.length > 3) {
+                        cursor.classList.add('cursor-blink');
+                        const pilihanJeda = [600, 1000, 1400];
+                        const indeksAcak = Math.floor(Math.random() * pilihanJeda.length);
+                        timeout = pilihanJeda[indeksAcak];
+                    }
                 }
 
                 // Cek kondisi untuk mengubah status (mengetik/menghapus)
                 if (!isDeleting && charIndex === currentPhrase.length) {
-                    // Saat selesai mengetik, kursor berkedip
                     cursor.classList.add('cursor-blink');
                     timeout = delayAfterTyping;
                     isDeleting = true;
                 } else if (isDeleting && charIndex === 0) {
-                    // Saat selesai menghapus, kursor berkedip
                     cursor.classList.add('cursor-blink');
                     isDeleting = false;
                     phraseIndex = (phraseIndex + 1) % phrases.length;
@@ -170,10 +171,6 @@ lang: id
 
                 // Melanjutkan loop animasi
                 setTimeout(typewriterEffect, timeout);
-            }
-
-            // Memulai animasi saat halaman dimuat
-            typewriterEffect();
         });
     </script>
 
