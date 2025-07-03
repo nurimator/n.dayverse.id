@@ -27,6 +27,9 @@ collections:
   posts_en:
     output: true
     permalink: /en/posts/:title/
+  legals:
+    output: true
+    permalink: /:title/  
 
 # ========================
 # Plugin
