@@ -123,7 +123,7 @@ lang: id
             let isDeleting = false;
             const typingSpeed = 120;
             const deletingSpeed = 80;
-            const delayAfterTyping = 2200;
+            const delayAfterTyping = 2000;
 
             // Fungsi utama untuk animasi typewriter
             function typewriterEffect() {
@@ -144,7 +144,7 @@ lang: id
                 // Atur kecepatan timeout default
                 let timeout = isDeleting ? deletingSpeed : typingSpeed;
 
-                // PERUBAHAN: Logika jeda sebelum spasi dengan kondisi panjang kata
+                // Cek untuk jeda acak saat spasi akan diketik
                 const nextCharIsSpace = !isDeleting && currentPhrase.charAt(charIndex) === ' ';
                 if (nextCharIsSpace) {
                     // Temukan kata terakhir sebelum spasi
@@ -154,7 +154,7 @@ lang: id
                     // Jika panjang kata > 3, berikan jeda acak
                     if (lastWord.length > 3) {
                         cursor.classList.add('cursor-blink');
-                        const pilihanJeda = [600, 1000, 1400];
+                        const pilihanJeda = [500, 1000, 1300];
                         const indeksAcak = Math.floor(Math.random() * pilihanJeda.length);
                         timeout = pilihanJeda[indeksAcak];
                     }
@@ -174,6 +174,10 @@ lang: id
 
                 // Melanjutkan loop animasi
                 setTimeout(typewriterEffect, timeout);
+            }
+
+            // Memulai animasi saat halaman dimuat
+            typewriterEffect();
         });
     </script>
 
