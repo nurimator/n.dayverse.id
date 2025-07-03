@@ -11,10 +11,13 @@ lang: id
     <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
     <title>Nurimator | Animator & 3D Artist</title>
     {% include favicon.html %}
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Optimasi Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+    </noscript>
 
     <link rel="preload" as="image" href="/assets/image/swarm-mobile.webp">
     
@@ -76,7 +79,7 @@ lang: id
                 <!-- Main content container -->
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
                     <!-- Image for mobile only -->
-                    <picture class="lg:hidden mx-auto mb-12 w-[90vw] max-w-md">
+                    <picture class="lg:hidden mx-auto mb-12 w-[90vw] max-w-md aspect-[16/9] relative overflow-hidden rounded-2xl">
                         <img src="/assets/image/swarm-mobile.webp"
                              alt="Gambar Hero Nurimator"
                              decoding="async" 
