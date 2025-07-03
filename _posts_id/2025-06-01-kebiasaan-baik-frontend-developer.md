@@ -1,5 +1,5 @@
 ---
-layout: defaultest
+layout: default
 title: "Kebiasaan Baik Seorang Frontend Developer"
 date: 2025-06-01 10:00:00 +0700
 category: "Pengembangan Diri"
