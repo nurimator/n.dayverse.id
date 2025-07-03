@@ -122,6 +122,51 @@
             margin-right: auto;
         }
 
+        /* Tempel di akhir CSS kamu */
+        .image-modal {
+            position: fixed;
+            z-index: 9999;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .image-modal.hidden {
+            display: none;
+        }
+        .image-modal .modal-img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 1rem;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+        }
+        .image-modal .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            background-color: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 9999px;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            transition: background-color 0.2s;
+        }
+        .image-modal .close-modal:hover {
+            background-color: #dc2626;
+        }        
     </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
@@ -205,6 +250,12 @@
             </div>
         </div>
     </main>
+
+    <!-- Modal Image Popup -->
+    <div id="image-modal" class="image-modal hidden">
+        <button class="close-modal">&times;</button>
+        <img class="modal-img" id="modal-img" alt="Zoomed image">
+    </div>
 
     <!-- Menyisipkan file footer.html -->
     {% include footer.html %}
@@ -297,6 +348,33 @@
                 });
             }
         });
+
+        const modal = document.getElementById("image-modal");
+        const modalImg = document.getElementById("modal-img");
+        const closeBtn = document.querySelector(".close-modal");
+
+        const images = document.querySelectorAll(".article-content img");
+
+        images.forEach(img => {
+            img.style.cursor = "zoom-in";
+            img.addEventListener("click", () => {
+            modalImg.src = img.src;
+            modal.classList.remove("hidden");
+            });
+        });
+
+        closeBtn.addEventListener("click", () => {
+            modal.classList.add("hidden");
+            modalImg.src = "";
+        });
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+            modal.classList.add("hidden");
+            modalImg.src = "";
+            }
+        });
     </script>
+
 </body>
 </html>
