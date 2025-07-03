@@ -75,8 +75,8 @@ lang: id
                         </div>
     
                         <div class="text-gray-400 max-w-sm mx-auto">
-                            <p>
-                               Nothing to load, nothing to see. You might want to hit the homepage before things get weirder.
+                            <p id="error-message">
+                               Whatever you clicked on doesn’t exist anymore. The homepage might lead you somewhere that actually does.
                             </p>
                         </div>
     
@@ -100,6 +100,19 @@ lang: id
             // Mengambil elemen teks dan kursor secara terpisah
             const typewriterText = document.getElementById('typewriter-text');
             const cursor = document.getElementById('cursor');
+
+            // PERUBAHAN: Logika untuk pesan error acak
+            const errorMessageElement = document.getElementById('error-message');
+            const errorMessages = [
+                "You’re technically nowhere. The homepage is over there, normal and predictable. Staying here… isn’t.",
+                "This isn't what you were looking for. Or maybe it is, just not yet. You might want to hit the homepage before things get weirder.",
+                "You clicked through space and time and hit… nothing. You could go to the homepage and pretend this didn’t happen.",
+                "This link points to theoretical content. Unfortunately, theory isn’t clickable.",
+                "The system says this page doesn't exist anymore. We’re inclined to agree. Try returning to the homepage.",
+                "Everything that should be here isn't. Everything that is... shouldn't be. You might want to hit the homepage before things get weirder."
+            ];
+            const randomErrorIndex = Math.floor(Math.random() * errorMessages.length);
+            errorMessageElement.textContent = errorMessages[randomErrorIndex];
             
             // Daftar frasa dalam berbagai bahasa
             const phrases = [
