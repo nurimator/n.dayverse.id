@@ -8,8 +8,8 @@ lang: id
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Halaman tidak ditemukan.">
-    <title>404 - Halaman Tidak Ditemukan | Nurimator</title>
+    <meta name="description" content="Error 404 Page not Found.">
+    <title>404 - Page not Found | Nurimator</title>
 
     {% include favicon.html %}
 
@@ -76,7 +76,7 @@ lang: id
     
                         <div class="text-gray-400 max-w-sm mx-auto">
                             <p>
-                               Sepertinya Anda mengambil jalan yang salah atau halaman yang Anda cari sudah tidak ada lagi.
+                               It’s gone. Or maybe it never was. Either way, backtracking could help.
                             </p>
                         </div>
     
@@ -85,7 +85,7 @@ lang: id
                                 <svg class="w-5 h-5 relative bottom-0.3" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
                                 </svg>
-                                <span>Kembali ke Beranda</span>
+                                <span>Back to Homepage</span>
                             </a>
                         </div>
                     </div>
@@ -103,12 +103,16 @@ lang: id
             
             // Daftar frasa dalam berbagai bahasa
             const phrases = [
+                "Page Not Found",
                 "Halaman Tidak Ditemukan",
                 "Page Not Found",
+                "Halaman Tidak Ditemukan",                
                 "ページが見つかりません",
                 "Page Introuvable",
+                "Page Not Found",
                 "Halaman Tidak Ditemukan",
                 "Page Not Found",
+                "Halaman Tidak Ditemukan",
                 "ページが見つかりません",
                 "Page Introuvable",                
                 "Suddenly you’re nowhere to be found",
@@ -154,7 +158,7 @@ lang: id
                     // Jika panjang kata > 3, berikan jeda acak
                     if (lastWord.length > 3) {
                         cursor.classList.add('cursor-blink');
-                        const pilihanJeda = [500, 1000, 1300];
+                        const pilihanJeda = [800, 1000, 1200];
                         const indeksAcak = Math.floor(Math.random() * pilihanJeda.length);
                         timeout = pilihanJeda[indeksAcak];
                     }
