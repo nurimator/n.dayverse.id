@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Halaman tidak ditemukan.">
+    <title>404 - Halaman Tidak Ditemukan | Nurimator</title>
+
+    {% include favicon.html %}
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        
+    <style>
+        /* Gaya dasar dan animasi blob dari referensi baru */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+            overflow-x: hidden;
+        }
+        @keyframes move-blobs {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+            25% { transform: translateY(20px) translateX(-30px) scale(1.1); }
+            50% { transform: translateY(-20px) translateX(30px) scale(0.9); }
+            75% { transform: translateY(30px) translateX(20px) scale(1.05); }
+        }
+        .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
+        .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
+    </style>
+</head>
+<body class="bg-gray-900">
+    {% include header.html %}
+    <main class="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
+        <!-- Latar belakang dengan blob animasi -->
+        <div class="absolute inset-0 z-0 opacity-20">
+            <div class="absolute top-0 -left-24 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
+            <div class="absolute bottom-0 -right-24 w-80 h-80 bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
+        </div>
+
+        <!-- Konten utama halaman 404 -->
+        <div class="relative z-10 container mx-auto">
+            <!-- Menambahkan 'group' untuk mengontrol hover pada elemen anak -->
+            <div class="max-w-md mx-auto relative group">
+                
+                <!-- Gambar Tersembunyi di Belakang Kartu -->
+                <!-- Gambar ini akan bergerak ke atas saat 'group' di-hover -->
+                <img src="/assets/image/hello-nurimator-2.webp" 
+                     alt="Gambar karakter tersembunyi" 
+                     class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-auto transition-transform duration-500 ease-out z-0 pointer-events-none group-hover:-translate-y-[15vh] rounded-t-lg"
+                     onerror="this.onerror=null;this.src='https://placehold.co/300x400/1f2937/FFFFFF?text=Gambar+Rusak';">
+
+                <!-- Kartu Konten -->
+                <!-- z-10 menempatkan kartu ini di atas gambar -->
+                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 relative z-10">
+                    
+                    <!-- Header 404 -->
+                    <div class="mb-6">
+                        <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight">404</h1>
+                        <p class="mt-4 text-xl md:text-2xl font-semibold text-white">Halaman Tidak Ditemukan</p>
+                    </div>
+
+                    <!-- Konten Penjelasan -->
+                    <div class="text-gray-400 max-w-sm mx-auto">
+                        <p>
+                           Sepertinya Anda mengambil jalan yang salah atau halaman yang Anda cari sudah tidak ada lagi.
+                        </p>
+                    </div>
+
+                    <!-- Tombol Kembali -->
+                    <div class="mt-10">
+                         <a href="/" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300 inline-block">
+                            Kembali ke Beranda
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include footer.html %}
+</body>
+</html>
