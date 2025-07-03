@@ -31,8 +31,11 @@ wkwkwk
 - list pertama atau kedua, tidak ini ketiga
 
 disini ada teks
-    Hidup adalah serangkaian titik
+> Hidup adalah serangkaian titik
 
+1. list pertama
+2. list kedua
+3. list ketiga
 
 Hal kecil seperti jarak antar elemen, konsistensi warna, atau keselarasan ikon bisa membuat perbedaan besar pada pengalaman pengguna. Developer yang memiliki kepekaan visual biasanya mampu menghasilkan antarmuka yang terasa lebih rapi dan profesional.
 
