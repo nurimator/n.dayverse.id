@@ -67,70 +67,59 @@ lang: id
 
             <!-- ===== Hero Section ===== -->
             <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-visible pt-28 pb-16 lg:pt-20">
-                
-                <!-- Background Images for Desktop -->
-                <div class="hidden lg:block absolute inset-0 z-5">
-                    <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
-                        <img
-                            src="/assets/image/hello-nurimator-2.webp"
-                            alt="Latar Adegan Minecraft 1"
-                            class="rounded-2xl h-[75vh] w-auto"
-                            width="600"
-                            height="800"
-                            decoding="async"
-                            fetchpriority="auto"
-                            onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
-                    </div>
-                    <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
-                        <img
-                            src="/assets/image/hello-nurimator-1.webp"
-                            alt="Latar Adegan Minecraft 2"
-                            class="rounded-2xl h-[75vh] w-auto"
-                            width="600"
-                            height="800"
-                            decoding="async"
-                            fetchpriority="auto"
-                            onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image%20Not%20Found';">
-                    </div>
+
+            <!-- Gambar Desktop Kiri dan Kanan -->
+            <div class="hidden lg:block absolute inset-0 z-5 pointer-events-none">
+                <!-- Kiri -->
+                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
+                <img 
+                    src="/assets/image/hello-nurimator-2.webp" 
+                    alt="Latar Adegan Minecraft 1" 
+                    class="rounded-2xl h-[75vh] w-auto" 
+                    width="600" height="800"
+                    fetchpriority="high"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
+                </div>
+                <!-- Kanan -->
+                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
+                <img 
+                    src="/assets/image/hello-nurimator-1.webp" 
+                    alt="Latar Adegan Minecraft 2" 
+                    class="rounded-2xl h-[75vh] w-auto" 
+                    width="600" height="800"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
+                </div>
+            </div>
+
+            <!-- Container Konten Utama -->
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+
+                <!-- Gambar Mobile -->
+                <div class="lg:hidden mx-auto mb-12 w-[90vw] max-w-md aspect-[16/9] relative overflow-hidden rounded-2xl">
+                <img 
+                    src="/assets/image/swarm-mobile.webp"
+                    alt="Gambar Hero Nurimator"
+                    decoding="async"
+                    fetchpriority="high"
+                    width="800"
+                    height="450"
+                    class="w-full h-auto rounded-2xl"
+                    onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
                 </div>
 
-                <!-- Main content container -->
-                <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                    
-                    <!-- Optimized responsive image: mobile first, desktop via <source> -->
-                    <picture class="mx-auto mb-12 w-[90vw] max-w-md aspect-[16/9] relative overflow-hidden rounded-2xl">
-                        <!-- Untuk layar ≥1024px (desktop), sembunyikan gambar mobile dan gunakan dummy gambar 1 -->
-                        <source
-                            srcset="/assets/image/hello-nurimator-1.webp"
-                            media="(min-width: 1024px)"
-                            type="image/webp" />
-
-                        <!-- Gambar utama LCP (mobile) -->
-                        <img
-                            src="/assets/image/swarm-mobile.webp"
-                            alt="Gambar Hero Nurimator"
-                            decoding="async"
-                            fetchpriority="high"
-                            width="800"
-                            height="450"
-                            style="width: 100%; height: auto; aspect-ratio: 16/9;"
-                            class="rounded-2xl"
-                            onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
-                    </picture>
-
-                    <!-- Text content -->
-                    <div class="max-w-4xl mx-auto">
-                        <h1 class="hero-title font-extrabold text-white mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">
-                            Selamat Datang di Website <span class="text-blue-400">Nurimator</span>.
-                        </h1>
-                        <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10 [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">
-                            Seorang animator dan 3D artist dengan fokus pada dunia Minecraft. Di sini, saya berbagi karya, proses kreatif, dan minat saya dalam belajar hal-hal baru di dunia digital.
-                        </p>
-                        <a href="#karya" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
-                            Lihat Karya Saya
-                        </a>
-                    </div>
+                <!-- Konten Teks -->
+                <div class="max-w-4xl mx-auto">
+                <h1 class="hero-title font-extrabold text-white mb-6 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">
+                    Selamat Datang di Website <span class="text-blue-400">Nurimator</span>.
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10 [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">
+                    Seorang animator dan 3D artist dengan fokus pada dunia Minecraft. Di sini, saya berbagi karya, proses kreatif, dan minat saya dalam belajar hal-hal baru di dunia digital.
+                </p>
+                <a href="#karya" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
+                    Lihat Karya Saya
+                </a>
                 </div>
+            </div>
             </section>
 
             <!-- ===== Works Portfolio Section ===== -->
