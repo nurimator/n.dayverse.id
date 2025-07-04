@@ -3,7 +3,7 @@ layout: default
 title: "Panduan Ringkas Optimasi Performa Aplikasi React"
 date: 2025-05-20 08:15:00 +0700
 category: "Tutorial"
-page_id:4
+page_id: "4"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

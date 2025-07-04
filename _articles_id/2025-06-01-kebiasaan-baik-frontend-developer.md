@@ -3,7 +3,7 @@ layout: default
 title: "Kebiasaan Baik Seorang Frontend Developer"
 date: 2025-06-01 10:00:00 +0700
 category: "Pengembangan Diri"
-page_id:5
+page_id: "5"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

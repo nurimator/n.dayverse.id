@@ -3,7 +3,7 @@ layout: default
 title: "Tutorial Dasar Python: Memahami Dasar-dasar Bahasa Python"
 date: 2025-06-28 11:00:00 +0700
 category: "Tutorial"
-page_id:8
+page_id: "8"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
