@@ -1,8 +1,7 @@
 /**
- * search.js (Global Version - Smart Navigation)
- * - Navigasi dropdown "Jenis" sekarang selalu berfungsi.
- * - Mempertahankan filter kueri dan kategori saat berpindah halaman.
- * - Menggunakan nama koleksi baru: Artikel, Bahan, Media.
+ * search.js (Global Version - Multi-language)
+ * - Menambahkan logika untuk tombol pengganti bahasa di header.
+ * - Memberikan saran pencarian dalam bahasa lain jika tidak ada hasil.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -31,8 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const categoryFilterMenu = document.getElementById('category-filter-menu');
   const sortFilterButton = document.getElementById('sort-filter-button');
   const sortFilterMenu = document.getElementById('sort-filter-menu');
+
+  // --- Elemen Pengganti Bahasa ---
+  const langSwitcherButton = document.getElementById('desktop-lang-switcher-button');
+  const langSwitcherMenu = document.getElementById('desktop-lang-switcher-menu');
+  const currentLangDisplay = document.getElementById('current-lang-display');
   
-  // --- Logika UI Header ---
+  // --- Logika UI Header (Berjalan di semua halaman) ---
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   if (desktopDropdownButton) {
     desktopDropdownButton.addEventListener('click', (e) => {
@@ -59,6 +63,44 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // FUNGSI BARU: Untuk menangani penggantian bahasa
+  const setupLanguageSwitcher = () => {
+    if (!langSwitcherButton) return;
+
+    const path = window.location.pathname;
+    const currentLang = path.startsWith('/en/') ? 'en' : 'id';
+    if (currentLangDisplay) currentLangDisplay.textContent = currentLang.toUpperCase();
+
+    langSwitcherButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langSwitcherMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.lang-option').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetLang = link.dataset.lang;
+        if (targetLang === currentLang) {
+          langSwitcherMenu.classList.add('hidden');
+          return;
+        }
+
+        let newPath = path;
+        if (currentLang === 'id') {
+          newPath = path.replace('/id/', `/${targetLang}/`);
+        } else { // currentLang is 'en'
+          newPath = path.replace('/en/', `/${targetLang}/`);
+        }
+        
+        // Arahkan ke URL baru dengan parameter yang sama
+        window.location.href = newPath + window.location.search;
+      });
+    });
+  };
+  
+  // Panggil fungsi pengganti bahasa di semua halaman
+  setupLanguageSwitcher();
   
   // --- Logika Pencarian (Hanya berjalan di halaman pencarian) ---
   if (!document.getElementById('search-page-marker')) {
@@ -106,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   
   const setupDropdowns = () => {
-    const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, desktopDropdownMenu];
+    const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, desktopDropdownMenu, langSwitcherMenu];
     const closeAllMenus = () => allMenus.forEach(menu => menu && menu.classList.add('hidden'));
     window.addEventListener('click', () => closeAllMenus());
 
@@ -128,9 +170,8 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const repopulateAllDropdowns = () => {
-    // PERUBAHAN: Logika navigasi baru
     const typeToUrlMap = {
-        'all': '/id/all/', 'Artikel': '/id/articles/',
+        'all': '/id/search/', 'Artikel': '/id/articles/',
         'Bahan': '/id/resources/', 'Media': '/id/media/'
     };
     const typeOptions = [
@@ -152,7 +193,6 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = targetPath + (queryString ? '?' + queryString : '');
     });
 
-    // Logika Kategori & Urutkan
     const categories = new Set();
     allItems.forEach(item => {
       if (item.categories && Array.isArray(item.categories)) {
@@ -222,7 +262,25 @@ document.addEventListener('DOMContentLoaded', function () {
         postsContainer.innerHTML += createItemCardHTML(item);
       });
     } else {
-      postsContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Tidak ada hasil yang ditemukan.</p>`;
+      // PERUBAHAN: Menambahkan saran pencarian dalam bahasa lain
+      const path = window.location.pathname;
+      const currentLang = path.startsWith('/en/') ? 'en' : 'id';
+      const otherLang = currentLang === 'id' ? 'en' : 'id';
+      const otherLangName = currentLang === 'id' ? 'English' : 'Bahasa Indonesia';
+      
+      const newPath = path.replace(`/${currentLang}/`, `/${otherLang}/`);
+      const alternateUrl = newPath + window.location.search;
+      
+      let suggestionHtml = '';
+      if (searchQuery) {
+        suggestionHtml = `<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>`;
+      }
+
+      postsContainer.innerHTML = `
+        <div class="text-center text-gray-400 col-span-full">
+            <p>Tidak ada hasil yang ditemukan untuk "${searchQuery || ''}".</p>
+            ${suggestionHtml}
+        </div>`;
     }
     
     if (pageTitle) {
@@ -249,14 +307,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const initializePage = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const initialQuery = urlParams.get('q');
-      const initialCategory = urlParams.get('category'); // Baca parameter kategori
+      const initialCategory = urlParams.get('category');
       
       if (initialQuery) {
           if(desktopSearchInput) desktopSearchInput.value = initialQuery;
           if(mobileSearchInput) mobileSearchInput.value = initialQuery;
       }
       if (initialCategory) {
-          selectedCategory = initialCategory; // Set state kategori
+          selectedCategory = initialCategory;
       }
       
       setupDropdowns();
