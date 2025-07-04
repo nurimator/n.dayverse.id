@@ -130,8 +130,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const repopulateAllDropdowns = () => {
     // PERUBAHAN: Logika navigasi baru
     const typeToUrlMap = {
-        'all': '/id/search/', 'articles': '/id/articles/',
-        'resources': '/id/resources/', 'media': '/id/media/'
+        'all': '/id/search/', 'Artikel': '/id/articles/',
+        'Bahan': '/id/resources/', 'Media': '/id/media/'
     };
     const typeOptions = [
       { value: 'all', label: 'Semua Jenis' }, { value: 'Artikel', label: 'Artikel' },
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = targetPath + (queryString ? '?' + queryString : '');
     });
 
-    // Logika Kategori & Urutkan (tidak berubah)
+    // Logika Kategori & Urutkan
     const categories = new Set();
     allItems.forEach(item => {
       if (item.categories && Array.isArray(item.categories)) {
