@@ -1,12 +1,13 @@
 ---
 layout: default
 title: "10 Font Gratis untuk Proyek Desainmu"
-date: 2025-07-01 09:00:00 +0700
-category: "Resource"
+date: 2025-07-04 09:00:00 +0700
+category: "Font"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
 author_avatar: "/assets/image/nurimator-logo-512.webp"
+type: "Resource"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Font+Gratis"
 ---
 

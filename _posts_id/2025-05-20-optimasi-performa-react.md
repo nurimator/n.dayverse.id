@@ -7,6 +7,7 @@ author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
 author_avatar: "/assets/image/nurimator-logo-512.webp"
+type: "Postingan"
 image: "https://placehold.co/1200x600/111827/81c784?text=Optimasi+React"
 ---
 
