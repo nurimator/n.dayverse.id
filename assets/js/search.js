@@ -1,6 +1,8 @@
 /**
- * search.js (Global Version with Custom Dropdowns)
- * Mengelola pencarian, pemfilteran, dan pengurutan dengan dropdown kustom.
+ * search.js (Global Version with 3 Custom Dropdowns)
+ * Mengelola pencarian, pemfilteran, dan pengurutan dengan 3 dropdown kustom.
+ * - Indikator aktif (warna biru) sekarang berada di dalam menu dropdown.
+ * - Menambahkan opsi pengurutan berdasarkan Nama A-Z dan Z-A.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -13,28 +15,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const mobileMenu = document.getElementById('mobile-menu');
   const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
   const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
-  const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
   
   // --- Elemen Pencarian & Pemfilteran ---
   const desktopSearchForm = document.getElementById('desktop-search-form');
   const desktopSearchInput = document.getElementById('desktop-search-input');
   const mobileSearchForm = document.getElementById('mobile-search-form');
   const mobileSearchInput = document.getElementById('mobile-search-input');
-  const sortNewestBtn = document.getElementById('sort-newest');
-  const sortOldestBtn = document.getElementById('sort-oldest');
   const postsContainer = document.getElementById('posts-container');
   const pageTitle = document.getElementById('page-title');
 
   // --- Elemen Dropdown Kustom ---
-  const typeFilterContainer = document.getElementById('type-filter-container');
   const typeFilterButton = document.getElementById('type-filter-button');
-  const typeFilterLabel = document.getElementById('type-filter-label');
   const typeFilterMenu = document.getElementById('type-filter-menu');
-
-  const categoryFilterContainer = document.getElementById('category-filter-container');
   const categoryFilterButton = document.getElementById('category-filter-button');
-  const categoryFilterLabel = document.getElementById('category-filter-label');
   const categoryFilterMenu = document.getElementById('category-filter-menu');
+  const sortFilterButton = document.getElementById('sort-filter-button');
+  const sortFilterMenu = document.getElementById('sort-filter-menu');
   
   // --- Validasi Data & State ---
   if (typeof searchableData === 'undefined' || searchableData.length === 0) {
@@ -43,15 +39,15 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
   const allItems = searchableData;
-  let currentSortDirection = 'desc';
   let selectedType = 'all';
   let selectedCategory = 'all';
+  let currentSortCriteria = 'date-desc'; // Default: Terbaru
 
-  // --- Logika UI Header (tidak berubah) ---
+  // --- Logika UI Header ---
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   if (desktopDropdownButton) {
-    desktopDropdownButton.addEventListener('click', (event) => {
-      event.stopPropagation();
+    desktopDropdownButton.addEventListener('click', (e) => {
+      e.stopPropagation();
       desktopDropdownMenu.classList.toggle('hidden');
     });
   }
@@ -71,21 +67,26 @@ document.addEventListener('DOMContentLoaded', function () {
     return new Date(dateString).toLocaleDateString('id-ID', options);
   };
   
-  // FUNGSI UNTUK MENGISI DROPDOWN KUSTOM
+  // FUNGSI UNTUK MENGISI DROPDOWN KUSTOM DENGAN STATUS AKTIF
   const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
     menuElement.innerHTML = ''; // Kosongkan menu
     options.forEach(option => {
       const optionEl = document.createElement('a');
       optionEl.href = '#';
-      optionEl.className = 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
+      // Terapkan gaya berdasarkan apakah ini pilihan yang aktif
+      if (option.value === currentSelection) {
+        optionEl.className = 'block p-3 text-sm text-white bg-blue-600 rounded-lg';
+      } else {
+        optionEl.className = 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
+      }
       optionEl.textContent = option.label;
       optionEl.dataset.value = option.value;
 
       optionEl.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        onSelectCallback(option.value, option.label);
-        menuElement.classList.add('hidden');
+        onSelectCallback(option.value); // Panggil callback dengan nilai yang dipilih
+        menuElement.classList.add('hidden'); // Tutup menu setelah memilih
       });
       menuElement.appendChild(optionEl);
     });
@@ -93,41 +94,47 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // --- Logika Dropdown Kustom ---
   const setupDropdowns = () => {
+    const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, desktopDropdownMenu];
+    
+    // Fungsi untuk menutup semua menu
+    const closeAllMenus = () => allMenus.forEach(menu => menu && menu.classList.add('hidden'));
+
     // Tutup semua dropdown jika klik di luar
-    window.addEventListener('click', () => {
-      typeFilterMenu.classList.add('hidden');
-      categoryFilterMenu.classList.add('hidden');
-      if (desktopDropdownMenu) desktopDropdownMenu.classList.add('hidden');
-    });
+    window.addEventListener('click', () => closeAllMenus());
 
-    // Toggle Dropdown Jenis
-    typeFilterButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      typeFilterMenu.classList.toggle('hidden');
-      categoryFilterMenu.classList.add('hidden'); // Tutup yang lain
-    });
+    // Fungsi untuk membuat toggle untuk setiap dropdown
+    const createToggle = (button, menu) => {
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = menu.classList.contains('hidden');
+        closeAllMenus(); // Tutup semua dulu
+        if (isHidden) menu.classList.remove('hidden'); // Buka yang ini jika tadinya tertutup
+      });
+    };
 
-    // Toggle Dropdown Kategori
-    categoryFilterButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      categoryFilterMenu.classList.toggle('hidden');
-      typeFilterMenu.classList.add('hidden'); // Tutup yang lain
-    });
+    createToggle(typeFilterButton, typeFilterMenu);
+    createToggle(categoryFilterButton, categoryFilterMenu);
+    createToggle(sortFilterButton, sortFilterMenu);
 
-    // Isi Dropdown Jenis (statis)
+    // Isi semua dropdown
+    repopulateAllDropdowns();
+  };
+
+  // FUNGSI BARU: Untuk mengisi ulang semua dropdown (untuk memperbarui status aktif)
+  const repopulateAllDropdowns = () => {
+    // Isi Dropdown Jenis
     const typeOptions = [
       { value: 'all', label: 'Semua Jenis' },
       { value: 'Postingan', label: 'Postingan' },
       { value: 'Proyek', label: 'Proyek' },
       { value: 'Resource', label: 'Resource' }
     ];
-    populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value, label) => {
+    populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
       selectedType = value;
-      typeFilterLabel.textContent = label;
       updateView();
     });
 
-    // Isi Dropdown Kategori (dinamis)
+    // Isi Dropdown Kategori
     const categories = new Set();
     allItems.forEach(item => {
       if (item.categories && Array.isArray(item.categories)) {
@@ -137,35 +144,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const categoryOptions = [{ value: 'all', label: 'Semua Kategori' }];
     Array.from(categories).sort().forEach(cat => categoryOptions.push({ value: cat, label: cat }));
     
-    populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value, label) => {
+    populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value) => {
       selectedCategory = value;
-      categoryFilterLabel.textContent = label;
       updateView();
+    });
+
+    // Isi Dropdown Urutkan
+    const sortOptions = [
+        { value: 'date-desc', label: 'Terbaru' },
+        { value: 'date-asc', label: 'Terlama' },
+        { value: 'name-asc', label: 'Nama A-Z' },
+        { value: 'name-desc', label: 'Nama Z-A' }
+    ];
+    populateCustomDropdown(sortFilterMenu, sortOptions, currentSortCriteria, (value) => {
+        currentSortCriteria = value;
+        updateView();
     });
   };
 
-  const updateFilterStyles = () => {
-    // Gaya untuk Filter Jenis
-    if (selectedType !== 'all') {
-        typeFilterButton.classList.add('bg-blue-600', 'text-white');
-        typeFilterButton.classList.remove('bg-gray-700', 'text-gray-300');
-    } else {
-        typeFilterButton.classList.add('bg-gray-700', 'text-gray-300');
-        typeFilterButton.classList.remove('bg-blue-600', 'text-white');
-    }
-
-    // Gaya untuk Filter Kategori
-    if (selectedCategory !== 'all') {
-        categoryFilterButton.classList.add('bg-blue-600', 'text-white');
-        categoryFilterButton.classList.remove('bg-gray-700', 'text-gray-300');
-    } else {
-        categoryFilterButton.classList.add('bg-gray-700', 'text-gray-300');
-        categoryFilterButton.classList.remove('bg-blue-600', 'text-white');
-    }
-  };
-
   const createItemCardHTML = (item) => {
-    // ... (Fungsi ini tidak berubah dari versi sebelumnya) ...
+    // ... (Fungsi ini tidak berubah) ...
     try {
       const itemUrl = item.url || '#';
       const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
@@ -228,10 +226,19 @@ document.addEventListener('DOMContentLoaded', function () {
       filteredItems = filteredItems.filter(item => item.categories && item.categories.includes(selectedCategory));
     }
     
+    // Logika pengurutan baru
     filteredItems.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return currentSortDirection === 'desc' ? dateB - dateA : dateA - dateB;
+        switch (currentSortCriteria) {
+            case 'date-asc':
+                return new Date(a.date) - new Date(b.date);
+            case 'name-asc':
+                return a.title.localeCompare(b.title);
+            case 'name-desc':
+                return b.title.localeCompare(a.title);
+            case 'date-desc':
+            default:
+                return new Date(b.date) - new Date(a.date);
+        }
     });
 
     postsContainer.innerHTML = '';
@@ -250,31 +257,11 @@ document.addEventListener('DOMContentLoaded', function () {
             pageTitle.textContent = 'Jelajahi Semua Konten';
         }
     }
-    updateFilterStyles();
+    // Perbarui status aktif di dalam dropdown setiap kali tampilan diperbarui
+    repopulateAllDropdowns();
   };
   
-  const setActiveSortButton = (activeBtn, inactiveBtn) => {
-    if (!activeBtn || !inactiveBtn) return;
-    activeBtn.classList.add('bg-blue-600', 'text-white');
-    activeBtn.classList.remove('bg-gray-700', 'text-gray-300');
-    inactiveBtn.classList.add('bg-gray-700', 'text-gray-300');
-    inactiveBtn.classList.remove('bg-blue-600', 'text-white');
-  };
-
   // --- EVENT LISTENERS ---
-  if (sortNewestBtn && sortOldestBtn) {
-    sortNewestBtn.addEventListener('click', () => {
-      currentSortDirection = 'desc';
-      setActiveSortButton(sortNewestBtn, sortOldestBtn);
-      updateView();
-    });
-    sortOldestBtn.addEventListener('click', () => {
-      currentSortDirection = 'asc';
-      setActiveSortButton(sortOldestBtn, sortNewestBtn);
-      updateView();
-    });
-  }
-
   const handleSearch = (event) => {
       event.preventDefault();
       event.target.submit();
@@ -293,7 +280,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       
       setupDropdowns();
-      setActiveSortButton(sortNewestBtn, sortOldestBtn);
       updateView();
   };
 

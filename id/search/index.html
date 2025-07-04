@@ -33,36 +33,40 @@ lang: id
     <div>
       <div class="mb-8">
         <h2 id="page-title" class="text-3xl font-bold text-white mb-4">Jelajahi Semua Konten</h2>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div class="flex items-center gap-2">
-            
-            <!-- PERUBAHAN: Dropdown Jenis Kustom -->
-            <div class="relative" id="type-filter-container">
-              <button id="type-filter-button" type="button" class="bg-gray-700 text-gray-300 w-full sm:w-auto flex items-center justify-between pl-4 pr-3 py-1 text-sm font-semibold rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors">
-                <span id="type-filter-label" class="mr-3">Semua Jenis</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
-              </button>
-              <div id="type-filter-menu" class="hidden absolute left-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700 z-10">
-                <!-- Opsi akan diisi oleh JavaScript -->
-              </div>
+        
+        <!-- PERUBAHAN: Seluruh baris filter diganti dengan 3 dropdown kustom -->
+        <div class="flex items-center gap-2">
+          <!-- Dropdown Jenis -->
+          <div class="relative" id="type-filter-container">
+            <button id="type-filter-button" type="button" class="bg-gray-700 text-gray-300 w-full sm:w-auto flex items-center justify-between pl-4 pr-3 py-1 text-sm font-semibold rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors">
+              <span class="mr-3">Jenis</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
+            </button>
+            <div id="type-filter-menu" class="hidden absolute left-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700 z-10">
+              <!-- Opsi diisi oleh JavaScript -->
             </div>
-
-            <!-- PERUBAHAN: Dropdown Kategori Kustom -->
-            <div class="relative" id="category-filter-container">
-              <button id="category-filter-button" type="button" class="bg-gray-700 text-gray-300 w-full sm:w-auto flex items-center justify-between pl-4 pr-3 py-1 text-sm font-semibold rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors">
-                <span id="category-filter-label" class="mr-3">Semua Kategori</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
-              </button>
-              <div id="category-filter-menu" class="hidden absolute left-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700 z-10">
-                <!-- Opsi akan diisi oleh JavaScript -->
-              </div>
-            </div>
-
           </div>
-          <div class="flex items-center space-x-2 flex-shrink-0">
-            <span class="text-sm text-gray-400">Urutkan:</span>
-            <button id="sort-newest" class="sort-btn bg-blue-600 text-white px-3 py-1 text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">Terbaru</button>
-            <button id="sort-oldest" class="sort-btn bg-gray-700 text-gray-300 px-3 py-1 text-sm font-semibold rounded-lg hover:bg-blue-600 transition-colors">Terlama</button>
+
+          <!-- Dropdown Kategori -->
+          <div class="relative" id="category-filter-container">
+            <button id="category-filter-button" type="button" class="bg-gray-700 text-gray-300 w-full sm:w-auto flex items-center justify-between pl-4 pr-3 py-1 text-sm font-semibold rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors">
+              <span class="mr-3">Kategori</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
+            </button>
+            <div id="category-filter-menu" class="hidden absolute left-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700 z-10">
+              <!-- Opsi diisi oleh JavaScript -->
+            </div>
+          </div>
+          
+          <!-- Dropdown Urutkan -->
+          <div class="relative" id="sort-filter-container">
+            <button id="sort-filter-button" type="button" class="bg-gray-700 text-gray-300 w-full sm:w-auto flex items-center justify-between pl-4 pr-3 py-1 text-sm font-semibold rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors">
+              <span class="mr-3">Urutkan</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
+            </button>
+            <div id="sort-filter-menu" class="hidden absolute left-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700 z-10">
+              <!-- Opsi diisi oleh JavaScript -->
+            </div>
           </div>
         </div>
       </div>
