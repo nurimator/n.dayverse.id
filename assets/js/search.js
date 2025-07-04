@@ -15,21 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
   const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
   
-  // --- Elemen Pencarian & Pemfilteran ---
   const desktopSearchForm = document.getElementById('desktop-search-form');
-  const desktopSearchInput = document.getElementById('desktop-search-input');
   const mobileSearchForm = document.getElementById('mobile-search-form');
-  const mobileSearchInput = document.getElementById('mobile-search-input');
-  const postsContainer = document.getElementById('posts-container');
-  const pageTitle = document.getElementById('page-title');
-
-  // --- Elemen Dropdown Kustom ---
-  const typeFilterButton = document.getElementById('type-filter-button');
-  const typeFilterMenu = document.getElementById('type-filter-menu');
-  const categoryFilterButton = document.getElementById('category-filter-button');
-  const categoryFilterMenu = document.getElementById('category-filter-menu');
-  const sortFilterButton = document.getElementById('sort-filter-button');
-  const sortFilterMenu = document.getElementById('sort-filter-menu');
 
   // --- Elemen Pengganti Bahasa ---
   const langSwitcherButton = document.getElementById('desktop-lang-switcher-button');
@@ -64,102 +51,83 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // FUNGSI BARU: Untuk menangani penggantian bahasa
+  // --- Fungsi untuk menangani penggantian bahasa ---
   const setupLanguageSwitcher = () => {
-    // Dapatkan elemen-elemen untuk desktop
     const desktopSwitcherButton = document.getElementById('desktop-lang-switcher-button');
     const desktopSwitcherMenu = document.getElementById('desktop-lang-switcher-menu');
     const currentLangDisplay = document.getElementById('current-lang-display');
-
-    // PERUBAHAN: Dapatkan elemen-elemen untuk mobile
     const mobileSwitcherButton = document.getElementById('mobile-lang-switcher-button');
     const mobileSwitcherMenu = document.getElementById('mobile-lang-switcher-menu');
 
-    // Tentukan bahasa saat ini dari URL
     const path = window.location.pathname;
-    const currentLang = path.startsWith('/en/') ? 'en' : 'id';
+    const currentLang = path.includes('/en/') ? 'en' : 'id';
     if (currentLangDisplay) currentLangDisplay.textContent = currentLang.toUpperCase();
 
-    // Event listener untuk tombol desktop
     if (desktopSwitcherButton) {
-        desktopSwitcherButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            desktopSwitcherMenu.classList.toggle('hidden');
-        });
+      desktopSwitcherButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (desktopSwitcherMenu) desktopSwitcherMenu.classList.toggle('hidden');
+      });
     }
-
-    // PERUBAHAN: Tambahkan event listener untuk tombol mobile
     if (mobileSwitcherButton) {
-        mobileSwitcherButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileSwitcherMenu.classList.toggle('hidden');
-        });
+      mobileSwitcherButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (mobileSwitcherMenu) mobileSwitcherMenu.classList.toggle('hidden');
+      });
     }
 
     const langLinks = document.querySelectorAll('.lang-option');
-
-    // Cek apakah ini halaman postingan tunggal (berdasarkan keberadaan variabel postMeta)
     if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
-        // --- LOGIKA UNTUK HALAMAN POSTINGAN ---
-        langLinks.forEach(link => {
-            const targetLang = link.dataset.lang;
-            if (targetLang === currentLang) {
-                link.classList.add('opacity-50', 'cursor-default');
-                link.addEventListener('click', e => e.preventDefault());
-                return;
-            }
-
-            // Cari postingan alternatif dengan page_id yang sama
-            const alternatePost = allSitePosts.find(p => 
-                String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang
-            );
-
-            if (alternatePost && alternatePost.url) {
-                link.href = alternatePost.url; // Set URL ke postingan terjemahan
-            } else {
-                // Jika tidak ada terjemahan, nonaktifkan link
-                link.href = '#';
-                link.classList.add('opacity-50', 'cursor-default');
-                link.title = 'Terjemahan tidak tersedia';
-                link.addEventListener('click', e => e.preventDefault());
-            }
-        });
-
+      // --- Logika untuk Halaman Postingan Tunggal ---
+      langLinks.forEach(link => {
+        const targetLang = link.dataset.lang;
+        if (targetLang === currentLang) {
+          link.classList.add('opacity-50', 'cursor-default');
+          link.addEventListener('click', e => e.preventDefault());
+          return;
+        }
+        // PERUBAHAN: Menggunakan page_id
+        const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
+        if (alternatePost && alternatePost.url) {
+          link.href = alternatePost.url;
+        } else {
+          link.href = '#';
+          link.classList.add('opacity-50', 'cursor-default');
+          link.title = 'Terjemahan tidak tersedia';
+          link.addEventListener('click', e => e.preventDefault());
+        }
+      });
     } else {
-        // --- LOGIKA UNTUK HALAMAN DAFTAR (SEARCH, ARTICLES, DLL.) ---
-        langLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetLang = link.dataset.lang;
-                if (targetLang === currentLang) {
-                    if (desktopSwitcherMenu) desktopSwitcherMenu.classList.add('hidden');
-                    if (mobileSwitcherMenu) mobileSwitcherMenu.classList.add('hidden');
-                    return;
-                }
-
-                let newPath = path;
-                if (currentLang === 'id' && newPath.startsWith('/id/')) {
-                    newPath = newPath.replace('/id/', `/${targetLang}/`);
-                } else if (currentLang === 'en' && newPath.startsWith('/en/')) {
-                    newPath = newPath.replace('/en/', `/${targetLang}/`);
-                } else {
-                    newPath = `/${targetLang}${newPath}`;
-                }
-                
-                window.location.href = newPath + window.location.search;
-            });
+      // --- Logika untuk Halaman Daftar ---
+      langLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetLang = link.dataset.lang;
+          if (targetLang === currentLang) return;
+          let newPath = path.startsWith(`/${currentLang}/`) ? path.replace(`/${currentLang}/`, `/${targetLang}/`) : `/${targetLang}${path}`;
+          window.location.href = newPath + window.location.search;
         });
+      });
     }
   };
 
-  
-  // Panggil fungsi pengganti bahasa di semua halaman
+  // Panggil fungsi bahasa di semua halaman
   setupLanguageSwitcher();
-  
+
   // --- Logika Pencarian (Hanya berjalan di halaman pencarian) ---
-  if (!document.getElementById('search-page-marker')) {
-    return;
-  }
+  if (!document.getElementById('search-page-marker')) return;
+
+  // --- Elemen-elemen khusus halaman pencarian ---
+  const postsContainer = document.getElementById('posts-container');
+  const pageTitle = document.getElementById('page-title');
+  const typeFilterButton = document.getElementById('type-filter-button');
+  const typeFilterMenu = document.getElementById('type-filter-menu');
+  const categoryFilterButton = document.getElementById('category-filter-button');
+  const categoryFilterMenu = document.getElementById('category-filter-menu');
+  const sortFilterButton = document.getElementById('sort-filter-button');
+  const sortFilterMenu = document.getElementById('sort-filter-menu');
+  const desktopSearchInput = document.getElementById('desktop-search-input');
+  const mobileSearchInput = document.getElementById('mobile-search-input');
 
   // --- Validasi Data & State ---
   if (typeof searchableData === 'undefined' || typeof pageConfig === 'undefined') {
@@ -172,8 +140,8 @@ document.addEventListener('DOMContentLoaded', function () {
   let selectedType = pageConfig.preselectedType || 'all';
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
-  
-  // --- FUNGSI BANTUAN ---
+
+  // --- Fungsi-fungsi Inti ---
   const truncateWords = (text, numWords) => {
     if (!text) return '';
     const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, '');
@@ -181,15 +149,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (words.length <= numWords) return contentWithoutCodeblocks;
     return words.slice(0, numWords).join(' ') + '...';
   };
-  
+
   const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
+    if (!menuElement) return;
     menuElement.innerHTML = '';
     options.forEach(option => {
       const optionEl = document.createElement('a');
       optionEl.href = '#';
-      optionEl.className = (option.value === currentSelection) 
-        ? 'block p-3 text-sm text-white bg-blue-600 rounded-lg'
-        : 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
+      optionEl.className = (option.value === currentSelection) ? 'block p-3 text-sm text-white bg-blue-600 rounded-lg' : 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
       optionEl.textContent = option.label;
       optionEl.dataset.value = option.value;
       optionEl.addEventListener('click', (e) => {
@@ -200,9 +167,9 @@ document.addEventListener('DOMContentLoaded', function () {
       menuElement.appendChild(optionEl);
     });
   };
-  
+
   const setupDropdowns = () => {
-    const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, desktopDropdownMenu, langSwitcherMenu];
+    const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, document.getElementById('desktop-dropdown-menu'), document.getElementById('desktop-lang-switcher-menu'), document.getElementById('mobile-lang-switcher-menu')];
     const closeAllMenus = () => allMenus.forEach(menu => menu && menu.classList.add('hidden'));
     window.addEventListener('click', () => closeAllMenus());
 
@@ -219,37 +186,27 @@ document.addEventListener('DOMContentLoaded', function () {
     createToggle(typeFilterButton, typeFilterMenu);
     createToggle(categoryFilterButton, categoryFilterMenu);
     createToggle(sortFilterButton, sortFilterMenu);
-
-    repopulateAllDropdowns();
   };
 
   const repopulateAllDropdowns = () => {
-    const typeToUrlMap = {
-        'all': '/id/search/', 'Artikel': '/id/articles/',
-        'Bahan': '/id/resources/', 'Media': '/id/media/'
-    };
-    const typeOptions = [
-      { value: 'all', label: 'Semua Jenis' }, { value: 'Artikel', label: 'Artikel' },
-      { value: 'Bahan', label: 'Bahan' }, { value: 'Media', label: 'Media' }
-    ];
+    // PERUBAHAN: Menggunakan /id/all/
+    const typeToUrlMap = { 'all': '/id/all/', 'Artikel': '/id/articles/', 'Bahan': '/id/resources/', 'Media': '/id/media/' };
+    const typeOptions = [ { value: 'all', label: 'Semua Jenis' }, { value: 'Artikel', label: 'Artikel' }, { value: 'Bahan', label: 'Bahan' }, { value: 'Media', label: 'Media' }];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
       const targetPath = typeToUrlMap[value];
       if (!targetPath) return;
-
       const urlParams = new URLSearchParams(window.location.search);
       const searchQuery = urlParams.get('q');
-      
       const newParams = new URLSearchParams();
       if (searchQuery) newParams.set('q', searchQuery);
       if (selectedCategory !== 'all') newParams.set('category', selectedCategory);
-
       const queryString = newParams.toString();
       window.location.href = targetPath + (queryString ? '?' + queryString : '');
     });
 
     const categories = new Set();
     allItems.forEach(item => {
-      if (item.categories && Array.isArray(item.categories)) {
+      if (Array.isArray(item.categories)) {
         item.categories.forEach(cat => cat && categories.add(cat));
       }
     });
@@ -260,20 +217,17 @@ document.addEventListener('DOMContentLoaded', function () {
       updateView();
     });
 
-    const sortOptions = [
-        { value: 'date-desc', label: 'Terbaru' }, { value: 'date-asc', label: 'Terlama' },
-        { value: 'name-asc', label: 'Nama A-Z' }, { value: 'name-desc', label: 'Nama Z-A' }
-    ];
+    const sortOptions = [ { value: 'date-desc', label: 'Terbaru' }, { value: 'date-asc', label: 'Terlama' }, { value: 'name-asc', label: 'Nama A-Z' }, { value: 'name-desc', label: 'Nama Z-A' }];
     populateCustomDropdown(sortFilterMenu, sortOptions, currentSortCriteria, (value) => {
-        currentSortCriteria = value;
-        updateView();
+      currentSortCriteria = value;
+      updateView();
     });
   };
 
   const createItemCardHTML = (item) => {
     const itemUrl = item.url || '#';
     const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
-    const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
+    const itemCategory = (Array.isArray(item.categories) && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
     const itemTitle = item.title || 'Tanpa Judul';
     const itemExcerpt = truncateWords(item.content, 20);
     const itemType = item.type || '';
@@ -281,100 +235,60 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const updateView = () => {
-    if (!postsContainer) return;
-
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = (urlParams.get('q') || '').toLowerCase().trim();
-    
-    let filteredItems = searchQuery 
-      ? allItems.filter(item => {
-          const title = (item.title || '').toLowerCase();
-          const searchableContent = (item.content || '').replace(/```[\s\S]*?```/g, '').toLowerCase();
-          return title.includes(searchQuery) || searchableContent.includes(searchQuery);
-        })
-      : allItems;
+    let filteredItems = allItems.filter(item => {
+      if (selectedType !== 'all' && item.type !== selectedType) return false;
+      if (selectedCategory !== 'all' && (!Array.isArray(item.categories) || !item.categories.includes(selectedCategory))) return false;
+      if (searchQuery) {
+        const title = (item.title || '').toLowerCase();
+        const content = (item.content || '').replace(/```[\s\S]*?```/g, '').toLowerCase();
+        return title.includes(searchQuery) || content.includes(searchQuery);
+      }
+      return true;
+    });
 
-    if (selectedType !== 'all') {
-      filteredItems = filteredItems.filter(item => item.type === selectedType);
-    }
-    if (selectedCategory !== 'all') {
-      filteredItems = filteredItems.filter(item => item.categories && item.categories.includes(selectedCategory));
-    }
-    
     filteredItems.sort((a, b) => {
-        switch (currentSortCriteria) {
-            case 'date-asc': return new Date(a.date) - new Date(b.date);
-            case 'name-asc': return a.title.localeCompare(b.title);
-            case 'name-desc': return b.title.localeCompare(a.title);
-            case 'date-desc': default: return new Date(b.date) - new Date(a.date);
-        }
+      switch (currentSortCriteria) {
+        case 'date-asc': return new Date(a.date) - new Date(b.date);
+        case 'name-asc': return a.title.localeCompare(b.title);
+        case 'name-desc': return b.title.localeCompare(a.title);
+        case 'date-desc': default: return new Date(b.date) - new Date(a.date);
+      }
     });
 
     postsContainer.innerHTML = '';
     if (filteredItems.length > 0) {
-      filteredItems.forEach(item => {
-        postsContainer.innerHTML += createItemCardHTML(item);
-      });
+      filteredItems.forEach(item => { postsContainer.innerHTML += createItemCardHTML(item); });
     } else {
-      // PERUBAHAN: Menambahkan saran pencarian dalam bahasa lain
-      const path = window.location.pathname;
-      const currentLang = path.startsWith('/en/') ? 'en' : 'id';
+      const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
       const otherLang = currentLang === 'id' ? 'en' : 'id';
       const otherLangName = currentLang === 'id' ? 'English' : 'Bahasa Indonesia';
-      
-      const newPath = path.replace(`/${currentLang}/`, `/${otherLang}/`);
+      const newPath = window.location.pathname.replace(`/${currentLang}/`, `/${otherLang}/`);
       const alternateUrl = newPath + window.location.search;
-      
-      let suggestionHtml = '';
-      if (searchQuery) {
-        suggestionHtml = `<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>`;
-      }
-
-      postsContainer.innerHTML = `
-        <div class="text-center text-gray-400 col-span-full">
-            <p>Tidak ada hasil yang ditemukan untuk "${searchQuery || ''}".</p>
-            ${suggestionHtml}
-        </div>`;
+      let suggestionHtml = searchQuery ? `<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>` : '';
+      postsContainer.innerHTML = `<div class="text-center text-gray-400 col-span-full"><p>Tidak ada hasil yang ditemukan.</p>${suggestionHtml}</div>`;
     }
     
     if (pageTitle) {
-        if (searchQuery) { 
-            pageTitle.textContent = `Hasil untuk "${searchQuery}"`; 
-        } else { 
-            pageTitle.textContent = pageConfig.defaultTitle; 
-        }
+      pageTitle.textContent = searchQuery ? `Hasil untuk "${searchQuery}"` : pageConfig.defaultTitle;
     }
     
     repopulateAllDropdowns();
   };
   
-  // --- EVENT LISTENERS ---
-  const handleSearch = (event) => {
-      event.preventDefault();
-      event.target.submit();
-  };
-
-  if (desktopSearchForm) desktopSearchForm.addEventListener('submit', handleSearch);
-  if (mobileSearchForm) mobileSearchForm.addEventListener('submit', handleSearch);
-
-  // --- INISIALISASI ---
   const initializePage = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const initialQuery = urlParams.get('q');
-      const initialCategory = urlParams.get('category');
-      
-      if (initialQuery) {
-          if(desktopSearchInput) desktopSearchInput.value = initialQuery;
-          if(mobileSearchInput) mobileSearchInput.value = initialQuery;
-      }
-      if (initialCategory) {
-          selectedCategory = initialCategory;
-      }
-      
-      setupDropdowns();
-      updateView();
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialQuery = urlParams.get('q');
+    const initialCategory = urlParams.get('category');
+    if (initialQuery) {
+      if (desktopSearchInput) desktopSearchInput.value = initialQuery;
+      if (mobileSearchInput) mobileSearchInput.value = initialQuery;
+    }
+    if (initialCategory) selectedCategory = initialCategory;
+    setupDropdowns();
+    updateView();
   };
 
   initializePage();
-
 });
