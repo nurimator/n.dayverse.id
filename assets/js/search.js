@@ -1,11 +1,13 @@
 /**
- * search.js (Global Version - Multi-language)
- * - Menambahkan logika untuk tombol pengganti bahasa di header.
- * - Memberikan saran pencarian dalam bahasa lain jika tidak ada hasil.
+ * search.js (Global Version - Final)
+ * - Memperbaiki logika pengiriman formulir pencarian agar sesuai dengan bahasa saat ini.
+ * - Restrukturisasi kode untuk memisahkan logika global dan logika khusus halaman pencarian.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
-  // --- Elemen-elemen UI ---
+  // --- ELEMEN & LOGIKA GLOBAL (Berjalan di semua halaman) ---
+
+  // --- Elemen UI Global ---
   const headerMainContent = document.getElementById('header-main-content');
   const mobileSearchView = document.getElementById('mobile-search-view');
   const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
@@ -14,44 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const mobileMenu = document.getElementById('mobile-menu');
   const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
   const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
-  
   const desktopSearchForm = document.getElementById('desktop-search-form');
   const mobileSearchForm = document.getElementById('mobile-search-form');
 
-  // --- Elemen Pengganti Bahasa ---
-  const langSwitcherButton = document.getElementById('desktop-lang-switcher-button');
-  const langSwitcherMenu = document.getElementById('desktop-lang-switcher-menu');
-  const currentLangDisplay = document.getElementById('current-lang-display');
-  
-  // --- Logika UI Header (Berjalan di semua halaman) ---
-  if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-  if (desktopDropdownButton) {
-    desktopDropdownButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      desktopDropdownMenu.classList.toggle('hidden');
-    });
-  }
-  if (mobileSearchOpenButton) {
-    mobileSearchOpenButton.addEventListener('click', () => {
-      if (headerMainContent) headerMainContent.classList.add('hidden');
-      if (mobileSearchView) {
-        mobileSearchView.classList.remove('hidden');
-        mobileSearchView.classList.add('flex');
-      }
-      if (mobileSearchInput) mobileSearchInput.focus();
-    });
-  }
-  if (mobileSearchCloseButton) {
-    mobileSearchCloseButton.addEventListener('click', () => {
-      if (headerMainContent) headerMainContent.classList.remove('hidden');
-      if (mobileSearchView) {
-        mobileSearchView.classList.add('hidden');
-        mobileSearchView.classList.remove('flex');
-      }
-    });
-  }
+  // --- Fungsi Global ---
 
-  // --- Fungsi untuk menangani penggantian bahasa ---
+  // Fungsi untuk menangani penggantian bahasa
   const setupLanguageSwitcher = () => {
     const desktopSwitcherButton = document.getElementById('desktop-lang-switcher-button');
     const desktopSwitcherMenu = document.getElementById('desktop-lang-switcher-menu');
@@ -63,22 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentLang = path.includes('/en/') ? 'en' : 'id';
     if (currentLangDisplay) currentLangDisplay.textContent = currentLang.toUpperCase();
 
-    if (desktopSwitcherButton) {
-      desktopSwitcherButton.addEventListener('click', (e) => {
+    const toggleMenu = (button, menu) => {
+      if (!button || !menu) return;
+      button.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (desktopSwitcherMenu) desktopSwitcherMenu.classList.toggle('hidden');
+        menu.classList.toggle('hidden');
       });
-    }
-    if (mobileSwitcherButton) {
-      mobileSwitcherButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (mobileSwitcherMenu) mobileSwitcherMenu.classList.toggle('hidden');
-      });
-    }
+    };
+    toggleMenu(desktopSwitcherButton, desktopSwitcherMenu);
+    toggleMenu(mobileSwitcherButton, mobileSwitcherMenu);
 
     const langLinks = document.querySelectorAll('.lang-option');
     if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
-      // --- Logika untuk Halaman Postingan Tunggal ---
       langLinks.forEach(link => {
         const targetLang = link.dataset.lang;
         if (targetLang === currentLang) {
@@ -97,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     } else {
-      // --- Logika untuk Halaman Daftar ---
       langLinks.forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
@@ -110,11 +75,58 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // Panggil fungsi bahasa di semua halaman
-  setupLanguageSwitcher();
+  // PERBAIKAN: Fungsi untuk menangani pengiriman formulir pencarian
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const input = form.querySelector('input[name="q"]');
+    const query = input.value.trim();
+    if (!query) return;
 
-  // --- Logika Pencarian (Hanya berjalan di halaman pencarian) ---
-  if (!document.getElementById('search-page-marker')) return;
+    const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
+    const searchPageUrl = `/${currentLang}/all/`;
+    
+    window.location.href = `${searchPageUrl}?q=${encodeURIComponent(query)}`;
+  };
+
+  // --- Inisialisasi Logika Global ---
+  if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  if (desktopDropdownButton) {
+    desktopDropdownButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      desktopDropdownMenu.classList.toggle('hidden');
+    });
+  }
+  if (mobileSearchOpenButton) {
+    mobileSearchOpenButton.addEventListener('click', () => {
+      if (headerMainContent) headerMainContent.classList.add('hidden');
+      if (mobileSearchView) {
+        mobileSearchView.classList.remove('hidden');
+        mobileSearchView.classList.add('flex');
+        const mobileInput = mobileSearchView.querySelector('input');
+        if (mobileInput) mobileInput.focus();
+      }
+    });
+  }
+  if (mobileSearchCloseButton) {
+    mobileSearchCloseButton.addEventListener('click', () => {
+      if (headerMainContent) headerMainContent.classList.remove('hidden');
+      if (mobileSearchView) {
+        mobileSearchView.classList.add('hidden');
+        mobileSearchView.classList.remove('flex');
+      }
+    });
+  }
+  
+  setupLanguageSwitcher();
+  if (desktopSearchForm) desktopSearchForm.addEventListener('submit', handleSearch);
+  if (mobileSearchForm) mobileSearchForm.addEventListener('submit', handleSearch);
+
+
+  // --- LOGIKA KHUSUS HALAMAN PENCARIAN ---
+  if (!document.getElementById('search-page-marker')) {
+    return; // Berhenti jika bukan halaman pencarian/daftar
+  }
 
   // --- Elemen-elemen khusus halaman pencarian ---
   const postsContainer = document.getElementById('posts-container');
@@ -128,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const desktopSearchInput = document.getElementById('desktop-search-input');
   const mobileSearchInput = document.getElementById('mobile-search-input');
 
-  // --- Validasi Data & State ---
+  // Validasi Data & State
   if (typeof searchableData === 'undefined' || typeof pageConfig === 'undefined') {
     console.error('Error: Variabel `searchableData` atau `pageConfig` tidak ditemukan.');
     if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan konfigurasi halaman.</p>';
@@ -140,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
 
-  // --- Fungsi-fungsi Inti ---
+  // Fungsi-fungsi Inti Halaman Pencarian
   const truncateWords = (text, numWords) => {
     if (!text) return '';
     const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, '');
@@ -188,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const repopulateAllDropdowns = () => {
-    // PERUBAHAN: Membuat URL dinamis berdasarkan bahasa
     const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
     const typeToUrlMap = { 
       'all': `/${currentLang}/all/`, 
