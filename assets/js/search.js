@@ -1,8 +1,8 @@
 /**
- * search.js (Global Version - Pre-selection)
+ * search.js (Global Version - with Navigation)
  * Mengelola pencarian, pemfilteran, dan pengurutan dengan dropdown kustom.
- * - Sekarang dapat membaca `pageConfig` untuk pra-pemilihan filter jenis.
- * - Mengatur judul halaman secara dinamis berdasarkan `pageConfig`.
+ * - PERUBAHAN: Dropdown "Jenis" sekarang akan mengarahkan ke URL yang sesuai.
+ * - Mempertahankan kueri pencarian saat berpindah halaman.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterButton = document.getElementById('sort-filter-button');
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   
-  // --- Logika UI Header ---
+  // --- Logika UI Header (Berjalan di semua halaman) ---
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   if (desktopDropdownButton) {
     desktopDropdownButton.addEventListener('click', (e) => {
@@ -71,14 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan: Data pencarian tidak dapat dimuat.</p>';
     return;
   }
-  // PERUBAHAN: Validasi pageConfig
   if (typeof pageConfig === 'undefined') {
     console.error('Error: Variabel `pageConfig` tidak ditemukan.');
     return;
   }
 
   const allItems = searchableData;
-  let selectedType = pageConfig.preselectedType || 'all'; // Set state dari config
+  let selectedType = pageConfig.preselectedType || 'all';
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
   
@@ -136,15 +135,35 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const repopulateAllDropdowns = () => {
+    // PERUBAHAN: Logika callback untuk dropdown jenis
     const typeOptions = [
       { value: 'all', label: 'Semua Jenis' }, { value: 'articles', label: 'Artikel' },
       { value: 'resources', label: 'Bahan' }, { value: 'media', label: 'Media' }
     ];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
-      selectedType = value;
-      // Jika pengguna memilih jenis, reset URL ke halaman pencarian utama
-      window.history.pushState({}, '', '/id/search/');
-      updateView();
+      // Peta dari nilai dropdown ke URL
+      const typeToUrlMap = {
+        'all': '/id/search/',
+        'Postingan': '/id/articles/',
+        'Media': '/id/media/',
+        'Bahan': '/id/resources/'
+      };
+      
+      const targetPath = typeToUrlMap[value];
+      if (!targetPath) return;
+
+      // Ambil kueri pencarian saat ini dari URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQuery = urlParams.get('q');
+
+      // Bangun URL baru, tambahkan kueri jika ada
+      let newUrl = targetPath;
+      if (searchQuery) {
+        newUrl += '?q=' + encodeURIComponent(searchQuery);
+      }
+
+      // Arahkan pengguna ke URL baru
+      window.location.href = newUrl;
     });
 
     const categories = new Set();
@@ -219,7 +238,6 @@ document.addEventListener('DOMContentLoaded', function () {
       postsContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Tidak ada hasil yang ditemukan.</p>`;
     }
     
-    // PERUBAHAN: Mengatur judul berdasarkan query atau config
     if (pageTitle) {
         if (searchQuery) { 
             pageTitle.textContent = `Hasil untuk "${searchQuery}"`; 
