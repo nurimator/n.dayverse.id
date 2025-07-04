@@ -66,31 +66,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // FUNGSI BARU: Untuk menangani penggantian bahasa
   const setupLanguageSwitcher = () => {
-    if (!langSwitcherButton) return;
+    // Dapatkan elemen-elemen untuk desktop
+    const desktopSwitcherButton = document.getElementById('desktop-lang-switcher-button');
+    const desktopSwitcherMenu = document.getElementById('desktop-lang-switcher-menu');
+    const currentLangDisplay = document.getElementById('current-lang-display');
 
+    // PERUBAHAN: Dapatkan elemen-elemen untuk mobile
+    const mobileSwitcherButton = document.getElementById('mobile-lang-switcher-button');
+    const mobileSwitcherMenu = document.getElementById('mobile-lang-switcher-menu');
+
+    // Tentukan bahasa saat ini dari URL
     const path = window.location.pathname;
     const currentLang = path.startsWith('/en/') ? 'en' : 'id';
     if (currentLangDisplay) currentLangDisplay.textContent = currentLang.toUpperCase();
 
-    langSwitcherButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      langSwitcherMenu.classList.toggle('hidden');
-    });
+    // Event listener untuk tombol desktop
+    if (desktopSwitcherButton) {
+        desktopSwitcherButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            desktopSwitcherMenu.classList.toggle('hidden');
+        });
+    }
 
+    // PERUBAHAN: Tambahkan event listener untuk tombol mobile
+    if (mobileSwitcherButton) {
+        mobileSwitcherButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileSwitcherMenu.classList.toggle('hidden');
+        });
+    }
+
+    // Logika ini sudah benar dan akan bekerja untuk link mobile & desktop
+    // karena keduanya memiliki kelas '.lang-option'
     document.querySelectorAll('.lang-option').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetLang = link.dataset.lang;
         if (targetLang === currentLang) {
-          langSwitcherMenu.classList.add('hidden');
+          if (desktopSwitcherMenu) desktopSwitcherMenu.classList.add('hidden');
+          if (mobileSwitcherMenu) mobileSwitcherMenu.classList.add('hidden');
           return;
         }
 
         let newPath = path;
-        if (currentLang === 'id') {
-          newPath = path.replace('/id/', `/${targetLang}/`);
-        } else { // currentLang is 'en'
-          newPath = path.replace('/en/', `/${targetLang}/`);
+        // Ganti segmen bahasa di URL
+        if (currentLang === 'id' && newPath.startsWith('/id/')) {
+          newPath = newPath.replace('/id/', `/${targetLang}/`);
+        } else if (currentLang === 'en' && newPath.startsWith('/en/')) {
+          newPath = newPath.replace('/en/', `/${targetLang}/`);
+        } else {
+          // Fallback jika struktur URL tidak terduga
+          newPath = `/${targetLang}${newPath}`;
         }
         
         // Arahkan ke URL baru dengan parameter yang sama
@@ -98,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   };
+
   
   // Panggil fungsi pengganti bahasa di semua halaman
   setupLanguageSwitcher();
