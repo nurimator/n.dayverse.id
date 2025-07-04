@@ -1,8 +1,8 @@
 /**
- * search.js (Global Version - with Navigation)
- * Mengelola pencarian, pemfilteran, dan pengurutan dengan dropdown kustom.
- * - PERUBAHAN: Dropdown "Jenis" sekarang akan mengarahkan ke URL yang sesuai.
- * - Mempertahankan kueri pencarian saat berpindah halaman.
+ * search.js (Global Version - Smart Navigation)
+ * - Navigasi dropdown "Jenis" sekarang selalu berfungsi.
+ * - Mempertahankan filter kueri dan kategori saat berpindah halaman.
+ * - Menggunakan nama koleksi baru: Artikel, Bahan, Media.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterButton = document.getElementById('sort-filter-button');
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   
-  // --- Logika UI Header (Berjalan di semua halaman) ---
+  // --- Logika UI Header ---
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   if (desktopDropdownButton) {
     desktopDropdownButton.addEventListener('click', (e) => {
@@ -62,17 +62,13 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // --- Logika Pencarian (Hanya berjalan di halaman pencarian) ---
   if (!document.getElementById('search-page-marker')) {
-    return; // Berhenti jika bukan halaman pencarian
+    return;
   }
 
   // --- Validasi Data & State ---
-  if (typeof searchableData === 'undefined' || searchableData.length === 0) {
-    console.error('Error: Variabel `searchableData` tidak ditemukan atau kosong.');
-    if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan: Data pencarian tidak dapat dimuat.</p>';
-    return;
-  }
-  if (typeof pageConfig === 'undefined') {
-    console.error('Error: Variabel `pageConfig` tidak ditemukan.');
+  if (typeof searchableData === 'undefined' || typeof pageConfig === 'undefined') {
+    console.error('Error: Variabel `searchableData` atau `pageConfig` tidak ditemukan.');
+    if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan konfigurasi halaman.</p>';
     return;
   }
 
@@ -95,16 +91,13 @@ document.addEventListener('DOMContentLoaded', function () {
     options.forEach(option => {
       const optionEl = document.createElement('a');
       optionEl.href = '#';
-      if (option.value === currentSelection) {
-        optionEl.className = 'block p-3 text-sm text-white bg-blue-600 rounded-lg';
-      } else {
-        optionEl.className = 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
-      }
+      optionEl.className = (option.value === currentSelection) 
+        ? 'block p-3 text-sm text-white bg-blue-600 rounded-lg'
+        : 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
       optionEl.textContent = option.label;
       optionEl.dataset.value = option.value;
       optionEl.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         onSelectCallback(option.value);
         menuElement.classList.add('hidden');
       });
@@ -135,37 +128,31 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const repopulateAllDropdowns = () => {
-    // PERUBAHAN: Logika callback untuk dropdown jenis
+    // PERUBAHAN: Logika navigasi baru
+    const typeToUrlMap = {
+        'all': '/id/search/', 'articles': '/id/articles/',
+        'resources': '/id/resources/', 'media': '/id/media/'
+    };
     const typeOptions = [
-      { value: 'all', label: 'Semua Jenis' }, { value: 'articles', label: 'Artikel' },
-      { value: 'resources', label: 'Bahan' }, { value: 'media', label: 'Media' }
+      { value: 'all', label: 'Semua Jenis' }, { value: 'Artikel', label: 'Artikel' },
+      { value: 'Bahan', label: 'Bahan' }, { value: 'Media', label: 'Media' }
     ];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
-      // Peta dari nilai dropdown ke URL
-      const typeToUrlMap = {
-        'all': '/id/search/',
-        'Postingan': '/id/articles/',
-        'Media': '/id/media/',
-        'Bahan': '/id/resources/'
-      };
-      
       const targetPath = typeToUrlMap[value];
       if (!targetPath) return;
 
-      // Ambil kueri pencarian saat ini dari URL
       const urlParams = new URLSearchParams(window.location.search);
       const searchQuery = urlParams.get('q');
+      
+      const newParams = new URLSearchParams();
+      if (searchQuery) newParams.set('q', searchQuery);
+      if (selectedCategory !== 'all') newParams.set('category', selectedCategory);
 
-      // Bangun URL baru, tambahkan kueri jika ada
-      let newUrl = targetPath;
-      if (searchQuery) {
-        newUrl += '?q=' + encodeURIComponent(searchQuery);
-      }
-
-      // Arahkan pengguna ke URL baru
-      window.location.href = newUrl;
+      const queryString = newParams.toString();
+      window.location.href = targetPath + (queryString ? '?' + queryString : '');
     });
 
+    // Logika Kategori & Urutkan (tidak berubah)
     const categories = new Set();
     allItems.forEach(item => {
       if (item.categories && Array.isArray(item.categories)) {
@@ -262,9 +249,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const initializePage = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const initialQuery = urlParams.get('q');
+      const initialCategory = urlParams.get('category'); // Baca parameter kategori
+      
       if (initialQuery) {
           if(desktopSearchInput) desktopSearchInput.value = initialQuery;
           if(mobileSearchInput) mobileSearchInput.value = initialQuery;
+      }
+      if (initialCategory) {
+          selectedCategory = initialCategory; // Set state kategori
       }
       
       setupDropdowns();
