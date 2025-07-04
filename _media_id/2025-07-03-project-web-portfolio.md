@@ -10,13 +10,13 @@ author_avatar: "/assets/image/nurimator-logo-512.webp"
 type: "Media"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Portfolio+Web"
 ---
-
+## Web
 Ini adalah proyek sederhana membuat website portfolio pribadi. Tujuannya untuk menampilkan karya desain dan tulisan saya secara profesional.
 
 Fitur utama yang dibangun:
 - Halaman utama dengan highlight karya terbaru
 - Halaman tentang saya
 - Kontak dengan form sederhana
-
+## Dasar
 Proyek ini menggunakan HTML dan CSS dasar, dan dihosting di GitHub Pages agar mudah diakses siapa saja.
 

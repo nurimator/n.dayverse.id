@@ -10,7 +10,7 @@ author_avatar: "/assets/image/nurimator-logo-512.webp"
 type: "Resource"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Font+Gratis"
 ---
-
+## Font
 Memilih font yang tepat bisa mengubah keseluruhan nuansa desainmu. Berikut ini 10 font gratis yang bisa kamu gunakan untuk proyek pribadi maupun komersial.
 
 Font-font ini tersedia di Google Fonts dan beberapa situs legal lainnya. Cocok untuk poster, web, hingga branding sederhana. Jangan lupa periksa lisensinya sebelum digunakan secara komersial.

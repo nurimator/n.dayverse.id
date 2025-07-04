@@ -10,8 +10,8 @@ author_avatar: "/assets/image/nurimator-logo-512.webp"
 type: "Media"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Aplikasi+Catatan"
 ---
-
+## Catatan
 Saya membuat aplikasi catatan sederhana untuk mencatat ide-ide cepat dan daftar tugas harian. Aplikasi ini ringan dan fokus pada fungsi inti: menambah, melihat, dan menghapus catatan.
-
+## Belajar
 Proyek ini saya buat untuk belajar dasar UI dan manajemen data lokal di browser. Desainnya dibuat simpel agar mudah dipahami pengguna baru.
 
