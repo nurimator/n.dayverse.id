@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const pageTitle = document.getElementById('page-title');
   
   // --- Validasi Data ---
-  if (typeof searchableData === 'undefined') {
-    console.error('Error: Variabel `searchableData` tidak ditemukan.');
-    if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan konfigurasi: Data tidak dapat dimuat.</p>';
+  if (typeof searchableData === 'undefined' || searchableData.length === 0) {
+    console.error('Error: Variabel `searchableData` tidak ditemukan atau kosong.');
+    if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan: Data pencarian tidak dapat dimuat.</p>';
     return;
   }
   const allItems = searchableData;
@@ -64,20 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- FUNGSI BANTUAN ---
 
-  // FUNGSI DIPERBARUI & LEBIH KUAT: Membersihkan URL dari tanda kutip ekstra.
-  // Menggunakan Regular Expression untuk menghapus satu atau lebih tanda kutip 
-  // dari awal dan akhir string. Ini lebih efektif daripada loop.
-  const cleanUrl = (url) => {
-    const str = url || '';
-    // Regex ini akan mengubah '""/path/""' menjadi '/path/'
-    return str.replace(/^"+|"+$/g, '');
-  };
-
   const truncateWords = (text, numWords) => {
     if (!text) return '';
-    const strippedText = text.replace(/<[^>]*>?/gm, ''); // Hapus tag HTML
-    const words = strippedText.split(' ');
-    if (words.length <= numWords) return strippedText;
+    // Hapus blok kode SEBELUM memotong kata
+    const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, '');
+    const words = contentWithoutCodeblocks.split(' ');
+    if (words.length <= numWords) return contentWithoutCodeblocks;
     return words.slice(0, numWords).join(' ') + '...';
   };
 
@@ -92,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const categories = new Set();
     allItems.forEach(item => {
         if (item.categories && Array.isArray(item.categories)) {
-            item.categories.forEach(cat => categories.add(cat));
+            item.categories.forEach(cat => cat && categories.add(cat));
         }
     });
 
@@ -106,24 +98,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   };
 
-  // FUNGSI DIPERBARUI: Membuat kartu HTML dengan label jenis
   const createItemCardHTML = (item) => {
-    // Gunakan fungsi cleanUrl yang sudah diperbarui
-    const itemUrl = cleanUrl(item.url) || '#';
-    const itemImage = cleanUrl(item.image) || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
+    // Data URL dan gambar sekarang sudah dijamin bersih dari sumbernya
+    const itemUrl = item.url || '#';
+    const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
 
     const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
     const itemTitle = item.title || 'Tanpa Judul';
-    const itemExcerpt = truncateWords(item.excerpt, 20); // truncateWords sekarang juga membersihkan HTML
+    // Gunakan item.content untuk membuat excerpt, truncateWords akan membersihkannya
+    const itemExcerpt = truncateWords(item.content, 20);
     const itemDate = item.date ? new Date(item.date).toISOString() : '';
     const formattedDate = formatDate(item.date);
     const itemType = item.type || '';
 
     return `
-      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1" 
-           data-date="${itemDate}" 
-           data-category="${itemCategory}"
-           data-type="${itemType}">
+      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">
         <a href="${itemUrl}" class="block group h-full flex flex-col">
           <div class="relative flex-shrink-0">
             <div class="absolute inset-0 shimmer"></div>
@@ -161,8 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let filteredItems = searchQuery 
       ? allItems.filter(item => {
           const title = (item.title || '').toLowerCase();
-          const excerpt = (item.excerpt || '').toLowerCase();
-          return title.includes(searchQuery) || excerpt.includes(searchQuery);
+          // Hapus blok kode dari konten sebelum melakukan pencarian
+          const searchableContent = (item.content || '').replace(/```[\s\S]*?```/g, '').toLowerCase();
+          return title.includes(searchQuery) || searchableContent.includes(searchQuery);
         })
       : allItems;
 
@@ -193,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function () {
       postsContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Tidak ada hasil yang ditemukan.</p>`;
     }
     
-    // Update judul halaman
     if (pageTitle) {
         if (searchQuery) {
             pageTitle.textContent = `Hasil untuk "${urlParams.get('q')}"`;
@@ -225,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Tambahkan event listener untuk filter baru
   if (typeFilter) typeFilter.addEventListener('change', updateView);
   if (categoryFilter) categoryFilter.addEventListener('change', updateView);
 
@@ -251,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
       updateView();
   };
 
-  // Hanya jalankan jika kita berada di halaman pencarian
   if (document.getElementById('search-page-marker')) {
     initializePage();
   }
