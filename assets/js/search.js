@@ -64,6 +64,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- FUNGSI BANTUAN ---
 
+  // FUNGSI BARU & LEBIH KUAT: Membersihkan URL dari tanda kutip ekstra.
+  // Ini akan menangani kasus seperti '"/path/to/file"' atau '""/path/to/file""'.
+  const cleanUrl = (url) => {
+    let cleaned = url || '';
+    // Loop untuk menghapus tanda kutip yang mungkin bersarang
+    while (cleaned.startsWith('"') && cleaned.endsWith('"')) {
+        cleaned = cleaned.substring(1, cleaned.length - 1);
+    }
+    return cleaned;
+  };
+
   const truncateWords = (text, numWords) => {
     if (!text) return '';
     const strippedText = text.replace(/<[^>]*>?/gm, ''); // Hapus tag HTML
@@ -99,13 +110,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // FUNGSI DIPERBARUI: Membuat kartu HTML dengan label jenis
   const createItemCardHTML = (item) => {
-    // --- PERBAIKAN DIMULAI DI SINI ---
-    // Membersihkan data untuk menghindari error URL dan HTML
-    const cleanUrl = (url) => (url || '').replace(/^"|"$/g, '');
-    
+    // Gunakan fungsi cleanUrl yang sudah diperbarui
     const itemUrl = cleanUrl(item.url) || '#';
     const itemImage = cleanUrl(item.image) || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
-    // --- AKHIR PERBAIKAN ---
 
     const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
     const itemTitle = item.title || 'Tanpa Judul';
