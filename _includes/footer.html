@@ -1,46 +1,32 @@
 <footer class="bg-gray-900 border-t border-gray-800">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- 
-          MODIFIED: The main grid layout is adjusted for the new structure.
-          The key change is wrapping "Navigasi" and "Legal" in a new container.
-        -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-8 gap-x-4">
-            <div class="col-span-2 lg:col-span-2">
+        <div class="flex flex-wrap gap-8 md:grid md:grid-cols-5">
+            <div class="w-full md:col-span-2 lg:col-span-2">
                 <a href="#" class="text-2xl font-bold text-white tracking-wider">
                     nurimator<span class="text-blue-500">.com</span>
                 </a>
                 <p class="mt-4 text-gray-400 max-w-xs">Sebuah ruang berkarya dari bentuk dan tanya, menghadirkan gerak, warna, dan kisah yang menyimpan makna.</p>
             </div>
 
-            <!-- 
-              NEW CONTAINER: This wrapper uses Flexbox for mobile layout.
-              - `col-span-2`: It takes the full width on mobile.
-              - `flex justify-between`: Pushes "Navigasi" to the left and "Legal" to the right, creating flexible space between them.
-              - `md:contents`: This is the crucial part. On medium screens and up, this class makes the wrapper disappear, 
-                allowing "Navigasi" and "Legal" to become direct grid items again, preserving your desktop layout.
-            -->
-            <div class="col-span-2 flex flex-wrap justify-between gap-y-8 md:contents">
-                <div>
-                    <h4 class="font-bold text-white mb-4">Navigasi</h4>
-                    <!-- MODIFIED: Navigation links have been updated as per your request. -->
-                    <ul class="space-y-2">
-                        <li><a href="/id/articles/" class="text-gray-400 hover:text-blue-400">Artikel</a></li>
-                        <li><a href="/id/resources/" class="text-gray-400 hover:text-blue-400">Bahan Desain</a></li>
-                        <li><a href="/id/media/" class="text-gray-400 hover:text-blue-400">Media</a></li>                    
-                        <li><a href="/id/donate" class="text-gray-400 hover:text-blue-400">Donasi</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-white mb-4">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="/term-and-conditions" class="text-gray-400 hover:text-blue-400">Term and Conditions</a></li>
-                        <li><a href="/privacy-policy" class="text-gray-400 hover:text-blue-400">Privacy Policy</a></li>
-                        <li><a href="/license" class="text-gray-400 hover:text-blue-400">License</a></li>
-                        <li><a href="/disclaimer" class="text-gray-400 hover:text-blue-400">Disclaimer</a></li>
-                    </ul>
-                </div>
+            <!-- The items below will now wrap naturally on small screens -->
+            <div>
+                <h4 class="font-bold text-white mb-4">Navigasi</h4>
+                <ul class="space-y-2">
+                    <li><a href="/id/articles/" class="text-gray-400 hover:text-blue-400">Artikel</a></li>
+                    <li><a href="/id/resources/" class="text-gray-400 hover:text-blue-400">Bahan Desain</a></li>
+                    <li><a href="/id/media/" class="text-gray-400 hover:text-blue-400">Media</a></li>                    
+                    <li><a href="/id/donate" class="text-gray-400 hover:text-blue-400">Donasi</a></li>
+                </ul>
             </div>
-
+            <div>
+                <h4 class="font-bold text-white mb-4">Legal</h4>
+                <ul class="space-y-2">
+                    <li><a href="/term-and-conditions" class="text-gray-400 hover:text-blue-400">Term and Conditions</a></li>
+                    <li><a href="/privacy-policy" class="text-gray-400 hover:text-blue-400">Privacy Policy</a></li>
+                    <li><a href="/license" class="text-gray-400 hover:text-blue-400">License</a></li>
+                    <li><a href="/disclaimer" class="text-gray-400 hover:text-blue-400">Disclaimer</a></li>
+                </ul>
+            </div>
             <div>
                 <h4 class="font-bold text-white mb-4">Follow us</h4>
                 <div class="flex space-x-4">
