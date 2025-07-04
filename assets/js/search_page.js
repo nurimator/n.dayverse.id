@@ -1,9 +1,10 @@
 /**
  * search-page.js
  * * Berisi semua skrip yang hanya berjalan di halaman pencarian/daftar.
+ * - Mencegah layout shift dengan skeleton loader.
  * - Memfilter, menyortir, dan merender daftar item.
  * - Mengelola state filter (jenis, kategori, urutan).
- * - Membuat kartu item secara dinamis.
+ * - Menampilkan pesan "tidak ada hasil" yang lebih informatif dengan opsi reset filter.
  * - Tergantung pada variabel global `searchableData` dan `pageConfig` yang harus 
  * didefinisikan di HTML sebelum skrip ini dimuat.
  */
@@ -42,26 +43,46 @@ document.addEventListener('DOMContentLoaded', function () {
   // --- Fungsi-fungsi Inti Halaman Pencarian ---
 
   /**
-   * Memotong teks berdasarkan jumlah kata.
-   * @param {string} text - Teks input.
-   * @param {number} numWords - Jumlah kata maksimum.
-   * @returns {string} Teks yang sudah dipotong.
+   * [BARU] Membuat HTML untuk satu kartu skeleton.
+   * @returns {string} String HTML untuk skeleton card.
    */
+  const createSkeletonCardHTML = () => {
+    return `
+      <div class="bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700/80">
+        <div class="relative h-48 shimmer"></div>
+        <div class="p-5">
+          <div class="flex items-center space-x-2">
+            <div class="h-4 w-1/4 rounded bg-gray-700 shimmer"></div>
+            <div class="h-4 w-1/4 rounded bg-gray-700 shimmer"></div>
+          </div>
+          <div class="h-6 w-3/4 mt-3 rounded bg-gray-700 shimmer"></div>
+          <div class="h-4 w-full mt-3 rounded bg-gray-700 shimmer"></div>
+          <div class="h-4 w-5/6 mt-2 rounded bg-gray-700 shimmer"></div>
+        </div>
+      </div>
+    `;
+  };
+
+  /**
+   * [BARU] Menampilkan beberapa kartu skeleton untuk mencegah layout shift.
+   * @param {number} count - Jumlah skeleton yang akan ditampilkan.
+   */
+  const showSkeletons = (count = 8) => {
+    if (!postsContainer) return;
+    postsContainer.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+      postsContainer.innerHTML += createSkeletonCardHTML();
+    }
+  };
+
   const truncateWords = (text, numWords) => {
     if (!text) return '';
-    const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, ''); // Hapus blok kode
+    const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, '');
     const words = contentWithoutCodeblocks.split(' ');
     if (words.length <= numWords) return contentWithoutCodeblocks;
     return words.slice(0, numWords).join(' ') + '...';
   };
 
-  /**
-   * Mengisi menu dropdown kustom dengan opsi.
-   * @param {HTMLElement} menuElement - Elemen menu.
-   * @param {Array<Object>} options - Opsi untuk ditampilkan.
-   * @param {string} currentSelection - Opsi yang sedang dipilih.
-   * @param {Function} onSelectCallback - Fungsi yang dipanggil saat opsi dipilih.
-   */
   const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
     if (!menuElement) return;
     menuElement.innerHTML = '';
@@ -74,8 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
       optionEl.textContent = option.label;
       optionEl.dataset.value = option.value;
       optionEl.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         onSelectCallback(option.value);
         menuElement.classList.add('hidden');
       });
@@ -83,15 +103,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   };
 
-  /**
-   * Mengatur perilaku buka/tutup untuk semua dropdown filter.
-   */
   const setupDropdowns = () => {
     const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu];
     const closeAllMenus = () => allMenus.forEach(menu => menu && menu.classList.add('hidden'));
     
-    // Menutup menu saat mengklik di luar (event ini mungkin sudah ada di global.js,
-    // namun aman untuk menambahkannya di sini untuk memastikan fungsionalitas)
     window.addEventListener('click', () => closeAllMenus());
 
     const createToggle = (button, menu) => {
@@ -109,9 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
     createToggle(sortFilterButton, sortFilterMenu);
   };
 
-  /**
-   * Mengisi ulang semua dropdown dengan data dan pilihan terbaru.
-   */
   const repopulateAllDropdowns = () => {
     const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
     const typeToUrlMap = { 
@@ -125,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const targetPath = typeToUrlMap[value];
       if (!targetPath) return;
       
-      // Pertahankan parameter URL yang ada (q, category) saat berganti halaman
       const urlParams = new URLSearchParams(window.location.search);
       const searchQuery = urlParams.get('q');
       const newParams = new URLSearchParams();
@@ -136,7 +147,6 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = targetPath + (queryString ? '?' + queryString : '');
     });
 
-    // Ambil semua kategori unik dari data
     const categories = new Set();
     allItems.forEach(item => {
       if (Array.isArray(item.categories)) {
@@ -147,21 +157,16 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.from(categories).sort().forEach(cat => categoryOptions.push({ value: cat, label: cat }));
     populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value) => {
       selectedCategory = value;
-      updateView(); // Hanya perbarui tampilan, tidak perlu pindah halaman
+      updateView();
     });
 
     const sortOptions = [ { value: 'date-desc', label: 'Terbaru' }, { value: 'date-asc', label: 'Terlama' }, { value: 'name-asc', label: 'Nama A-Z' }, { value: 'name-desc', label: 'Nama Z-A' }];
     populateCustomDropdown(sortFilterMenu, sortOptions, currentSortCriteria, (value) => {
       currentSortCriteria = value;
-      updateView(); // Hanya perbarui tampilan
+      updateView();
     });
   };
 
-  /**
-   * Membuat string HTML untuk satu kartu item.
-   * @param {Object} item - Objek data item.
-   * @returns {string} String HTML.
-   */
   const createItemCardHTML = (item) => {
     const itemUrl = item.url || '#';
     const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
@@ -173,9 +178,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return `
       <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">
         <a href="${itemUrl}" class="block group h-full flex flex-col">
-          <div class="relative flex-shrink-0">
+          <div class="relative flex-shrink-0 h-48">
             <div class="absolute inset-0 shimmer"></div>
-            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="w-full h-48 object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
+            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="w-full h-full object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
           </div>
           <div class="p-5 flex flex-col flex-grow">
             <div class="flex items-center space-x-2">
@@ -191,19 +196,16 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   /**
-   * Fungsi utama untuk memfilter, menyortir, dan memperbarui DOM dengan hasil.
+   * [DIPERBARUI] Fungsi utama untuk memfilter, menyortir, dan memperbarui DOM dengan hasil.
+   * Sekarang menyertakan logika pesan "tidak ada hasil" yang lebih baik.
    */
   const updateView = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = (urlParams.get('q') || '').toLowerCase().trim();
-
-    // 1. Filter
+    
     let filteredItems = allItems.filter(item => {
-      // Filter berdasarkan tipe
       if (selectedType !== 'all' && item.type !== selectedType) return false;
-      // Filter berdasarkan kategori
       if (selectedCategory !== 'all' && (!Array.isArray(item.categories) || !item.categories.includes(selectedCategory))) return false;
-      // Filter berdasarkan query pencarian
       if (searchQuery) {
         const title = (item.title || '').toLowerCase();
         const content = (item.content || '').replace(/```[\s\S]*?```/g, '').toLowerCase();
@@ -212,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function () {
       return true;
     });
 
-    // 2. Sort
     filteredItems.sort((a, b) => {
       switch (currentSortCriteria) {
         case 'date-asc': return new Date(a.date) - new Date(b.date);
@@ -222,31 +223,43 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    // 3. Render
     postsContainer.innerHTML = '';
     if (filteredItems.length > 0) {
       filteredItems.forEach(item => { postsContainer.innerHTML += createItemCardHTML(item); });
     } else {
+      // [PERUBAHAN] Logika baru untuk pesan "Tidak ada hasil"
       const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
       const otherLang = currentLang === 'id' ? 'en' : 'id';
       const otherLangName = currentLang === 'id' ? 'English' : 'Bahasa Indonesia';
+      
       const newPath = window.location.pathname.replace(`/${currentLang}/`, `/${otherLang}/`);
       const alternateUrl = newPath + window.location.search;
-      let suggestionHtml = searchQuery ? `<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>` : '';
-      postsContainer.innerHTML = `<div class="text-center text-gray-400 col-span-full"><p>Tidak ada hasil yang ditemukan.</p>${suggestionHtml}</div>`;
+      
+      let messageParts = ['<p>Tidak ada hasil yang ditemukan.</p>'];
+      const areFiltersActive = selectedType !== 'all' || selectedCategory !== 'all';
+
+      if (areFiltersActive) {
+        const clearFilterBasePath = `/${currentLang}/all/`;
+        const clearFilterUrl = searchQuery ? `${clearFilterBasePath}?q=${encodeURIComponent(searchQuery)}` : clearFilterBasePath;
+        messageParts.push(`<p class="mt-2 text-sm text-gray-400">Coba <a href="${clearFilterUrl}" class="text-blue-400 hover:underline">bersihkan filter</a>.</p>`);
+      }
+
+      if (searchQuery) {
+        messageParts.push(`<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>`);
+      }
+
+      postsContainer.innerHTML = `<div class="text-center text-gray-400 col-span-full">${messageParts.join('')}</div>`;
     }
     
-    // Perbarui judul halaman
     if (pageTitle) {
       pageTitle.textContent = searchQuery ? `Hasil untuk "${searchQuery}"` : pageConfig.defaultTitle;
     }
     
-    // Perbarui state dropdown
     repopulateAllDropdowns();
   };
   
   /**
-   * Inisialisasi halaman dengan mengambil parameter dari URL.
+   * [DIPERBARUI] Inisialisasi halaman dengan menampilkan skeleton loader terlebih dahulu.
    */
   const initializePage = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -262,7 +275,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     setupDropdowns();
-    updateView();
+    
+    // [PERUBAHAN] Tampilkan skeleton sebelum memuat data asli
+    showSkeletons(8);
+
+    // Beri sedikit waktu agar browser bisa merender skeleton sebelum proses berat dimulai
+    setTimeout(() => {
+        updateView();
+    }, 10);
   };
 
   // Mulai!
