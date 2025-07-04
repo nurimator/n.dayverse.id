@@ -1,48 +1,47 @@
 <header id="header" class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-700/50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Main header content for mobile and desktop -->
+        <!-- Konten header utama untuk mobile dan desktop -->
         <div id="header-main-content" class="flex items-center justify-between h-16 lg:h-20">
             <a href="/index.html" class="text-2xl font-bold text-white tracking-wider">nurimator<span class="text-blue-500">.com</span></a>
             
-            <!-- Desktop Search, Language Switcher, and Main Menu Dropdown -->
-            <div class="hidden lg:flex items-center space-x-4">
-                <!-- Search Form -->
+            <!-- Pencarian Desktop, Pengalih Bahasa, dan Dropdown Menu Utama -->
+            <div class="hidden lg:flex items-center space-x-2">
+                
+                <!-- [PERUBAHAN] Formulir Pencarian dengan Latar Belakang Ikon Terpisah -->
                 <form id="desktop-search-form" action="/id/all/" method="GET" class="relative">
-                    <input type="text" name="q" placeholder="Cari..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
-                    <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-3 text-gray-500 hover:text-white flex items-center rounded-l-full">
-                        <!-- Search Icon: Changed fill to currentColor, width/height match w-4 h-4 -->
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
-                           <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"/>
-                        </svg>
-                    </button>
+                    <div class="flex items-stretch border border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all duration-300 overflow-hidden">
+                        <button type="submit" aria-label="Cari" class="bg-gray-700 px-3 flex items-center text-white hover:bg-gray-600 transition-colors">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"/>
+                            </svg>
+                        </button>
+                        <input type="text" name="q" placeholder="Cari..." class="bg-gray-800 py-2.5 px-4 focus:outline-none text-white placeholder:text-gray-400 text-sm w-52">
+                    </div>
                 </form>
                 
-                <!-- Desktop Language Switcher -->
+                <!-- Pengalih Bahasa Desktop -->
                 <div class="relative" id="desktop-lang-switcher-container">
-                    <button id="desktop-lang-switcher-button" class="bg-gray-700 text-white px-4 py-2 rounded-full font-semibold hover:bg-gray-600 flex items-center space-x-2">
-                        <!-- Globe Icon: Changed fill to currentColor, width/height match w-4 h-4 -->
+                    <button id="desktop-lang-switcher-button" class="bg-gray-700 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-600 flex items-center space-x-2 transition-colors">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
-                           <path fill-rule="evenodd" clip-rule="evenodd" d="M4.25203 10C4.08751 10.6392 4 11.3094 4 12C4 12.6906 4.08751 13.3608 4.25204 14H8.10516C8.03772 13.3727 8 12.7062 8 12C8 11.2938 8.03772 10.6273 8.10516 10H4.25203ZM5.07026 8H8.44148C8.74649 6.6871 9.17396 5.60504 9.60763 4.74755C9.68837 4.58792 9.76925 4.4362 9.8495 4.29235C7.81403 4.85906 6.10548 6.21041 5.07026 8ZM12 4.60481C11.8126 4.88536 11.6032 5.23336 11.3924 5.65018C11.0768 6.27421 10.7565 7.0555 10.5029 8H13.4971C13.2435 7.0555 12.9232 6.27421 12.6076 5.65018C12.3968 5.23336 12.1874 4.88536 12 4.60481ZM13.8818 10H10.1182C10.0431 10.6184 10 11.2848 10 12C10 12.7152 10.0431 13.3816 10.1182 14H13.8818C13.9569 13.3816 14 12.7152 14 12C14 11.2848 13.9569 10.6184 13.8818 10ZM15.8948 14C15.9623 13.3727 16 12.7062 16 12C16 11.2938 15.9623 10.6273 15.8948 10H19.748C19.9125 10.6392 20 11.3094 20 12C20 12.6906 19.9125 13.3608 19.748 14H15.8948ZM13.4971 16H10.5029C10.7565 16.9445 11.0768 17.7258 11.3924 18.3498C11.6032 18.7666 11.8126 19.1146 12 19.3952C12.1874 19.1146 12.3968 18.7666 12.6076 18.3498C12.9232 17.7258 13.2435 16.9445 13.4971 16ZM9.84951 19.7077C9.76925 19.5638 9.68837 19.4121 9.60763 19.2524C9.17396 18.395 8.74649 17.3129 8.44148 16H5.07026C6.10548 17.7896 7.81403 19.1409 9.84951 19.7077ZM14.1505 19.7076C14.2308 19.5638 14.3116 19.4121 14.3924 19.2524C14.826 18.395 15.2535 17.3129 15.5585 16H18.9297C17.8945 17.7896 16.186 19.1409 14.1505 19.7076ZM18.9297 8H15.5585C15.2535 6.6871 14.826 5.60504 14.3924 4.74755C14.3116 4.58792 14.2308 4.4362 14.1505 4.29235C16.186 4.85906 17.8945 6.21041 18.9297 8ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.25203 10C4.08751 10.6392 4 11.3094 4 12C4 12.6906 4.08751 13.3608 4.25204 14H8.10516C8.03772 13.3727 8 12.7062 8 12C8 11.2938 8.03772 10.6273 8.10516 10H4.25203ZM5.07026 8H8.44148C8.74649 6.6871 9.17396 5.60504 9.60763 4.74755C9.68837 4.58792 9.76925 4.4362 9.8495 4.29235C7.81403 4.85906 6.10548 6.21041 5.07026 8ZM12 4.60481C11.8126 4.88536 11.6032 5.23336 11.3924 5.65018C11.0768 6.27421 10.7565 7.0555 10.5029 8H13.4971C13.2435 7.0555 12.9232 6.27421 12.6076 5.65018C12.3968 5.23336 12.1874 4.88536 12 4.60481ZM13.8818 10H10.1182C10.0431 10.6184 10 11.2848 10 12C10 12.7152 10.0431 13.3816 10.1182 14H13.8818C13.9569 13.3816 14 12.7152 14 12C14 11.2848 13.9569 10.6184 13.8818 10ZM15.8948 14C15.9623 13.3727 16 12.7062 16 12C16 11.2938 15.9623 10.6273 15.8948 10H19.748C19.9125 10.6392 20 11.3094 20 12C20 12.6906 19.9125 13.3608 19.748 14H15.8948ZM13.4971 16H10.5029C10.7565 16.9445 11.0768 17.7258 11.3924 18.3498C11.6032 18.7666 11.8126 19.1146 12 19.3952C12.1874 19.1146 12.3968 18.7666 12.6076 18.3498C12.9232 17.7258 13.2435 16.9445 13.4971 16ZM9.84951 19.7077C9.76925 19.5638 9.68837 19.4121 9.60763 19.2524C9.17396 18.395 8.74649 17.3129 8.44148 16H5.07026C6.10548 17.7896 7.81403 19.1409 9.84951 19.7077ZM14.1505 19.7076C14.2308 19.5638 14.3116 19.4121 14.3924 19.2524C14.826 18.395 15.2535 17.3129 15.5585 16H18.9297C17.8945 17.7896 16.186 19.1409 14.1505 19.7076ZM18.9297 8H15.5585C15.2535 6.6871 14.826 5.60504 14.3924 4.74755C14.3116 4.58792 14.2308 4.4362 14.1505 4.29235C16.186 4.85906 17.8945 6.21041 18.9297 8ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"/>
                         </svg>
                         <span id="current-lang-display">ID</span>
-                        <!-- Dropdown Arrow Icon: Changed fill to currentColor, width/height match w-4 h-4 -->
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
-                           <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
-                    <div id="desktop-lang-switcher-menu" class="hidden absolute right-0 mt-2 w-40 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
+                    <div id="desktop-lang-switcher-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
                         <a href="#" data-lang="id" class="lang-option block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Bahasa Indonesia</a>
                         <a href="#" data-lang="en" class="lang-option block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">English</a>
                     </div>
                 </div>
                 
-                <!-- Desktop Main Menu Dropdown -->
+                <!-- Dropdown Menu Utama Desktop -->
                 <div class="relative" id="desktop-dropdown-container">
-                    <button id="desktop-dropdown-button" class="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 flex items-center space-x-2">
+                    <button id="desktop-dropdown-button" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-700 flex items-center space-x-2 transition-colors">
                         <span>Menu</span>
-                        <!-- Dropdown Arrow Icon: Changed fill to currentColor, width/height match w-4 h-4 -->
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
-                           <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
                     <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
@@ -56,16 +55,15 @@
                 </div>
             </div>
             
-            <!-- Mobile Toggle Buttons (Search and Menu) -->
+            <!-- Tombol Toggle Mobile (Pencarian dan Menu) -->
             <div class="flex items-center lg:hidden space-x-2">
                 <button id="mobile-search-open-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700" aria-label="Buka Pencarian">
-                    <!-- Mobile Search Icon: Changed fill to currentColor, width/height match w-6 h-6 -->
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"/>
                     </svg>
                 </button>
+                <!-- [PERUBAHAN] Menambahkan hover:bg-gray-700 untuk highlight saat menu tertutup -->
                 <button id="mobile-menu-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700" aria-label="Buka Menu">
-                    <!-- Mobile Menu Icon: Changed fill to currentColor, width/height match w-6 h-6 -->
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6ZM3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H4C3.44772 13 3 12.5523 3 12ZM3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z"/>
                     </svg>
@@ -73,18 +71,19 @@
             </div>
         </div>
         
-        <!-- Mobile Search View (hidden by default) -->
+        <!-- Tampilan Pencarian Mobile (tersembunyi secara default) -->
         <div id="mobile-search-view" class="hidden items-center h-16 lg:h-20">
             <form id="mobile-search-form" action="/id/all/" method="GET" class="relative w-full flex items-center">
-                <input type="text" name="q" id="mobile-search-input" placeholder="Cari di situs ini..." class="bg-gray-800 border border-gray-700 rounded-full py-3 pl-12 pr-4 text-base w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
-                <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-4 text-gray-500 flex items-center rounded-l-full">
-                    <!-- Mobile Search Input Icon: Changed fill to currentColor, width/height match w-5 h-5 -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"/>
-                    </svg>
-                </button>
+                <!-- [PERUBAHAN] Formulir Pencarian Mobile dengan Latar Belakang Ikon Terpisah -->
+                <div class="flex items-stretch border border-gray-600 rounded-xl w-full focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all duration-300 overflow-hidden">
+                    <button type="submit" aria-label="Cari" class="bg-gray-700 px-4 flex items-center text-white hover:bg-gray-600 transition-colors">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"/>
+                        </svg>
+                    </button>
+                    <input type="text" name="q" id="mobile-search-input" placeholder="Cari di situs ini..." class="bg-gray-800 w-full py-3 px-4 focus:outline-none text-white placeholder:text-gray-400 text-base">
+                </div>
                 <button id="mobile-search-close-button" type="button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 ml-2 flex-shrink-0">
-                    <!-- Mobile Search Close Icon: Changed fill to currentColor, width/height match w-6 h-6 -->
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"/>
                     </svg>
@@ -93,33 +92,33 @@
         </div>
     </div>
     
-    <!-- Mobile Menu (hidden by default) -->
-    <div id="mobile-menu" class="hidden lg:hidden bg-gray-900/80 backdrop-blur-sm">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Beranda</a>
-            <a href="/id/articles/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Artikel</a>
-            <a href="/id/resources/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Bahan Desain</a>
-            <a href="/id/media/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Media</a>
-            <a href="/id/donate.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Donasi</a>
-            <a href="/id/tentang.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Tentang</a>
+    <!-- Menu Mobile -->
+    <div id="mobile-menu" class="hidden lg:hidden">
+        <div class="p-2 mx-2 mb-2 space-y-1 bg-gray-800 border border-t-0 border-gray-700 rounded-b-xl">
+            <a href="/index.html" class="block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Beranda</a>
+            <a href="/id/articles/" class="block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Artikel</a>
+            <a href="/id/resources/" class="block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Bahan Desain</a>
+            <a href="/id/media/" class="block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Media</a>
+            <a href="/id/donate.html" class="block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Donasi</a>
+            <a href="/id/tentang.html" class="block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Tentang</a>
             
-            <!-- Mobile Language Switcher -->
-            <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+            <!-- Pengalih Bahasa Mobile -->
+            <div class="border-t border-gray-700/50 pt-2 mt-2">
                 <div class="relative">
-                    <button id="mobile-lang-switcher-button" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 flex items-center justify-between">
-                        <!-- Mobile Globe Icon: Changed fill to currentColor, width/height match w-5 h-5 -->
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5 mr-2">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.25203 10C4.08751 10.6392 4 11.3094 4 12C4 12.6906 4.08751 13.3608 4.25204 14H8.10516C8.03772 13.3727 8 12.7062 8 12C8 11.2938 8.03772 10.6273 8.10516 10H4.25203ZM5.07026 8H8.44148C8.74649 6.6871 9.17396 5.60504 9.60763 4.74755C9.68837 4.58792 9.76925 4.4362 9.8495 4.29235C7.81403 4.85906 6.10548 6.21041 5.07026 8ZM12 4.60481C11.8126 4.88536 11.6032 5.23336 11.3924 5.65018C11.0768 6.27421 10.7565 7.0555 10.5029 8H13.4971C13.2435 7.0555 12.9232 6.27421 12.6076 5.65018C12.3968 5.23336 12.1874 4.88536 12 4.60481ZM13.8818 10H10.1182C10.0431 10.6184 10 11.2848 10 12C10 12.7152 10.0431 13.3816 10.1182 14H13.8818C13.9569 13.3816 14 12.7152 14 12C14 11.2848 13.9569 10.6184 13.8818 10ZM15.8948 14C15.9623 13.3727 16 12.7062 16 12C16 11.2938 15.9623 10.6273 15.8948 10H19.748C19.9125 10.6392 20 11.3094 20 12C20 12.6906 19.9125 13.3608 19.748 14H15.8948ZM13.4971 16H10.5029C10.7565 16.9445 11.0768 17.7258 11.3924 18.3498C11.6032 18.7666 11.8126 19.1146 12 19.3952C12.1874 19.1146 12.3968 18.7666 12.6076 18.3498C12.9232 17.7258 13.2435 16.9445 13.4971 16ZM9.84951 19.7077C9.76925 19.5638 9.68837 19.4121 9.60763 19.2524C9.17396 18.395 8.74649 17.3129 8.44148 16H5.07026C6.10548 17.7896 7.81403 19.1409 9.84951 19.7077ZM14.1505 19.7076C14.2308 19.5638 14.3116 19.4121 14.3924 19.2524C14.826 18.395 15.2535 17.3129 15.5585 16H18.9297C17.8945 17.7896 16.186 19.1409 14.1505 19.7076ZM18.9297 8H15.5585C15.2535 6.6871 14.826 5.60504 14.3924 4.74755C14.3116 4.58792 14.2308 4.4362 14.1505 4.29235C16.186 4.85906 17.8945 6.21041 18.9297 8ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"/>
-                        </svg>
-                        Bahasa
-                        <!-- Mobile Dropdown Arrow Icon: Changed fill to currentColor, width/height match w-5 h-5 -->
+                    <button id="mobile-lang-switcher-button" class="w-full text-left p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg flex items-center justify-between">
+                        <span class="flex items-center">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.25203 10C4.08751 10.6392 4 11.3094 4 12C4 12.6906 4.08751 13.3608 4.25204 14H8.10516C8.03772 13.3727 8 12.7062 8 12C8 11.2938 8.03772 10.6273 8.10516 10H4.25203ZM5.07026 8H8.44148C8.74649 6.6871 9.17396 5.60504 9.60763 4.74755C9.68837 4.58792 9.76925 4.4362 9.8495 4.29235C7.81403 4.85906 6.10548 6.21041 5.07026 8ZM12 4.60481C11.8126 4.88536 11.6032 5.23336 11.3924 5.65018C11.0768 6.27421 10.7565 7.0555 10.5029 8H13.4971C13.2435 7.0555 12.9232 6.27421 12.6076 5.65018C12.3968 5.23336 12.1874 4.88536 12 4.60481ZM13.8818 10H10.1182C10.0431 10.6184 10 11.2848 10 12C10 12.7152 10.0431 13.3816 10.1182 14H13.8818C13.9569 13.3816 14 12.7152 14 12C14 11.2848 13.9569 10.6184 13.8818 10ZM15.8948 14C15.9623 13.3727 16 12.7062 16 12C16 11.2938 15.9623 10.6273 15.8948 10H19.748C19.9125 10.6392 20 11.3094 20 12C20 12.6906 19.9125 13.3608 19.748 14H15.8948ZM13.4971 16H10.5029C10.7565 16.9445 11.0768 17.7258 11.3924 18.3498C11.6032 18.7666 11.8126 19.1146 12 19.3952C12.1874 19.1146 12.3968 18.7666 12.6076 18.3498C12.9232 17.7258 13.2435 16.9445 13.4971 16ZM9.84951 19.7077C9.76925 19.5638 9.68837 19.4121 9.60763 19.2524C9.17396 18.395 8.74649 17.3129 8.44148 16H5.07026C6.10548 17.7896 7.81403 19.1409 9.84951 19.7077ZM14.1505 19.7076C14.2308 19.5638 14.3116 19.4121 14.3924 19.2524C14.826 18.395 15.2535 17.3129 15.5585 16H18.9297C17.8945 17.7896 16.186 19.1409 14.1505 19.7076ZM18.9297 8H15.5585C15.2535 6.6871 14.826 5.60504 14.3924 4.74755C14.3116 4.58792 14.2308 4.4362 14.1505 4.29235C16.186 4.85906 17.8945 6.21041 18.9297 8ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"/>
+                            </svg>
+                            Bahasa
+                        </span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
-                    <div id="mobile-lang-switcher-menu" class="hidden pl-6 pt-2 pb-1 space-y-1">
-                        <a href="#" data-lang="id" class="lang-option block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Bahasa Indonesia</a>
-                        <a href="#" data-lang="en" class="lang-option block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">English</a>
+                    <div id="mobile-lang-switcher-menu" class="hidden pl-4 pt-1 pb-1 space-y-1">
+                        <a href="#" data-lang="id" class="lang-option block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">Bahasa Indonesia</a>
+                        <a href="#" data-lang="en" class="lang-option block p-3 text-base font-medium text-white hover:bg-gray-700 rounded-lg">English</a>
                     </div>
                 </div>
             </div>
