@@ -85,26 +85,37 @@ lang: id
   };
 
   const searchableData = [];
-  // PERUBAHAN: Menggunakan nama koleksi baru
   {% for item in site.articles_id %}
     searchableData.push({
-      title: {{ item.title | jsonify }}, url: {{ item.url | jsonify }}, image: {{ item.image | jsonify }},
-      categories: {{ item.categories | jsonify }}, date: {{ item.date | jsonify }},
-      type: "Artikel", content: {{ item.content | strip_html | jsonify }}
+      title: {{ item.title | default: "Judul tidak ditemukan" | jsonify }}, 
+      url: {{ item.url | jsonify }}, 
+      image: {{ item.image | jsonify }},
+      categories: {{ item.categories | default: "Uncategorized" | jsonify }}, 
+      date: {{ item.date | jsonify }},
+      type: "Artikel", 
+      content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
   {% for item in site.resources_id %}
     searchableData.push({
-      title: {{ item.title | jsonify }}, url: {{ item.url | jsonify }}, image: {{ item.image | jsonify }},
-      categories: {{ item.categories | jsonify }}, date: {{ item.date | jsonify }},
-      type: "Bahan", content: {{ item.content | strip_html | jsonify }}
+      title: {{ item.title | default: "Judul tidak ditemukan" | jsonify }}, 
+      url: {{ item.url | jsonify }}, 
+      image: {{ item.image | jsonify }},
+      categories: {{ item.categories | default: "Uncategorized" | jsonify }}, 
+      date: {{ item.date | jsonify }},
+      type: "Bahan", 
+      content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
   {% for item in site.media_id %}
     searchableData.push({
-      title: {{ item.title | jsonify }}, url: {{ item.url | jsonify }}, image: {{ item.image | jsonify }},
-      categories: {{ item.categories | jsonify }}, date: {{ item.date | jsonify }},
-      type: "Media", content: {{ item.content | strip_html | jsonify }}
+      title: {{ item.title | default: "Judul tidak ditemukan" | jsonify }}, 
+      url: {{ item.url | jsonify }}, 
+      image: {{ item.image | jsonify }},
+      categories: {{ item.categories | default: "Uncategorized" | jsonify }}, 
+      date: {{ item.date | jsonify }},
+      type: "Media", 
+      content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
 </script>
