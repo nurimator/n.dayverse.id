@@ -4,7 +4,7 @@ permalink: /id/all/
 lang: id
 ---
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="scroll-smooth h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,13 +23,13 @@ lang: id
     @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
   </style>
 </head>
-<!-- [PERUBAHAN] Menambahkan class flex, flex-col, dan min-h-screen untuk layout sticky footer -->
+<!-- Menambahkan class flex, flex-col, dan min-h-screen untuk layout sticky footer -->
 <body class="bg-gray-900 text-gray-300 flex flex-col min-h-screen">
 <div id="search-page-marker" class="hidden"></div>
 
 {% include header-v2.html %}
 
-<!-- [PERUBAHAN] Menambahkan class flex-grow agar <main> mengisi ruang yang tersedia -->
+<!-- Menambahkan class flex-grow agar <main> mengisi ruang yang tersedia -->
 <main class="bg-gray-800/50 pt-16 lg:pt-18 flex-grow">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-20">
     <div>
