@@ -64,15 +64,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- FUNGSI BANTUAN ---
 
-  // FUNGSI BARU & LEBIH KUAT: Membersihkan URL dari tanda kutip ekstra.
-  // Ini akan menangani kasus seperti '"/path/to/file"' atau '""/path/to/file""'.
+  // FUNGSI DIPERBARUI & LEBIH KUAT: Membersihkan URL dari tanda kutip ekstra.
+  // Menggunakan Regular Expression untuk menghapus satu atau lebih tanda kutip 
+  // dari awal dan akhir string. Ini lebih efektif daripada loop.
   const cleanUrl = (url) => {
-    let cleaned = url || '';
-    // Loop untuk menghapus tanda kutip yang mungkin bersarang
-    while (cleaned.startsWith('"') && cleaned.endsWith('"')) {
-        cleaned = cleaned.substring(1, cleaned.length - 1);
-    }
-    return cleaned;
+    const str = url || '';
+    // Regex ini akan mengubah '""/path/""' menjadi '/path/'
+    return str.replace(/^"+|"+$/g, '');
   };
 
   const truncateWords = (text, numWords) => {
