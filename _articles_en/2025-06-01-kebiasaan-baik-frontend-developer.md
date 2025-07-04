@@ -1,12 +1,12 @@
 ---
 layout: default
-title: "Kebiasaan Baik Seorang Frontend Developer"
+title: "Good Habits of a Frontend Developer"
 date: 2025-06-01 10:00:00 +0700
-category: "Pengembangan Diri"
+category: "Personal Development"
 page_id: "5"
 author: "Nurhidayat"
-author_role: "Penulis"
-author_bio: "Menulis tentang apa saja yang menurutku menarik."
+author_role: "Author"
+author_bio: "Writes about anything I find interesting."
 author_avatar: "/assets/image/nurimator-logo-512.webp"
 type: "Artikel"
 image: "/assets/image/armor-trim.webp"
