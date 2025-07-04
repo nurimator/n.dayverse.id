@@ -1,6 +1,8 @@
 /**
- * search.js (Global Version - No Pagination)
- * Mengelola pencarian, pemfilteran, pengurutan, dan UI header.
+ * search.js (Global Version - Pre-selection)
+ * Mengelola pencarian, pemfilteran, dan pengurutan dengan dropdown kustom.
+ * - Sekarang dapat membaca `pageConfig` untuk pra-pemilihan filter jenis.
+ * - Mengatur judul halaman secara dinamis berdasarkan `pageConfig`.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterButton = document.getElementById('sort-filter-button');
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   
-  // --- Logika UI Header (Berjalan di semua halaman) ---
+  // --- Logika UI Header ---
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   if (desktopDropdownButton) {
     desktopDropdownButton.addEventListener('click', (e) => {
@@ -38,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
       desktopDropdownMenu.classList.toggle('hidden');
     });
   }
-  // PERBAIKAN: Menambahkan kembali logika untuk menampilkan/menyembunyikan search bar seluler
   if (mobileSearchOpenButton) {
     mobileSearchOpenButton.addEventListener('click', () => {
       if (headerMainContent) headerMainContent.classList.add('hidden');
@@ -70,8 +71,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan: Data pencarian tidak dapat dimuat.</p>';
     return;
   }
+  // PERUBAHAN: Validasi pageConfig
+  if (typeof pageConfig === 'undefined') {
+    console.error('Error: Variabel `pageConfig` tidak ditemukan.');
+    return;
+  }
+
   const allItems = searchableData;
-  let selectedType = 'all';
+  let selectedType = pageConfig.preselectedType || 'all'; // Set state dari config
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
   
@@ -130,11 +137,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const repopulateAllDropdowns = () => {
     const typeOptions = [
-      { value: 'all', label: 'Semua Jenis' }, { value: 'Postingan', label: 'Postingan' },
-      { value: 'Proyek', label: 'Proyek' }, { value: 'Resource', label: 'Resource' }
+      { value: 'all', label: 'Semua Jenis' }, { value: 'articles', label: 'Artikel' },
+      { value: 'resources', label: 'Bahan' }, { value: 'media', label: 'Media' }
     ];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
       selectedType = value;
+      // Jika pengguna memilih jenis, reset URL ke halaman pencarian utama
+      window.history.pushState({}, '', '/id/search/');
       updateView();
     });
 
@@ -201,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // PERUBAHAN: Menghapus logika paginasi, menampilkan semua hasil
     postsContainer.innerHTML = '';
     if (filteredItems.length > 0) {
       filteredItems.forEach(item => {
@@ -211,9 +219,13 @@ document.addEventListener('DOMContentLoaded', function () {
       postsContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Tidak ada hasil yang ditemukan.</p>`;
     }
     
+    // PERUBAHAN: Mengatur judul berdasarkan query atau config
     if (pageTitle) {
-        if (searchQuery) { pageTitle.textContent = `Hasil untuk "${urlParams.get('q')}"`; } 
-        else { pageTitle.textContent = 'Jelajahi Semua Konten'; }
+        if (searchQuery) { 
+            pageTitle.textContent = `Hasil untuk "${searchQuery}"`; 
+        } else { 
+            pageTitle.textContent = pageConfig.defaultTitle; 
+        }
     }
     
     repopulateAllDropdowns();

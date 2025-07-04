@@ -21,15 +21,15 @@ paginate: 5
 paginate_path: "/id/post/page:num/"
 
 collections:
-  posts_id:
+  article_id:
     output: true
-    permalink: /id/posts/:title/
-  posts_en:
+    permalink: /id/articles/:title/
+  article_en:
     output: true
-    permalink: /en/posts/:title/
+    permalink: /en/articles/:title/
   projets_id:
     output: true
-    permalink: /id/projects/:title/
+    permalink: /id/media/:title/
   resources_id:
     output: true
     permalink: /id/resources/:title/    

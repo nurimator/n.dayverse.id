@@ -23,18 +23,17 @@ lang: id
     @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
   </style>
 </head>
-<!-- PERUBAHAN: Mengembalikan body ke keadaan semula -->
 <body class="bg-gray-900 text-gray-300">
 <div id="search-page-marker" class="hidden"></div>
 
 {% include header-v2.html %}
 
-<!-- PERUBAHAN: Mengembalikan main ke keadaan semula -->
 <main class="bg-gray-800/50 pt-16 lg:pt-18">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-20">
     <div>
       <div class="mb-8">
-        <h2 id="page-title" class="text-3xl font-bold text-white mb-4">Jelajahi Semua Konten</h2>
+        <!-- PERUBAHAN: Judul sekarang akan diisi oleh JavaScript -->
+        <h2 id="page-title" class="text-3xl font-bold text-white mb-4"></h2>
         
         <div class="flex items-center gap-2">
           <!-- Dropdown Jenis -->
@@ -74,8 +73,6 @@ lang: id
       <div id="posts-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <!-- Konten diisi oleh JavaScript -->
       </div>
-      
-      <!-- PERUBAHAN: Kontainer paginasi dihapus -->
     </div>
   </div>
 </main>
@@ -83,6 +80,12 @@ lang: id
 {% include footer.html %}
 
 <script>
+  // PERUBAHAN: Menambahkan objek konfigurasi halaman
+  const pageConfig = {
+    preselectedType: 'all', 
+    defaultTitle: 'Jelajahi Semua Halaman'
+  };
+
   const searchableData = [];
   {% for item in site.posts_id %}
     searchableData.push({
