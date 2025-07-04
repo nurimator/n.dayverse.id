@@ -87,7 +87,7 @@ lang: id
   };
 
   const searchableData = [];
-  {% for item in site.posts_id %}
+  {% for item in site.articles_id %}
     searchableData.push({
       title: {{ item.title | jsonify }},
       url: {{ item.url | jsonify }},

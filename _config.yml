@@ -17,9 +17,6 @@ github_username: nurimator
 # Konfigurasi Postingan
 # ========================
 
-paginate: 5
-paginate_path: "/id/post/page:num/"
-
 collections:
   article_id:
     output: true
