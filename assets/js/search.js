@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
           link.addEventListener('click', e => e.preventDefault());
           return;
         }
-        // PERUBAHAN: Menggunakan page_id
         const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
         if (alternatePost && alternatePost.url) {
           link.href = alternatePost.url;
@@ -189,8 +188,14 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const repopulateAllDropdowns = () => {
-    // PERUBAHAN: Menggunakan /id/all/
-    const typeToUrlMap = { 'all': '/id/all/', 'Artikel': '/id/articles/', 'Bahan': '/id/resources/', 'Media': '/id/media/' };
+    // PERUBAHAN: Membuat URL dinamis berdasarkan bahasa
+    const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
+    const typeToUrlMap = { 
+      'all': `/${currentLang}/all/`, 
+      'Artikel': `/${currentLang}/articles/`, 
+      'Bahan': `/${currentLang}/resources/`, 
+      'Media': `/${currentLang}/media/` 
+    };
     const typeOptions = [ { value: 'all', label: 'Semua Jenis' }, { value: 'Artikel', label: 'Artikel' }, { value: 'Bahan', label: 'Bahan' }, { value: 'Media', label: 'Media' }];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
       const targetPath = typeToUrlMap[value];
