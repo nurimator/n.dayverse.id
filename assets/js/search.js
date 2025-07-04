@@ -1,7 +1,9 @@
 /**
- * search.js (Global Version - Final)
- * - Memperbaiki logika pengiriman formulir pencarian agar sesuai dengan bahasa saat ini.
- * - Restrukturisasi kode untuk memisahkan logika global dan logika khusus halaman pencarian.
+ * search.js (Global Version - Final UI Polish)
+ * - Mengelola semua interaksi header dan logika pencarian.
+ * - Dropdown desktop sekarang eksklusif (satu terbuka, yang lain tertutup).
+ * - Tombol bahasa aktif berwarna biru.
+ * - Menu seluler sekarang konsisten dengan gaya desktop.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -18,30 +20,29 @@ document.addEventListener('DOMContentLoaded', function () {
   const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
   const desktopSearchForm = document.getElementById('desktop-search-form');
   const mobileSearchForm = document.getElementById('mobile-search-form');
+  const desktopLangButton = document.getElementById('desktop-lang-switcher-button');
+  const desktopLangMenu = document.getElementById('desktop-lang-switcher-menu');
+  const mobileLangButton = document.getElementById('mobile-lang-switcher-button');
+  const mobileLangMenu = document.getElementById('mobile-lang-switcher-menu');
+  const currentLangDisplay = document.getElementById('current-lang-display');
 
   // --- Fungsi Global ---
 
   // Fungsi untuk menangani penggantian bahasa
   const setupLanguageSwitcher = () => {
-    const desktopSwitcherButton = document.getElementById('desktop-lang-switcher-button');
-    const desktopSwitcherMenu = document.getElementById('desktop-lang-switcher-menu');
-    const currentLangDisplay = document.getElementById('current-lang-display');
-    const mobileSwitcherButton = document.getElementById('mobile-lang-switcher-button');
-    const mobileSwitcherMenu = document.getElementById('mobile-lang-switcher-menu');
-
     const path = window.location.pathname;
     const currentLang = path.includes('/en/') ? 'en' : 'id';
     if (currentLangDisplay) currentLangDisplay.textContent = currentLang.toUpperCase();
 
-    const toggleMenu = (button, menu) => {
-      if (!button || !menu) return;
-      button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.toggle('hidden');
-      });
-    };
-    toggleMenu(desktopSwitcherButton, desktopSwitcherMenu);
-    toggleMenu(mobileSwitcherButton, mobileSwitcherMenu);
+    // PERUBAHAN: Membuat tombol bahasa aktif berwarna biru
+    if (desktopLangButton) {
+        desktopLangButton.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+        desktopLangButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+    }
+    if (mobileLangButton) {
+        mobileLangButton.classList.add('text-white', 'bg-blue-600');
+        mobileLangButton.classList.remove('text-gray-300', 'hover:bg-gray-700');
+    }
 
     const langLinks = document.querySelectorAll('.lang-option');
     if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
@@ -75,28 +76,48 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // PERBAIKAN: Fungsi untuk menangani pengiriman formulir pencarian
+  // PERUBAHAN: Fungsi untuk menangani semua dropdown di header
+  const setupGlobalDropdowns = () => {
+    const menus = [
+        { button: desktopDropdownButton, menu: desktopDropdownMenu },
+        { button: desktopLangButton, menu: desktopLangMenu },
+        { button: mobileMenuButton, menu: mobileMenu },
+        { button: mobileLangButton, menu: mobileLangMenu }
+    ];
+
+    const closeAllMenus = () => menus.forEach(item => item.menu && item.menu.classList.add('hidden'));
+
+    window.addEventListener('click', closeAllMenus);
+
+    menus.forEach(item => {
+        if (!item.button || !item.menu) return;
+        item.button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = item.menu.classList.contains('hidden');
+            closeAllMenus();
+            if (isHidden) item.menu.classList.remove('hidden');
+        });
+    });
+
+    // PERUBAHAN: Isi menu mobile dengan gaya yang konsisten
+    const mobileMenuContent = document.getElementById('mobile-menu-content');
+    if (mobileMenuContent && desktopDropdownMenu) {
+        mobileMenuContent.innerHTML = desktopDropdownMenu.innerHTML;
+    }
+  };
+
   const handleSearch = (event) => {
     event.preventDefault();
     const form = event.target;
     const input = form.querySelector('input[name="q"]');
     const query = input.value.trim();
     if (!query) return;
-
     const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
     const searchPageUrl = `/${currentLang}/all/`;
-    
     window.location.href = `${searchPageUrl}?q=${encodeURIComponent(query)}`;
   };
 
   // --- Inisialisasi Logika Global ---
-  if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-  if (desktopDropdownButton) {
-    desktopDropdownButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      desktopDropdownMenu.classList.toggle('hidden');
-    });
-  }
   if (mobileSearchOpenButton) {
     mobileSearchOpenButton.addEventListener('click', () => {
       if (headerMainContent) headerMainContent.classList.add('hidden');
@@ -119,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   setupLanguageSwitcher();
+  setupGlobalDropdowns(); // Panggil fungsi dropdown global baru
   if (desktopSearchForm) desktopSearchForm.addEventListener('submit', handleSearch);
   if (mobileSearchForm) mobileSearchForm.addEventListener('submit', handleSearch);
 
@@ -179,17 +201,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   };
 
-  const setupDropdowns = () => {
-    const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, document.getElementById('desktop-dropdown-menu'), document.getElementById('desktop-lang-switcher-menu'), document.getElementById('mobile-lang-switcher-menu')];
-    const closeAllMenus = () => allMenus.forEach(menu => menu && menu.classList.add('hidden'));
-    window.addEventListener('click', () => closeAllMenus());
-
+  const setupFilterDropdowns = () => {
+    const filterMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu];
+    
+    // Fungsi ini sekarang hanya untuk filter di halaman pencarian
     const createToggle = (button, menu) => {
       if (!button || !menu) return;
       button.addEventListener('click', (e) => {
         e.stopPropagation();
         const isHidden = menu.classList.contains('hidden');
-        closeAllMenus();
+        // Tutup semua menu filter
+        filterMenus.forEach(m => m && m.classList.add('hidden'));
         if (isHidden) menu.classList.remove('hidden');
       });
     };
@@ -302,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (mobileSearchInput) mobileSearchInput.value = initialQuery;
     }
     if (initialCategory) selectedCategory = initialCategory;
-    setupDropdowns();
+    setupFilterDropdowns(); // Ganti nama fungsi ini
     updateView();
   };
 
