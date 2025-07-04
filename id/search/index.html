@@ -1,0 +1,109 @@
+---
+layout: null
+permalink: /id/search/
+lang: id
+---
+
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Halaman pencarian untuk situs Nurimator. Cari postingan, proyek, dan sumber daya.">
+  <title>Pencarian | Nurimator</title>
+  {% include favicon.html %}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+    .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+    .shimmer { background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite linear; }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    /* Styling untuk dropdown */
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1em;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+<!-- Penanda ini digunakan oleh JS untuk tahu bahwa ini adalah halaman pencarian -->
+<div id="search-page-marker" class="hidden"></div>
+
+<!-- Sertakan Header Anda -->
+{% include header.html %}
+
+<main class="bg-gray-800/50 pt-16 lg:pt-18">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:pt-10 lg:pb-20">
+    <div>
+      <div class="mb-8">
+        <h2 id="page-title" class="text-3xl font-bold text-white mb-4">Jelajahi Semua Konten</h2>
+        
+        <!-- Baris Filter -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <!-- Filter Kiri: Jenis & Kategori -->
+          <div class="flex items-center gap-2">
+            <select id="filter-type" class="bg-gray-700 text-gray-300 px-4 py-2 text-sm font-semibold rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="all">Semua Jenis</option>
+              <option value="Postingan">Postingan</option>
+              <option value="Proyek">Proyek</option>
+              <option value="Resource">Resource</option>
+            </select>
+            <select id="filter-category" class="bg-gray-700 text-gray-300 px-4 py-2 text-sm font-semibold rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="all">Semua Kategori</option>
+              <!-- Kategori akan diisi oleh JavaScript -->
+            </select>
+          </div>
+          
+          <!-- Filter Kanan: Urutkan -->
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <span class="text-sm text-gray-400">Urutkan:</span>
+            <button id="sort-newest" class="sort-btn bg-blue-600 text-white px-3 py-1 text-sm font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors">Terbaru</button>
+            <button id="sort-oldest" class="sort-btn bg-gray-700 text-gray-300 px-3 py-1 text-sm font-semibold rounded-lg hover:bg-blue-600 transition-colors">Terlama</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kontainer Hasil Pencarian -->
+      <div id="posts-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <p class="text-center text-gray-400 col-span-full">Memuat...</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Sertakan Footer Anda -->
+{% include footer.html %}
+
+<!-- =================================================================== -->
+<!-- BAGIAN KRITIS: Menggabungkan data dan memuat skrip -->
+<!-- =================================================================== -->
+
+<script>
+  // 1. Ambil data dari semua koleksi Anda
+  const posts = {{ site.posts_id | jsonify }};
+  const projects = {{ site.projects_id | jsonify }}; // Ganti 'projects_id' jika nama koleksi Anda berbeda
+  const resources = {{ site.resources_id | jsonify }}; // Ganti 'resources_id' jika nama koleksi Anda berbeda
+
+  // 2. Tambahkan properti 'type' ke setiap item agar bisa dibedakan
+  posts.forEach(p => p.type = 'Postingan');
+  projects.forEach(p => p.type = 'Proyek');
+  resources.forEach(p => p.type = 'Resource');
+
+  // 3. Gabungkan semua data menjadi satu array
+  const searchableData = posts.concat(projects, resources);
+</script>
+
+<!-- 4. Muat skrip pencarian global kita -->
+<script src="/assets/js/search.js" defer></script>
+
+</body>
+</html>

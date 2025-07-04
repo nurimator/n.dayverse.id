@@ -27,6 +27,12 @@ collections:
   posts_en:
     output: true
     permalink: /en/posts/:title/
+  projets_id:
+    output: true
+    permalink: /id/projects/:title/
+  resources_id:
+    output: true
+    permalink: /id/resources/:title/    
   legals:
     output: true
     permalink: /:title/  
