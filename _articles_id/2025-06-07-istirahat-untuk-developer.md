@@ -3,6 +3,7 @@ layout: default
 title: "Pentingnya Istirahat untuk Developer: Jangan Terus di Depan Layar!"
 date: 2025-06-07 15:45:00 +0700
 category: "Kesehatan Digital"
+page_id:6
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

@@ -3,6 +3,7 @@ layout: default
 title: "Menguasai State Management di React dengan Zustand"
 date: 2025-05-05 10:30:00 +0700
 category: "Tutorial"
+page_id:3
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

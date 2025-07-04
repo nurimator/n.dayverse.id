@@ -50,15 +50,16 @@ plugins:
 defaults:
   - scope:
       path: ""
-      type: "posts"
+      type: "articles_id" # Nama koleksi harus cocok dengan yang di atas
     values:
-      layout: "post"
+      lang: "id"
 
+  # Atur default untuk koleksi Bahasa Inggris
   - scope:
       path: ""
-      type: "pages"
+      type: "articles_en" # Nama koleksi harus cocok dengan yang di atas
     values:
-      layout: "default"
+      lang: "en"
 
 # ========================
 # Pengecualian Build

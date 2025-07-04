@@ -3,6 +3,7 @@ layout: default
 title: "Komunikasi Efektif antara Developer dan Desainer"
 date: 2025-01-17 13:00:00 +0700
 category: "Kolaborasi"
+page_id:2
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

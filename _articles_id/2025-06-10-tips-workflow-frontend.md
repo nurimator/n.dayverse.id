@@ -3,6 +3,7 @@ layout: default
 title: "5 Tips Menyusun Workflow yang Nyaman untuk Frontend Developer"
 date: 2025-06-10 09:30:00 +0700
 category: "Produktivitas"
+page_id:7
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

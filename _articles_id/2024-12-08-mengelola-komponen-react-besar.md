@@ -3,6 +3,7 @@ layout: default
 title: "Strategi Mengelola Komponen React yang Semakin Kompleks"
 date: 2025-05-25 11:45:00 +0700
 category: "Tutorial"
+page_id:1
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

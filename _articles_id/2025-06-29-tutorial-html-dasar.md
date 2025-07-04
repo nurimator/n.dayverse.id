@@ -3,6 +3,7 @@ layout: default
 title: "Tutorial HTML Dasar: Pengenalan Elemen-elemen Utama"
 date: 2025-06-29 13:15:00 +0700
 category: "Tutorial"
+page_id:9
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."

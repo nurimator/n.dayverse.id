@@ -96,33 +96,60 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Logika ini sudah benar dan akan bekerja untuk link mobile & desktop
-    // karena keduanya memiliki kelas '.lang-option'
-    document.querySelectorAll('.lang-option').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetLang = link.dataset.lang;
-        if (targetLang === currentLang) {
-          if (desktopSwitcherMenu) desktopSwitcherMenu.classList.add('hidden');
-          if (mobileSwitcherMenu) mobileSwitcherMenu.classList.add('hidden');
-          return;
-        }
+    const langLinks = document.querySelectorAll('.lang-option');
 
-        let newPath = path;
-        // Ganti segmen bahasa di URL
-        if (currentLang === 'id' && newPath.startsWith('/id/')) {
-          newPath = newPath.replace('/id/', `/${targetLang}/`);
-        } else if (currentLang === 'en' && newPath.startsWith('/en/')) {
-          newPath = newPath.replace('/en/', `/${targetLang}/`);
-        } else {
-          // Fallback jika struktur URL tidak terduga
-          newPath = `/${targetLang}${newPath}`;
-        }
-        
-        // Arahkan ke URL baru dengan parameter yang sama
-        window.location.href = newPath + window.location.search;
-      });
-    });
+    // Cek apakah ini halaman postingan tunggal (berdasarkan keberadaan variabel postMeta)
+    if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
+        // --- LOGIKA UNTUK HALAMAN POSTINGAN ---
+        langLinks.forEach(link => {
+            const targetLang = link.dataset.lang;
+            if (targetLang === currentLang) {
+                link.classList.add('opacity-50', 'cursor-default');
+                link.addEventListener('click', e => e.preventDefault());
+                return;
+            }
+
+            // Cari postingan alternatif dengan page_id yang sama
+            const alternatePost = allSitePosts.find(p => 
+                String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang
+            );
+
+            if (alternatePost && alternatePost.url) {
+                link.href = alternatePost.url; // Set URL ke postingan terjemahan
+            } else {
+                // Jika tidak ada terjemahan, nonaktifkan link
+                link.href = '#';
+                link.classList.add('opacity-50', 'cursor-default');
+                link.title = 'Terjemahan tidak tersedia';
+                link.addEventListener('click', e => e.preventDefault());
+            }
+        });
+
+    } else {
+        // --- LOGIKA UNTUK HALAMAN DAFTAR (SEARCH, ARTICLES, DLL.) ---
+        langLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetLang = link.dataset.lang;
+                if (targetLang === currentLang) {
+                    if (desktopSwitcherMenu) desktopSwitcherMenu.classList.add('hidden');
+                    if (mobileSwitcherMenu) mobileSwitcherMenu.classList.add('hidden');
+                    return;
+                }
+
+                let newPath = path;
+                if (currentLang === 'id' && newPath.startsWith('/id/')) {
+                    newPath = newPath.replace('/id/', `/${targetLang}/`);
+                } else if (currentLang === 'en' && newPath.startsWith('/en/')) {
+                    newPath = newPath.replace('/en/', `/${targetLang}/`);
+                } else {
+                    newPath = `/${targetLang}${newPath}`;
+                }
+                
+                window.location.href = newPath + window.location.search;
+            });
+        });
+    }
   };
 
   

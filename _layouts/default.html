@@ -211,92 +211,29 @@
     <!-- Prism JS Initializer -->
     <script src="{{ '/assets/prism/prism.js' | relative_url }}"></script>
 
+
+    <!-- Letakkan ini sebelum Anda memanggil search.js -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    {% if page.page_id %}
+        // Variabel ini hanya akan dibuat jika halaman memiliki 'page_id' di front matter-nya
+        const postMeta = {
+        lang: "{{ page.lang }}",
+        page_id: "{{ page.page_id }}"
+        };
+    {% endif %}
 
-            // --- Menu & UI Logic ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton) {
-                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-            }
-
-            const desktopDropdownButton = document.getElementById('desktop-dropdown-button');
-            const desktopDropdownMenu = document.getElementById('desktop-dropdown-menu');
-            const desktopDropdownContainer = document.getElementById('desktop-dropdown-container');
-            if (desktopDropdownButton) {
-                desktopDropdownButton.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    desktopDropdownMenu.classList.toggle('hidden');
-                });
-                window.addEventListener('click', (event) => {
-                    if (desktopDropdownContainer && !desktopDropdownContainer.contains(event.target)) {
-                        desktopDropdownMenu.classList.add('hidden');
-                    }
-                });
-            }
-
-            // --- Mobile Search Toggle Logic ---
-            const headerMainContent = document.getElementById('header-main-content');
-            const mobileSearchView = document.getElementById('mobile-search-view');
-            const mobileSearchOpenButton = document.getElementById('mobile-search-open-button');
-            const mobileSearchCloseButton = document.getElementById('mobile-search-close-button');
-            
-            if (mobileSearchOpenButton) {
-                mobileSearchOpenButton.addEventListener('click', () => {
-                    headerMainContent.classList.add('hidden');
-                    mobileSearchView.classList.remove('hidden');
-                    mobileSearchView.classList.add('flex');
-                    document.getElementById('mobile-search-input').focus();
-                });
-            }
-
-            if (mobileSearchCloseButton) {
-                mobileSearchCloseButton.addEventListener('click', () => {
-                    headerMainContent.classList.remove('hidden');
-                    mobileSearchView.classList.add('hidden');
-                    mobileSearchView.classList.remove('flex');
-                });
-            }
-
-            // --- Post Sorting Logic ---
-            const sortNewestBtn = document.getElementById('sort-newest');
-            const sortOldestBtn = document.getElementById('sort-oldest');
-            const postsContainer = document.getElementById('posts-container');
-
-            if (sortNewestBtn && sortOldestBtn && postsContainer) {
-                const sortPosts = (direction) => {
-                    const posts = Array.from(postsContainer.querySelectorAll('.post-item'));
-                    
-                    posts.sort((a, b) => {
-                        const dateA = new Date(a.dataset.date);
-                        const dateB = new Date(b.dataset.date);
-                        return direction === 'desc' ? dateB - dateA : dateA - dateB;
-                    });
-                    
-                    // Re-append sorted posts
-                    posts.forEach(post => postsContainer.appendChild(post));
-                };
-
-                const setActiveButton = (activeBtn, inactiveBtn) => {
-                    activeBtn.classList.add('bg-blue-600', 'text-white');
-                    activeBtn.classList.remove('bg-gray-700', 'text-gray-300');
-                    inactiveBtn.classList.add('bg-gray-700', 'text-gray-300');
-                    inactiveBtn.classList.remove('bg-blue-600', 'text-white');
-                };
-
-                sortNewestBtn.addEventListener('click', () => {
-                    sortPosts('desc');
-                    setActiveButton(sortNewestBtn, sortOldestBtn);
-                });
-
-                sortOldestBtn.addEventListener('click', () => {
-                    sortPosts('asc');
-                    setActiveButton(sortOldestBtn, sortNewestBtn);
-                });
-            }
-        });
+    // Variabel ini dibutuhkan untuk mencari terjemahan
+    const allSitePosts = [
+        {% for p in site.articles_id %}
+        { "url": "{{ p.url | relative_url }}", "lang": "{{ p.lang }}", "page_id": "{{ p.page_id }}" },
+        {% endfor %}
+        {% for p in site.articles_en %}
+        { "url": "{{ p.url | relative_url }}", "lang": "{{ p.lang }}", "page_id": "{{ p.page_id }}" },
+        {% endfor %}
+        // Tambahkan loop lain di sini jika ada koleksi lain yang perlu diterjemahkan
+    ];
     </script>
 
+    <script src="/assets/js/search.js" defer></script>
 </body>
 </html>

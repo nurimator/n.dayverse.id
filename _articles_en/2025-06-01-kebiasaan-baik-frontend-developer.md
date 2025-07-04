@@ -3,6 +3,7 @@ layout: default
 title: "Kebiasaan Baik Seorang Frontend Developer"
 date: 2025-06-01 10:00:00 +0700
 category: "Pengembangan Diri"
+page_id:5
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
@@ -10,34 +11,34 @@ author_avatar: "/assets/image/nurimator-logo-512.webp"
 image: "/assets/image/armor-trim.webp"
 ---
 
-Menjadi seorang frontend developer bukan hanya soal memahami teknologi dan framework terbaru. Ada kebiasaan-kebiasaan kecil yang jika dibentuk sejak awal, bisa memberikan dampak besar pada kualitas kerja dan perkembangan karier.
+Becoming a frontend developer isn't just about keeping up with the latest technologies and frameworks. There are small habits that, when cultivated early on, can have a big impact on your work quality and career growth.
 
-## 1. Selalu Uji Tampilan di Berbagai Ukuran Layar
+## 1. Always Test Layouts on Different Screen Sizes
 
-Desain responsif bukan hanya tanggung jawab desainer. Developer yang baik akan terbiasa memastikan tampilan bekerja dengan baik di berbagai perangkat, dari layar ponsel hingga desktop lebar.
+Responsive design isn't just a designer's responsibility. A good developer routinely ensures that layouts work well across various devices—from mobile phones to large desktop screens.
 
-## 2. Peduli pada Detail Visual
+## 2. Care About Visual Details
 
-Hal kecil seperti jarak antar elemen, konsistensi warna, atau keselarasan ikon bisa membuat perbedaan besar pada pengalaman pengguna. Developer yang memiliki kepekaan visual biasanya mampu menghasilkan antarmuka yang terasa lebih rapi dan profesional.
+Small things like spacing between elements, consistent colors, or icon alignment can make a huge difference in the user experience. Developers with a strong visual sense tend to produce interfaces that feel cleaner and more professional.
 
-## 3. Aktif Bertanya dan Berdiskusi
+## 3. Ask Questions and Discuss Actively
 
-![tiga variasi](/assets/image/trivar.webp)
-Dalam tim, saling bertanya bukan tanda kelemahan, tapi tanda ingin memahami. Diskusi terbuka, baik dengan sesama developer maupun desainer, bisa membuka wawasan dan mempercepat proses pengembangan.
+![three variations](/assets/image/trivar.webp)  
+In a team, asking questions isn't a sign of weakness—it shows a desire to understand. Open discussions, whether with fellow developers or designers, can broaden perspectives and speed up development.
 
-## 4. Mengikuti Perkembangan Industri
+## 4. Stay Updated with Industry Trends
 
-Dunia frontend sangat dinamis. Bukan berarti harus selalu mengikuti tren, tapi dengan terus belajar hal-hal baru—seperti pendekatan desain baru, prinsip aksesibilitas, atau praktik UI terkini—developer bisa lebih adaptif dan siap menghadapi tantangan berikutnya.
+Frontend is a fast-moving field. You don't have to chase every trend, but learning new things—like updated design approaches, accessibility principles, or modern UI practices—helps you stay adaptive and prepared for the next challenge.
 
-## 5. Menulis Dokumentasi Kecil untuk Diri Sendiri
+## 5. Write Small Docs for Yourself
 
-Dokumentasi bukan hanya untuk orang lain, tapi juga untuk diri sendiri di masa depan. Mencatat keputusan teknis, struktur komponen, atau alasan di balik pendekatan tertentu akan sangat membantu ketika perlu revisi atau kolaborasi.
+Documentation isn’t just for others—it’s for your future self too. Keeping notes on technical decisions, component structures, or the reasons behind certain approaches will be invaluable when revisiting or collaborating on a project.
 
-## 6. Menghargai Waktu Orang Lain
+## 6. Respect Others' Time
 
-Menjaga agar task tetap jelas, pull request mudah ditinjau, dan komunikasi dalam tim efisien, adalah tanda profesionalisme. Developer yang menghargai waktu orang lain biasanya juga lebih dihargai oleh timnya.
+Keeping tasks clear, making pull requests easy to review, and communicating efficiently are signs of professionalism. Developers who respect others' time are often more respected by their teams as well.
 
 ---
 
-Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, Anda bisa tumbuh menjadi frontend developer yang tidak hanya andal secara teknis, tapi juga solid dalam kerja tim dan punya nilai lebih di mata perusahaan maupun komunitas.
+Good habits aren’t formed overnight. But with intention and consistency, you can grow into a frontend developer who’s not only technically capable, but also strong in teamwork and valued by both companies and communities.
 
