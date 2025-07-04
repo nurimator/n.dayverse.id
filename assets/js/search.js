@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentSortDirection = 'desc';
 
   // --- Logika UI Header (tidak berubah) ---
-  // ... (Kode untuk menu mobile, dropdown desktop, dll. tetap sama) ...
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
   if (desktopDropdownButton) {
     desktopDropdownButton.addEventListener('click', (event) => {
@@ -67,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const truncateWords = (text, numWords) => {
     if (!text) return '';
-    const strippedText = text.replace(/<[^>]*>?/gm, '');
+    const strippedText = text.replace(/<[^>]*>?/gm, ''); // Hapus tag HTML
     const words = strippedText.split(' ');
     if (words.length <= numWords) return strippedText;
     return words.slice(0, numWords).join(' ') + '...';
@@ -79,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return new Date(dateString).toLocaleDateString('id-ID', options);
   };
   
-  // FUNGSI BARU: Mengisi dropdown kategori secara dinamis
   const populateCategoryFilter = () => {
     if (!categoryFilter) return;
     const categories = new Set();
@@ -101,14 +99,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // FUNGSI DIPERBARUI: Membuat kartu HTML dengan label jenis
   const createItemCardHTML = (item) => {
-    const itemUrl = item.url || '#';
-    const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
+    // --- PERBAIKAN DIMULAI DI SINI ---
+    // Membersihkan data untuk menghindari error URL dan HTML
+    const cleanUrl = (url) => (url || '').replace(/^"|"$/g, '');
+    
+    const itemUrl = cleanUrl(item.url) || '#';
+    const itemImage = cleanUrl(item.image) || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
+    // --- AKHIR PERBAIKAN ---
+
     const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
     const itemTitle = item.title || 'Tanpa Judul';
-    const itemExcerpt = truncateWords(item.excerpt, 20);
+    const itemExcerpt = truncateWords(item.excerpt, 20); // truncateWords sekarang juga membersihkan HTML
     const itemDate = item.date ? new Date(item.date).toISOString() : '';
     const formattedDate = formatDate(item.date);
-    const itemType = item.type || ''; // Jenis item (Postingan, Proyek, dll.)
+    const itemType = item.type || '';
 
     return `
       <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1" 
@@ -222,8 +226,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const handleSearch = (event) => {
       event.preventDefault();
-      // Aksi formulir sudah mengarahkan ke halaman pencarian, jadi kita tidak perlu menangani di sini.
-      // Biarkan browser me-reload ke halaman /id/search/?q=...
       event.target.submit();
   };
 
