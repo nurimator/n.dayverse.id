@@ -59,24 +59,23 @@ lang: id
 
               <a href="{{ post.url | relative_url }}" class="block group">
                 
-                <!-- ### PERUBAHAN UTAMA: Layout Mobile dengan latar belakang mengikuti teks ### -->
+                <!-- ### PERUBAHAN UTAMA: Layout Mobile kembali ke gradien, chip di kiri atas ### -->
                 <div class="relative overflow-hidden rounded-2xl sm:hidden shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50">
                   {% assign image_url = post.image | default: 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found' %}
                   <div class="absolute inset-0 shimmer"></div>
                   <img src="{{ image_url | relative_url }}" alt="[Gambar] {{ post.title }}" class="w-full aspect-[16/9] object-cover opacity-0 transition-opacity duration-700" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
                   
-                  <!-- Kontainer untuk teks di bagian bawah -->
-                  <div class="absolute bottom-0 left-0 right-0 p-3 flex flex-col items-start">
-                    <!-- Kategori dengan latar belakang sendiri (chip) -->
-                    <div>
-                      <span class="bg-gray-900 text-blue-400 text-[11px] font-semibold py-1 px-2 rounded leading-none">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
-                    </div>
-                    <!-- Judul dengan latar belakang per baris -->
-                    <h3 class="mt-2 text-white text-sm font-semibold line-clamp-2">
-                      <span class="bg-gray-900 py-1 px-2 box-decoration-clone rounded">
-                        {{ post.title }}
-                      </span>
-                    </h3>
+                  <!-- Gradien overlay -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+
+                  <!-- Kategori chip di kiri atas -->
+                  <div class="absolute top-3 left-3">
+                    <span class="bg-gray-900/80 backdrop-blur-sm text-blue-400 text-[11px] font-semibold py-1 px-2 rounded leading-none">{{ post.categories | first | upcase | default: 'UNCATEGORIZED' }}</span>
+                  </div>
+
+                  <!-- Judul di bagian bawah -->
+                  <div class="absolute bottom-0 left-0 right-0 p-3">
+                    <h3 class="text-white text-sm font-semibold line-clamp-2">{{ post.title }}</h3>
                   </div>
                 </div>
 
