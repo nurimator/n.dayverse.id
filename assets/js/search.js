@@ -1,3 +1,7 @@
+/**
+ * search.js (Global Version with Custom Dropdowns)
+ * Mengelola pencarian, pemfilteran, dan pengurutan dengan dropdown kustom.
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
   // --- Elemen-elemen UI ---
@@ -18,12 +22,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const mobileSearchInput = document.getElementById('mobile-search-input');
   const sortNewestBtn = document.getElementById('sort-newest');
   const sortOldestBtn = document.getElementById('sort-oldest');
-  const typeFilter = document.getElementById('filter-type');
-  const categoryFilter = document.getElementById('filter-category');
   const postsContainer = document.getElementById('posts-container');
   const pageTitle = document.getElementById('page-title');
+
+  // --- Elemen Dropdown Kustom ---
+  const typeFilterContainer = document.getElementById('type-filter-container');
+  const typeFilterButton = document.getElementById('type-filter-button');
+  const typeFilterLabel = document.getElementById('type-filter-label');
+  const typeFilterMenu = document.getElementById('type-filter-menu');
+
+  const categoryFilterContainer = document.getElementById('category-filter-container');
+  const categoryFilterButton = document.getElementById('category-filter-button');
+  const categoryFilterLabel = document.getElementById('category-filter-label');
+  const categoryFilterMenu = document.getElementById('category-filter-menu');
   
-  // --- Validasi Data ---
+  // --- Validasi Data & State ---
   if (typeof searchableData === 'undefined' || searchableData.length === 0) {
     console.error('Error: Variabel `searchableData` tidak ditemukan atau kosong.');
     if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan: Data pencarian tidak dapat dimuat.</p>';
@@ -31,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   const allItems = searchableData;
   let currentSortDirection = 'desc';
+  let selectedType = 'all';
+  let selectedCategory = 'all';
 
   // --- Logika UI Header (tidak berubah) ---
   if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -39,34 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
       event.stopPropagation();
       desktopDropdownMenu.classList.toggle('hidden');
     });
-    window.addEventListener('click', (event) => {
-      if (desktopDropdownContainer && !desktopDropdownContainer.contains(event.target)) {
-        desktopDropdownMenu.classList.add('hidden');
-      }
-    });
   }
-  if (mobileSearchOpenButton) {
-    mobileSearchOpenButton.addEventListener('click', () => {
-      headerMainContent.classList.add('hidden');
-      mobileSearchView.classList.remove('hidden');
-      mobileSearchView.classList.add('flex');
-      mobileSearchInput.focus();
-    });
-  }
-  if (mobileSearchCloseButton) {
-    mobileSearchCloseButton.addEventListener('click', () => {
-      headerMainContent.classList.remove('hidden');
-      mobileSearchView.classList.add('hidden');
-      mobileSearchView.classList.remove('flex');
-    });
-  }
-
-
+  
   // --- FUNGSI BANTUAN ---
-
   const truncateWords = (text, numWords) => {
     if (!text) return '';
-    // Hapus blok kode SEBELUM memotong kata
     const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, '');
     const words = contentWithoutCodeblocks.split(' ');
     if (words.length <= numWords) return contentWithoutCodeblocks;
@@ -79,26 +71,101 @@ document.addEventListener('DOMContentLoaded', function () {
     return new Date(dateString).toLocaleDateString('id-ID', options);
   };
   
-  const populateCategoryFilter = () => {
-    if (!categoryFilter) return;
-    const categories = new Set();
-    allItems.forEach(item => {
-        if (item.categories && Array.isArray(item.categories)) {
-            item.categories.forEach(cat => cat && categories.add(cat));
-        }
+  // FUNGSI UNTUK MENGISI DROPDOWN KUSTOM
+  const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
+    menuElement.innerHTML = ''; // Kosongkan menu
+    options.forEach(option => {
+      const optionEl = document.createElement('a');
+      optionEl.href = '#';
+      optionEl.className = 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
+      optionEl.textContent = option.label;
+      optionEl.dataset.value = option.value;
+
+      optionEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onSelectCallback(option.value, option.label);
+        menuElement.classList.add('hidden');
+      });
+      menuElement.appendChild(optionEl);
+    });
+  };
+  
+  // --- Logika Dropdown Kustom ---
+  const setupDropdowns = () => {
+    // Tutup semua dropdown jika klik di luar
+    window.addEventListener('click', () => {
+      typeFilterMenu.classList.add('hidden');
+      categoryFilterMenu.classList.add('hidden');
+      if (desktopDropdownMenu) desktopDropdownMenu.classList.add('hidden');
     });
 
-    const sortedCategories = Array.from(categories).sort();
-    categoryFilter.innerHTML = '<option value="all">Semua Kategori</option>'; // Reset
-    sortedCategories.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat;
-        option.textContent = cat;
-        categoryFilter.appendChild(option);
+    // Toggle Dropdown Jenis
+    typeFilterButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      typeFilterMenu.classList.toggle('hidden');
+      categoryFilterMenu.classList.add('hidden'); // Tutup yang lain
+    });
+
+    // Toggle Dropdown Kategori
+    categoryFilterButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      categoryFilterMenu.classList.toggle('hidden');
+      typeFilterMenu.classList.add('hidden'); // Tutup yang lain
+    });
+
+    // Isi Dropdown Jenis (statis)
+    const typeOptions = [
+      { value: 'all', label: 'Semua Jenis' },
+      { value: 'Postingan', label: 'Postingan' },
+      { value: 'Proyek', label: 'Proyek' },
+      { value: 'Resource', label: 'Resource' }
+    ];
+    populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value, label) => {
+      selectedType = value;
+      typeFilterLabel.textContent = label;
+      updateView();
+    });
+
+    // Isi Dropdown Kategori (dinamis)
+    const categories = new Set();
+    allItems.forEach(item => {
+      if (item.categories && Array.isArray(item.categories)) {
+        item.categories.forEach(cat => cat && categories.add(cat));
+      }
+    });
+    const categoryOptions = [{ value: 'all', label: 'Semua Kategori' }];
+    Array.from(categories).sort().forEach(cat => categoryOptions.push({ value: cat, label: cat }));
+    
+    populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value, label) => {
+      selectedCategory = value;
+      categoryFilterLabel.textContent = label;
+      updateView();
     });
   };
 
+  const updateFilterStyles = () => {
+    // Gaya untuk Filter Jenis
+    if (selectedType !== 'all') {
+        typeFilterButton.classList.add('bg-blue-600', 'text-white');
+        typeFilterButton.classList.remove('bg-gray-700', 'text-gray-300');
+    } else {
+        typeFilterButton.classList.add('bg-gray-700', 'text-gray-300');
+        typeFilterButton.classList.remove('bg-blue-600', 'text-white');
+    }
+
+    // Gaya untuk Filter Kategori
+    if (selectedCategory !== 'all') {
+        categoryFilterButton.classList.add('bg-blue-600', 'text-white');
+        categoryFilterButton.classList.remove('bg-gray-700', 'text-gray-300');
+    } else {
+        categoryFilterButton.classList.add('bg-gray-700', 'text-gray-300');
+        categoryFilterButton.classList.remove('bg-blue-600', 'text-white');
+    }
+  };
+
   const createItemCardHTML = (item) => {
+    // ... (Fungsi ini tidak berubah dari versi sebelumnya) ...
     try {
       const itemUrl = item.url || '#';
       const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
@@ -109,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const formattedDate = formatDate(item.date);
       const itemType = item.type || '';
 
-      // Menggunakan string concatenation untuk menghindari potensi masalah template literal
       var cardHtml = 
         '<div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">' +
           '<a href="' + itemUrl + '" class="block group h-full flex flex-col">' +
@@ -141,43 +207,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // FUNGSI UTAMA YANG DIPERBARUI: Sekarang memfilter berdasarkan semua kriteria
   const updateView = () => {
     if (!postsContainer) return;
 
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = (urlParams.get('q') || '').toLowerCase().trim();
-    const selectedType = typeFilter ? typeFilter.value : 'all';
-    const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
-
-    // 1. Filter berdasarkan teks pencarian
+    
     let filteredItems = searchQuery 
       ? allItems.filter(item => {
           const title = (item.title || '').toLowerCase();
-          // Hapus blok kode dari konten sebelum melakukan pencarian
           const searchableContent = (item.content || '').replace(/```[\s\S]*?```/g, '').toLowerCase();
           return title.includes(searchQuery) || searchableContent.includes(searchQuery);
         })
       : allItems;
 
-    // 2. Filter berdasarkan jenis
     if (selectedType !== 'all') {
       filteredItems = filteredItems.filter(item => item.type === selectedType);
     }
-
-    // 3. Filter berdasarkan kategori
     if (selectedCategory !== 'all') {
       filteredItems = filteredItems.filter(item => item.categories && item.categories.includes(selectedCategory));
     }
     
-    // 4. Urutkan hasil
     filteredItems.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return currentSortDirection === 'desc' ? dateB - dateA : dateA - dateB;
     });
 
-    // 5. Tampilkan hasil
     postsContainer.innerHTML = '';
     if (filteredItems.length > 0) {
       filteredItems.forEach(item => {
@@ -194,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pageTitle.textContent = 'Jelajahi Semua Konten';
         }
     }
+    updateFilterStyles();
   };
   
   const setActiveSortButton = (activeBtn, inactiveBtn) => {
@@ -218,9 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  if (typeFilter) typeFilter.addEventListener('change', updateView);
-  if (categoryFilter) categoryFilter.addEventListener('change', updateView);
-
   const handleSearch = (event) => {
       event.preventDefault();
       event.target.submit();
@@ -238,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if(mobileSearchInput) mobileSearchInput.value = initialQuery;
       }
       
-      populateCategoryFilter();
+      setupDropdowns();
       setActiveSortButton(sortNewestBtn, sortOldestBtn);
       updateView();
   };
