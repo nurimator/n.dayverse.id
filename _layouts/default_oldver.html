@@ -121,7 +121,7 @@
                         <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
                             <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
                             <div class="space-y-4">
-                                {% assign latest_posts = site.posts_id | sort: "date" | reverse %}
+                                {% assign latest_posts = site.articles_id | sort: "date" | reverse %}
                                 {% assign count = 0 %}
                                 {% for post in latest_posts %}
                                     {% if post.url != page.url and count < 3 %}
