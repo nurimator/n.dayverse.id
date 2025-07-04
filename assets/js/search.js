@@ -99,42 +99,41 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const createItemCardHTML = (item) => {
-    // Data URL dan gambar sekarang sudah dijamin bersih dari sumbernya
     const itemUrl = item.url || '#';
     const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
-
     const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
     const itemTitle = item.title || 'Tanpa Judul';
-    // Gunakan item.content untuk membuat excerpt, truncateWords akan membersihkannya
     const itemExcerpt = truncateWords(item.content, 20);
     const itemDate = item.date ? new Date(item.date).toISOString() : '';
     const formattedDate = formatDate(item.date);
     const itemType = item.type || '';
 
-    return `
-      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">
-        <a href="${itemUrl}" class="block group h-full flex flex-col">
-          <div class="relative flex-shrink-0">
-            <div class="absolute inset-0 shimmer"></div>
-            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="w-full h-48 object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
-          </div>
-          <div class="p-5 flex flex-col flex-grow">
-            <div class="flex items-center space-x-2">
-              <span class="text-xs font-semibold text-cyan-400">${itemType.toUpperCase()}</span>
-              <span class="text-gray-500">&bull;</span>
-              <span class="text-xs font-semibold text-blue-400">${itemCategory}</span>
-            </div>
-            <h3 class="mt-2 text-lg font-bold text-white transition-colors group-hover:text-blue-400 line-clamp-2 flex-grow">${itemTitle}</h3>
-            <p class="mt-2 text-gray-400 text-sm line-clamp-2">${itemExcerpt}</p>
-            <div class="mt-4 pt-4 border-t border-gray-700/80">
-              <p class="text-xs text-gray-500">
-                <time datetime="${itemDate}">${formattedDate}</time>
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
-    `;
+    // Menggunakan string concatenation untuk menghindari potensi masalah template literal
+    var cardHtml = 
+      '<div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">' +
+        '<a href="' + itemUrl + '" class="block group h-full flex flex-col">' +
+          '<div class="relative flex-shrink-0">' +
+            '<div class="absolute inset-0 shimmer"></div>' +
+            '<img src="' + itemImage + '" alt="[Gambar] ' + itemTitle + '" class="w-full h-48 object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity=\'1\'; this.previousElementSibling.remove();">' +
+          '</div>' +
+          '<div class="p-5 flex flex-col flex-grow">' +
+            '<div class="flex items-center space-x-2">' +
+              '<span class="text-xs font-semibold text-cyan-400">' + itemType.toUpperCase() + '</span>' +
+              '<span class="text-gray-500">&bull;</span>' +
+              '<span class="text-xs font-semibold text-blue-400">' + itemCategory + '</span>' +
+            '</div>' +
+            '<h3 class="mt-2 text-lg font-bold text-white transition-colors group-hover:text-blue-400 line-clamp-2 flex-grow">' + itemTitle + '</h3>' +
+            '<p class="mt-2 text-gray-400 text-sm line-clamp-2">' + itemExcerpt + '</p>' +
+            '<div class="mt-4 pt-4 border-t border-gray-700/80">' +
+              '<p class="text-xs text-gray-500">' +
+                '<time datetime="' + itemDate + '">' + formattedDate + '</time>' +
+              '</p>' +
+            '</div>' +
+          '</div>' +
+        '</a>' +
+      '</div>';
+      
+    return cardHtml;
   };
 
   // FUNGSI UTAMA YANG DIPERBARUI: Sekarang memfilter berdasarkan semua kriteria
