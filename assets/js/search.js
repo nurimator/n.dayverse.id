@@ -1,9 +1,3 @@
-/**
- * search.js (Global Version with 3 Custom Dropdowns)
- * Mengelola pencarian, pemfilteran, dan pengurutan dengan 3 dropdown kustom.
- * - Indikator aktif (warna biru) sekarang berada di dalam menu dropdown.
- * - Menambahkan opsi pengurutan berdasarkan Nama A-Z dan Z-A.
- */
 document.addEventListener('DOMContentLoaded', function () {
 
   // --- Elemen-elemen UI ---
@@ -59,12 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const words = contentWithoutCodeblocks.split(' ');
     if (words.length <= numWords) return contentWithoutCodeblocks;
     return words.slice(0, numWords).join(' ') + '...';
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('id-ID', options);
   };
   
   // FUNGSI UNTUK MENGISI DROPDOWN KUSTOM DENGAN STATUS AKTIF
@@ -163,17 +151,15 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const createItemCardHTML = (item) => {
-    // ... (Fungsi ini tidak berubah) ...
     try {
       const itemUrl = item.url || '#';
       const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
       const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
       const itemTitle = item.title || 'Tanpa Judul';
       const itemExcerpt = truncateWords(item.content, 20);
-      const itemDate = item.date ? new Date(item.date).toISOString() : '';
-      const formattedDate = formatDate(item.date);
       const itemType = item.type || '';
 
+      // PERUBAHAN: Bagian tanggal dan <time> dihilangkan
       var cardHtml = 
         '<div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">' +
           '<a href="' + itemUrl + '" class="block group h-full flex flex-col">' +
@@ -189,11 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
               '</div>' +
               '<h3 class="mt-2 text-lg font-bold text-white transition-colors group-hover:text-blue-400 line-clamp-2 flex-grow">' + itemTitle + '</h3>' +
               '<p class="mt-2 text-gray-400 text-sm line-clamp-2">' + itemExcerpt + '</p>' +
-              '<div class="mt-4 pt-4 border-t border-gray-700/80">' +
-                '<p class="text-xs text-gray-500">' +
-                  '<time datetime="' + itemDate + '">' + formattedDate + '</time>' +
-                '</p>' +
-              '</div>' +
             '</div>' +
           '</a>' +
         '</div>';
