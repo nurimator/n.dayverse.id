@@ -1,10 +1,10 @@
 ---
 layout: null
 permalink: /en/all/
-lang: id
+lang: en
 ---
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,7 +85,7 @@ lang: id
   };
 
   const searchableData = [];
-  {% for item in site.articles_id %}
+  {% for item in site.articles_en %}
     searchableData.push({
       title: {{ item.title | default: "Judul tidak ditemukan" | jsonify }}, 
       url: {{ item.url | jsonify }}, 
@@ -96,7 +96,7 @@ lang: id
       content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
-  {% for item in site.resources_id %}
+  {% for item in site.resources_en %}
     searchableData.push({
       title: {{ item.title | default: "Judul tidak ditemukan" | jsonify }}, 
       url: {{ item.url | jsonify }}, 
@@ -107,7 +107,7 @@ lang: id
       content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
-  {% for item in site.media_id %}
+  {% for item in site.media_en %}
     searchableData.push({
       title: {{ item.title | default: "Judul tidak ditemukan" | jsonify }}, 
       url: {{ item.url | jsonify }}, 
