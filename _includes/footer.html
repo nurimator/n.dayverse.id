@@ -1,12 +1,25 @@
 <footer class="bg-gray-900 border-t border-gray-800">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex flex-wrap gap-8 md:grid md:grid-cols-5">
+        <!-- 
+          MODIFIED: Combined Flexbox and Grid for ultimate responsive control.
+          - `flex flex-wrap`: Default behavior for the smallest screens (<640px). Items will flow and wrap naturally.
+          - `sm:grid sm:grid-cols-3`: At the 640px breakpoint, it switches to a 3-column grid.
+          - `md:grid-cols-5`: At the 768px breakpoint, it expands to your 5-column desktop grid.
+        -->
+        <div class="flex flex-wrap sm:grid sm:grid-cols-3 md:grid-cols-5 gap-8">
+            <!-- 
+              MODIFIED: Col-span classes are adjusted for the new grid system.
+              - No specific width class is needed for the smallest screens; it will flow naturally.
+              - `md:col-span-2` ensures it takes up two columns in the desktop grid layout.
+            -->
             <div class="md:col-span-2 lg:col-span-2">
                 <a href="#" class="text-2xl font-bold text-white tracking-wider">
                     nurimator<span class="text-blue-500">.com</span>
                 </a>
                 <p class="mt-4 text-gray-400 max-w-xs">Sebuah ruang berkarya dari bentuk dan tanya, menghadirkan gerak, warna, dan kisah yang menyimpan makna.</p>
             </div>
+
+            <!-- These items will now flow naturally on mobile and fit into the grid on larger screens -->
             <div>
                 <h4 class="font-bold text-white mb-4">Navigasi</h4>
                 <ul class="space-y-2">
@@ -25,7 +38,12 @@
                     <li><a href="/disclaimer" class="text-gray-400 hover:text-blue-400">Disclaimer</a></li>
                 </ul>
             </div>
-            <div>
+            <!-- 
+              MODIFIED: Responsive col-span remains to control this element's position in the grid layouts.
+              - `sm:col-span-3`: Makes it take the full width of the 3-column grid, forcing it to a new line.
+              - `md:col-span-1`: Resets it to take up a single column in the 5-column desktop grid.
+            -->
+            <div class="sm:col-span-3 md:col-span-1">
                 <h4 class="font-bold text-white mb-4">Follow us</h4>
                 <div class="flex space-x-4">
                     <!-- Instagram -->
