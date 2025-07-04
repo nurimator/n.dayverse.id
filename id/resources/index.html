@@ -98,7 +98,7 @@ lang: id
       content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
-  {% for item in site.projects_id %}
+  {% for item in site.media_id %}
     searchableData.push({
       title: {{ item.title | jsonify }},
       url: {{ item.url | jsonify }},
