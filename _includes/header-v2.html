@@ -7,7 +7,7 @@
             <!-- Desktop Search, Language Switcher, and Main Menu Dropdown -->
             <div class="hidden lg:flex items-center space-x-4">
                 <!-- Search Form -->
-                <form id="desktop-search-form" action="/id/search/" method="GET" class="relative">
+                <form id="desktop-search-form" action="/id/all/" method="GET" class="relative">
                     <input type="text" name="q" placeholder="Cari..." class="bg-gray-800 border border-gray-700 rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
                     <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-3 text-gray-500 hover:text-white flex items-center rounded-l-full">
                         <!-- Search Icon: Changed fill to currentColor, width/height match w-4 h-4 -->
@@ -75,7 +75,7 @@
         
         <!-- Mobile Search View (hidden by default) -->
         <div id="mobile-search-view" class="hidden items-center h-16 lg:h-20">
-            <form id="mobile-search-form" action="/id/search/" method="GET" class="relative w-full flex items-center">
+            <form id="mobile-search-form" action="/id/all/" method="GET" class="relative w-full flex items-center">
                 <input type="text" name="q" id="mobile-search-input" placeholder="Cari di situs ini..." class="bg-gray-800 border border-gray-700 rounded-full py-3 pl-12 pr-4 text-base w-full focus:ring-2 focus:ring-blue-500 focus:outline-none text-white">
                 <button type="submit" aria-label="Cari" class="absolute left-0 top-0 h-full px-4 text-gray-500 flex items-center rounded-l-full">
                     <!-- Mobile Search Input Icon: Changed fill to currentColor, width/height match w-5 h-5 -->
