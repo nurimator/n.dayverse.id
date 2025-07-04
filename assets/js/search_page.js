@@ -3,8 +3,8 @@
  * * Berisi semua skrip yang hanya berjalan di halaman pencarian/daftar.
  * - Mencegah layout shift dengan skeleton loader.
  * - Memfilter, menyortir, dan merender daftar item.
- * - Mengelola state filter (jenis, kategori, urutan).
  * - Menampilkan pesan "tidak ada hasil" yang lebih informatif dengan opsi reset filter.
+ * - [PERBAIKAN] Secara dinamis mengubah class #posts-container untuk mendukung layout flex-grow.
  * - Tergantung pada variabel global `searchableData` dan `pageConfig` yang harus 
  * didefinisikan di HTML sebelum skrip ini dimuat.
  */
@@ -42,10 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- Fungsi-fungsi Inti Halaman Pencarian ---
 
-  /**
-   * [BARU] Membuat HTML untuk satu kartu skeleton.
-   * @returns {string} String HTML untuk skeleton card.
-   */
   const createSkeletonCardHTML = () => {
     return `
       <div class="bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700/80">
@@ -63,12 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
     `;
   };
 
-  /**
-   * [BARU] Menampilkan beberapa kartu skeleton untuk mencegah layout shift.
-   * @param {number} count - Jumlah skeleton yang akan ditampilkan.
-   */
   const showSkeletons = (count = 8) => {
     if (!postsContainer) return;
+    // [PERBAIKAN] Pastikan kontainer adalah grid saat menampilkan skeleton
+    postsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6';
     postsContainer.innerHTML = '';
     for (let i = 0; i < count; i++) {
       postsContainer.innerHTML += createSkeletonCardHTML();
@@ -195,10 +189,6 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>`;
   };
 
-  /**
-   * [DIPERBARUI] Fungsi utama untuk memfilter, menyortir, dan memperbarui DOM dengan hasil.
-   * Sekarang menyertakan logika pesan "tidak ada hasil" yang lebih baik.
-   */
   const updateView = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = (urlParams.get('q') || '').toLowerCase().trim();
@@ -225,9 +215,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     postsContainer.innerHTML = '';
     if (filteredItems.length > 0) {
+      // [PERBAIKAN] Setel ulang ke mode grid jika ada hasil
+      postsContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6';
       filteredItems.forEach(item => { postsContainer.innerHTML += createItemCardHTML(item); });
     } else {
-      // [PERUBAHAN] Logika baru untuk pesan "Tidak ada hasil"
+      // [PERBAIKAN] Ubah kontainer menjadi flex untuk menengahkan pesan dan memastikannya tumbuh
+      postsContainer.className = 'flex flex-grow items-center justify-center';
+      
       const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
       const otherLang = currentLang === 'id' ? 'en' : 'id';
       const otherLangName = currentLang === 'id' ? 'English' : 'Bahasa Indonesia';
@@ -235,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const newPath = window.location.pathname.replace(`/${currentLang}/`, `/${otherLang}/`);
       const alternateUrl = newPath + window.location.search;
       
-      let messageParts = ['<p>Tidak ada hasil yang ditemukan.</p>'];
+      let messageParts = ['<p class="text-lg">Tidak ada hasil yang ditemukan.</p>'];
       const areFiltersActive = selectedType !== 'all' || selectedCategory !== 'all';
 
       if (areFiltersActive) {
@@ -248,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messageParts.push(`<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>`);
       }
 
-      postsContainer.innerHTML = `<div class="text-center text-gray-400 col-span-full">${messageParts.join('')}</div>`;
+      postsContainer.innerHTML = `<div class="text-center">${messageParts.join('')}</div>`;
     }
     
     if (pageTitle) {
@@ -258,9 +252,6 @@ document.addEventListener('DOMContentLoaded', function () {
     repopulateAllDropdowns();
   };
   
-  /**
-   * [DIPERBARUI] Inisialisasi halaman dengan menampilkan skeleton loader terlebih dahulu.
-   */
   const initializePage = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get('q');
@@ -276,10 +267,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     setupDropdowns();
     
-    // [PERUBAHAN] Tampilkan skeleton sebelum memuat data asli
     showSkeletons(8);
 
-    // Beri sedikit waktu agar browser bisa merender skeleton sebelum proses berat dimulai
     setTimeout(() => {
         updateView();
     }, 10);
