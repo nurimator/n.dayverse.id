@@ -1,6 +1,6 @@
 /**
- * search.js (Global Version with Pagination)
- * Mengelola pencarian, pemfilteran, pengurutan, dan paginasi.
+ * search.js (Global Version - No Pagination)
+ * Mengelola pencarian, pemfilteran, pengurutan, dan UI header.
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const mobileSearchInput = document.getElementById('mobile-search-input');
   const postsContainer = document.getElementById('posts-container');
   const pageTitle = document.getElementById('page-title');
-  const paginationContainer = document.getElementById('pagination-container');
 
   // --- Elemen Dropdown Kustom ---
   const typeFilterButton = document.getElementById('type-filter-button');
@@ -31,6 +30,40 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterButton = document.getElementById('sort-filter-button');
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   
+  // --- Logika UI Header (Berjalan di semua halaman) ---
+  if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  if (desktopDropdownButton) {
+    desktopDropdownButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      desktopDropdownMenu.classList.toggle('hidden');
+    });
+  }
+  // PERBAIKAN: Menambahkan kembali logika untuk menampilkan/menyembunyikan search bar seluler
+  if (mobileSearchOpenButton) {
+    mobileSearchOpenButton.addEventListener('click', () => {
+      if (headerMainContent) headerMainContent.classList.add('hidden');
+      if (mobileSearchView) {
+        mobileSearchView.classList.remove('hidden');
+        mobileSearchView.classList.add('flex');
+      }
+      if (mobileSearchInput) mobileSearchInput.focus();
+    });
+  }
+  if (mobileSearchCloseButton) {
+    mobileSearchCloseButton.addEventListener('click', () => {
+      if (headerMainContent) headerMainContent.classList.remove('hidden');
+      if (mobileSearchView) {
+        mobileSearchView.classList.add('hidden');
+        mobileSearchView.classList.remove('flex');
+      }
+    });
+  }
+  
+  // --- Logika Pencarian (Hanya berjalan di halaman pencarian) ---
+  if (!document.getElementById('search-page-marker')) {
+    return; // Berhenti jika bukan halaman pencarian
+  }
+
   // --- Validasi Data & State ---
   if (typeof searchableData === 'undefined' || searchableData.length === 0) {
     console.error('Error: Variabel `searchableData` tidak ditemukan atau kosong.');
@@ -41,17 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let selectedType = 'all';
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
-  let currentPage = 1;
-  let itemsPerPage = 12; // Default, akan diupdate
-
-  // --- Logika UI Header ---
-  if (mobileMenuButton) mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-  if (desktopDropdownButton) {
-    desktopDropdownButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      desktopDropdownMenu.classList.toggle('hidden');
-    });
-  }
   
   // --- FUNGSI BANTUAN ---
   const truncateWords = (text, numWords) => {
@@ -61,15 +83,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (words.length <= numWords) return contentWithoutCodeblocks;
     return words.slice(0, numWords).join(' ') + '...';
   };
-
-  const getItemsPerPage = () => {
-    // Tailwind sm breakpoint = 640px
-    return window.innerWidth < 640 ? 5 : 12;
-  };
   
-  // FUNGSI UNTUK MENGISI DROPDOWN KUSTOM DENGAN STATUS AKTIF
   const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
-    menuElement.innerHTML = ''; // Kosongkan menu
+    menuElement.innerHTML = '';
     options.forEach(option => {
       const optionEl = document.createElement('a');
       optionEl.href = '#';
@@ -80,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       optionEl.textContent = option.label;
       optionEl.dataset.value = option.value;
-
       optionEl.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -91,13 +106,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   };
   
-  // --- Logika Dropdown Kustom ---
   const setupDropdowns = () => {
     const allMenus = [typeFilterMenu, categoryFilterMenu, sortFilterMenu, desktopDropdownMenu];
     const closeAllMenus = () => allMenus.forEach(menu => menu && menu.classList.add('hidden'));
     window.addEventListener('click', () => closeAllMenus());
 
     const createToggle = (button, menu) => {
+      if (!button || !menu) return;
       button.addEventListener('click', (e) => {
         e.stopPropagation();
         const isHidden = menu.classList.contains('hidden');
@@ -120,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
       selectedType = value;
-      currentPage = 1; updateView();
+      updateView();
     });
 
     const categories = new Set();
@@ -133,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.from(categories).sort().forEach(cat => categoryOptions.push({ value: cat, label: cat }));
     populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value) => {
       selectedCategory = value;
-      currentPage = 1; updateView();
+      updateView();
     });
 
     const sortOptions = [
@@ -142,12 +157,11 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     populateCustomDropdown(sortFilterMenu, sortOptions, currentSortCriteria, (value) => {
         currentSortCriteria = value;
-        currentPage = 1; updateView();
+        updateView();
     });
   };
 
   const createItemCardHTML = (item) => {
-    // ... (Fungsi ini tidak berubah, tanggal sudah dihapus sebelumnya) ...
     const itemUrl = item.url || '#';
     const itemImage = item.image || 'https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';
     const itemCategory = (item.categories && item.categories[0]) ? item.categories[0].toUpperCase() : 'UNCATEGORIZED';
@@ -155,37 +169,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const itemExcerpt = truncateWords(item.content, 20);
     const itemType = item.type || '';
     return '<div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1"><a href="'+itemUrl+'" class="block group h-full flex flex-col"><div class="relative flex-shrink-0"><div class="absolute inset-0 shimmer"></div><img src="'+itemImage+'" alt="[Gambar] '+itemTitle+'" class="w-full h-48 object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity=\'1\'; this.previousElementSibling.remove();"></div><div class="p-5 flex flex-col flex-grow"><div class="flex items-center space-x-2"><span class="text-xs font-semibold text-cyan-400">'+itemType.toUpperCase()+'</span><span class="text-gray-500">&bull;</span><span class="text-xs font-semibold text-blue-400">'+itemCategory+'</span></div><h3 class="mt-2 text-lg font-bold text-white transition-colors group-hover:text-blue-400 line-clamp-2 flex-grow">'+itemTitle+'</h3><p class="mt-2 text-gray-400 text-sm line-clamp-2">'+itemExcerpt+'</p></div></a></div>';
-  };
-
-  // FUNGSI BARU: Untuk membuat tombol paginasi
-  const renderPagination = (totalItems) => {
-    if (!paginationContainer) return;
-    paginationContainer.innerHTML = '';
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-    if (totalPages <= 1) return;
-
-    // Tombol "Sebelumnya"
-    const prevButton = document.createElement('button');
-    prevButton.textContent = 'Sebelumnya';
-    prevButton.className = 'px-4 py-2 rounded-lg ' + (currentPage === 1 ? 'text-gray-600 cursor-not-allowed' : 'text-white bg-gray-700 hover:bg-blue-600');
-    if (currentPage === 1) prevButton.disabled = true;
-    prevButton.addEventListener('click', () => {
-        currentPage--;
-        updateView();
-    });
-    paginationContainer.appendChild(prevButton);
-
-    // Tombol "Berikutnya"
-    const nextButton = document.createElement('button');
-    nextButton.textContent = 'Berikutnya';
-    nextButton.className = 'px-4 py-2 rounded-lg ' + (currentPage === totalPages ? 'text-gray-600 cursor-not-allowed' : 'text-white bg-gray-700 hover:bg-blue-600');
-    if (currentPage === totalPages) nextButton.disabled = true;
-    nextButton.addEventListener('click', () => {
-        currentPage++;
-        updateView();
-    });
-    paginationContainer.appendChild(nextButton);
   };
 
   const updateView = () => {
@@ -218,14 +201,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Logika paginasi
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedItems = filteredItems.slice(startIndex, endIndex);
-
+    // PERUBAHAN: Menghapus logika paginasi, menampilkan semua hasil
     postsContainer.innerHTML = '';
-    if (paginatedItems.length > 0) {
-      paginatedItems.forEach(item => {
+    if (filteredItems.length > 0) {
+      filteredItems.forEach(item => {
         postsContainer.innerHTML += createItemCardHTML(item);
       });
     } else {
@@ -238,7 +217,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     repopulateAllDropdowns();
-    renderPagination(filteredItems.length);
   };
   
   // --- EVENT LISTENERS ---
@@ -250,18 +228,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (desktopSearchForm) desktopSearchForm.addEventListener('submit', handleSearch);
   if (mobileSearchForm) mobileSearchForm.addEventListener('submit', handleSearch);
 
-  window.addEventListener('resize', () => {
-    const newItemsPerPage = getItemsPerPage();
-    if (newItemsPerPage !== itemsPerPage) {
-        itemsPerPage = newItemsPerPage;
-        currentPage = 1;
-        updateView();
-    }
-  });
-
   // --- INISIALISASI ---
   const initializePage = () => {
-      itemsPerPage = getItemsPerPage(); // Setel item per halaman saat pertama kali dimuat
       const urlParams = new URLSearchParams(window.location.search);
       const initialQuery = urlParams.get('q');
       if (initialQuery) {
@@ -273,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function () {
       updateView();
   };
 
-  if (document.getElementById('search-page-marker')) {
-    initializePage();
-  }
+  initializePage();
+
 });
