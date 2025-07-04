@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const repopulateAllDropdowns = () => {
     // PERUBAHAN: Logika navigasi baru
     const typeToUrlMap = {
-        'all': '/id/search/', 'Artikel': '/id/articles/',
+        'all': '/id/all/', 'Artikel': '/id/articles/',
         'Bahan': '/id/resources/', 'Media': '/id/media/'
     };
     const typeOptions = [
