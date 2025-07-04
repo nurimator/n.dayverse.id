@@ -18,10 +18,10 @@ github_username: nurimator
 # ========================
 
 collections:
-  article_id:
+  articles_id:
     output: true
     permalink: /id/articles/:title/
-  article_en:
+  articles_en:
     output: true
     permalink: /en/articles/:title/
   media_id:
