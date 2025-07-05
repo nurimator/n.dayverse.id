@@ -61,7 +61,20 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           localStorage.setItem('preferredLang', targetLang);
-          let newPath = path.startsWith(`/${currentLang}/`) ? path.replace(`/${currentLang}/`, `/${targetLang}/`) : `/${targetLang}${path}`;
+
+          const isHome = path === '/' || path === '/index.html' || path === `/${currentLang}/index.html`;
+          let newPath;
+
+          if (isHome && targetLang === 'id') {
+            newPath = '/';
+          } else if (isHome && targetLang === 'en') {
+            newPath = '/en/';
+          } else {
+            newPath = path.startsWith(`/${currentLang}/`)
+              ? path.replace(`/${currentLang}/`, `/${targetLang}/`)
+              : `/${targetLang}${path}`;
+          }
+
           window.location.href = newPath + window.location.search;
         });
       }

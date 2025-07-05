@@ -7,25 +7,24 @@ layout: null
 <head>
 <script>
   (function () {
-    // Jangan jalankan kalau sudah di path bahasa
-    if (window.location.pathname.startsWith('/id/') || window.location.pathname.startsWith('/en/')) return;
+    // Jangan jalankan kalau sudah berada di halaman bahasa
+    const path = window.location.pathname;
+    if (path.startsWith('/en/')) return;
 
-    // Cek apakah user pernah pilih bahasa sebelumnya (disimpan di localStorage)
     const savedLang = localStorage.getItem('preferredLang');
-    if (savedLang === 'id') {
-      window.location.replace('/id/');
-      return;
-    } else if (savedLang === 'en') {
+    if (savedLang === 'en') {
       window.location.replace('/en/');
       return;
     }
 
-    // Kalau belum pernah pilih, deteksi dari bahasa browser
-    const browserLang = navigator.language || navigator.userLanguage;
-    if (browserLang.startsWith('id')) {
-      window.location.replace('/id/');
-    } else {
-      window.location.replace('/en/');
+    if (!savedLang) {
+      const browserLang = navigator.language || navigator.userLanguage;
+      if (!browserLang.startsWith('id')) {
+        localStorage.setItem('preferredLang', 'en');
+        window.location.replace('/en/');
+      } else {
+        localStorage.setItem('preferredLang', 'id');
+      }
     }
   })();
 </script>
@@ -126,13 +125,14 @@ layout: null
                     fetchpriority="high"
                     width="800"
                     height="450"
-                    class="w-full h-auto">
+                    class="w-full h-auto"
+                    onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
                 </div>
 
                 <!-- Konten Teks -->
                 <div class="max-w-4xl mx-auto">
                 <h1 class="hero-title font-extrabold text-white mb-6">
-                    Selamat Datang di Website <span class="text-blue-400">Nurimator</span>.
+                    ID Selamat Datang di Website <span class="text-blue-400">Nurimator</span>.
                 </h1>
                 <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
                     Seorang animator dan 3D artist dengan fokus pada dunia Minecraft. Di sini, saya berbagi karya, proses kreatif, dan minat saya dalam belajar hal-hal baru di dunia digital.
