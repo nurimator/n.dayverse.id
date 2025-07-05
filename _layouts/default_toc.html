@@ -51,26 +51,48 @@
 </head>
 <body class="bg-[#18212f] text-gray-300" x-data="{ tocOpen: false }">
 
-    <!-- ===== Mobile Table of Contents ===== -->
-    <!-- PERUBAHAN: Menambahkan backdrop-blur-sm untuk efek blur -->
-    <div x-show="tocOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" @click="tocOpen = false"></div>
-    
-    <!-- Mobile TOC Handle/Button -->
-    <button @click="tocOpen = !tocOpen" class="lg:hidden fixed bottom-6 left-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+    <!-- ===== Mobile TOC Handle/Button ===== -->
+    <!-- PERUBAHAN: Posisi dan gaya tombol diubah menjadi handle di sisi kiri -->
+    <button @click="tocOpen = !tocOpen" class="lg:hidden fixed top-1/3 -translate-y-1/2 left-0 z-30 w-10 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-r-lg flex items-center justify-center shadow-lg transition-all">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8M4 18h16" />
         </svg>
     </button>
 
-    <!-- Mobile TOC Panel -->
-    <!-- PERUBAHAN: Mengubah tampilan menjadi kartu (card) -->
-    <aside x-show="tocOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="fixed top-0 left-0 w-80 h-full bg-[#18212f] z-50 shadow-2xl p-6 overflow-y-auto lg:hidden border-r border-gray-700/80">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-lg font-bold text-white">Daftar Isi</h3>
-            <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+    <!-- ===== Mobile TOC Modal ===== -->
+    <!-- PERUBAHAN: Diubah menjadi modal yang muncul di tengah layar -->
+    <div 
+        x-show="tocOpen" 
+        x-transition:enter="transition ease-out duration-300" 
+        x-transition:enter-start="opacity-0" 
+        x-transition:enter-end="opacity-100" 
+        x-transition:leave="transition ease-in duration-200" 
+        x-transition:leave-start="opacity-100" 
+        x-transition:leave-end="opacity-0" 
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center" 
+        @click="tocOpen = false"
+    >
+        <!-- Modal Panel -->
+        <div 
+            @click.stop 
+            x-show="tocOpen" 
+            x-transition:enter="transition ease-out duration-300" 
+            x-transition:enter-start="opacity-0 scale-95" 
+            x-transition:enter-end="opacity-100 scale-100" 
+            x-transition:leave="transition ease-in duration-200" 
+            x-transition:leave-start="opacity-100 scale-100" 
+            x-transition:leave-end="opacity-0 scale-95" 
+            class="relative bg-[#1f2937] w-[75vw] h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-700/80"
+        >
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-4 border-b border-gray-700/80 flex-shrink-0">
+                <h3 class="text-lg font-bold text-white">Daftar Isi</h3>
+                <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto text-sm"></nav>
         </div>
-        <nav id="mobile-toc" class="space-y-2"></nav>
-    </aside>
+    </div>
 
     {% include header-v2.html %}
 
@@ -82,8 +104,8 @@
                     <!-- ===== Desktop Table of Contents (Sticky) ===== -->
                     <aside class="hidden lg:block lg:col-span-2">
                         <div class="sticky top-28">
-                            <!-- PERUBAHAN: Mengubah tampilan menjadi kartu (card) -->
-                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                            <!-- PERUBAHAN: Warna background diubah menjadi gray-900 -->
+                            <div class="bg-gray-900 p-6 rounded-2xl border border-gray-700/80 shadow">
                                 <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
                                 <nav id="desktop-toc" class="space-y-2"></nav>
                             </div>
@@ -203,6 +225,7 @@
                 const link = document.createElement('a');
                 link.href = `#${slug}`;
                 link.textContent = text;
+                // PERUBAHAN: Ukuran font disesuaikan dengan text-sm (14px)
                 link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
 
                 if (heading.tagName === 'H3') {
@@ -211,7 +234,6 @@
                 
                 const mobileLink = link.cloneNode(true);
                 
-                // PERUBAHAN: Menambahkan event listener untuk menutup panel mobile
                 mobileLink.addEventListener('click', () => {
                     document.body.dispatchEvent(new CustomEvent('close-toc'));
                 });
@@ -229,7 +251,6 @@
                 }
             }
 
-            // Fungsi untuk menutup TOC di mobile yang dipicu oleh event
             document.body.addEventListener('close-toc', () => {
                 const alpineComponent = document.body.__x;
                 if (alpineComponent && alpineComponent.data.tocOpen) {
@@ -240,7 +261,6 @@
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');
-                    // Menargetkan kedua link (desktop & mobile)
                     const correspondingLinks = document.querySelectorAll(`.toc-link[href="#${id}"]`);
                     if (entry.isIntersecting) {
                         document.querySelectorAll('.toc-link.active').forEach(link => link.classList.remove('active'));
