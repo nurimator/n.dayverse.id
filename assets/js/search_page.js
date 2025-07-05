@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   const desktopSearchInput = document.getElementById('desktop-search-input');
   const mobileSearchInput = document.getElementById('mobile-search-input');
+  const shimmerTitle = document.getElementById('page-title-shimmer');
 
   // Validasi Data & State
   if (typeof searchableData === 'undefined' || typeof pageConfig === 'undefined') {
@@ -222,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function () {
         ? `Hasil untuk "${searchQuery}"`
         : pageConfig.defaultTitle;
 
-      // Hapus efek shimmer dan background setelah konten diisi
-      pageTitle.classList.remove('shimmer', 'bg-gray-700');
+      // Hapus shimmer
+      if (shimmerTitle) shimmer.remove();
     }
     
     repopulateAllDropdowns();
