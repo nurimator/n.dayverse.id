@@ -32,11 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
    */
   const setupLanguageSwitcher = () => {
     const path = window.location.pathname;
-    const isHome = path === '/' || path === '/index.html' || path === '/en/' || path === '/en/index.html';
-
-    // Jangan jalankan switcher jika sedang di homepage
-    if (isHome) return;
-
     const currentLang = path.includes('/en/') ? 'en' : 'id';
     const currentLangDisplay = document.getElementById('current-lang-display');
     if (currentLangDisplay) currentLangDisplay.textContent = currentLang.toUpperCase();
@@ -66,11 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           localStorage.setItem('preferredLang', targetLang);
-
-          let newPath = path.startsWith(`/${currentLang}/`)
-            ? path.replace(`/${currentLang}/`, `/${targetLang}/`)
-            : `/${targetLang}${path}`;
-
+          let newPath = path.startsWith(`/${currentLang}/`) ? path.replace(`/${currentLang}/`, `/${targetLang}/`) : `/${targetLang}${path}`;
           window.location.href = newPath + window.location.search;
         });
       }
@@ -78,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     langLinks.forEach(applyLinkLogic);
   };
-
 
   /**
    * Menangani pengiriman formulir pencarian.
