@@ -171,7 +171,7 @@
                     <div class="sticky top-28 space-y-8">
                         <!-- ===== PERUBAHAN AUTHOR BOX ===== -->
                         <!-- Layout responsif: horizontal di mobile, vertikal di desktop -->
-                        <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
+                        <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow z-10">
                             <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
                             <div class="text-left lg:text-center">
                                 <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
@@ -181,7 +181,7 @@
                         </div>
                         
                         <!-- ===== PERUBAHAN LATEST POSTS ===== -->
-                        <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                        <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow z-10">
                             <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
                             <div class="space-y-4">
                                 {% assign latest_posts = site.articles_id | sort: "date" | reverse %}
@@ -206,7 +206,7 @@
     </main>
         <!-- Gradien belakang hanya di mobile, menempel di atas footer -->
     <div class="relative lg:hidden z-0">
-        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-gray-900 via-gray-900/90 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-x-0 bottom-0 h-192 bg-gradient-to-t from-gray-900 via-gray-900/90 to-transparent pointer-events-none"></div>
     </div>
 
     <!-- Menyisipkan file footer.html -->
