@@ -7,27 +7,27 @@ layout: null
 <head>
 <script>
   (function () {
-    // Jangan jalankan kalau sudah berada di halaman bahasa
-    const path = window.location.pathname;
-    if (path.startsWith('/en/')) return;
+    // Jangan jalankan kalau sudah di path bahasa
+    if (window.location.pathname.startsWith('/id/') || window.location.pathname.startsWith('/en/')) return;
 
+    // Cek apakah user pernah pilih bahasa sebelumnya (disimpan di localStorage)
     const savedLang = localStorage.getItem('preferredLang');
-    if (savedLang === 'en') {
+    if (savedLang === 'id') {
+      window.location.replace('/id/');
+      return;
+    } else if (savedLang === 'en') {
       window.location.replace('/en/');
       return;
     }
 
-    if (!savedLang) {
-      const browserLang = navigator.language || navigator.userLanguage;
-      if (!browserLang.startsWith('id')) {
-        localStorage.setItem('preferredLang', 'en');
-        window.location.replace('/en/');
-      } else {
-        localStorage.setItem('preferredLang', 'id');
-      }
+    // Kalau belum pernah pilih, deteksi dari bahasa browser
+    const browserLang = navigator.language || navigator.userLanguage;
+    if (browserLang.startsWith('id')) {
+      window.location.replace('/id/');
+    } else {
+      window.location.replace('/en/');
     }
   })();
-</script>
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -126,8 +126,7 @@ layout: null
                     fetchpriority="high"
                     width="800"
                     height="450"
-                    class="w-full h-auto rounded-2xl"
-                    onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
+                    class="w-full h-auto">
                 </div>
 
                 <!-- Konten Teks -->
