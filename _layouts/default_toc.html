@@ -23,7 +23,6 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Warna default untuk mobile, akan ditimpa di body class */
             background-color: #18212f;
             color: #d1d5db;
         }
@@ -42,11 +41,20 @@
         pre[class*="language-"] { font-size: 0.875rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 1rem; overflow-x: auto; }
         .article-content img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 4px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
         
-        /* Styling untuk Active TOC Link */
         .toc-link.active {
-            color: #60a5fa; /* text-blue-400 */
+            color: #60a5fa;
             transform: scale(1.05);
             font-weight: 600;
+        }
+
+        /* PERUBAHAN: Menambahkan grid fleksibel untuk desktop (xl) */
+        @media (min-width: 1280px) {
+            .main-grid-xl {
+                /* Mendefinisikan lebar kolom TOC menggunakan variabel CSS */
+                grid-template-columns: var(--toc-width, 256px) 1fr auto;
+                /* Menambahkan transisi untuk perubahan lebar kolom yang mulus */
+                transition: grid-template-columns 0.3s ease-in-out;
+            }
         }
     </style>
 </head>
@@ -54,7 +62,7 @@
 <body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false }">
 
     <!-- ===== Mobile TOC Handle/Button ===== -->
-    <button @click="tocOpen = !tocOpen" class="lg:hidden fixed top-1/3 -translate-y-1/2 left-0 z-30 w-10 h-16 bg-gray-700/30 hover:bg-gray-600/50 text-gray-200 rounded-r-lg flex items-center justify-center shadow-lg transition-all border-y border-r border-gray-400/10 backdrop-blur-sm">
+    <button @click="tocOpen = !tocOpen" class="xl:hidden fixed top-1/3 -translate-y-1/2 left-0 z-30 w-10 h-16 bg-gray-700/30 hover:bg-gray-600/50 text-gray-200 rounded-r-lg flex items-center justify-center shadow-lg transition-all border-y border-r border-gray-400/10 backdrop-blur-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8M4 18h16" />
         </svg>
@@ -69,7 +77,7 @@
         x-transition:leave="transition ease-in duration-200" 
         x-transition:leave-start="opacity-100" 
         x-transition:leave-end="opacity-0" 
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center p-4" 
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 xl:hidden flex items-center justify-center p-4" 
         @click="tocOpen = false"
     >
         <!-- Modal Panel -->
@@ -84,12 +92,10 @@
             x-transition:leave-end="opacity-0 scale-95" 
             class="relative bg-[#1f2937] w-full max-w-md max-h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-700/80"
         >
-            <!-- Modal Header -->
             <div class="flex justify-between items-center p-4 border-b border-gray-700/80 flex-shrink-0">
                 <h3 class="text-lg font-bold text-white">Daftar Isi</h3>
                 <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
             </div>
-            <!-- Modal Body -->
             <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto text-xs"></nav>
         </div>
     </div>
@@ -98,25 +104,34 @@
 
     <div class="relative">
         <main class="relative z-10 pt-16 lg:pt-18">
-            <!-- PERUBAHAN: Container diubah menjadi fluid dengan max-width -->
             <div class="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-                <!-- PERUBAHAN: Grid diubah menjadi fluid dengan kolom berbasis fraksi (fr) -->
-                <div class="grid grid-cols-1 lg:grid-cols-[minmax(200px,1.5fr)_minmax(0,7fr)_minmax(300px,2.5fr)] gap-8 xl:gap-12">
+                <!-- PERUBAHAN: Menambahkan x-data dan kelas grid dinamis -->
+                <div x-data="{ tocExpanded: true }" class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-8 xl:main-grid-xl" :style="tocExpanded ? '--toc-width: 256px' : '--toc-width: 80px'">
                     
-                    <!-- ===== Desktop Table of Contents (Sticky) ===== -->
-                    <!-- PERUBAHAN: lg:col-span-2 dihapus -->
-                    <aside class="hidden lg:block">
+                    <!-- ===== Desktop Table of Contents (Sticky & Expandable) ===== -->
+                    <aside class="hidden xl:block">
                         <div class="sticky top-28">
-                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
-                                <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
-                                <nav id="desktop-toc" class="space-y-2"></nav>
+                            <!-- Expanded View -->
+                            <div x-show="tocExpanded" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="h-full">
+                                <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-lg font-bold text-white">Daftar Isi</h3>
+                                        <button @click="tocExpanded = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+                                    </div>
+                                    <nav id="desktop-toc" class="space-y-2"></nav>
+                                </div>
+                            </div>
+                            <!-- Collapsed View -->
+                            <div x-show="!tocExpanded" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                                <button @click="tocExpanded = true" class="w-full h-24 bg-[#18212f] hover:bg-[#1f2937] p-4 rounded-2xl border border-gray-700/80 shadow flex flex-col items-center justify-center transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                                </button>
                             </div>
                         </div>
                     </aside>
 
                     <!-- ===== Main Content ===== -->
-                    <!-- PERUBAHAN: lg:col-span-7 dihapus -->
-                    <div>
+                    <div class="lg:col-span-8 lg:col-start-2 xl:col-auto">
                         <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
                                 <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
@@ -127,11 +142,9 @@
                                     <span>{{ page.date | date: "%d %B %Y" }}</span>
                                 </div>
                             </div>
-
                             {% if page.image %}
                             <img src="{{ page.image | relative_url }}" alt="Gambar utama untuk {{ page.title }}" class="w-full rounded-2xl shadow-lg mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Image+Not+Found';">
                             {% endif %}
-
                             <div class="prose prose-invert max-w-none article-content">
                                 {{ content }}
                             </div>
@@ -139,9 +152,8 @@
                     </div>
 
                     <!-- ===== Right Sidebar (Sticky) ===== -->
-                    <!-- PERUBAHAN: lg:col-span-3 dihapus -->
-                    <aside>
-                        <div class="sticky top-28 space-y-8">
+                    <aside class="lg:col-span-3 xl:col-auto">
+                        <div class="sticky top-28 space-y-6">
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
                                 <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
                                 <div class="text-left lg:text-center">
@@ -150,7 +162,6 @@
                                     <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
                                 </div>
                             </div>
-                            
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
                                 <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
                                 <div class="space-y-4">
@@ -176,7 +187,6 @@
                             </div>
                         </div>
                     </aside>
-
                 </div>
             </div>
         </main>
@@ -212,14 +222,13 @@
             const headings = content.querySelectorAll('h2, h3');
             let hasHeadings = false;
 
-            // Fungsi untuk menangani klik dan scroll kustom
             const handleTocClick = (event) => {
                 event.preventDefault();
                 const href = event.currentTarget.getAttribute('href');
                 const targetElement = document.querySelector(href);
 
                 if (targetElement) {
-                    const offset = window.innerHeight / 4; // 1/4 dari tinggi layar
+                    const offset = window.innerHeight / 4;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -228,7 +237,6 @@
                         behavior: 'smooth'
                     });
                     
-                    // Menutup panel TOC mobile setelah klik
                     document.body.dispatchEvent(new CustomEvent('close-toc'));
                 }
             };
@@ -257,23 +265,23 @@
                 link.textContent = text;
                 link.classList.add('block', 'text-xs', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
                 
-                // Menambahkan event listener untuk scroll kustom
                 link.addEventListener('click', handleTocClick);
 
                 if (heading.tagName === 'H3') {
                     link.classList.add('pl-4');
                 }
                 
-                // CloneNode akan menyalin event listener juga
                 const mobileLink = link.cloneNode(true);
+                mobileLink.addEventListener('click', handleTocClick);
                 
                 desktopTocContainer.appendChild(link);
                 mobileTocContainer.appendChild(mobileLink);
             });
             
             if (!hasHeadings) {
-                if (desktopTocContainer.parentElement.parentElement) {
-                    desktopTocContainer.parentElement.parentElement.style.display = 'none';
+                const desktopTocWrapper = document.querySelector('.xl\\:main-grid-xl > aside');
+                if (desktopTocWrapper) {
+                    desktopTocWrapper.style.display = 'none';
                 }
                 if (tocButton) {
                     tocButton.style.display = 'none';
