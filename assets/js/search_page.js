@@ -41,40 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentSortCriteria = 'date-desc';
 
   // --- Fungsi-fungsi Inti Halaman Pencarian ---
-
-  /**
-   * [BARU] Membuat HTML untuk satu kartu skeleton.
-   * @returns {string} String HTML untuk skeleton card.
-   */
-  const createSkeletonCardHTML = () => {
-    return `
-      <div class="bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-700/80">
-        <div class="relative h-48 shimmer"></div>
-        <div class="p-5">
-          <div class="flex items-center space-x-2">
-            <div class="h-4 w-1/4 rounded bg-gray-700 shimmer"></div>
-            <div class="h-4 w-1/4 rounded bg-gray-700 shimmer"></div>
-          </div>
-          <div class="h-6 w-3/4 mt-3 rounded bg-gray-700 shimmer"></div>
-          <div class="h-4 w-full mt-3 rounded bg-gray-700 shimmer"></div>
-          <div class="h-4 w-5/6 mt-2 rounded bg-gray-700 shimmer"></div>
-        </div>
-      </div>
-    `;
-  };
-
-  /**
-   * [BARU] Menampilkan beberapa kartu skeleton untuk mencegah layout shift.
-   * @param {number} count - Jumlah skeleton yang akan ditampilkan.
-   */
-  const showSkeletons = (count = 8) => {
-    if (!postsContainer) return;
-    postsContainer.innerHTML = '';
-    for (let i = 0; i < count; i++) {
-      postsContainer.innerHTML += createSkeletonCardHTML();
-    }
-  };
-
   const truncateWords = (text, numWords) => {
     if (!text) return '';
     const contentWithoutCodeblocks = text.replace(/```[\s\S]*?```/g, '');
@@ -275,9 +241,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     setupDropdowns();
-    
-    // [PERUBAHAN] Tampilkan skeleton sebelum memuat data asli
-    showSkeletons(8);
 
     // Beri sedikit waktu agar browser bisa merender skeleton sebelum proses berat dimulai
     setTimeout(() => {
