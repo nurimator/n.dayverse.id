@@ -216,9 +216,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       postsContainer.innerHTML = `<div class="text-center text-gray-400 col-span-full">${messageParts.join('')}</div>`;
     }
-    
+        
     if (pageTitle) {
-      pageTitle.textContent = searchQuery ? `Hasil untuk "${searchQuery}"` : pageConfig.defaultTitle;
+      pageTitle.textContent = searchQuery
+        ? `Hasil untuk "${searchQuery}"`
+        : pageConfig.defaultTitle;
+
+      // Hapus efek shimmer dan background setelah konten diisi
+      pageTitle.classList.remove('shimmer', 'bg-gray-700');
     }
     
     repopulateAllDropdowns();
