@@ -176,5 +176,6 @@ document.addEventListener('DOMContentLoaded', function () {
   setupLanguageSwitcher();
   if (desktopSearchForm) desktopSearchForm.addEventListener('submit', handleSearch);
   if (mobileSearchForm) mobileSearchForm.addEventListener('submit', handleSearch);
-
+  
+  window.scrollTo(0, 0);
 });
