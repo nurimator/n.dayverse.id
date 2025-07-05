@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
+    <title>{{ page.title }} | {{ site.title | default: "Nurimator" }}</title>
+    {% include favicon.html %}
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AlpineJS for Interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        
+    <!-- Prism JS for Code Highlighting -->
+    <link rel="stylesheet" href="{{ '/assets/prism/prism.css' | relative_url }}">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18212f;
+            color: #d1d5db;
+        }
+        .article-content p { font-size: 1rem; line-height: 1.75; margin-bottom: 1.5rem; text-align: left; }
+        .article-content h2 { font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; }
+        .article-content h3 { font-size: 1.125rem; font-weight: 600; color: #e5e7eb; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+        @media (min-width: 768px) {
+            .article-content h2 { font-size: 1.75rem; }
+            .article-content h3 { font-size: 1.5rem; }
+        }
+        .article-content a { font-size: 1rem; color: #60a5fa; text-decoration: underline; text-decoration-color: #60a5fa; transition: color 0.3s; }
+        .article-content a:hover { color: #93c5fd; }
+        .article-content ul { list-style-type: disc; font-size: 1rem; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
+        .article-content ol { list-style-type: decimal; font-size: 1rem; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
+        .article-content blockquote { font-size: 1rem; border-left: 4px solid #3b82f6; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #9ca3af; }
+        pre[class*="language-"] { font-size: 0.875rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 1rem; overflow-x: auto; }
+        .article-content img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 4px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
+        
+        /* Styling untuk Active TOC Link */
+        .toc-link.active {
+            color: #60a5fa; /* text-blue-400 */
+            transform: scale(1.05);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-[#18212f] text-gray-300" x-data="{ tocOpen: false }">
+
+    <!-- ===== Mobile Table of Contents ===== -->
+    <!-- PERUBAHAN: Menambahkan backdrop-blur-sm untuk efek blur -->
+    <div x-show="tocOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" @click="tocOpen = false"></div>
+    
+    <!-- Mobile TOC Handle/Button -->
+    <button @click="tocOpen = !tocOpen" class="lg:hidden fixed bottom-6 left-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+
+    <!-- Mobile TOC Panel -->
+    <!-- PERUBAHAN: Mengubah tampilan menjadi kartu (card) -->
+    <aside x-show="tocOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="fixed top-0 left-0 w-80 h-full bg-[#18212f] z-50 shadow-2xl p-6 overflow-y-auto lg:hidden border-r border-gray-700/80">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-white">Daftar Isi</h3>
+            <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+        </div>
+        <nav id="mobile-toc" class="space-y-2"></nav>
+    </aside>
+
+    {% include header-v2.html %}
+
+    <div class="relative">
+        <main class="relative z-10 pt-16 lg:pt-18">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                    
+                    <!-- ===== Desktop Table of Contents (Sticky) ===== -->
+                    <aside class="hidden lg:block lg:col-span-2">
+                        <div class="sticky top-28">
+                            <!-- PERUBAHAN: Mengubah tampilan menjadi kartu (card) -->
+                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                                <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
+                                <nav id="desktop-toc" class="space-y-2"></nav>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- ===== Main Content ===== -->
+                    <div class="lg:col-span-7">
+                        <article class="bg-transparent border-0 shadow-none p-2 sm:p-6 lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
+                            <div class="mb-8">
+                                <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
+                                <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
+                                <div class="mt-6 flex items-center space-x-4 text-sm text-gray-400">
+                                    <span>Oleh: {{ page.author }}</span>
+                                    <span class="text-gray-600">•</span>
+                                    <span>{{ page.date | date: "%d %B %Y" }}</span>
+                                </div>
+                            </div>
+
+                            {% if page.image %}
+                            <img src="{{ page.image | relative_url }}" alt="Gambar utama untuk {{ page.title }}" class="w-full rounded-2xl shadow-lg mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Image+Not+Found';">
+                            {% endif %}
+
+                            <div class="prose prose-invert max-w-none article-content">
+                                {{ content }}
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- ===== Right Sidebar (Sticky) ===== -->
+                    <aside class="lg:col-span-3">
+                        <div class="sticky top-28 space-y-8">
+                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
+                                <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                <div class="text-left lg:text-center">
+                                    <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
+                                    <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                    <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                                <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
+                                <div class="space-y-4">
+                                    {% assign latest_posts = site.articles_id | sort: "date" | reverse %}
+                                    {% assign count = 0 %}
+                                    {% for post in latest_posts %}
+                                        {% if post.url != page.url and count < 3 %}
+                                        <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
+                                            <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
+                                            <div>
+                                                <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                            </div>
+                                        </a>
+                                        {% assign count = count | plus: 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+            </div>
+        </main>
+        
+        <div class="absolute bottom-0 inset-x-0 h-[640px] bg-gradient-to-t from-gray-900 via-gray-900 to-transparent lg:hidden pointer-events-none"></div>
+    </div>
+
+    {% include footer.html %}
+    
+    <script src="{{ '/assets/prism/prism.js' | relative_url }}"></script>
+
+    <script>
+    {% if page.page_id %}
+        const postMeta = { lang: "{{ page.lang }}", page_id: "{{ page.page_id }}" };
+    {% endif %}
+
+    const allSitePosts = [
+        {% for p in site.articles_id %} { "url": "{{ p.url | relative_url }}", "lang": "{{ p.lang }}", "page_id": "{{ p.page_id }}" }, {% endfor %}
+        {% for p in site.articles_en %} { "url": "{{ p.url | relative_url }}", "lang": "{{ p.lang }}", "page_id": "{{ p.page_id }}" }, {% endfor %}
+    ];
+    </script>
+    
+    <!-- TOC Generator and Active Link Highlighter Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const content = document.querySelector('.article-content');
+            const desktopTocContainer = document.getElementById('desktop-toc');
+            const mobileTocContainer = document.getElementById('mobile-toc');
+            const tocButton = document.querySelector('button[x-data]');
+            
+            if (!content || !desktopTocContainer || !mobileTocContainer) return;
+
+            const headings = content.querySelectorAll('h2, h3');
+            let hasHeadings = false;
+
+            const createSlug = (text) => {
+                return text.toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .trim()
+                    .replace(/\s+/g, '-');
+            };
+
+            headings.forEach(heading => {
+                hasHeadings = true;
+                const text = heading.innerText;
+                let slug = createSlug(text);
+                
+                let counter = 1;
+                while (document.getElementById(slug)) {
+                    slug = `${createSlug(text)}-${counter}`;
+                    counter++;
+                }
+                heading.id = slug;
+
+                const link = document.createElement('a');
+                link.href = `#${slug}`;
+                link.textContent = text;
+                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
+
+                if (heading.tagName === 'H3') {
+                    link.classList.add('pl-4');
+                }
+                
+                const mobileLink = link.cloneNode(true);
+                
+                // PERUBAHAN: Menambahkan event listener untuk menutup panel mobile
+                mobileLink.addEventListener('click', () => {
+                    document.body.dispatchEvent(new CustomEvent('close-toc'));
+                });
+
+                desktopTocContainer.appendChild(link);
+                mobileTocContainer.appendChild(mobileLink);
+            });
+            
+            if (!hasHeadings) {
+                if (desktopTocContainer.parentElement.parentElement) {
+                    desktopTocContainer.parentElement.parentElement.style.display = 'none';
+                }
+                if (tocButton) {
+                    tocButton.style.display = 'none';
+                }
+            }
+
+            // Fungsi untuk menutup TOC di mobile yang dipicu oleh event
+            document.body.addEventListener('close-toc', () => {
+                const alpineComponent = document.body.__x;
+                if (alpineComponent && alpineComponent.data.tocOpen) {
+                    alpineComponent.data.tocOpen = false;
+                }
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    // Menargetkan kedua link (desktop & mobile)
+                    const correspondingLinks = document.querySelectorAll(`.toc-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.toc-link.active').forEach(link => link.classList.remove('active'));
+                        correspondingLinks.forEach(link => link.classList.add('active'));
+                    }
+                });
+            }, { rootMargin: "-30% 0px -60% 0px" });
+
+            headings.forEach(heading => observer.observe(heading));
+        });
+    </script>
+
+    <script src="/assets/js/global.js" defer></script>
+    
+</body>
+</html>
