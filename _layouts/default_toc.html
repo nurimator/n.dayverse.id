@@ -48,9 +48,21 @@
             transform: scale(1.05);
             font-weight: 600;
         }
+
+        /* PERUBAHAN: Kelas untuk jarak kolom yang gradual */
+        .gradual-gap-grid {
+            gap: 2rem; /* gap-8 untuk mobile */
+        }
+        @media (min-width: 1024px) {
+            .gradual-gap-grid {
+                /* Menggunakan clamp untuk transisi jarak yang mulus antara 1024px dan 1280px */
+                /* min: 2rem (32px), max: 3rem (48px) */
+                gap: clamp(2rem, calc(2rem + 1rem * (100vw - 64rem) / (80rem - 64rem)), 3rem);
+            }
+        }
     </style>
 </head>
-<!-- PERUBAHAN: Latar body menjadi responsif -->
+<!-- Latar body menjadi responsif -->
 <body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false }">
 
     <!-- ===== Mobile TOC Handle/Button ===== -->
@@ -90,7 +102,7 @@
                 <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
             </div>
             <!-- Modal Body -->
-            <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto text-sm"></nav>
+            <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto text-xs"></nav>
         </div>
     </div>
 
@@ -99,13 +111,12 @@
     <div class="relative">
         <main class="relative z-10 pt-16 lg:pt-18">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-                <!-- PERUBAHAN: Jarak grid menjadi responsif -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12">
+                <!-- PERUBAHAN: Menggunakan kelas custom untuk jarak grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gradual-gap-grid">
                     
                     <!-- ===== Desktop Table of Contents (Sticky) ===== -->
                     <aside class="hidden lg:block lg:col-span-2">
                         <div class="sticky top-28">
-                            <!-- PERUBAHAN: Warna kartu TOC disamakan dengan kartu lain -->
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
                                 <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
                                 <nav id="desktop-toc" class="space-y-2"></nav>
@@ -115,7 +126,7 @@
 
                     <!-- ===== Main Content ===== -->
                     <div class="lg:col-span-7">
-                        <article class="bg-transparent border-0 shadow-none p-2 sm:p-6 lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
+                        <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
                                 <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
                                 <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
@@ -204,6 +215,27 @@
             const headings = content.querySelectorAll('h2, h3');
             let hasHeadings = false;
 
+            // PERUBAHAN: Fungsi untuk menangani klik dan scroll kustom
+            const handleTocClick = (event) => {
+                event.preventDefault();
+                const href = event.currentTarget.getAttribute('href');
+                const targetElement = document.querySelector(href);
+
+                if (targetElement) {
+                    const offset = window.innerHeight / 4; // 1/4 dari tinggi layar
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Menutup panel TOC mobile setelah klik
+                    document.body.dispatchEvent(new CustomEvent('close-toc'));
+                }
+            };
+
             const createSlug = (text) => {
                 return text.toLowerCase()
                     .replace(/[^a-z0-9\s-]/g, '')
@@ -226,18 +258,18 @@
                 const link = document.createElement('a');
                 link.href = `#${slug}`;
                 link.textContent = text;
-                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
+                link.classList.add('block', 'text-xs', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
+                
+                // PERUBAHAN: Menambahkan event listener untuk scroll kustom
+                link.addEventListener('click', handleTocClick);
 
                 if (heading.tagName === 'H3') {
                     link.classList.add('pl-4');
                 }
                 
+                // CloneNode akan menyalin event listener juga
                 const mobileLink = link.cloneNode(true);
                 
-                mobileLink.addEventListener('click', () => {
-                    document.body.dispatchEvent(new CustomEvent('close-toc'));
-                });
-
                 desktopTocContainer.appendChild(link);
                 mobileTocContainer.appendChild(mobileLink);
             });
