@@ -113,10 +113,11 @@ lang: id
   {% endfor %}
 
   {% for item in site.data.youtube %}
+    {% assign video_id = item.url | split: 'v=' | last %}
     searchableData.push({
       title: {{ item.title_id | jsonify }},
       url: {{ item.url | jsonify }},
-      image: {{ item.thumbnail | jsonify }},
+      image: "{{ 'https://img.youtube.com/vi/' | append: video_id | append: '/hqdefault.jpg' }}",
       categories: {{ item.categories | jsonify }},
       date: {{ item.date | jsonify }},
       type: "Media",
@@ -130,3 +131,6 @@ lang: id
 
 </body>
 </html>
+
+
+
