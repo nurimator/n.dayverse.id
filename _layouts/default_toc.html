@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- AlpineJS for Interactivity -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,7 +122,7 @@
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <!-- PERUBAHAN: Tombol ikon dihapus, kini hanya teks untuk semua ukuran layar tablet ke atas -->
+                                    <!-- PERUBAHAN: Tombol ikon dihapus, kini hanya teks -->
                                     <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-blue-400 hover:text-blue-300 transition-colors">
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
@@ -204,7 +204,6 @@
             const content = document.querySelector('.article-content');
             const desktopTocContainer = document.getElementById('desktop-toc');
             const mobileTocContainer = document.getElementById('mobile-toc');
-            const tocButton = document.querySelector('button[x-data]');
             
             if (!content || !desktopTocContainer || !mobileTocContainer) return;
 
@@ -214,7 +213,8 @@
             const handleTocClick = (event) => {
                 event.preventDefault();
                 const href = event.currentTarget.getAttribute('href');
-                const targetElement = document.querySelector(href);
+                // PERBAIKAN: Menggunakan getElementById yang lebih andal untuk ID, terutama yang diawali angka.
+                const targetElement = document.getElementById(href.substring(1));
 
                 if (targetElement) {
                     const offset = window.innerHeight / 4;
@@ -249,9 +249,6 @@
                 }
                 heading.id = slug;
 
-                // PERUBAHAN: Membuat dua elemen link terpisah untuk desktop dan mobile
-                // untuk memastikan event listener terpasang dengan benar pada keduanya.
-                
                 const createTocLink = () => {
                     const link = document.createElement('a');
                     link.href = `#${slug}`;
@@ -271,11 +268,11 @@
             });
             
             if (!hasHeadings) {
+                const tocControlButtons = document.querySelectorAll('button[x-text], button.lg\\:hidden');
+                tocControlButtons.forEach(btn => btn.style.display = 'none');
+                
                 if (desktopTocContainer.parentElement.parentElement) {
                     desktopTocContainer.parentElement.parentElement.style.display = 'none';
-                }
-                if (tocButton) {
-                    tocButton.style.display = 'none';
                 }
             }
 
