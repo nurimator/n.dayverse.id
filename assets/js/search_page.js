@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   const desktopSearchInput = document.getElementById('desktop-search-input');
   const mobileSearchInput = document.getElementById('mobile-search-input');
-  const shimmerTitle = document.getElementById('page-title-shimmer');
 
   // Validasi Data & State
   if (typeof searchableData === 'undefined' || typeof pageConfig === 'undefined') {
@@ -222,9 +221,6 @@ document.addEventListener('DOMContentLoaded', function () {
       pageTitle.textContent = searchQuery
         ? `Hasil untuk "${searchQuery}"`
         : pageConfig.defaultTitle;
-
-      // Hapus shimmer
-      if (shimmerTitle) shimmer.remove();
     }
     
     repopulateAllDropdowns();
