@@ -232,19 +232,6 @@ lang: id
     });
   {% endfor %}
 
-  // Media dari YAML (YouTube)
-  {% for item in site.data.youtube %}
-    searchableData.push({
-      title: null, // akan diganti lewat oEmbed
-      url: {{ item.url | jsonify }},
-      image: null, // akan diganti lewat oEmbed
-      categories: {{ item.categories | jsonify }},
-      date: {{ item.date | jsonify }},
-      type: "Media",
-      content: {{ item.description_id | strip_html | jsonify }}
-    });
-  {% endfor %}
-
   {% for item in site.data.youtube %}
     searchableData.push({
       title: {{ item.title_id | jsonify }},
