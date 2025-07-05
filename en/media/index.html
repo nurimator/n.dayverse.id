@@ -85,29 +85,75 @@ lang: id
   };
 
   const searchableData = [];
-  // PERUBAHAN: Menggunakan nama koleksi baru
-  {% for item in site.articles_id %}
+
+  // Artikel
+  {% for item in site.articles_en %}
     searchableData.push({
-      title: {{ item.title | jsonify }}, url: {{ item.url | jsonify }}, image: {{ item.image | jsonify }},
-      categories: {{ item.categories | jsonify }}, date: {{ item.date | jsonify }},
-      type: "Artikel", content: {{ item.content | strip_html | jsonify }}
+      title: {{ item.title | default: "Title not found" | jsonify }},
+      url: {{ item.url | jsonify }},
+      image: {{ item.image | jsonify }},
+      categories: {{ item.categories | default: "Uncategorized" | jsonify }},
+      date: {{ item.date | jsonify }},
+      type: "Artikel",
+      content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
-  {% for item in site.resources_id %}
+
+  // Resources / Bahan
+  {% for item in site.resources_en %}
     searchableData.push({
-      title: {{ item.title | jsonify }}, url: {{ item.url | jsonify }}, image: {{ item.image | jsonify }},
-      categories: {{ item.categories | jsonify }}, date: {{ item.date | jsonify }},
-      type: "Bahan", content: {{ item.content | strip_html | jsonify }}
+      title: {{ item.title | default: "Title not found" | jsonify }},
+      url: {{ item.url | jsonify }},
+      image: {{ item.image | jsonify }},
+      categories: {{ item.categories | default: "Uncategorized" | jsonify }},
+      date: {{ item.date | jsonify }},
+      type: "Bahan",
+      content: {{ item.content | strip_html | jsonify }}
     });
   {% endfor %}
-  {% for item in site.media_id %}
+
+  // Media dari YAML (YouTube)
+  {% for item in site.data.youtube %}
     searchableData.push({
-      title: {{ item.title | jsonify }}, url: {{ item.url | jsonify }}, image: {{ item.image | jsonify }},
-      categories: {{ item.categories | jsonify }}, date: {{ item.date | jsonify }},
-      type: "Media", content: {{ item.content | strip_html | jsonify }}
+      title: null, // akan diganti lewat oEmbed
+      url: {{ item.url | jsonify }},
+      image: null, // akan diganti lewat oEmbed
+      categories: {{ item.categories | jsonify }},
+      date: {{ item.date | jsonify }},
+      type: "Media",
+      content: {{ item.description_en | strip_html | jsonify }}
     });
   {% endfor %}
+
+  window.pageConfig = pageConfig;
+
+  // Fetch oEmbed untuk semua media
+  const fetchOEmbedData = async () => {
+    const mediaItems = searchableData.filter(item => item.type === "Media");
+
+    await Promise.all(mediaItems.map(async (item) => {
+      try {
+        const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(item.url)}&format=json`);
+        if (res.ok) {
+          const data = await res.json();
+          item.title = data.title;
+          item.image = data.thumbnail_url;
+        }
+      } catch (e) {
+        item.title = "Untitled";
+        item.image = "https://placehold.co/600x400?text=No+Thumbnail";
+      }
+    }));
+
+    // Setelah oEmbed selesai, jalankan search_page.js
+    const script = document.createElement('script');
+    script.src = '/assets/js/search_page.js';
+    document.body.appendChild(script);
+  };
+
+  fetchOEmbedData();
 </script>
+
 
 <script src="/assets/js/global.js" defer></script>
 <script src="/assets/js/search_page.js" defer></script>
