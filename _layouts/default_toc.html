@@ -23,7 +23,6 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Warna default untuk mobile, akan ditimpa di body class */
             background-color: #18212f;
             color: #d1d5db;
         }
@@ -42,30 +41,23 @@
         pre[class*="language-"] { font-size: 0.875rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 1rem; overflow-x: auto; }
         .article-content img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 4px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
         
-        /* Styling untuk Active TOC Link */
         .toc-link.active {
-            color: #60a5fa; /* text-blue-400 */
+            color: #60a5fa;
             transform: scale(1.05);
             font-weight: 600;
         }
 
-        /* Kelas untuk jarak kolom yang gradual */
         .gradual-gap-grid {
-            gap: 2rem; /* gap-8 untuk mobile */
+            gap: 2rem;
         }
         @media (min-width: 1024px) {
             .gradual-gap-grid {
-                /* Menggunakan clamp untuk transisi jarak yang mulus antara 1024px dan 1280px */
-                /* min: 2rem (32px), max: 3rem (48px) */
                 gap: clamp(2rem, calc(2rem + 1rem * (100vw - 64rem) / (80rem - 64rem)), 3rem);
             }
         }
     </style>
 </head>
-<!-- Latar body menjadi responsif -->
-<body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false }">
-
-    <!-- PERUBAHAN: Tombol apung (floating button) untuk mobile TOC telah dihapus -->
+<body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false }" x-init="tocLgVisible = window.innerWidth >= 1280">
 
     <!-- ===== Mobile TOC Modal ===== -->
     <div 
@@ -79,7 +71,6 @@
         class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center p-4" 
         @click="tocOpen = false"
     >
-        <!-- Modal Panel -->
         <div 
             @click.stop 
             x-show="tocOpen" 
@@ -91,13 +82,11 @@
             x-transition:leave-end="opacity-0 scale-95" 
             class="relative bg-[#1f2937] w-full max-w-md max-h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-700/80"
         >
-            <!-- Modal Header -->
             <div class="flex justify-between items-center p-4 border-b border-gray-700/80 flex-shrink-0">
                 <h3 class="text-lg font-bold text-white">Daftar Isi</h3>
                 <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
             </div>
-            <!-- Modal Body -->
-            <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto text-xs"></nav>
+            <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto"></nav>
         </div>
     </div>
 
@@ -106,11 +95,10 @@
     <div class="relative">
         <main class="relative z-10 pt-16 lg:pt-18">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-                <!-- Menggunakan kelas custom untuk jarak grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gradual-gap-grid">
                     
                     <!-- ===== Desktop Table of Contents (Sticky) ===== -->
-                    <aside class="hidden lg:block lg:col-span-2" x-show="tocLgVisible || window.innerWidth >= 1280" x-cloak>
+                    <aside class="hidden lg:block lg:col-span-2" x-show="tocLgVisible" x-cloak>
                         <div class="sticky top-28">
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
                                 <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
@@ -120,31 +108,29 @@
                     </aside>
 
                     <!-- ===== Main Content ===== -->
-                    <div :class="(tocLgVisible || window.innerWidth >= 1280) ? 'lg:col-span-7' : 'lg:col-span-9 xl:col-span-7'">
+                    <div :class="tocLgVisible ? 'lg:col-span-7' : 'lg:col-span-9'">
                         <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
                                 <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
                                 <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
-                                <div class="mt-6 flex items-center space-x-4 text-sm text-gray-400">
+                                <div class="mt-6 flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
+                                    <span>{{ page.date | date: "%d %B %Y" }}</span>
+                                    <span class="text-gray-600">•</span>
                                     
-                                    <!-- PERUBAHAN: Tombol teks untuk menampilkan TOC di mobile (tanpa ikon) -->
+                                    <!-- Tombol teks untuk mobile -->
                                     <button @click="tocOpen = !tocOpen" class="lg:hidden text-blue-400 hover:text-blue-300 transition-colors">
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <!-- Tombol ikon untuk menampilkan TOC di layar 1024-1280px -->
-                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex xl:hidden items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors">
+                                    <!-- Tombol ikon untuk tablet ke atas -->
+                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                           <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                                         </svg>
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
 
-                                    <!-- Info author kini hanya muncul di layar xl ke atas -->
-                                    <span class="hidden xl:inline">Oleh: {{ page.author }}</span>
-                                    
-                                    <span class="text-gray-600">•</span>
-                                    <span>{{ page.date | date: "%d %B %Y" }}</span>
+                                    <!-- PERUBAHAN: Nama penulis dihapus dari sini -->
                                 </div>
                             </div>
 
@@ -218,7 +204,6 @@
     ];
     </script>
     
-    <!-- TOC Generator and Active Link Highlighter Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const content = document.querySelector('.article-content');
@@ -231,14 +216,13 @@
             const headings = content.querySelectorAll('h2, h3');
             let hasHeadings = false;
 
-            // Fungsi untuk menangani klik dan scroll kustom
             const handleTocClick = (event) => {
                 event.preventDefault();
                 const href = event.currentTarget.getAttribute('href');
                 const targetElement = document.querySelector(href);
 
                 if (targetElement) {
-                    const offset = window.innerHeight / 4; // 1/4 dari tinggi layar
+                    const offset = window.innerHeight / 4;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -247,7 +231,6 @@
                         behavior: 'smooth'
                     });
                     
-                    // Menutup panel TOC mobile setelah klik
                     document.body.dispatchEvent(new CustomEvent('close-toc'));
                 }
             };
@@ -274,18 +257,16 @@
                 const link = document.createElement('a');
                 link.href = `#${slug}`;
                 link.textContent = text;
-                link.classList.add('block', 'text-xs', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
+                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
                 
-                // Menambahkan event listener untuk scroll kustom
                 link.addEventListener('click', handleTocClick);
 
                 if (heading.tagName === 'H3') {
                     link.classList.add('pl-4');
                 }
                 
-                // CloneNode akan menyalin event listener juga
                 const mobileLink = link.cloneNode(true);
-                mobileLink.addEventListener('click', handleTocClick); // Pastikan event listener juga di-clone
+                mobileLink.addEventListener('click', handleTocClick);
                 
                 desktopTocContainer.appendChild(link);
                 mobileTocContainer.appendChild(mobileLink);

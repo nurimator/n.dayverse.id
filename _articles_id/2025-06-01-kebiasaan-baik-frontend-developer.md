@@ -24,7 +24,7 @@ Desain responsif bukan hanya tanggung jawab desainer. Developer yang baik akan t
 
 ini isinya buat coba coba aja
 
-### b. Warnanya tolong diperhatikan lagi soalnya keliatan belepotan tuh
+### b. Warnanya tolong diperhatikan
 
 wkwkwk
 
