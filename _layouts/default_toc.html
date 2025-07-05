@@ -122,15 +122,10 @@
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <!-- Tombol ikon untuk tablet ke atas -->
-                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                        </svg>
+                                    <!-- PERUBAHAN: Tombol ikon dihapus, kini hanya teks untuk semua ukuran layar tablet ke atas -->
+                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-blue-400 hover:text-blue-300 transition-colors">
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
-
-                                    <!-- PERUBAHAN: Nama penulis dihapus dari sini -->
                                 </div>
                             </div>
 
@@ -254,22 +249,25 @@
                 }
                 heading.id = slug;
 
-                const link = document.createElement('a');
-                link.href = `#${slug}`;
-                link.textContent = text;
-                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
+                // PERUBAHAN: Membuat dua elemen link terpisah untuk desktop dan mobile
+                // untuk memastikan event listener terpasang dengan benar pada keduanya.
                 
-                link.addEventListener('click', handleTocClick);
-
-                if (heading.tagName === 'H3') {
-                    link.classList.add('pl-4');
-                }
+                const createTocLink = () => {
+                    const link = document.createElement('a');
+                    link.href = `#${slug}`;
+                    link.textContent = text;
+                    link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link');
+                    
+                    if (heading.tagName === 'H3') {
+                        link.classList.add('pl-4');
+                    }
+                    
+                    link.addEventListener('click', handleTocClick);
+                    return link;
+                };
                 
-                const mobileLink = link.cloneNode(true);
-                mobileLink.addEventListener('click', handleTocClick);
-                
-                desktopTocContainer.appendChild(link);
-                mobileTocContainer.appendChild(mobileLink);
+                desktopTocContainer.appendChild(createTocLink());
+                mobileTocContainer.appendChild(createTocLink());
             });
             
             if (!hasHeadings) {
