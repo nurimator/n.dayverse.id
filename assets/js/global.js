@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         link.addEventListener('click', (e) => {
           e.preventDefault();
+          localStorage.setItem('preferredLang', targetLang);
           let newPath = path.startsWith(`/${currentLang}/`) ? path.replace(`/${currentLang}/`, `/${targetLang}/`) : `/${targetLang}${path}`;
           window.location.href = newPath + window.location.search;
         });
