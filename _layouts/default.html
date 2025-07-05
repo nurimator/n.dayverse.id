@@ -19,10 +19,9 @@
     <link rel="stylesheet" href="{{ '/assets/prism/prism.css' | relative_url }}">
     
     <style>
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* bg-gray-900 */
+            background-color: #18212f; /* Warna latar yang diminta */
             color: #d1d5db; /* text-gray-300 */
         }
 
@@ -129,91 +128,93 @@
  <!-- Menyisipkan file header.html -->
     {% include header-v2.html %}
 
-    <!-- Menambahkan padding responsif untuk header sticky -->
-    <main class="pt-16 lg:pt-18 z-2">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-                
-                <!-- ===== Left Skyscraper Ad (Desktop Only & Sticky) ===== -->
-                <div class="hidden lg:block lg:col-span-2">
-                    <div class="sticky top-28 w-[160px] h-[600px] bg-[#111827] mx-auto flex items-center justify-center rounded-lg border border-gray-700">
-                        <span class="text-gray-500 text-sm">Iklan 160x600</span>
-                    </div>
-                </div>
-
-                <!-- ===== Main Content (Scrollable) ===== -->
-                <div class="lg:col-span-7">
-                    <article class="bg-transparent border-0 shadow-none p-2 sm:p-6 lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
-                        <!-- Post Header -->
-                        <div class="mb-8">
-                            <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
-                            <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
-                            <div class="mt-6 flex items-center space-x-4 text-sm text-gray-400">
-                                <span>Oleh: {{ page.author }}</span>
-                                <span class="text-gray-600">•</span>
-                                <span>{{ page.date | date: "%d %B %Y" }}</span>
-                            </div>
-                        </div>
-
-                        {% if page.image %}
-                        <img src="{{ page.image | relative_url }}" alt="Gambar utama untuk {{ page.title }}" class="w-full rounded-2xl shadow-lg mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Image+Not+Found';">
-                        {% endif %}
-
-                        <!-- Konten dari Markdown -->
-                        <div class="prose prose-invert max-w-none article-content">
-                            {{ content }}
-                        </div>
-                    </article>
-                </div>
-
-                <!-- ===== Right Sidebar (Sticky) ===== -->
-                <aside class="lg:col-span-3 z-10">
-                    <div class="sticky top-28 space-y-8">
-                        <!-- ===== PERUBAHAN AUTHOR BOX ===== -->
-                        <!-- Layout responsif: horizontal di mobile, vertikal di desktop -->
-                        <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
-                            <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
-                            <div class="text-left lg:text-center">
-                                <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
-                                <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
-                                <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
-                            </div>
-                        </div>
-                        
-                        <!-- ===== PERUBAHAN LATEST POSTS ===== -->
-                        <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
-                            <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
-                            <div class="space-y-4">
-                                {% assign latest_posts = site.articles_id | sort: "date" | reverse %}
-                                {% assign count = 0 %}
-                                {% for post in latest_posts %}
-                                    {% if post.url != page.url and count < 3 %}
-                                    <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
-                                        <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
-                                        <div>
-                                            <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</p>
-                                        </div>
-                                    </a>
-                                    {% assign count = count | plus: 1 %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
+    <!-- PERUBAHAN: Menambahkan wrapper 'relative' untuk menampung 'main' dan gradien -->
+    <div class="relative">
+        <!-- PERUBAHAN: Menambahkan 'relative' dan 'z-10' agar konten utama berada di atas gradien -->
+        <main class="relative z-10 pt-16 lg:pt-18">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                    
+                    <!-- ===== Left Skyscraper Ad (Desktop Only & Sticky) ===== -->
+                    <div class="hidden lg:block lg:col-span-2">
+                        <div class="sticky top-28 w-[160px] h-[600px] bg-[#111827] mx-auto flex items-center justify-center rounded-lg border border-gray-700">
+                            <span class="text-gray-500 text-sm">Iklan 160x600</span>
                         </div>
                     </div>
-                </aside>
+
+                    <!-- ===== Main Content (Scrollable) ===== -->
+                    <div class="lg:col-span-7">
+                        <article class="bg-transparent border-0 shadow-none p-2 sm:p-6 lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
+                            <!-- Post Header -->
+                            <div class="mb-8">
+                                <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
+                                <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
+                                <div class="mt-6 flex items-center space-x-4 text-sm text-gray-400">
+                                    <span>Oleh: {{ page.author }}</span>
+                                    <span class="text-gray-600">•</span>
+                                    <span>{{ page.date | date: "%d %B %Y" }}</span>
+                                </div>
+                            </div>
+
+                            {% if page.image %}
+                            <img src="{{ page.image | relative_url }}" alt="Gambar utama untuk {{ page.title }}" class="w-full rounded-2xl shadow-lg mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Image+Not+Found';">
+                            {% endif %}
+
+                            <!-- Konten dari Markdown -->
+                            <div class="prose prose-invert max-w-none article-content">
+                                {{ content }}
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- ===== Right Sidebar (Sticky) ===== -->
+                    <aside class="lg:col-span-3">
+                        <div class="sticky top-28 space-y-8">
+                            <!-- Card Author -->
+                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
+                                <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                <div class="text-left lg:text-center">
+                                    <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
+                                    <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                    <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Recent Posts -->
+                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                                <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
+                                <div class="space-y-4">
+                                    {% assign latest_posts = site.articles_id | sort: "date" | reverse %}
+                                    {% assign count = 0 %}
+                                    {% for post in latest_posts %}
+                                        {% if post.url != page.url and count < 3 %}
+                                        <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
+                                            <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
+                                            <div>
+                                                <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                            </div>
+                                        </a>
+                                        {% assign count = count | plus: 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
             </div>
-        </div>
-    </main>
-        <!-- Gradien belakang hanya di mobile, menempel di atas footer -->
-    <div class="relative lg:hidden z-5">
-        <div class="absolute inset-x-0 bottom-0 h-192 bg-gradient-to-t from-gray-900 via-gray-900/90 to-transparent pointer-events-none"></div>
+        </main>
+        
+        <!-- PERUBAHAN: Tinggi gradien diubah dari h-72 menjadi h-96 -->
+        <div class="absolute bottom-0 inset-x-0 h-96 bg-gradient-to-t from-gray-900 via-gray-900 to-transparent lg:hidden pointer-events-none"></div>
     </div>
 
     <!-- Menyisipkan file footer.html -->
     {% include footer.html %}
+    
     <!-- Prism JS Initializer -->
     <script src="{{ '/assets/prism/prism.js' | relative_url }}"></script>
-
 
     <!-- Letakkan ini sebelum Anda memanggil search.js -->
     <script>
