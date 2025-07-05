@@ -245,37 +245,21 @@ lang: id
     });
   {% endfor %}
 
-  window.pageConfig = pageConfig;
+  {% for item in site.data.youtube %}
+    searchableData.push({
+      title: {{ item.title_id | jsonify }},
+      url: {{ item.url | jsonify }},
+      image: {{ item.thumbnail | jsonify }},
+      categories: {{ item.categories | jsonify }},
+      date: {{ item.date | jsonify }},
+      type: "Media",
+      content: {{ item.description_id | strip_html | jsonify }}
+    });
+  {% endfor %}
 
-  // Fetch oEmbed untuk semua media
-  const fetchOEmbedData = async () => {
-    const mediaItems = searchableData.filter(item => item.type === "Media");
-
-    await Promise.all(mediaItems.map(async (item) => {
-      try {
-        const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(item.url)}&format=json`);
-        if (res.ok) {
-          const data = await res.json();
-          item.title = data.title;
-          item.image = data.thumbnail_url;
-        }
-      } catch (e) {
-        item.title = "Untitled";
-        item.image = "https://placehold.co/600x400?text=No+Thumbnail";
-      }
-    }));
-
-    // Setelah oEmbed selesai, jalankan search_page.js
-    const script = document.createElement('script');
-    script.src = '/assets/js/search_page.js';
-    document.body.appendChild(script);
-  };
-
-  fetchOEmbedData();
 </script>
+<script src="/assets/js/global.js" defer></script>
+<script src="/assets/js/search_page.js" defer></script>
 
-
-  <script src="/assets/js/global.js" defer></script>
-  <script src="/assets/js/search_page.js" defer></script>
 </body>
 </html>

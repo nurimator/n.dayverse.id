@@ -1,23 +1,35 @@
 - url: https://www.youtube.com/watch?v=IgUUTygfQOE
+  title_id: "Download & Instal Mine-imator 2.0"
+  title_en: "Download & Install Mine-imator 2.0"
+  description_id: "Video ini membahas hal yang paling dasar yaitu cara download dan instal mine-imator 2.0."
+  description_en: "This video covers the basic steps to download and install Mine-imator 2.0."
+  thumbnail: https://img.youtube.com/vi/IgUUTygfQOE/hqdefault.jpg
   categories: ["Video", "Tutorial"]
   date: 2023-08-01
-  description_id: "Video ini membahas hal yang paling dasar yaitu cara download dan instal mine-imator 2.0."
-  description_en: "Tutorial video in English."
 
 - url: https://www.youtube.com/watch?v=nvmm3eAGFD0
+  title_id: "Menghapus Watermark Mine-imator"
+  title_en: "Removing Mine-imator Watermark"
+  description_id: "Risih dengan watermark mine-imator dan ingin tau cara menghapusnya? atau kalian pengen ganti watermark mine-imator menggunakan logo sendiri?."
+  description_en: "Learn how to remove the default Mine-imator watermark or replace it with your own logo."
+  thumbnail: https://img.youtube.com/vi/nvmm3eAGFD0/hqdefault.jpg
   categories: ["Video", "Tutorial"]
   date: 2023-08-01
-  description_id: "risih dengan watermark mine-imator dan ingin tau cara menghapusnya? atau kalian pengen ganti watermark mine-imator menggunakan logo sendiri?."
-  description_en: "Tutorial video in English."
 
 - url: https://www.youtube.com/watch?v=19KVRvd1xdg
+  title_id: "Aktifkan Dark Mode di Mine-imator"
+  title_en: "Enable Dark Mode in Mine-imator"
+  description_id: "Silau dengan light mode di mine-imator? Tenang, cukup ubah saja tampilannya menjadi dark mode. Selain itu ada juga beberapa pengaturan menarik lainnya."
+  description_en: "Tired of light mode? This tutorial shows how to switch Mine-imator to dark mode and explore other display settings."
+  thumbnail: https://img.youtube.com/vi/19KVRvd1xdg/hqdefault.jpg
   categories: ["Video", "Tutorial"]
   date: 2023-08-02
-  description_id: "silau dengan light mode di mine-imator? tenang, cukup ubah saja tampilannya menjadi dark mode selain itu ada juga beberapa pengaturan menarik lainnya."
-  description_en: "Tutorial video in English."
 
 - url: https://www.youtube.com/watch?v=8yb-YdquVx0
+  title_id: "Kustomisasi Tata Letak Tampilan"
+  title_en: "Customize Interface Layout"
+  description_id: "Pengaturan tampilan mine-imator tak hanya tentang warna tetapi juga tata letak yang bisa kalian kustomisasi."
+  description_en: "This video explains how to customize the interface layout in Mine-imator, not just the color scheme."
+  thumbnail: https://img.youtube.com/vi/8yb-YdquVx0/hqdefault.jpg
   categories: ["Video", "Tutorial"]
   date: 2023-08-02
-  description_id: "Pengaturan tampilan mine-imator tak hanya tentang warna tetapi juga tata letak yang bisa kalian kustomisasi."
-  description_en: "Tutorial video in English."
