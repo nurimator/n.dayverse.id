@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mainMenuItems = {
         id: [
-            { href: '/index.html', text: 'Beranda' },
             { href: '/id/articles/', text: 'Artikel' },
             { href: '/id/resources/', text: 'Bahan Desain' },
             { href: '/id/media/', text: 'Media' },
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
             { href: '/id/tentang.html', text: 'Tentang' }
         ],
         en: [
-            { href: '/en/index.html', text: 'Home' },
             { href: '/en/articles/', text: 'Articles' },
             { href: '/en/resources/', text: 'Resources' },
             { href: '/en/media/', text: 'Media' },
@@ -40,11 +38,51 @@ document.addEventListener('DOMContentLoaded', function () {
     const uiStrings = {
         id: {
             searchPlaceholder: 'Cari...',
-            menuButton: 'Menu'
+            menuButton: 'Menu',
+            footer: {
+                description: 'Sebuah ruang berkarya dari bentuk dan tanya, menghadirkan gerak, warna, dan kisah yang menyimpan makna.',
+                navTitle: 'Navigasi',
+                infoTitle: 'Informasi',
+                socialTitle: 'Ikuti kami',
+                navLinks: [
+                    { text: 'Semua Konten', href: '/id/all/' },
+                    { text: 'Artikel', href: '/id/articles/' },
+                    { text: 'Bahan Desain', href: '/id/resources/' },
+                    { text: 'Media', href: '/id/media/' },
+                    { text: 'Donasi', href: '/id/donate.html' }
+                ],
+                infoLinks: [
+                    { text: 'Term and Conditions', href: '/term-and-conditions.html' },
+                    { text: 'Privacy Policy', href: '/privacy-policy.html' },
+                    { text: 'License', href: '/license.html' },
+                    { text: 'Disclaimer', href: '/disclaimer.html' },
+                    { text: 'Tentang Kami', href: '/id/about.html' }
+                ]
+            }
         },
         en: {
             searchPlaceholder: 'Search...',
-            menuButton: 'Menu'
+            menuButton: 'Menu',
+            footer: {
+                description: 'A creative space of form and inquiry, presenting motion, color, and stories that hold meaning.',
+                navTitle: 'Navigation',
+                infoTitle: 'Information',
+                socialTitle: 'Follow us',
+                navLinks: [
+                    { text: 'All Content', href: '/en/all/' },
+                    { text: 'Articles', href: '/en/articles/' },
+                    { text: 'Design Resources', href: '/en/resources/' },
+                    { text: 'Media', href: '/en/media/' },
+                    { text: 'Donate', href: '/en/donate.html' }
+                ],
+                 infoLinks: [
+                    { text: 'Term and Conditions', href: '/term-and-conditions.html' },
+                    { text: 'Privacy Policy', href: '/privacy-policy.html' },
+                    { text: 'License', href: '/license.html' },
+                    { text: 'Disclaimer', href: '/disclaimer.html' },
+                    { text: 'About Us', href: '/en/about.html' }
+                ]
+            }
         }
     };
     
@@ -201,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const input = event.target.querySelector('input[name="q"]');
         const query = input.value.trim();
         if (!query) return;
-        // [UPDATE] Menggunakan pageLang sebagai satu-satunya sumber kebenaran
         const pageLang = document.documentElement.lang || 'id';
         window.location.href = `/${pageLang}/all/?q=${encodeURIComponent(query)}`;
     };
@@ -218,13 +255,58 @@ document.addEventListener('DOMContentLoaded', function () {
         // Mengatur teks tombol menu
         if(desktopMenuButtonText) desktopMenuButtonText.textContent = translations.menuButton;
         
-        // [UPDATE] Mengatur atribut 'action' pada formulir pencarian
+        // Mengatur atribut 'action' pada formulir pencarian
         if(desktopSearchForm) desktopSearchForm.action = searchActionUrl;
         if(mobileSearchForm) mobileSearchForm.action = searchActionUrl;
     };
 
+    // [BARU] Fungsi untuk mengatur bahasa di footer
+    const setFooterLanguage = () => {
+        const pageLang = document.documentElement.lang || 'id';
+        const footerStrings = uiStrings[pageLang]?.footer || uiStrings.id.footer;
+
+        if (!footerStrings) return;
+
+        // Update elemen teks
+        document.getElementById('footer-description').textContent = footerStrings.description;
+        document.getElementById('footer-nav-title').textContent = footerStrings.navTitle;
+        document.getElementById('footer-info-title').textContent = footerStrings.infoTitle;
+        document.getElementById('footer-social-title').textContent = footerStrings.socialTitle;
+
+        // Update daftar tautan navigasi
+        const navLinksContainer = document.getElementById('footer-nav-links');
+        if (navLinksContainer) {
+            navLinksContainer.innerHTML = ''; // Kosongkan daftar yang ada
+            footerStrings.navLinks.forEach(linkData => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = linkData.href;
+                a.textContent = linkData.text;
+                a.className = 'text-gray-400 hover:text-blue-400';
+                li.appendChild(a);
+                navLinksContainer.appendChild(li);
+            });
+        }
+        
+        // Update daftar tautan informasi
+        const infoLinksContainer = document.getElementById('footer-info-links');
+        if (infoLinksContainer) {
+            infoLinksContainer.innerHTML = ''; // Kosongkan daftar yang ada
+            footerStrings.infoLinks.forEach(linkData => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = linkData.href;
+                a.textContent = linkData.text;
+                a.className = 'text-gray-400 hover:text-blue-400';
+                li.appendChild(a);
+                infoLinksContainer.appendChild(li);
+            });
+        }
+    };
+
     // --- Inisialisasi ---
     setUiLanguage();
+    setFooterLanguage(); // Panggil fungsi footer
     
     setupAnimatedMenu('desktop-lang-switcher-button', 'desktop-lang-switcher-menu', langMenuItems);
     setupAnimatedMenu('desktop-dropdown-button', 'desktop-dropdown-menu', mainMenuItems);
