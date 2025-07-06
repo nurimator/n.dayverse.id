@@ -110,7 +110,6 @@
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <!-- PERBAIKAN: Tombol ini sekarang dengan benar mengontrol 'tocLgVisible' dari scope body -->
                                     <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-blue-400 hover:text-blue-300 transition-colors">
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
@@ -131,33 +130,29 @@
                     <aside class="lg:col-span-3">
                         <div class="sticky top-28 space-y-8">
                             
-                            <!-- PERBAIKAN: Logika animasi dirombak menjadi gaya akordeon -->
-                            <div class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow overflow-hidden">
+                            <!-- PERBAIKAN: Logika animasi dirombak menjadi gaya SLIDE -->
+                            <div class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden h-[310px]">
                                 
-                                <!-- Bagian TOC (Akordeon) -->
-                                <div x-show="tocLgVisible" 
-                                     x-transition:enter="transition-all ease-out duration-500"
-                                     x-transition:enter-start="max-h-0 opacity-0"
-                                     x-transition:enter-end="max-h-[500px] opacity-100"
-                                     x-transition:leave="transition-all ease-in duration-300"
-                                     x-transition:leave-start="max-h-[500px] opacity-100"
-                                     x-transition:leave-end="max-h-0 opacity-0"
-                                     class="border-b border-gray-700/80" x-cloak>
-                                     <div class="p-6">
-                                        <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
-                                        <nav id="desktop-toc" class="space-y-2 max-h-[220px] overflow-y-auto pr-2"></nav>
-                                     </div>
-                                </div>
-
-                                <!-- Bagian Info Author -->
-                                <div class="p-6 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0">
-                                    <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
-                                    <div class="text-left lg:text-center">
-                                        <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
-                                        <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
-                                        <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
+                                <!-- Slide 1: Author Info -->
+                                <div class="absolute inset-0 transition-all duration-500 ease-in-out" 
+                                     :class="{ 'opacity-0 translate-y-full': tocLgVisible, 'opacity-100 translate-y-0': !tocLgVisible }">
+                                    <div class="p-6 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0">
+                                        <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                        <div class="text-left lg:text-center">
+                                            <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
+                                            <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                            <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Slide 2: Table of Contents -->
+                                <div class="absolute inset-0 p-6 transition-all duration-500 ease-in-out" 
+                                     :class="{ 'opacity-100 translate-y-0': tocLgVisible, 'opacity-0 -translate-y-full': !tocLgVisible }">
+                                    <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
+                                    <nav id="desktop-toc" class="space-y-2 max-h-[220px] overflow-y-auto pr-2"></nav>
+                                </div>
+
                             </div>
                             
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
