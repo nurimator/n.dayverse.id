@@ -6,6 +6,19 @@
     <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
     <title>{{ page.title }} | {{ site.title | default: "Nurimator" }}</title>
     {% include favicon.html %}
+
+    {% assign current_page_id = page.page_id %}
+    {% assign alternate_posts = site.posts | where: "page_id", current_page_id %}
+
+    {% for alt in alternate_posts %}
+        <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url | absolute_url }}" />
+    {% endfor %}
+
+    {%- assign fallback = alternate_posts | where: "lang", "en" | first -%}
+    {%- if fallback -%}
+        <link rel="alternate" hreflang="x-default" href="{{ fallback.url | absolute_url }}" />
+    {%- endif -%}
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     

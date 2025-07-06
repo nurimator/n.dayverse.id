@@ -33,6 +33,36 @@ document.addEventListener('DOMContentLoaded', function () {
     if (postsContainer) postsContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Kesalahan konfigurasi halaman.</p>';
     return;
   }
+  
+  // [BARU] Deteksi bahasa dan objek terjemahan terpusat
+  const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
+  const translations = {
+    types: {
+      all: { id: 'Semua Jenis', en: 'All Types' },
+      artikel: { id: 'Artikel', en: 'Article' },
+      bahan: { id: 'Bahan', en: 'Resource' },
+      media: { id: 'Media', en: 'Media' }
+    },
+    categories: {
+      all: { id: 'Semua Kategori', en: 'All Categories' }
+    },
+    sorts: {
+      newest: { id: 'Terbaru', en: 'Newest' },
+      oldest: { id: 'Terlama', en: 'Oldest' },
+      nameAsc: { id: 'Nama A-Z', en: 'Name A-Z' },
+      nameDesc: { id: 'Nama Z-A', en: 'Name Z-A' }
+    },
+    pageTitles: {
+      resultsFor: { id: 'Hasil untuk', en: 'Results for' }
+    },
+    noResults: {
+      message: { id: 'Tidak ada hasil yang ditemukan.', en: 'No results found.' },
+      clearFilter: { id: 'Coba bersihkan filter', en: 'Try clearing the filters' },
+      searchIn: { id: 'Atau, coba cari dalam', en: 'Or, try searching in' },
+      otherLangName: { id: 'English', en: 'Bahasa Indonesia' }
+    }
+  };
+
 
   // --- State Management ---
   const allItems = searchableData;
@@ -90,15 +120,25 @@ document.addEventListener('DOMContentLoaded', function () {
     createToggle(sortFilterButton, sortFilterMenu);
   };
 
+  /**
+   * [MODIFIKASI] Fungsi ini sekarang menggunakan objek `translations` untuk label dropdown.
+   */
   const repopulateAllDropdowns = () => {
-    const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
+    // Dropdown Tipe
     const typeToUrlMap = { 
       'all': `/${currentLang}/all/`, 
       'Artikel': `/${currentLang}/articles/`, 
       'Bahan': `/${currentLang}/resources/`, 
       'Media': `/${currentLang}/media/` 
     };
-    const typeOptions = [ { value: 'all', label: 'Semua Jenis' }, { value: 'Artikel', label: 'Artikel' }, { value: 'Bahan', label: 'Bahan' }, { value: 'Media', label: 'Media' }];
+    // Nilai `value` dipertahankan ('Artikel', 'Bahan') agar cocok dengan `item.type` dari data.
+    // Hanya `label` yang diterjemahkan.
+    const typeOptions = [ 
+      { value: 'all', label: translations.types.all[currentLang] }, 
+      { value: 'Artikel', label: translations.types.artikel[currentLang] }, 
+      { value: 'Bahan', label: translations.types.bahan[currentLang] }, 
+      { value: 'Media', label: translations.types.media[currentLang] }
+    ];
     populateCustomDropdown(typeFilterMenu, typeOptions, selectedType, (value) => {
       const targetPath = typeToUrlMap[value];
       if (!targetPath) return;
@@ -113,20 +153,27 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = targetPath + (queryString ? '?' + queryString : '');
     });
 
+    // Dropdown Kategori
     const categories = new Set();
     allItems.forEach(item => {
       if (Array.isArray(item.categories)) {
         item.categories.forEach(cat => cat && categories.add(cat));
       }
     });
-    const categoryOptions = [{ value: 'all', label: 'Semua Kategori' }];
+    const categoryOptions = [{ value: 'all', label: translations.categories.all[currentLang] }];
     Array.from(categories).sort().forEach(cat => categoryOptions.push({ value: cat, label: cat }));
     populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value) => {
       selectedCategory = value;
       updateView();
     });
 
-    const sortOptions = [ { value: 'date-desc', label: 'Terbaru' }, { value: 'date-asc', label: 'Terlama' }, { value: 'name-asc', label: 'Nama A-Z' }, { value: 'name-desc', label: 'Nama Z-A' }];
+    // Dropdown Urutan
+    const sortOptions = [ 
+      { value: 'date-desc', label: translations.sorts.newest[currentLang] }, 
+      { value: 'date-asc', label: translations.sorts.oldest[currentLang] }, 
+      { value: 'name-asc', label: translations.sorts.nameAsc[currentLang] }, 
+      { value: 'name-desc', label: translations.sorts.nameDesc[currentLang] }
+    ];
     populateCustomDropdown(sortFilterMenu, sortOptions, currentSortCriteria, (value) => {
       currentSortCriteria = value;
       updateView();
@@ -162,8 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   /**
-   * [DIPERBARUI] Fungsi utama untuk memfilter, menyortir, dan memperbarui DOM dengan hasil.
-   * Sekarang menyertakan logika pesan "tidak ada hasil" yang lebih baik.
+   * [MODIFIKASI] Fungsi ini sekarang menggunakan objek `translations` untuk judul halaman dan pesan.
    */
   const updateView = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -193,25 +239,24 @@ document.addEventListener('DOMContentLoaded', function () {
     if (filteredItems.length > 0) {
       filteredItems.forEach(item => { postsContainer.innerHTML += createItemCardHTML(item); });
     } else {
-      // [PERUBAHAN] Logika baru untuk pesan "Tidak ada hasil"
-      const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
+      // Logika pesan "Tidak ada hasil" yang sudah diinternasionalisasi
       const otherLang = currentLang === 'id' ? 'en' : 'id';
-      const otherLangName = currentLang === 'id' ? 'English' : 'Bahasa Indonesia';
+      const otherLangName = currentLang === 'id' ? translations.noResults.otherLangName.id : translations.noResults.otherLangName.en;
       
       const newPath = window.location.pathname.replace(`/${currentLang}/`, `/${otherLang}/`);
       const alternateUrl = newPath + window.location.search;
       
-      let messageParts = ['<p>Tidak ada hasil yang ditemukan.</p>'];
+      let messageParts = [`<p>${translations.noResults.message[currentLang]}</p>`];
       const areFiltersActive = selectedType !== 'all' || selectedCategory !== 'all';
 
       if (areFiltersActive) {
         const clearFilterBasePath = `/${currentLang}/all/`;
         const clearFilterUrl = searchQuery ? `${clearFilterBasePath}?q=${encodeURIComponent(searchQuery)}` : clearFilterBasePath;
-        messageParts.push(`<p class="mt-2 text-sm text-gray-400">Coba <a href="${clearFilterUrl}" class="text-blue-400 hover:underline">bersihkan filter</a>.</p>`);
+        messageParts.push(`<p class="mt-2 text-sm text-gray-400">${translations.noResults.clearFilter[currentLang]} <a href="${clearFilterUrl}" class="text-blue-400 hover:underline">di sini</a>.</p>`);
       }
 
       if (searchQuery) {
-        messageParts.push(`<p class="mt-4 text-sm text-gray-400">Atau, coba cari dalam <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>`);
+        messageParts.push(`<p class="mt-4 text-sm text-gray-400">${translations.noResults.searchIn[currentLang]} <a href="${alternateUrl}" class="text-blue-400 hover:underline">${otherLangName}</a>.</p>`);
       }
 
       postsContainer.innerHTML = `<div class="text-center text-gray-400 col-span-full">${messageParts.join('')}</div>`;
@@ -219,16 +264,13 @@ document.addEventListener('DOMContentLoaded', function () {
         
     if (pageTitle) {
       pageTitle.textContent = searchQuery
-        ? `Hasil untuk "${searchQuery}"`
+        ? `${translations.pageTitles.resultsFor[currentLang]} "${searchQuery}"`
         : pageConfig.defaultTitle;
     }
     
     repopulateAllDropdowns();
   };
   
-  /**
-   * [DIPERBARUI] Inisialisasi halaman dengan menampilkan skeleton loader terlebih dahulu.
-   */
   const initializePage = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get('q');
