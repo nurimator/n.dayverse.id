@@ -25,8 +25,6 @@ lang: id
         /* Gaya dasar dan animasi blob dari referensi baru */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* bg-gray-900 */
-            color: #d1d5db; /* text-gray-300 */
             overflow-x: hidden;
         }
         @keyframes move-blobs {
@@ -47,7 +45,7 @@ lang: id
         }
     </style>
 </head>
-<body class="bg-gray-900">
+<body class="bg-gray-900 text-gray-300">
     {% include header-v2.html %}
     <main class="relative min-h-screen flex items-center justify-center p-4 overflow-hidden pt-16 lg:pt-28">
         <!-- Latar belakang dengan blob animasi -->
@@ -70,23 +68,23 @@ lang: id
                         <!-- Elemen untuk efek typewriter -->
                         <div id="typewriter-container" class="mt-4 mb-6 h-12 md:h-14 flex items-center justify-center">
                              <p class="text-xl md:text-2xl font-bold text-white">
-                                <span id="typewriter-text" class="whitespace-pre-wrap"></span><span id="cursor" class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white align-bottom ml-1"></span>
+                                 <span id="typewriter-text" class="whitespace-pre-wrap"></span><span id="cursor" class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white align-bottom ml-1"></span>
                              </p>
                         </div>
     
                         <div class="text-gray-400 max-w-sm mx-auto">
                             <p id="error-message">
-                               Whatever you clicked on, doesn’t exist anymore. The homepage might lead you somewhere that actually does.
+                                Whatever you clicked on, doesn’t exist anymore. The homepage might lead you somewhere that actually does.
                             </p>
                         </div>
     
                         <div class="mt-10">
                              <a href="/" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300 inline-flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5 relative bottom-0.3" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
-                                </svg>
-                                <span>Back to Homepage</span>
-                            </a>
+                                 <svg class="w-5 h-5 relative bottom-0.3" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
+                                 </svg>
+                                 <span>Back to Homepage</span>
+                             </a>
                         </div>
                     </div>
 

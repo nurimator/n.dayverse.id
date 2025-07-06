@@ -130,25 +130,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 let newHref = '#';
                 let isAvailable = true;
 
-                if (targetLang !== currentLang) {
-                    if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
-                        const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
-                        if (alternatePost && alternatePost.url) {
-                            newHref = alternatePost.url;
-                        } else {
-                            isAvailable = false;
-                        }
+                if (targetLang === currentLang) {
+                    // Tautan untuk bahasa saat ini, akan ditangani oleh UI switcher
+                } else if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
+                    // Logika prioritas untuk halaman konten spesifik
+                    const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
+                    if (alternatePost && alternatePost.url) {
+                        newHref = alternatePost.url;
                     } else {
-                        const basePath = currentPath.startsWith(`/${currentLang}/`) ? currentPath.substring(3) : currentPath;
-                        let finalPath = basePath;
-                        if (targetLang === 'en') {
-                            newHref = '/en' + (finalPath.startsWith('/') ? finalPath : '/' + finalPath);
-                        } else {
-                            newHref = finalPath;
-                            if (newHref === '' || newHref === '/') {
-                                newHref = '/index.html';
-                            }
-                        }
+                        isAvailable = false; // Terjemahan tidak ditemukan
+                    }
+                } else {
+                    // Logika global untuk pergantian URL
+                    if (currentPath.startsWith('/en/')) {
+                        // Dari EN ke ID
+                        const restOfPath = currentPath.substring(3); // dapatkan sisa path setelah /en/
+                        newHref = restOfPath ? '/id' + restOfPath : '/'; // jika ada sisa, tambahkan /id. jika tidak, ke root.
+                    } else if (currentPath.startsWith('/id/')) {
+                        // Dari ID ke EN
+                        newHref = '/en' + currentPath.substring(3);
+                    } else if (currentPath === '/' || currentPath === '/index.html') {
+                         // Dari homepage (ID) ke EN
+                        newHref = '/en/';
+                    } else {
+                        // Halaman tanpa awalan bahasa (misal: /privacy-policy.html)
+                        isAvailable = false;
                     }
                 }
 
@@ -164,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 menu.appendChild(menuItemElement);
             });
         } else {
+            // Logika untuk menu lainnya
             const itemsToRender = itemsData[pageLang] || itemsData.id || itemsData;
             itemsToRender.forEach(item => menu.appendChild(createMenuItem(item)));
         }
@@ -260,7 +267,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if(mobileSearchForm) mobileSearchForm.action = searchActionUrl;
     };
 
-    // [BARU] Fungsi untuk mengatur bahasa di footer
     const setFooterLanguage = () => {
         const pageLang = document.documentElement.lang || 'id';
         const footerStrings = uiStrings[pageLang]?.footer || uiStrings.id.footer;
@@ -306,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Inisialisasi ---
     setUiLanguage();
-    setFooterLanguage(); // Panggil fungsi footer
+    setFooterLanguage();
     
     setupAnimatedMenu('desktop-lang-switcher-button', 'desktop-lang-switcher-menu', langMenuItems);
     setupAnimatedMenu('desktop-dropdown-button', 'desktop-dropdown-menu', mainMenuItems);
