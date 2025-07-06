@@ -57,7 +57,8 @@
         }
     </style>
 </head>
-<body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false }" x-init="tocLgVisible = window.innerWidth >= 1280">
+<!-- PERUBAHAN: x-init dihapus, state default tocLgVisible adalah false -->
+<body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false }">
 
     <!-- ===== Mobile TOC Modal ===== -->
     <div 
@@ -97,18 +98,11 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gradual-gap-grid">
                     
-                    <!-- ===== Desktop Table of Contents (Sticky) ===== -->
-                    <aside class="hidden lg:block lg:col-span-2" x-show="tocLgVisible" x-cloak>
-                        <div class="sticky top-28">
-                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
-                                <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
-                                <nav id="desktop-toc" class="space-y-2"></nav>
-                            </div>
-                        </div>
-                    </aside>
+                    <!-- PERUBAHAN: Kolom kiri untuk TOC dihapus -->
 
                     <!-- ===== Main Content ===== -->
-                    <div :class="tocLgVisible ? 'lg:col-span-7' : 'lg:col-span-9'">
+                    <!-- PERUBAHAN: col-span dibuat statis karena tidak ada lagi sidebar kiri -->
+                    <div class="lg:col-span-9">
                         <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
                                 <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
@@ -122,7 +116,7 @@
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <!-- PERUBAHAN: Tombol ikon dihapus, kini hanya teks -->
+                                    <!-- Tombol teks untuk desktop, kini mengontrol TOC di sidebar kanan -->
                                     <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-blue-400 hover:text-blue-300 transition-colors">
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
@@ -142,6 +136,13 @@
                     <!-- ===== Right Sidebar (Sticky) ===== -->
                     <aside class="lg:col-span-3">
                         <div class="sticky top-28 space-y-8">
+                            
+                            <!-- PERUBAHAN: Kartu TOC dipindahkan ke sini, di atas kartu author -->
+                            <div x-show="tocLgVisible" x-cloak x-transition class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                                <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
+                                <nav id="desktop-toc" class="space-y-2"></nav>
+                            </div>
+
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
                                 <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
                                 <div class="text-left lg:text-center">
@@ -213,7 +214,6 @@
             const handleTocClick = (event) => {
                 event.preventDefault();
                 const href = event.currentTarget.getAttribute('href');
-                // PERBAIKAN: Menggunakan getElementById yang lebih andal untuk ID, terutama yang diawali angka.
                 const targetElement = document.getElementById(href.substring(1));
 
                 if (targetElement) {
@@ -271,9 +271,9 @@
                 const tocControlButtons = document.querySelectorAll('button[x-text], button.lg\\:hidden');
                 tocControlButtons.forEach(btn => btn.style.display = 'none');
                 
-                if (desktopTocContainer.parentElement.parentElement) {
-                    desktopTocContainer.parentElement.parentElement.style.display = 'none';
-                }
+                // Sembunyikan juga kartu TOC di desktop jika tidak ada heading
+                const desktopTocCard = document.querySelector('div[x-show="tocLgVisible"]');
+                if(desktopTocCard) desktopTocCard.style.display = 'none';
             }
 
             document.body.addEventListener('close-toc', () => {
