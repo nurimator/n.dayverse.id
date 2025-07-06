@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Privacy Policy', href: '/privacy-policy.html' },
                     { text: 'License', href: '/license.html' },
                     { text: 'Disclaimer', href: '/disclaimer.html' },
-                    { text: 'Tentang Kami', href: '/id/about.html' }
+                    { text: 'Tentang Kami', href: '/id/about-us.html' }
                 ]
             }
         },
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Privacy Policy', href: '/privacy-policy.html' },
                     { text: 'License', href: '/license.html' },
                     { text: 'Disclaimer', href: '/disclaimer.html' },
-                    { text: 'About Us', href: '/en/about.html' }
+                    { text: 'About Us', href: '/en/about-us.html' }
                 ]
             }
         }

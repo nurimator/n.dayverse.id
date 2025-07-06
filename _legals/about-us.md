@@ -3,6 +3,7 @@ layout: legals
 title: "About Us"
 date: 2025-07-01 08:15:00 +0700
 permalink: /en/about-us
+page_id: 9904
 ---
 
 ## About Nurimator
