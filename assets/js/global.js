@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const desktopSearchInput = document.querySelector('#desktop-search-form input[name="q"]');
     const mobileSearchInput = document.querySelector('#mobile-search-input');
     const desktopMenuButtonText = document.querySelector('#desktop-dropdown-button span');
+    const menuBackgroundOverlay = document.getElementById('menu-background-overlay');
 
     // --- Data untuk Menu & Terjemahan UI ---
     const langMenuItems = [
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Privacy Policy', href: '/privacy-policy.html' },
                     { text: 'License', href: '/license.html' },
                     { text: 'Disclaimer', href: '/disclaimer.html' },
-                    { text: 'Tentang Kami', href: '/id/about-us.html' }
+                    { text: 'Tentang Kami', href: '/id/about.html' }
                 ]
             }
         },
@@ -89,12 +90,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Sistem Kontrol Menu Terpusat ---
     const activeMenus = new Map();
 
-    const closeAllMenus = (excludeId = null) => {
+    const closeAllMenus = (excludeId = null, instant = false) => {
         activeMenus.forEach((menuControl, menuId) => {
             if (menuId !== excludeId) {
-                menuControl.close();
+                menuControl.close(instant);
             }
         });
+        // Sembunyikan overlay hanya jika kita menutup SEMUA menu (bukan saat beralih)
+        if (!excludeId) {
+            if (menuBackgroundOverlay) menuBackgroundOverlay.classList.remove('visible');
+        }
     };
 
     const createMenuItem = (item) => {
@@ -131,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let isAvailable = true;
 
                 if (targetLang === currentLang) {
-                    // Tautan untuk bahasa saat ini, akan ditangani oleh UI switcher
+                    // Tautan untuk bahasa saat ini, tidak perlu href
                 } else if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
                     // Logika prioritas untuk halaman konten spesifik
                     const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
@@ -141,17 +146,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         isAvailable = false; // Terjemahan tidak ditemukan
                     }
                 } else {
-                    // Logika global untuk pergantian URL
+                    // Logika global untuk pergantian URL (disederhanakan)
                     if (currentPath.startsWith('/en/')) {
-                        // Dari EN ke ID
-                        const restOfPath = currentPath.substring(3); // dapatkan sisa path setelah /en/
-                        newHref = restOfPath ? '/id' + restOfPath : '/'; // jika ada sisa, tambahkan /id. jika tidak, ke root.
+                         if (targetLang === 'id') newHref = currentPath.replace('/en/', '/id/');
                     } else if (currentPath.startsWith('/id/')) {
-                        // Dari ID ke EN
-                        newHref = '/en' + currentPath.substring(3);
-                    } else if (currentPath === '/' || currentPath === '/index.html') {
-                         // Dari homepage (ID) ke EN
-                        newHref = '/en/';
+                         if (targetLang === 'en') newHref = currentPath.replace('/id/', '/en/');
                     } else {
                         // Halaman tanpa awalan bahasa (misal: /privacy-policy.html)
                         isAvailable = false;
@@ -180,6 +179,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const openMenu = () => {
             if (isOpen) return;
             isOpen = true;
+            if (menuBackgroundOverlay) menuBackgroundOverlay.classList.add('visible');
+
             const buttonRect = button.getBoundingClientRect();
             const headerHeight = header.offsetHeight;
             menu.style.top = `${headerHeight + 8}px`; 
@@ -194,29 +195,44 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         };
 
-        const closeMenu = () => {
+        const closeMenu = (instant = false) => {
             if (!isOpen) return;
             isOpen = false;
-            const reversedItems = [...menuItems].reverse();
-            reversedItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.classList.remove('menu-item-visible');
-                    item.classList.add('menu-item-hidden');
-                }, index * 75);
-            });
-            setTimeout(() => {
+
+            if (instant) {
+                // Tutup langsung tanpa animasi
                 menu.classList.add('hidden');
                 menu.classList.remove('flex');
-            }, reversedItems.length * 75 + 50);
+                menuItems.forEach(item => {
+                    item.classList.remove('menu-item-visible');
+                    item.classList.add('menu-item-hidden');
+                });
+            } else {
+                // Tutup dengan animasi
+                const reversedItems = [...menuItems].reverse();
+                reversedItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.remove('menu-item-visible');
+                        item.classList.add('menu-item-hidden');
+                    }, index * 75);
+                });
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex');
+                }, reversedItems.length * 75 + 50);
+            }
         };
 
         button.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (!isOpen) {
-                closeAllMenus(menuId);
-                openMenu();
+            if (isOpen) {
+                // Jika menu ini sudah terbuka, tutup dengan animasi.
+                closeMenu(false);
+                if (menuBackgroundOverlay) menuBackgroundOverlay.classList.remove('visible');
             } else {
-                closeMenu();
+                // Jika membuka menu baru, tutup menu lain secara instan.
+                closeAllMenus(menuId, true);
+                openMenu();
             }
         });
 
@@ -233,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             document.querySelectorAll('.lang-option').forEach(link => {
                 if (link.dataset.lang === pageLang) {
-                    link.classList.add('bg-blue-600', 'cursor-default');
+                    link.classList.add('bg-teal-600', 'cursor-default');
                     link.classList.remove('hover:bg-gray-600/80');
                     link.addEventListener('click', e => e.preventDefault());
                 }
@@ -255,14 +271,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const translations = uiStrings[pageLang] || uiStrings.id;
         const searchActionUrl = `/${pageLang}/all/`;
 
-        // Mengatur teks placeholder
         if(desktopSearchInput) desktopSearchInput.placeholder = translations.searchPlaceholder;
         if(mobileSearchInput) mobileSearchInput.placeholder = translations.searchPlaceholder;
-        
-        // Mengatur teks tombol menu
         if(desktopMenuButtonText) desktopMenuButtonText.textContent = translations.menuButton;
-        
-        // Mengatur atribut 'action' pada formulir pencarian
         if(desktopSearchForm) desktopSearchForm.action = searchActionUrl;
         if(mobileSearchForm) mobileSearchForm.action = searchActionUrl;
     };
@@ -273,37 +284,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!footerStrings) return;
 
-        // Update elemen teks
         document.getElementById('footer-description').textContent = footerStrings.description;
         document.getElementById('footer-nav-title').textContent = footerStrings.navTitle;
         document.getElementById('footer-info-title').textContent = footerStrings.infoTitle;
         document.getElementById('footer-social-title').textContent = footerStrings.socialTitle;
 
-        // Update daftar tautan navigasi
         const navLinksContainer = document.getElementById('footer-nav-links');
         if (navLinksContainer) {
-            navLinksContainer.innerHTML = ''; // Kosongkan daftar yang ada
+            navLinksContainer.innerHTML = '';
             footerStrings.navLinks.forEach(linkData => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
                 a.href = linkData.href;
                 a.textContent = linkData.text;
-                a.className = 'text-gray-400 hover:text-blue-400';
+                a.className = 'text-gray-400 hover:text-teal-400';
                 li.appendChild(a);
                 navLinksContainer.appendChild(li);
             });
         }
         
-        // Update daftar tautan informasi
         const infoLinksContainer = document.getElementById('footer-info-links');
         if (infoLinksContainer) {
-            infoLinksContainer.innerHTML = ''; // Kosongkan daftar yang ada
+            infoLinksContainer.innerHTML = '';
             footerStrings.infoLinks.forEach(linkData => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
                 a.href = linkData.href;
                 a.textContent = linkData.text;
-                a.className = 'text-gray-400 hover:text-blue-400';
+                a.className = 'text-gray-400 hover:text-teal-400';
                 li.appendChild(a);
                 infoLinksContainer.appendChild(li);
             });
@@ -321,7 +329,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (mobileSearchOpenButton) {
         mobileSearchOpenButton.addEventListener('click', () => {
-            closeAllMenus();
+            closeAllMenus(null, true);
+            if (menuBackgroundOverlay) menuBackgroundOverlay.classList.remove('visible');
             if (headerMainContent) headerMainContent.classList.add('hidden');
             if (mobileSearchView) {
                 mobileSearchView.classList.remove('hidden');
@@ -341,7 +350,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    window.addEventListener('click', () => closeAllMenus());
+    if(menuBackgroundOverlay) {
+        menuBackgroundOverlay.addEventListener('click', () => {
+            closeAllMenus(null, false); // Tutup semua menu dengan animasi
+        });
+    }
     
     setupLanguageSwitcherUI();
     
