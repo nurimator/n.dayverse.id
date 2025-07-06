@@ -7,8 +7,10 @@
     <title>{{ page.title }} | {{ site.title | default: "Nurimator" }}</title>
     {% include favicon.html %}
 
+    {% assign all_articles = site.articles_id | concat: site.articles_en %}
     {% assign current_page_id = page.page_id %}
-    {% assign alternate_posts = site.posts | where: "page_id", current_page_id %}
+    {% assign alternate_posts = all_articles | where: "page_id", current_page_id %}
+
 
     {% for alt in alternate_posts %}
         <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url | absolute_url }}" />
@@ -18,7 +20,7 @@
     {%- if fallback -%}
         <link rel="alternate" hreflang="x-default" href="{{ fallback.url | absolute_url }}" />
     {%- endif -%}
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
