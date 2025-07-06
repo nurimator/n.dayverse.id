@@ -60,4 +60,7 @@ Menjaga agar task tetap jelas, pull request mudah ditinjau, dan komunikasi dalam
 
 Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, Anda bisa tumbuh menjadi frontend developer yang tidak hanya andal secara teknis, tapi juga solid dalam kerja tim dan punya nilai lebih di mata perusahaan maupun komunitas. [mine-imator](https://www.mineimator.com)
 
-[Download gambar](/assets/image/nurimator-logo-512.webp){:.download-link}
+[buka gambar](/assets/image/nurimator-logo-512.webp){:.download-link}
+
+<a href="//assets/image/nurimator-logo-512.webp" download class="download-link">Download File gambar</a>
+
