@@ -54,9 +54,43 @@
                 gap: clamp(2rem, calc(2rem + 1rem * (100vw - 64rem) / (80rem - 64rem)), 3rem);
             }
         }
-        /* PENAMBAHAN: Style untuk tombol download agar tidak ada garis bawah */
-        .download-button {
+        
+        /* --- PENAMBAHAN: Definisi CSS untuk Tombol Download --- */
+        .article-content .download-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.5rem;
+            border-radius: 0.5rem; /* Menyamakan dengan tombol lain (rounded-lg) */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            color: white !important; /* !important untuk menimpa style link default */
+            background-color: #2563eb; /* Tailwind bg-blue-600 */
             text-decoration: none !important;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .article-content .download-link:hover {
+            background-color: #1d4ed8; /* Tailwind bg-blue-700 */
+            color: white !important;
+        }
+
+        /* Menambahkan ikon download menggunakan pseudo-element */
+        .article-content .download-link::after {
+            content: '';
+            display: inline-block;
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-left: 0.75rem;
+            background-color: currentColor;
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+            background-repeat: no-repeat;
+            background-size: contain;
         }
     </style>
 </head>
@@ -229,33 +263,6 @@
             const content = document.querySelector('.article-content');
             const desktopTocContainer = document.getElementById('desktop-toc');
             const mobileTocContainer = document.getElementById('mobile-toc');
-
-            // --- PENAMBAHAN: Fungsi untuk mengubah link download menjadi tombol ---
-            const styleDownloadLinks = () => {
-                if (!content) return;
-                const links = content.querySelectorAll('a');
-                links.forEach(link => {
-                    if (link.href.toLowerCase().includes('download')) {
-                        // Hapus style link default dan tambahkan style tombol
-                        link.className = 'download-button inline-flex items-center justify-center px-4 py-2 my-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 transition-all duration-200';
-                        
-                        // Buat ikon download SVG
-                        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                        icon.setAttribute('class', 'ml-3 -mr-1 h-5 w-5');
-                        icon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-                        icon.setAttribute('viewBox', '0 0 20 20');
-                        icon.setAttribute('fill', 'currentColor');
-                        icon.innerHTML = '<path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />';
-                        
-                        // Tambahkan ikon ke dalam tombol
-                        link.appendChild(icon);
-                    }
-                });
-            };
-
-            // Panggil fungsi untuk styling tombol download
-            styleDownloadLinks();
-            // --- AKHIR PENAMBAHAN ---
             
             if (!content || !desktopTocContainer || !mobileTocContainer) return;
 
