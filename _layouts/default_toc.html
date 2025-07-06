@@ -41,9 +41,9 @@
         pre[class*="language-"] { font-size: 0.875rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 1rem; overflow-x: auto; }
         .article-content img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 4px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
         
+        /* PERUBAHAN: Efek transform (zoom) dihapus dari tautan TOC aktif */
         .toc-link.active {
             color: #60a5fa;
-            transform: scale(1.05);
             font-weight: 600;
         }
 
@@ -57,7 +57,6 @@
         }
     </style>
 </head>
-<!-- PERUBAHAN: x-init dihapus, state default tocLgVisible adalah false -->
 <body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false }">
 
     <!-- ===== Mobile TOC Modal ===== -->
@@ -98,10 +97,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gradual-gap-grid">
                     
-                    <!-- PERUBAHAN: Kolom kiri untuk TOC dihapus -->
-
                     <!-- ===== Main Content ===== -->
-                    <!-- PERUBAHAN: col-span dibuat statis karena tidak ada lagi sidebar kiri -->
                     <div class="lg:col-span-9">
                         <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
@@ -111,12 +107,10 @@
                                     <span>{{ page.date | date: "%d %B %Y" }}</span>
                                     <span class="text-gray-600">•</span>
                                     
-                                    <!-- Tombol teks untuk mobile -->
                                     <button @click="tocOpen = !tocOpen" class="lg:hidden text-blue-400 hover:text-blue-300 transition-colors">
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <!-- Tombol teks untuk desktop, kini mengontrol TOC di sidebar kanan -->
                                     <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-blue-400 hover:text-blue-300 transition-colors">
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
@@ -137,19 +131,26 @@
                     <aside class="lg:col-span-3">
                         <div class="sticky top-28 space-y-8">
                             
-                            <!-- PERUBAHAN: Kartu TOC dipindahkan ke sini, di atas kartu author -->
-                            <div x-show="tocLgVisible" x-cloak x-transition class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
-                                <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
-                                <nav id="desktop-toc" class="space-y-2"></nav>
-                            </div>
-
-                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0 shadow">
-                                <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
-                                <div class="text-left lg:text-center">
-                                    <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
-                                    <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
-                                    <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
+                            <div class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden">
+                                
+                                <!-- Slide 1: Author Info -->
+                                <div class="transition-transform duration-500 ease-in-out" :class="{ '-translate-y-full opacity-0': tocLgVisible, 'translate-y-0 opacity-100': !tocLgVisible }">
+                                    <div class="p-6 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0">
+                                        <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                        <div class="text-left lg:text-center">
+                                            <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
+                                            <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                            <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Slide 2: Table of Contents -->
+                                <div class="absolute inset-0 p-6 transition-transform duration-500 ease-in-out" :class="{ 'translate-y-0': tocLgVisible, 'translate-y-full': !tocLgVisible }">
+                                    <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
+                                    <nav id="desktop-toc" class="space-y-2 max-h-[220px] overflow-y-auto pr-2"></nav>
+                                </div>
+
                             </div>
                             
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
@@ -270,10 +271,6 @@
             if (!hasHeadings) {
                 const tocControlButtons = document.querySelectorAll('button[x-text], button.lg\\:hidden');
                 tocControlButtons.forEach(btn => btn.style.display = 'none');
-                
-                // Sembunyikan juga kartu TOC di desktop jika tidak ada heading
-                const desktopTocCard = document.querySelector('div[x-show="tocLgVisible"]');
-                if(desktopTocCard) desktopTocCard.style.display = 'none';
             }
 
             document.body.addEventListener('close-toc', () => {
