@@ -8,10 +8,10 @@ lang: en
 <head>
 <script>
   (function () {
-    // Jangan jalankan kalau sudah di path bahasa
+    // Do not run if already on a language path
     if (window.location.pathname.startsWith('/id/') || window.location.pathname.startsWith('/en/')) return;
 
-    // Cek apakah user pernah pilih bahasa sebelumnya (disimpan di localStorage)
+    // Check if the user has previously selected a language (stored in localStorage)
     const savedLang = localStorage.getItem('preferredLang');
     if (savedLang === 'id') {
       window.location.replace('/id/');
@@ -21,7 +21,7 @@ lang: en
       return;
     }
 
-    // Kalau belum pernah pilih, deteksi dari bahasa browser
+    // If no language has been chosen, detect from the browser language
     const browserLang = navigator.language || navigator.userLanguage;
     if (browserLang.startsWith('id')) {
       window.location.replace('/id/');
@@ -36,7 +36,7 @@ lang: en
     <title>Nurimator | Animator & Designer</title>
     {% include favicon.html %}
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Optimasi Google Fonts -->
+    <!-- Google Fonts Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -84,45 +84,46 @@ lang: en
         <div class="relative overflow-hidden">
             <!-- Animated Background Blobs -->
             <div class="absolute inset-0 z-0 opacity-20">
-                <div class="absolute top-0 left-0 w-96 h-96 lg:w-[600px] lg:h-[600px] bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
-                <div class="absolute top-1/3 right-0 w-96 h-96 lg:w-[700px] lg:h-[700px] bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
-                <div class="absolute bottom-0 left-1/4 w-96 h-96 lg:w-[500px] lg:h-[500px] bg-blue-700 rounded-full filter blur-3xl animated-blob-3"></div>
+                <div class="absolute top-0 left-0 w-96 h-96 lg:w-[600px] lg:h-[600px] bg-cyan-500 rounded-full filter blur-3xl animated-blob-1"></div>
+                <div class="absolute top-1/3 right-0 w-96 h-96 lg:w-[700px] lg:h-[700px] bg-teal-500 rounded-full filter blur-3xl animated-blob-2"></div>
+                <div class="absolute bottom-0 left-1/4 w-96 h-96 lg:w-[500px] lg:h-[500px] bg-emerald-600 rounded-full filter blur-3xl animated-blob-3"></div>
             </div>
 
             <!-- ===== Hero Section ===== -->
             <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-visible pt-28 pb-16 lg:pt-20">
 
-            <!-- Gambar Desktop Kiri dan Kanan -->
+            <!-- Desktop Background Images -->
             <div class="hidden lg:block absolute inset-0 z-5 pointer-events-none">
-                <!-- Kiri -->
+                <!-- Left -->
                 <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
                 <img 
                     src="/assets/image/hello-nurimator-1.webp" 
-                    alt="Latar Adegan Minecraft 1" 
+                    alt="Minecraft Scene Background 1" 
                     class="rounded-2xl h-[75vh] w-auto" 
                     width="600" height="800"
                     fetchpriority="high"
                     onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
                 </div>
-                <!-- Kanan -->
+                <!-- Right -->
                 <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
                 <img 
                     src="/assets/image/hello-nurimator-2.webp" 
-                    alt="Latar Adegan Minecraft 2" 
+                    alt="Minecraft Scene Background 2" 
                     class="rounded-2xl h-[75vh] w-auto" 
                     width="600" height="800"
+                    fetchpriority="high"
                     onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
                 </div>
             </div>
 
-            <!-- Container Konten Utama -->
+            <!-- Main Content Container -->
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
 
-                <!-- Gambar Mobile -->
+                <!-- Mobile Image -->
                 <div class="lg:hidden mx-auto mb-12 w-[90vw] max-w-md aspect-[16/9] relative overflow-hidden rounded-2xl">
                 <img 
                     src="/assets/image/swarm-mobile.webp"
-                    alt="Gambar Hero Nurimator"
+                    alt="Nurimator Hero Image"
                     decoding="async"
                     fetchpriority="high"
                     width="800"
@@ -131,16 +132,16 @@ lang: en
                     onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
                 </div>
 
-                <!-- Konten Teks -->
+                <!-- Text Content -->
                 <div class="max-w-4xl mx-auto">
                 <h1 class="hero-title font-extrabold text-white mb-6">
-                    EN Selamat Datang di Website <span class="text-blue-400">Nurimator</span>.
+                    Welcome to the Website of <span class="text-teal-400">Nurimator</span>.
                 </h1>
                 <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
-                    Helping you understand Mine-imator through organized content and accessible resources for every skill level.
+                    A source of information about animation, technology, and other digital explorations. Designed to be easily understood and ready to use in various creative contexts.
                 </p>
-                <a href="/#karya" class="inline-block bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-base hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                    Lihat Karya
+                <a href="/#karya" class="inline-block bg-teal-700 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                    View Works
                 </a>
                 </div>
             </div>
@@ -150,185 +151,48 @@ lang: en
             <section id="karya" class="relative z-10 py-20 sm:py-28 bg-transparent">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
-                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Works I Have Created</h2>
+                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Here are some of the animation and 3D model works that I have created.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Work Card 1 -->
-                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+                        {% for card in site.data.landing_en.karya %}
+                        <!-- Work Card -->
+                        <div class="group bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
                             <div class="relative w-full h-56 overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
                                 <img
-                                src="/assets/image/nurimator-jacket.webp"
-                                alt="Gambar Animasi Pertarungan Epik"
-                                class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                                src="{{ card.gambar }}"
+                                alt="{{ card.alt_gambar }}"
+                                class="w-full h-full object-cover opacity-0 transition-all duration-300 group-hover:scale-105"
                                 loading="lazy"
+                                fetchpriority="low"
                                 onload="
-                                    const shimmer1 = this.previousElementSibling;
+                                    const shimmer{{ forloop.index }} = this.previousElementSibling;
                                     setTimeout(() => {
-                                    this.style.opacity = '1';
-                                    if (shimmer1) shimmer1.remove();
-                                    }, 1000); // Delay khusus untuk card ini
+                                      this.style.opacity = '1';
+                                      if (shimmer{{ forloop.index }}) shimmer{{ forloop.index }}.remove();
+                                    }, {{ forloop.index | times: 500 | plus: 500 }});
                                 "
                                 onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
                                 >
                             </div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">Animasi Pertarungan Epik</h3>
-                                <p class="text-gray-400 mb-4 text-sm">Sebuah animasi pendek yang menampilkan pertarungan sengit antar karakter Minecraft.</p>
+                                <h3 class="text-xl font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
+                                <p class="text-gray-400 mb-4 text-sm">{{ card.deskripsi }}</p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                    <span class="bg-red-500/20 text-red-300 text-xs font-semibold px-2.5 py-1 rounded-full">After Effects</span>
+                                    {% for tag in card.tags %}
+                                    <span class="{{ tag.kelas_bg }} {{ tag.kelas_text }} text-xs font-semibold px-2.5 py-1 rounded-full">{{ tag.nama }}</span>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        <!-- Work Card 2 -->
-                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
-                            <div class="relative w-full h-56 overflow-hidden">
-                                <div class="absolute inset-0 shimmer"></div>
-                                <img
-                                src="/assets/image/reflection.webp"
-                                alt="Gambar Animasi Pertarungan Epik"
-                                class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                                loading="lazy"
-                                onload="
-                                    const shimmer2 = this.previousElementSibling;
-                                    setTimeout(() => {
-                                    this.style.opacity = '1';
-                                    if (shimmer2) shimmer2.remove();
-                                    }, 2000); // Delay khusus untuk card ini
-                                "
-                                onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
-                                >
-                            </div>
-
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">Petualangan di Desa</h3>
-                                <p class="text-gray-400 mb-4 text-sm">Kisah petualangan seru menjelajahi desa dan bertemu dengan berbagai karakter unik.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold px-2.5 py-1 rounded-full">Mine-imator</span>
-                                    <span class="bg-purple-500/20 text-purple-300 text-xs font-semibold px-2.5 py-1 rounded-full">Premiere Pro</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Work Card 3 -->
-                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
-                            <div class="relative w-full h-56 overflow-hidden">
-                                <div class="absolute inset-0 shimmer"></div>
-                                <img
-                                src="/assets/image/buani-s1e2.webp"
-                                alt="Gambar Animasi Pertarungan Epik"
-                                class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                                loading="lazy"
-                                onload="
-                                    const shimmer3 = this.previousElementSibling;
-                                    setTimeout(() => {
-                                    this.style.opacity = '1';
-                                    if (shimmer3) shimmer3.remove();
-                                    }, 3000); // Delay khusus untuk card ini
-                                "
-                                onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
-                                >
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">Momen Kocak Minecraft</h3>
-                                <p class="text-gray-400 mb-4 text-sm">Kompilasi momen-momen lucu dan tak terduga dari dunia Minecraft dalam bentuk animasi.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                    <span class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold px-2.5 py-1 rounded-full">CapCut</span>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- Work Card 4 -->
-                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
-                            <div class="relative w-full h-56 overflow-hidden">
-                                <div class="absolute inset-0 shimmer"></div>
-                                <img
-                                src="/assets/image/asftu-timelapse.webp"
-                                alt="Gambar Animasi Pertarungan Epik"
-                                class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                                loading="lazy"
-                                onload="
-                                    const shimmer4 = this.previousElementSibling;
-                                    setTimeout(() => {
-                                    this.style.opacity = '1';
-                                    if (shimmer4) shimmer4.remove();
-                                    }, 3500); // Delay khusus untuk card ini
-                                "
-                                onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
-                                >
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">Rig Karakter Kustom</h3>
-                                <p class="text-gray-400 mb-4 text-sm">Model rig karakter 3D yang dibuat khusus untuk animasi, lengkap dengan kontrol wajah dan tubuh.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                    <span class="bg-green-500/20 text-green-300 text-xs font-semibold px-2.5 py-1 rounded-full">Rigging</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Work Card 5 -->
-                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
-                            <div class="relative w-full h-56 overflow-hidden">
-                                <div class="absolute inset-0 shimmer"></div>
-                                <img
-                                src="/assets/image/nurimator-asftu.webp"
-                                alt="Gambar Animasi Pertarungan Epik"
-                                class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                                loading="lazy"
-                                onload="
-                                    const shimmer5 = this.previousElementSibling;
-                                    setTimeout(() => {
-                                    this.style.opacity = '1';
-                                    if (shimmer5) shimmer5.remove();
-                                    }, 4000); // Delay khusus untuk card ini
-                                "
-                                onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
-                                >
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">Paket Aset Minecraft</h3>
-                                <p class="text-gray-400 mb-4 text-sm">Kumpulan model 3D berkualitas tinggi (furnitur, senjata, dll) untuk digunakan dalam adegan Minecraft.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blockbench</span>
-                                    <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-2.5 py-1 rounded-full">3D Modeling</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Work Card 6 -->
-                        <div class="project-card bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20">
-                            <div class="relative w-full h-56 overflow-hidden">
-                                <div class="absolute inset-0 shimmer"></div>
-                                <img
-                                src="/assets/image/cfr-v2.webp"
-                                alt="Gambar Animasi Pertarungan Epik"
-                                class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                                loading="lazy"
-                                onload="
-                                    const shimmer6 = this.previousElementSibling;
-                                    setTimeout(() => {
-                                    this.style.opacity = '1';
-                                    if (shimmer6) shimmer6.remove();
-                                    }, 4500); // Delay khusus untuk card ini
-                                "
-                                onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
-                                >
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">Desain Lingkungan 3D</h3>
-                                <p class="text-gray-400 mb-4 text-sm">Pembuatan diorama lingkungan 3D yang detail dan atmosferik untuk latar belakang animasi.</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="bg-blue-500/20 text-blue-300 text-xs font-semibold px-2.5 py-1 rounded-full">Blender</span>
-                                    <span class="bg-teal-500/20 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">World-Building</span>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                    <!-- Tombol Lihat Postingan Lainnya -->
-                    <div class="text-center mt-8">
-                        <a href="/id/articles/" class="inline-block bg-blue-700 text-white font-semibold py-3 px-8 rounded-full text-base hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                            Lihat Postingan Lainnya
+                    <!-- View More Posts Button -->
+                    <div class="text-center mt-16">
+                        <a href="/en/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                            View More Posts
                         </a>
                     </div>
                 </div>
@@ -341,14 +205,14 @@ lang: en
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <!-- Community Call to Action -->
                     <div class="text-center lg:text-left">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ikuti Perjalanan Saya</h2>
-                        <p class="text-gray-400 text-lg mb-8">Dukung saya untuk terus berkarya dan berbagi cerita melalui animasi. Ikuti media sosial saya dan jadilah bagian dari komunitas!</p>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Follow My Journey</h2>
+                        <p class="text-gray-400 text-lg mb-8">Support me to continue creating and sharing stories through animation. Follow my social media and be part of the community!</p>
                         
                         <!-- Social Media Buttons -->
                         <div class="flex flex-row gap-4 justify-center lg:justify-start mb-8">
                             <!-- Instagram -->
                             <a href="https://www.instagram.com/nurimator" aria-label="Instagram"
-                                class="flex items-center justify-center p-3 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors duration-300 shadow-lg">
+                                class="flex items-center justify-center p-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors duration-300 shadow-lg">
                                 <svg fill="currentColor" width="24" height="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M160,128a32,32,0,1,1-32-32A32.03667,32.03667,0,0,1,160,128Zm68-44v88a56.06353,56.06353,0,0,1-56,56H84a56.06353,56.06353,0,0,1-56-56V84A56.06353,56.06353,0,0,1,84,28h88A56.06353,56.06353,0,0,1,228,84Zm-52,44a48,48,0,1,0-48,48A48.05436,48.05436,0,0,0,176,128Zm16-52a12,12,0,1,0-12,12A12,12,0,0,0,192,76Z"/>
                                 </svg>
@@ -356,7 +220,7 @@ lang: en
 
                             <!-- YouTube -->
                             <a href="https://www.youtube.com/nurimator" aria-label="YouTube"
-                                class="flex items-center justify-center p-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg">
+                                class="flex items-center justify-center p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-300 shadow-lg">
                                 <svg fill="currentColor" width="24" height="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M234.33057,69.79736a23.96369,23.96369,0,0,0-14.50489-16.34619C185.55615,40.28223,130.97949,40.39209,128,40.40771c-2.978-.02392-57.55518-.126-91.8252,13.04346A23.96415,23.96415,0,0,0,21.66992,69.79639C19.083,79.72705,16,97.88574,16,128c0,30.11377,3.083,48.27246,5.66943,58.20264a23.96369,23.96369,0,0,0,14.50489,16.34619c32.80615,12.60693,84.22168,13.04541,91.167,13.04541.6206.00049.69678.00049,1.31738,0,6.95069-.00049,58.36231-.43945,91.16651-13.04541a23.96415,23.96415,0,0,0,14.50488-16.34522C236.917,176.273,240,158.11426,240,128,240,97.88623,236.917,79.72754,234.33057,69.79736Zm-72.11182,61.53076-48,32A3.99967,3.99967,0,0,1,108,160V96a3.99968,3.99968,0,0,1,6.21875-3.32813l48,32a3.99979,3.99979,0,0,1,0,6.65625Z"/>
                                 </svg>
@@ -364,29 +228,29 @@ lang: en
 
                             <!-- TikTok -->
                             <a href="https://www.tiktok.com/nurimator" aria-label="TikTok"
-                                class="flex items-center justify-center p-3 bg-black text-white rounded-full hover:bg-gray-900 transition-colors duration-300 shadow-lg">
+                                class="flex items-center justify-center p-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors duration-300 shadow-lg">
                                 <svg fill="currentColor" width="24" height="24" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M232,84v40a7.99977,7.99977,0,0,1-8,8,103.32406,103.32406,0,0,1-48.00049-11.70752L176,156A76,76,0,1,1,86.59766,81.17971,7.99952,7.99952,0,0,1,96,89.05569l-.00049,41.63916a7.99971,7.99971,0,0,1-4.56689,7.22607A20.00272,20.00272,0,1,0,120,156V28a7.99977,7.99977,0,0,1,8-8h40a7.99977,7.99977,0,0,1,8,8,48.05436,48.05436,0,0,0,48,48A7.99977,7.99977,0,0,1,232,84Z"/>
                                 </svg>
                             </a>
                         </div>
                         <!-- Donation Button -->
-                        <button class="bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:from-sky-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50">
-                            Donasi Sekarang
+                        <button class="bg-teal-700 text-white font-bold py-4 px-10 rounded-lg text-lg hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            Donate Now
                         </button>
                     </div>
 
                     <!-- Testimonials Slider -->
                     <div id="testimonial-slider" class="relative w-full max-w-lg mx-auto min-w-0">
                         <div class="overflow-hidden rounded-2xl bg-gray-800 border border-gray-700">
-                            <div id="slider-track" class="slider-track flex">
-                                <!-- Testimonial 1 -->
+                            <div id="slider-track" class="slider-track flex transition-transform duration-500 ease-in-out">
+                                {% for testimoni in site.data.landing_en.testimoni %}
+                                <!-- Testimonial Slide -->
                                 <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
                                     <svg 
                                         xmlns="http://www.w3.org/2000/svg" 
                                         viewBox="0 0 349.078 349.078" 
-                                        class="w-10 h-10 text-blue-400 mb-4 fill-current" 
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        class="w-10 h-10 text-teal-400 mb-4 fill-current" 
                                         aria-hidden="true">
                                         <g>
                                         <path d="M198.779,322.441v-58.245c0-7.903,6.406-14.304,14.304-14.304c28.183,0,43.515-28.904,45.643-85.961h-45.643
@@ -399,136 +263,25 @@ lang: en
                                             C57.201,220.982,42.09,249.887,14.301,249.887z"/>
                                         </g>
                                     </svg>
-                                    <p class="text-lg text-gray-300 mb-6">"Animasinya keren banget! Gerakannya halus dan ceritanya selalu seru untuk diikuti."</p>
+                                    <p class="text-lg text-gray-300 mb-6">"{{ testimoni.kutipan }}"</p>
                                     <div class="flex items-center">
-                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Foto Pengguna 1" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=AP';">
+                                        <img src="{{ testimoni.foto }}" alt="Photo of {{ testimoni.nama }}" class="w-12 h-12 rounded-full mr-4 border-2 border-teal-400" fetchpriority="low" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=AV';">
                                         <div>
-                                            <h4 class="font-bold text-white">Andini Putri</h4>
-                                            <p class="text-sm text-gray-400">Subscriber YouTube</p>
+                                            <h4 class="font-bold text-white">{{ testimoni.nama }}</h4>
+                                            <p class="text-sm text-gray-400">{{ testimoni.jabatan }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Testimonial 2 -->
-                                <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        viewBox="0 0 349.078 349.078" 
-                                        class="w-10 h-10 text-blue-400 mb-4 fill-current" 
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        aria-hidden="true">
-                                        <g>
-                                        <path d="M198.779,322.441v-58.245c0-7.903,6.406-14.304,14.304-14.304c28.183,0,43.515-28.904,45.643-85.961h-45.643
-                                            c-7.897,0-14.304-6.41-14.304-14.304V26.64c0-7.9,6.406-14.301,14.304-14.301h121.69c7.896,0,14.305,6.408,14.305,14.301v122.988
-                                            c0,27.349-2.761,52.446-8.181,74.611c-5.568,22.722-14.115,42.587-25.398,59.049c-11.604,16.917-26.132,30.192-43.155,39.437
-                                            c-17.152,9.304-37.09,14.026-59.267,14.026C205.186,336.745,198.779,330.338,198.779,322.441z M14.301,249.887
-                                            C6.404,249.887,0,256.293,0,264.185v58.257c0,7.896,6.404,14.298,14.301,14.298c22.166,0,42.114-4.723,59.255-14.026
-                                            c17.032-9.244,31.558-22.508,43.161-39.437c11.29-16.462,19.836-36.328,25.404-59.061c5.423-22.165,8.178-47.263,8.178-74.6V26.628
-                                            c0-7.9-6.41-14.301-14.304-14.301H14.301C6.404,12.327,0,18.734,0,26.628v122.988c0,7.899,6.404,14.304,14.301,14.304h45.002
-                                            C57.201,220.982,42.09,249.887,14.301,249.887z"/>
-                                        </g>
-                                    </svg>
-                                    <p class="text-lg text-gray-300 mb-6">"Selalu menantikan karya baru dari Nurimator. Kualitasnya tidak pernah mengecewakan!"</p>
-                                    <div class="flex items-center">
-                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704e" alt="Foto Pengguna 2" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=BS';">
-                                        <div>
-                                            <h4 class="font-bold text-white">Budi Santoso</h4>
-                                            <p class="text-sm text-gray-400">Follower Instagram</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Testimonial 3 -->
-                                <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        viewBox="0 0 349.078 349.078" 
-                                        class="w-10 h-10 text-blue-400 mb-4 fill-current" 
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        aria-hidden="true">
-                                        <g>
-                                        <path d="M198.779,322.441v-58.245c0-7.903,6.406-14.304,14.304-14.304c28.183,0,43.515-28.904,45.643-85.961h-45.643
-                                            c-7.897,0-14.304-6.41-14.304-14.304V26.64c0-7.9,6.406-14.301,14.304-14.301h121.69c7.896,0,14.305,6.408,14.305,14.301v122.988
-                                            c0,27.349-2.761,52.446-8.181,74.611c-5.568,22.722-14.115,42.587-25.398,59.049c-11.604,16.917-26.132,30.192-43.155,39.437
-                                            c-17.152,9.304-37.09,14.026-59.267,14.026C205.186,336.745,198.779,330.338,198.779,322.441z M14.301,249.887
-                                            C6.404,249.887,0,256.293,0,264.185v58.257c0,7.896,6.404,14.298,14.301,14.298c22.166,0,42.114-4.723,59.255-14.026
-                                            c17.032-9.244,31.558-22.508,43.161-39.437c11.29-16.462,19.836-36.328,25.404-59.061c5.423-22.165,8.178-47.263,8.178-74.6V26.628
-                                            c0-7.9-6.41-14.301-14.304-14.301H14.301C6.404,12.327,0,18.734,0,26.628v122.988c0,7.899,6.404,14.304,14.301,14.304h45.002
-                                            C57.201,220.982,42.09,249.887,14.301,249.887z"/>
-                                        </g>
-                                    </svg>
-                                    <p class="text-lg text-gray-300 mb-6">"Suka banget sama konten-kontennya yang kreatif dan menghibur. Sukses terus, bang!"</p>
-                                    <div class="flex items-center">
-                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704f" alt="Foto Pengguna 3" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=CL';">
-                                        <div>
-                                            <h4 class="font-bold text-white">Citra Lestari</h4>
-                                            <p class="text-sm text-gray-400">Penggemar TikTok</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Testimonial 4 -->
-                                <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        viewBox="0 0 349.078 349.078" 
-                                        class="w-10 h-10 text-blue-400 mb-4 fill-current" 
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        aria-hidden="true">
-                                        <g>
-                                        <path d="M198.779,322.441v-58.245c0-7.903,6.406-14.304,14.304-14.304c28.183,0,43.515-28.904,45.643-85.961h-45.643
-                                            c-7.897,0-14.304-6.41-14.304-14.304V26.64c0-7.9,6.406-14.301,14.304-14.301h121.69c7.896,0,14.305,6.408,14.305,14.301v122.988
-                                            c0,27.349-2.761,52.446-8.181,74.611c-5.568,22.722-14.115,42.587-25.398,59.049c-11.604,16.917-26.132,30.192-43.155,39.437
-                                            c-17.152,9.304-37.09,14.026-59.267,14.026C205.186,336.745,198.779,330.338,198.779,322.441z M14.301,249.887
-                                            C6.404,249.887,0,256.293,0,264.185v58.257c0,7.896,6.404,14.298,14.301,14.298c22.166,0,42.114-4.723,59.255-14.026
-                                            c17.032-9.244,31.558-22.508,43.161-39.437c11.29-16.462,19.836-36.328,25.404-59.061c5.423-22.165,8.178-47.263,8.178-74.6V26.628
-                                            c0-7.9-6.41-14.301-14.304-14.301H14.301C6.404,12.327,0,18.734,0,26.628v122.988c0,7.899,6.404,14.304,14.301,14.304h45.002
-                                            C57.201,220.982,42.09,249.887,14.301,249.887z"/>
-                                        </g>
-                                    </svg>
-                                    <p class="text-lg text-gray-300 mb-6">"Tutorial rigging-nya sangat membantu saya belajar. Penjelasannya mudah dipahami."</p>
-                                    <div class="flex items-center">
-                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704a" alt="Foto Pengguna 4" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=DF';">
-                                        <div>
-                                            <h4 class="font-bold text-white">Doni Firmansyah</h4>
-                                            <p class="text-sm text-gray-500">Animator Pemula</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Testimonial 5 -->
-                                <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        viewBox="0 0 349.078 349.078" 
-                                        class="w-10 h-10 text-blue-400 mb-4 fill-current" 
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        aria-hidden="true">
-                                        <g>
-                                        <path d="M198.779,322.441v-58.245c0-7.903,6.406-14.304,14.304-14.304c28.183,0,43.515-28.904,45.643-85.961h-45.643
-                                            c-7.897,0-14.304-6.41-14.304-14.304V26.64c0-7.9,6.406-14.301,14.304-14.301h121.69c7.896,0,14.305,6.408,14.305,14.301v122.988
-                                            c0,27.349-2.761,52.446-8.181,74.611c-5.568,22.722-14.115,42.587-25.398,59.049c-11.604,16.917-26.132,30.192-43.155,39.437
-                                            c-17.152,9.304-37.09,14.026-59.267,14.026C205.186,336.745,198.779,330.338,198.779,322.441z M14.301,249.887
-                                            C6.404,249.887,0,256.293,0,264.185v58.257c0,7.896,6.404,14.298,14.301,14.298c22.166,0,42.114-4.723,59.255-14.026
-                                            c17.032-9.244,31.558-22.508,43.161-39.437c11.29-16.462,19.836-36.328,25.404-59.061c5.423-22.165,8.178-47.263,8.178-74.6V26.628
-                                            c0-7.9-6.41-14.301-14.304-14.301H14.301C6.404,12.327,0,18.734,0,26.628v122.988c0,7.899,6.404,14.304,14.301,14.304h45.002
-                                            C57.201,220.982,42.09,249.887,14.301,249.887z"/>
-                                        </g>
-                                    </svg>
-                                    <p class="text-lg text-gray-300 mb-6">"Kualitas model 3D-nya top-notch! Sangat detail dan profesional."</p>
-                                    <div class="flex items-center">
-                                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704b" alt="Foto Pengguna 5" class="w-12 h-12 rounded-full mr-4 border-2 border-blue-400" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=EW';">
-                                        <div>
-                                            <h4 class="font-bold text-white">Eka Wijaya</h4>
-                                            <p class="text-sm text-gray-500">Game Developer</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                         <!-- Slider Controls -->
-                        <button id="prev-slide" aria-label="Mundurkan" class="absolute top-1/2 -translate-y-1/2 -left-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-full backdrop-blur-sm transition-colors z-10 hidden sm:block">
+                        <button id="prev-slide" aria-label="Previous" class="absolute top-1/2 -translate-y-1/2 -left-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-lg backdrop-blur-sm transition-colors z-10 hidden sm:block">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7071 5.29289C16.0976 5.68342 16.0976 6.31658 15.7071 6.70711L10.4142 12L15.7071 17.2929C16.0976 17.6834 16.0976 18.3166 15.7071 18.7071C15.3165 19.0976 14.6834 19.0976 14.2929 18.7071L8.46963 12.8839C7.98148 12.3957 7.98148 11.6043 8.46963 11.1161L14.2929 5.29289C14.6834 4.90237 15.3165 4.90237 15.7071 5.29289Z"/>
                             </svg>
                         </button>
-                        <button id="next-slide" aria-label="Majukan" class="absolute top-1/2 -translate-y-1/2 -right-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-full backdrop-blur-sm transition-colors z-10 hidden sm:block">
+                        <button id="next-slide" aria-label="Next" class="absolute top-1/2 -translate-y-1/2 -right-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-lg backdrop-blur-sm transition-colors z-10 hidden sm:block">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 5.29289C8.68342 4.90237 9.31658 4.90237 9.70711 5.29289L15.5303 11.1161C16.0185 11.6043 16.0185 12.3957 15.5303 12.8839L9.70711 18.7071C9.31658 19.0976 8.68342 19.0976 8.29289 18.7071C7.90237 18.3166 7.90237 17.6834 8.29289 17.2929L13.5858 12L8.29289 6.70711C7.90237 6.31658 7.90237 5.68342 8.29289 5.29289Z"/>
                             </svg>

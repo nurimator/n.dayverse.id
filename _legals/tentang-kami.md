@@ -4,6 +4,7 @@ title: "Tentang Kami"
 date: 2025-07-01 08:15:00 +0700
 permalink: /id/about-us
 page_id: 9904
+lang: "id"
 ---
 
 ## Tentang Nurimator
