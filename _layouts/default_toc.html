@@ -55,7 +55,7 @@
             }
         }
         
-        /* --- PENAMBAHAN: Definisi CSS untuk Tombol Download --- */
+        /* --- Definisi CSS untuk Tombol Download --- */
         .article-content .download-link {
             display: inline-flex;
             align-items: center;
@@ -66,20 +66,19 @@
             font-size: 1rem;
             font-weight: 600;
             line-height: 1.5rem;
-            border-radius: 0.5rem; /* Menyamakan dengan tombol lain (rounded-lg) */
+            border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            color: white !important; /* !important untuk menimpa style link default */
-            background-color: #2563eb; /* Tailwind bg-blue-600 */
+            color: white !important;
+            background-color: #2563eb;
             text-decoration: none !important;
             transition: background-color 0.2s ease-in-out;
         }
 
         .article-content .download-link:hover {
-            background-color: #1d4ed8; /* Tailwind bg-blue-700 */
+            background-color: #1d4ed8;
             color: white !important;
         }
 
-        /* Menambahkan ikon download menggunakan pseudo-element */
         .article-content .download-link::after {
             content: '';
             display: inline-block;
@@ -91,6 +90,11 @@
             mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
             background-repeat: no-repeat;
             background-size: contain;
+        }
+
+        /* PERUBAHAN: Membuat tombol download di tengah jika sendirian di dalam paragraf */
+        .article-content p:has(> .download-link:only-child) {
+            text-align: center;
         }
     </style>
 </head>
@@ -269,12 +273,12 @@
             const headings = content.querySelectorAll('h2, h3');
             let hasHeadings = false;
 
-            // --- PENAMBAHAN: Fungsi untuk membuat link "Pendahuluan" ---
             const createTopLink = () => {
                 const link = document.createElement('a');
                 link.href = '#page-top';
                 link.textContent = 'Pendahuluan';
-                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link', 'toc-top-link', 'font-semibold');
+                // PERUBAHAN: Menghapus 'font-semibold' agar gaya seragam
+                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link', 'toc-top-link');
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -283,19 +287,11 @@
                 return link;
             };
 
-            // Tambahkan link "Pendahuluan" ke kedua ToC
             desktopTocContainer.appendChild(createTopLink());
             mobileTocContainer.appendChild(createTopLink());
 
-            // Tambahkan pemisah jika ada heading lain
-            if (headings.length > 0) {
-                const separator = document.createElement('div');
-                separator.className = 'border-t border-gray-700/50 my-2';
-                desktopTocContainer.appendChild(separator.cloneNode(true));
-                mobileTocContainer.appendChild(separator.cloneNode(true));
-            }
-            // --- AKHIR PENAMBAHAN ---
-
+            // PERUBAHAN: Menghapus garis pemisah
+            
             const handleTocClick = (event) => {
                 event.preventDefault();
                 const href = event.currentTarget.getAttribute('href');
@@ -376,7 +372,6 @@
                     }
                 });
 
-                // MODIFIKASI: Jika tidak ada heading yang aktif, aktifkan link "Pendahuluan"
                 if (!isAnyIntersecting && window.scrollY < 200) {
                      document.querySelectorAll('.toc-link.active').forEach(link => link.classList.remove('active'));
                      document.querySelectorAll('.toc-top-link').forEach(link => link.classList.add('active'));
@@ -385,7 +380,6 @@
 
             headings.forEach(heading => observer.observe(heading));
 
-            // PENAMBAHAN: Listener untuk scroll untuk menangani kasus paling atas
             window.addEventListener('scroll', () => {
                 if (window.scrollY < 200) {
                     if (!document.querySelector('.toc-top-link.active')) {
@@ -397,7 +391,6 @@
                 }
             }, { passive: true });
 
-            // Inisialisasi status aktif saat load
             if (window.scrollY < 200) {
                 document.querySelectorAll('.toc-top-link').forEach(link => link.classList.add('active'));
             }

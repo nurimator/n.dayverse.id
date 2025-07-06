@@ -11,7 +11,6 @@ author_avatar: "/assets/image/nurimator-logo-512.webp"
 type: "Artikel"
 image: "/assets/image/armor-trim.webp"
 ---
-
 Menjadi seorang frontend developer bukan hanya soal memahami teknologi dan framework terbaru. Ada kebiasaan-kebiasaan kecil yang jika dibentuk sejak awal, bisa memberikan dampak besar pada kualitas kerja dan perkembangan karier.
 
 ## 1. Selalu Uji Tampilan di Berbagai Ukuran Layar
@@ -61,6 +60,5 @@ Menjaga agar task tetap jelas, pull request mudah ditinjau, dan komunikasi dalam
 Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, Anda bisa tumbuh menjadi frontend developer yang tidak hanya andal secara teknis, tapi juga solid dalam kerja tim dan punya nilai lebih di mata perusahaan maupun komunitas. [mine-imator](https://www.mineimator.com)
 
 [buka gambar](/assets/image/nurimator-logo-512.webp){:.download-link}
-
 <a href="/assets/image/nurimator-logo-512.webp" download class="download-link">Download File gambar</a>
 
