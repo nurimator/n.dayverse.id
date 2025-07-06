@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const a = document.createElement('a');
     a.href = item.href;
     a.textContent = item.text.toUpperCase(); 
-    a.className = 'menu-item-hidden transition-all duration-300 bg-blue-900/80 backdrop-blur-md border border-gray-700/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center';
+    a.className = 'menu-item-hidden transition-all duration-300 bg-gray-700/80 backdrop-blur-md border border-gray-600/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center';
     if (item.dataLang) {
       a.dataset.lang = item.dataLang;
       a.classList.add('lang-option');
