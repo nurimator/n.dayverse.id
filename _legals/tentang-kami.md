@@ -2,7 +2,7 @@
 layout: legals
 title: "Tentang Kami"
 date: 2025-07-01 08:15:00 +0700
-permalink: /id/tentang-kami
+permalink: /id/about-us
 page_id: 9904
 ---
 
