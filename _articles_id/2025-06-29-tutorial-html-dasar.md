@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_id
 title: "Tutorial HTML Dasar: Pengenalan Elemen-elemen Utama"
 date: 2025-06-29 13:15:00 +0700
 category: "Tutorial"

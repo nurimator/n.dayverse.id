@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_en
 title: "Panduan Ringkas Optimasi Performa Aplikasi React"
 date: 2025-05-20 08:15:00 +0700
 category: "Tutorial"

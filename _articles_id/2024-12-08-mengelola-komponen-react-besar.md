@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_id
 title: "Strategi Mengelola Komponen React yang Semakin Kompleks"
 date: 2025-05-25 11:45:00 +0700
 category: "Tutorial"

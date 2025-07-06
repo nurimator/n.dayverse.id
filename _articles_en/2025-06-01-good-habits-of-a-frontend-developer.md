@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_en
 title: "Good Habits of a Frontend Developer"
 date: 2025-06-01 10:00:00 +0700
 category: "Personal Development"
