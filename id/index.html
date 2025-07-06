@@ -58,19 +58,22 @@ lang: id
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
         .animated-blob-3 { animation: move-blobs 18s infinite ease-in-out; }
         
-        /* Tipografi Responsif */
+        /* Tipografi Responsif yang Disesuaikan */
         .hero-title {
-            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-size: clamp(2.5rem, 4vw + 1rem, 6rem); /* Disesuaikan untuk penskalaan yang lebih baik */
             line-height: 1.1;
         }
         .hero-paragraph {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem); /* Penskalaan lebih halus */
+        }
+        .section-title {
+            font-size: clamp(1.875rem, 3vw + 1rem, 3rem); /* Ukuran untuk judul bagian */
         }
         .card-title {
-            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.5rem); /* Penskalaan lebih baik untuk judul kartu */
         }
         .card-description {
-            font-size: clamp(0.8rem, 1.5vw, 0.875rem);
+            font-size: clamp(0.875rem, 1vw + 0.25rem, 1rem); /* Penskalaan lebih baik untuk deskripsi kartu */
         }
 
         .shimmer {
@@ -106,6 +109,7 @@ lang: id
         .truncate-3-lines {
             display: -webkit-box;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -188,7 +192,7 @@ lang: id
             <section id="karya" class="relative z-10 py-20 sm:py-28 bg-transparent">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
+                        <h2 class="section-title font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
                         <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
                     </div>
 
@@ -242,7 +246,7 @@ lang: id
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <!-- Community Call to Action -->
                     <div class="text-center lg:text-left">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ikuti Perjalanan Saya</h2>
+                        <h2 class="section-title font-bold text-white mb-4">Ikuti Perjalanan Saya</h2>
                         <p class="text-gray-400 text-lg mb-8">Dukung saya untuk terus berkarya dan berbagi cerita melalui animasi. Ikuti media sosial saya dan jadilah bagian dari komunitas!</p>
                         
                         <!-- Social Media Buttons -->
