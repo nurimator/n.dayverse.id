@@ -70,10 +70,10 @@ lang: id
             font-size: clamp(1.875rem, 3vw + 1rem, 3rem);
         }
         .card-title {
-            font-size: clamp(1rem, 2vw + 0.3rem, 1.5rem);
+            font-size: clamp(1rem, 1.2vw + 0.4rem, 1.5rem);
         }
         .card-description {
-            font-size: clamp(0.875rem, 1.5vw + 0.2rem, 1rem);
+            font-size: clamp(0.875rem, 1vw + 0.3rem, 1.1rem);
         }
 
         .shimmer {
@@ -205,7 +205,7 @@ lang: id
                                 <img
                                 src="{{ card.gambar }}"
                                 alt="{{ card.alt_gambar }}"
-                                class="w-full h-full object-cover opacity-0 transition-all duration-300 group-hover:scale-105"
+                                class="w-full h-full object-cover opacity-0 transition-all duration-300"
                                 loading="lazy"
                                 fetchpriority="low"
                                 onload="
@@ -220,7 +220,7 @@ lang: id
                             </div>
                             <div class="p-4 md:p-6 flex-1 flex flex-col">
                                 <h3 class="card-title font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
-                                <p class="card-description text-gray-400 mb-4 flex-grow truncate-3-lines">{{ card.deskripsi }}</p>
+                                <p class="card-description text-gray-400 mb-4 truncate-3-lines">{{ card.deskripsi }}</p>
                                 <div class="flex flex-wrap gap-2 mt-auto">
                                     {% for tag in card.tags %}
                                     <span class="{{ tag.kelas_bg }} {{ tag.kelas_text }} text-xs font-semibold px-2.5 py-1 rounded-full">{{ tag.nama }}</span>
