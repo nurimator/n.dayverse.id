@@ -30,8 +30,8 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
-                    <!-- [PERUBAHAN] Meningkatkan intensitas blur -->
-                    <div id="desktop-lang-switcher-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg p-2 border border-gray-700/50">
+                    <!-- [PERUBAHAN] Menambahkan 'transform' untuk memicu rendering blur -->
+                    <div id="desktop-lang-switcher-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg p-2 border border-gray-700/50 transform">
                         <a href="#" data-lang="id" class="lang-option block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Bahasa Indonesia</a>
                         <a href="#" data-lang="en" class="lang-option block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">English</a>
                     </div>
@@ -45,8 +45,8 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
-                    <!-- [PERUBAHAN] Meningkatkan intensitas blur -->
-                    <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg p-2 border border-gray-700/50">
+                    <!-- [PERUBAHAN] Menambahkan 'transform' untuk memicu rendering blur -->
+                    <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg p-2 border border-gray-700/50 transform">
                         <a href="/index.html" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Beranda</a>
                         <a href="/id/articles/" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Artikel</a>
                         <a href="/id/resources/" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Bahan Desain</a>
@@ -92,9 +92,10 @@
         </div>
     </div>
     
-    <!-- [PERUBAHAN] Mengembalikan layout menu mobile ke kotak di kanan & menerapkan gaya header + blur yang lebih kuat -->
+    <!-- Menu Mobile -->
     <div id="mobile-menu" class="hidden lg:hidden fixed top-16 right-4 w-56 z-50">
-        <div class="bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg p-2 border border-gray-700/50 space-y-1">
+        <!-- [PERUBAHAN] Menambahkan 'transform' untuk memicu rendering blur -->
+        <div class="bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg p-2 border border-gray-700/50 space-y-1 transform">
             <a href="/index.html" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Beranda</a>
             <a href="/id/articles/" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Artikel</a>
             <a href="/id/resources/" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Bahan Desain</a>
@@ -102,7 +103,7 @@
             <a href="/id/donate.html" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Donasi</a>
             <a href="/id/tentang.html" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Tentang</a>
     
-            <!-- [PERUBAHAN] Mengembalikan tampilan pengalih bahasa mobile seperti semula -->
+            <!-- Pengalih Bahasa Mobile -->
             <div class="border-t border-gray-700/50 pt-2 mt-2 space-y-px">
                 <a href="#" data-lang="id" class="lang-option block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Bahasa Indonesia</a>
                 <a href="#" data-lang="en" class="lang-option block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">English</a>
