@@ -62,5 +62,5 @@ Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, An
 
 [buka gambar](/assets/image/nurimator-logo-512.webp){:.download-link}
 
-<a href="//assets/image/nurimator-logo-512.webp" download class="download-link">Download File gambar</a>
+<a href="/assets/image/nurimator-logo-512.webp" download class="download-link">Download File gambar</a>
 
