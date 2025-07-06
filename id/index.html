@@ -60,20 +60,20 @@ lang: id
         
         /* Tipografi Responsif yang Disesuaikan */
         .hero-title {
-            font-size: clamp(2.5rem, 4vw + 1rem, 6rem); /* Disesuaikan untuk penskalaan yang lebih baik */
+            font-size: clamp(2.5rem, 4vw + 1rem, 6rem);
             line-height: 1.1;
         }
         .hero-paragraph {
-            font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem); /* Penskalaan lebih halus */
+            font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem);
         }
         .section-title {
-            font-size: clamp(1.875rem, 3vw + 1rem, 3rem); /* Ukuran untuk judul bagian */
+            font-size: clamp(1.875rem, 3vw + 1rem, 3rem);
         }
         .card-title {
-            font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.5rem); /* Penskalaan lebih baik untuk judul kartu */
+            font-size: clamp(1rem, 2vw + 0.3rem, 1.5rem);
         }
         .card-description {
-            font-size: clamp(0.875rem, 1vw + 0.25rem, 1rem); /* Penskalaan lebih baik untuk deskripsi kartu */
+            font-size: clamp(0.875rem, 1.5vw + 0.2rem, 1rem);
         }
 
         .shimmer {
@@ -109,7 +109,7 @@ lang: id
         .truncate-3-lines {
             display: -webkit-box;
             -webkit-line-clamp: 3;
-            line-clamp: 3;
+            line-clamp: 3; /* Properti standar */
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -174,7 +174,7 @@ lang: id
                 </div>
 
                 <!-- Konten Teks -->
-                <div class="max-w-4xl mx-auto">
+                <div class="max-w-4xl lg:w-1/2 mx-auto">
                 <h1 class="hero-title font-extrabold text-white mb-6">
                     ID Selamat Datang di Website <span class="text-teal-400">Nurimator</span>.
                 </h1>
@@ -200,7 +200,7 @@ lang: id
                         {% for card in site.data.landing_id.karya %}
                         <!-- Work Card -->
                         <div class="group relative flex flex-col aspect-[3/4] bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
-                            <div class="relative w-full h-[55%] overflow-hidden">
+                            <div class="relative w-full aspect-video overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
                                 <img
                                 src="{{ card.gambar }}"
@@ -218,10 +218,10 @@ lang: id
                                 onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
                                 >
                             </div>
-                            <div class="p-6 flex-1 flex flex-col">
+                            <div class="p-4 md:p-6 flex-1 flex flex-col">
                                 <h3 class="card-title font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
                                 <p class="card-description text-gray-400 mb-4 flex-grow truncate-3-lines">{{ card.deskripsi }}</p>
-                                <div class="flex flex-wrap gap-2">
+                                <div class="flex flex-wrap gap-2 mt-auto">
                                     {% for tag in card.tags %}
                                     <span class="{{ tag.kelas_bg }} {{ tag.kelas_text }} text-xs font-semibold px-2.5 py-1 rounded-full">{{ tag.nama }}</span>
                                     {% endfor %}
