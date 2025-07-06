@@ -57,25 +57,12 @@ lang: id
         .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
         .animated-blob-3 { animation: move-blobs 18s infinite ease-in-out; }
-        
-        /* Tipografi Responsif yang Disesuaikan */
         .hero-title {
-            font-size: clamp(2.5rem, 4vw + 1rem, 6rem);
+            /* Responsive font size: min 40px, preferred 7vw, max 72px */
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
             line-height: 1.1;
         }
-        .hero-paragraph {
-            font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem);
-        }
-        .section-title {
-            font-size: clamp(1.875rem, 3vw + 1rem, 3rem);
-        }
-        .card-title {
-            font-size: clamp(1rem, 1.2vw + 0.4rem, 1.5rem);
-        }
-        .card-description {
-            font-size: clamp(0.875rem, 1vw + 0.3rem, 1.1rem);
-        }
-
+        
         .shimmer {
             background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
             background-size: 200% 100%;
@@ -94,24 +81,19 @@ lang: id
             left: 0;
             width: 100%;
             height: 100%;
+            /* Garis kilau vertikal sederhana */
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            /* Mulai dari luar layar sebelah kanan */
             transform: translateX(101%);
-            pointer-events: none;
-            transition: none;
+            pointer-events: none; /* Pastikan tidak mengganggu klik */
+            transition: none; /* Tidak ada transisi saat hover selesai */
         }
 
         .group:hover::after {
+            /* Bergerak ke luar layar sebelah kiri saat di-hover */
             transform: translateX(-101%);
+            /* Terapkan transisi hanya saat hover */
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* Truncate text to 3 lines */
-        .truncate-3-lines {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3; /* Properti standar */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
     </style>
@@ -174,11 +156,11 @@ lang: id
                 </div>
 
                 <!-- Konten Teks -->
-                <div class="max-w-4xl lg:w-1/2 mx-auto">
+                <div class="max-w-4xl mx-auto">
                 <h1 class="hero-title font-extrabold text-white mb-6">
                     ID Selamat Datang di Website <span class="text-teal-400">Nurimator</span>.
                 </h1>
-                <p class="hero-paragraph max-w-2xl mx-auto text-gray-200 mb-10">
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
                     Sumber informasi tentang animasi, teknologi, dan eksplorasi digital lainnya. Dirancang agar mudah dipahami dan siap digunakan dalam berbagai konteks kreatif.
                 </p>
                 <a href="/#karya" class="inline-block bg-teal-700 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
@@ -192,20 +174,20 @@ lang: id
             <section id="karya" class="relative z-10 py-20 sm:py-28 bg-transparent">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="section-title font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
                         <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {% for card in site.data.landing_id.karya %}
                         <!-- Work Card -->
-                        <div class="group relative flex flex-col aspect-[3/4] bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
-                            <div class="relative w-full aspect-video overflow-hidden">
+                        <div class="group relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
+                            <div class="relative w-full h-56 overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
                                 <img
                                 src="{{ card.gambar }}"
                                 alt="{{ card.alt_gambar }}"
-                                class="w-full h-full object-cover opacity-0 transition-all duration-300"
+                                class="w-full h-full object-cover opacity-0 transition-all duration-300 group-hover:scale-105"
                                 loading="lazy"
                                 fetchpriority="low"
                                 onload="
@@ -218,10 +200,10 @@ lang: id
                                 onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
                                 >
                             </div>
-                            <div class="p-4 md:p-6 flex-1 flex flex-col">
-                                <h3 class="card-title font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
-                                <p class="card-description text-gray-400 mb-4 truncate-3-lines">{{ card.deskripsi }}</p>
-                                <div class="flex flex-wrap gap-2 mt-auto">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
+                                <p class="text-gray-400 mb-4 text-sm">{{ card.deskripsi }}</p>
+                                <div class="flex flex-wrap gap-2">
                                     {% for tag in card.tags %}
                                     <span class="{{ tag.kelas_bg }} {{ tag.kelas_text }} text-xs font-semibold px-2.5 py-1 rounded-full">{{ tag.nama }}</span>
                                     {% endfor %}
@@ -246,7 +228,7 @@ lang: id
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <!-- Community Call to Action -->
                     <div class="text-center lg:text-left">
-                        <h2 class="section-title font-bold text-white mb-4">Ikuti Perjalanan Saya</h2>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ikuti Perjalanan Saya</h2>
                         <p class="text-gray-400 text-lg mb-8">Dukung saya untuk terus berkarya dan berbagi cerita melalui animasi. Ikuti media sosial saya dan jadilah bagian dari komunitas!</p>
                         
                         <!-- Social Media Buttons -->
