@@ -54,6 +54,10 @@
                 gap: clamp(2rem, calc(2rem + 1rem * (100vw - 64rem) / (80rem - 64rem)), 3rem);
             }
         }
+        /* PENAMBAHAN: Style untuk tombol download agar tidak ada garis bawah */
+        .download-button {
+            text-decoration: none !important;
+        }
     </style>
 </head>
 <body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false }">
@@ -101,7 +105,7 @@
                         <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
                                 <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
-                                <h1 class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
+                                <h1 id="page-top" class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
                                 <div class="mt-6 flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
                                     <span>{{ page.date | date: "%d %B %Y" }}</span>
                                     <span class="text-gray-600">•</span>
@@ -130,10 +134,8 @@
                     <aside class="lg:col-span-3">
                         <div class="sticky top-28 space-y-8">
                             
-                            <!-- PERBAIKAN: Logika animasi dirombak untuk slide dan tinggi dinamis -->
                             <div x-data="{
                                     setHeight() {
-                                        // Menunggu frame berikutnya untuk memastikan DOM telah diperbarui
                                         this.$nextTick(() => {
                                             if (this.tocLgVisible && this.$refs.tocContent) {
                                                 this.$el.style.height = this.$refs.tocContent.scrollHeight + 'px';
@@ -144,7 +146,6 @@
                                     }
                                 }"
                                  x-init="
-                                    // Menjalankan setHeight setelah TOC script selesai
                                     setTimeout(() => setHeight(), 100);
                                     $watch('tocLgVisible', () => setHeight());
                                  "
@@ -168,8 +169,8 @@
                                 <div x-ref="tocContent" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out" 
                                      :class="{ 'opacity-100 translate-y-0': tocLgVisible, 'opacity-0 -translate-y-full': !tocLgVisible }">
                                      <div class="p-6">
-                                        <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
-                                        <nav id="desktop-toc" class="space-y-2 pr-2"></nav>
+                                         <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
+                                         <nav id="desktop-toc" class="space-y-2 pr-2"></nav>
                                      </div>
                                 </div>
 
@@ -228,11 +229,65 @@
             const content = document.querySelector('.article-content');
             const desktopTocContainer = document.getElementById('desktop-toc');
             const mobileTocContainer = document.getElementById('mobile-toc');
+
+            // --- PENAMBAHAN: Fungsi untuk mengubah link download menjadi tombol ---
+            const styleDownloadLinks = () => {
+                if (!content) return;
+                const links = content.querySelectorAll('a');
+                links.forEach(link => {
+                    if (link.href.toLowerCase().includes('download')) {
+                        // Hapus style link default dan tambahkan style tombol
+                        link.className = 'download-button inline-flex items-center justify-center px-4 py-2 my-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 transition-all duration-200';
+                        
+                        // Buat ikon download SVG
+                        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        icon.setAttribute('class', 'ml-3 -mr-1 h-5 w-5');
+                        icon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                        icon.setAttribute('viewBox', '0 0 20 20');
+                        icon.setAttribute('fill', 'currentColor');
+                        icon.innerHTML = '<path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />';
+                        
+                        // Tambahkan ikon ke dalam tombol
+                        link.appendChild(icon);
+                    }
+                });
+            };
+
+            // Panggil fungsi untuk styling tombol download
+            styleDownloadLinks();
+            // --- AKHIR PENAMBAHAN ---
             
             if (!content || !desktopTocContainer || !mobileTocContainer) return;
 
             const headings = content.querySelectorAll('h2, h3');
             let hasHeadings = false;
+
+            // --- PENAMBAHAN: Fungsi untuk membuat link "Pendahuluan" ---
+            const createTopLink = () => {
+                const link = document.createElement('a');
+                link.href = '#page-top';
+                link.textContent = 'Pendahuluan';
+                link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link', 'toc-top-link', 'font-semibold');
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.body.dispatchEvent(new CustomEvent('close-toc'));
+                });
+                return link;
+            };
+
+            // Tambahkan link "Pendahuluan" ke kedua ToC
+            desktopTocContainer.appendChild(createTopLink());
+            mobileTocContainer.appendChild(createTopLink());
+
+            // Tambahkan pemisah jika ada heading lain
+            if (headings.length > 0) {
+                const separator = document.createElement('div');
+                separator.className = 'border-t border-gray-700/50 my-2';
+                desktopTocContainer.appendChild(separator.cloneNode(true));
+                mobileTocContainer.appendChild(separator.cloneNode(true));
+            }
+            // --- AKHIR PENAMBAHAN ---
 
             const handleTocClick = (event) => {
                 event.preventDefault();
@@ -303,17 +358,42 @@
             });
 
             const observer = new IntersectionObserver(entries => {
+                let isAnyIntersecting = false;
                 entries.forEach(entry => {
                     const id = entry.target.getAttribute('id');
                     const correspondingLinks = document.querySelectorAll(`.toc-link[href="#${id}"]`);
                     if (entry.isIntersecting) {
+                        isAnyIntersecting = true;
                         document.querySelectorAll('.toc-link.active').forEach(link => link.classList.remove('active'));
                         correspondingLinks.forEach(link => link.classList.add('active'));
                     }
                 });
+
+                // MODIFIKASI: Jika tidak ada heading yang aktif, aktifkan link "Pendahuluan"
+                if (!isAnyIntersecting && window.scrollY < 200) {
+                     document.querySelectorAll('.toc-link.active').forEach(link => link.classList.remove('active'));
+                     document.querySelectorAll('.toc-top-link').forEach(link => link.classList.add('active'));
+                }
             }, { rootMargin: "-30% 0px -60% 0px" });
 
             headings.forEach(heading => observer.observe(heading));
+
+            // PENAMBAHAN: Listener untuk scroll untuk menangani kasus paling atas
+            window.addEventListener('scroll', () => {
+                if (window.scrollY < 200) {
+                    if (!document.querySelector('.toc-top-link.active')) {
+                        document.querySelectorAll('.toc-link.active').forEach(link => link.classList.remove('active'));
+                        document.querySelectorAll('.toc-top-link').forEach(link => link.classList.add('active'));
+                    }
+                } else {
+                    document.querySelectorAll('.toc-top-link').forEach(link => link.classList.remove('active'));
+                }
+            }, { passive: true });
+
+            // Inisialisasi status aktif saat load
+            if (window.scrollY < 200) {
+                document.querySelectorAll('.toc-top-link').forEach(link => link.classList.add('active'));
+            }
         });
     </script>
 

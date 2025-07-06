@@ -58,5 +58,6 @@ Dokumentasi bukan hanya untuk orang lain, tapi juga untuk diri sendiri di masa d
 
 Menjaga agar task tetap jelas, pull request mudah ditinjau, dan komunikasi dalam tim efisien, adalah tanda profesionalisme. Developer yang menghargai waktu orang lain biasanya juga lebih dihargai oleh timnya.
 
-Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, Anda bisa tumbuh menjadi frontend developer yang tidak hanya andal secara teknis, tapi juga solid dalam kerja tim dan punya nilai lebih di mata perusahaan maupun komunitas.
+Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, Anda bisa tumbuh menjadi frontend developer yang tidak hanya andal secara teknis, tapi juga solid dalam kerja tim dan punya nilai lebih di mata perusahaan maupun komunitas. [mine-imator](https://www.mineimator.com)
 
+[Download gambar](/assets/image/nurimator-logo-512.webp)
