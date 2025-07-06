@@ -1,4 +1,4 @@
-<header id="header" class="bg-gray-800 fixed top-0 left-0 right-0 z-50 border-b border-gray-700/50">
+<header id="header" class="bg-gray-900/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-700/50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Konten header utama untuk mobile dan desktop -->
         <div id="header-main-content" class="flex items-center justify-between h-16 lg:h-20">
@@ -7,7 +7,7 @@
             <!-- Pencarian Desktop, Pengalih Bahasa, dan Dropdown Menu Utama -->
             <div class="hidden lg:flex items-center space-x-2">
                 
-                <!-- [PERUBAHAN] Formulir Pencarian dengan Latar Belakang Ikon Terpisah -->
+                <!-- Formulir Pencarian dengan Latar Belakang Ikon Terpisah -->
                 <form id="desktop-search-form" action="/id/all/" method="GET" class="relative">
                     <div class="flex items-stretch border border-gray-600 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all duration-300 overflow-hidden">
                         <button type="submit" aria-label="Cari" class="bg-gray-700 px-3 flex items-center text-white hover:bg-gray-600 transition-colors">
@@ -30,7 +30,8 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
-                    <div id="desktop-lang-switcher-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
+                    <!-- [PERUBAHAN] Menyesuaikan gaya dropdown agar sama dengan header -->
+                    <div id="desktop-lang-switcher-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-lg p-2 border border-gray-700/50">
                         <a href="#" data-lang="id" class="lang-option block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Bahasa Indonesia</a>
                         <a href="#" data-lang="en" class="lang-option block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">English</a>
                     </div>
@@ -44,7 +45,8 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
                         </svg>
                     </button>
-                    <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-800 rounded-xl shadow-lg p-2 border border-gray-700">
+                    <!-- [PERUBAHAN] Menyesuaikan gaya dropdown agar sama dengan header -->
+                    <div id="desktop-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-lg p-2 border border-gray-700/50">
                         <a href="/index.html" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Beranda</a>
                         <a href="/id/articles/" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Artikel</a>
                         <a href="/id/resources/" class="block p-3 text-sm text-white hover:bg-gray-700 rounded-lg">Bahan Desain</a>
@@ -62,7 +64,6 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"/>
                     </svg>
                 </button>
-                <!-- [PERUBAHAN] Menambahkan hover:bg-gray-700 untuk highlight saat menu tertutup -->
                 <button id="mobile-menu-button" class="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700" aria-label="Buka Menu">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6ZM3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H4C3.44772 13 3 12.5523 3 12ZM3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z"/>
@@ -74,7 +75,6 @@
         <!-- Tampilan Pencarian Mobile (tersembunyi secara default) -->
         <div id="mobile-search-view" class="hidden items-center h-16 lg:h-20">
             <form id="mobile-search-form" action="/id/all/" method="GET" class="relative w-full flex items-center">
-                <!-- [PERUBAHAN] Formulir Pencarian Mobile dengan Latar Belakang Ikon Terpisah -->
                 <div class="flex items-stretch border border-gray-600 rounded-xl w-full focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all duration-300 overflow-hidden">
                     <button type="submit" aria-label="Cari" class="bg-gray-700 px-4 flex items-center text-white hover:bg-gray-600 transition-colors">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
@@ -92,21 +92,27 @@
         </div>
     </div>
     
-    <!-- MOBILE MENU -->
-    <div id="mobile-menu" class="hidden lg:hidden fixed top-16 right-4 w-[160px] z-50">
-    <div class="p-2 mx-2 mb-2 space-y-px bg-gray-800 border border-t-0 border-gray-700 rounded-xl">
-        <a href="/index.html" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Beranda</a>
-        <a href="/id/articles/" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Artikel</a>
-        <a href="/id/resources/" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Bahan Desain</a>
-        <a href="/id/media/" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Media</a>
-        <a href="/id/donate.html" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Donasi</a>
-        <a href="/id/tentang.html" class="block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Tentang</a>
-
-        <!-- Pengalih Bahasa Mobile (langsung tampil) -->
-        <div class="border-t border-gray-700/50 pt-2 mt-2 space-y-px">
-        <a href="#" data-lang="id" class="lang-option block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">Bahasa Indonesia</a>
-        <a href="#" data-lang="en" class="lang-option block p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg">English</a>
+    <!-- [PERUBAHAN] Merombak total menu mobile agar posisinya tepat di bawah header, full-width, dan gayanya konsisten -->
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-40 bg-gray-900/80 backdrop-blur-sm border-b border-gray-700/50">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="/index.html" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md">Beranda</a>
+            <a href="/id/articles/" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md">Artikel</a>
+            <a href="/id/resources/" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md">Bahan Desain</a>
+            <a href="/id/media/" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md">Media</a>
+            <a href="/id/donate.html" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md">Donasi</a>
+            <a href="/id/tentang.html" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700 rounded-md">Tentang</a>
+    
+            <!-- Pengalih Bahasa Mobile -->
+            <div class="border-t border-gray-700/50 pt-4 mt-3">
+                <div class="flex items-center justify-center space-x-4">
+                    <a href="#" data-lang="id" class="lang-option p-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg flex items-center space-x-2">
+                        <span>ID</span>
+                    </a>
+                    <a href="#" data-lang="en" class="lang-option p-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg flex items-center space-x-2">
+                        <span>EN</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 </header>
