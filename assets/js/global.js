@@ -106,9 +106,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const a = document.createElement('a');
         a.href = item.href;
         a.textContent = item.text.toUpperCase(); 
-        // Hapus bg-gray-700/80 dari inisialisasi awal. Akan ditambahkan kembali di setupLanguageSwitcherUI
-        // untuk opsi yang tidak aktif.
-        a.className = 'menu-item-hidden transition-all duration-300 backdrop-blur-md border border-gray-600/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center';
+        
+        // [PERBAIKAN DI SINI] 
+        // Tambahkan kelas background abu-abu secara default untuk SEMUA item menu.
+        // Fungsi setupLanguageSwitcherUI akan menimpanya nanti untuk item bahasa yang aktif.
+        a.className = 'menu-item-hidden transition-all duration-300 backdrop-blur-md border border-gray-600/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center bg-gray-700/80 hover:bg-gray-600/80';
+        
         if (item.dataLang) {
             a.dataset.lang = item.dataLang;
             a.classList.add('lang-option');
