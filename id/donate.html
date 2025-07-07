@@ -10,9 +10,12 @@ lang: id
     <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
     <title>Halaman Donasi | Nurimator</title>
     {% include favicon.html %}
+    <!-- Preconnect untuk percepat koneksi ke CDN -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-     
+    <script src="https://cdn.tailwindcss.com"></script>     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
