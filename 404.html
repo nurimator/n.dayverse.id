@@ -20,9 +20,9 @@ lang: id
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
- 
+
     <style>
-        /* Gaya dasar dan animasi blob dari referensi baru */
+        /* Gaya dasar dan animasi blob */
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
@@ -50,16 +50,16 @@ lang: id
     <main class="relative min-h-screen flex items-center justify-center p-4 overflow-hidden pt-16 lg:pt-28">
         <!-- Latar belakang dengan blob animasi -->
         <div class="absolute inset-0 z-0 opacity-20">
-            <div class="absolute top-0 -left-24 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animated-blob-1"></div>
-            <div class="absolute bottom-0 -right-24 w-80 h-80 bg-sky-500 rounded-full filter blur-3xl animated-blob-2"></div>
+            <div class="absolute top-0 -left-24 w-96 h-96 bg-teal-500 rounded-full filter blur-3xl animated-blob-1"></div>
+            <div class="absolute bottom-0 -right-24 w-80 h-80 bg-teal-400 rounded-full filter blur-3xl animated-blob-2"></div>
         </div>
 
         <!-- Konten utama halaman 404 -->
         <div class="relative z-10 container mx-auto">
             <div class="max-w-md mx-auto relative">
                 
-                <!-- Kartu Konten dengan efek hover -->
-                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20 relative z-10">
+                <!-- Kartu Konten dengan efek hover yang diperbarui -->
+                <div class="group work-card relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl p-8 text-center">
                     
                     <!-- Konten di Depan -->
                     <div class="relative z-10">
@@ -67,9 +67,9 @@ lang: id
                         
                         <!-- Elemen untuk efek typewriter -->
                         <div id="typewriter-container" class="mt-4 mb-6 h-12 md:h-14 flex items-center justify-center">
-                             <p class="text-xl md:text-2xl font-bold text-white">
-                                 <span id="typewriter-text" class="whitespace-pre-wrap"></span><span id="cursor" class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white align-bottom ml-1"></span>
-                             </p>
+                                <p class="text-xl md:text-2xl font-bold text-white">
+                                    <span id="typewriter-text" class="whitespace-pre-wrap"></span><span id="cursor" class="inline-block w-[1ch] h-[1.6rem] md:h-[1.8rem] bg-white align-bottom ml-1"></span>
+                                </p>
                         </div>
     
                         <div class="text-gray-400 max-w-sm mx-auto">
@@ -79,12 +79,15 @@ lang: id
                         </div>
     
                         <div class="mt-10">
-                             <a href="/" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300 inline-flex items-center justify-center space-x-2">
-                                 <svg class="w-5 h-5 relative bottom-0.3" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
-                                 </svg>
-                                 <span>Back to Homepage</span>
-                             </a>
+                             <!-- Tombol dengan gaya yang diperbarui -->
+                             <a href="/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                                 <div class="flex items-center justify-center space-x-2">
+                                    <svg class="w-5 h-5 relative bottom-0.3" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
+                                    </svg>
+                                    <span>Back to Homepage</span>
+                                 </div>
+                            </a>
                         </div>
                     </div>
 
@@ -120,7 +123,7 @@ lang: id
                 "Page Not Found",
                 "Halaman Tidak Ditemukan",
                 "Page Not Found",
-                "Halaman Tidak Ditemukan",                
+                "Halaman Tidak Ditemukan",
                 "Страница не найдена",
                 "페이지를 찾을 수 없음",
                 "Page Not Found",
@@ -128,11 +131,11 @@ lang: id
                 "Page Not Found",
                 "Halaman Tidak Ditemukan",
                 "Seite nicht gefunden", 
-                "ページが見つかりません",             
+                "ページが見つかりません",
                 "Suddenly you’re nowhere to be found",
                 "I turn around and everything has changed",
                 "Looking for a way to work it out",
-                "I’m trying to find some peace to navigate"                
+                "I’m trying to find some peace to navigate"
             ];
 
             // Variabel untuk mengontrol animasi

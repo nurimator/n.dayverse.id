@@ -49,18 +49,28 @@ lang: id
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
         
-        /* [BARU] Animasi looping mulus untuk latar belakang */
-        @keyframes endless-scroll-left {
-            from { transform: translateX(0%); }
-            to { transform: translateX(-50%); }
+        /* [UPDATE] Animasi looping mulus untuk latar belakang */
+        @keyframes endless-scroll-left-bg {
+            from { background-position: 0 0; }
+            to { background-position: -1920px 0; } /* Ganti dengan lebar gambar asli Anda */
+        }
+
+        .hero-bg-layer {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang');
+            background-repeat: repeat-x;
+            background-size: auto 100%; /* Mengisi tinggi, lebar otomatis */
         }
 
         .hero-bg-layer-1 {
-            animation: endless-scroll-left 80s linear infinite;
+            animation: endless-scroll-left-bg 80s linear infinite;
+            opacity: 0.3;
         }
 
         .hero-bg-layer-2 {
-            animation: endless-scroll-left 60s linear infinite;
+            animation: endless-scroll-left-bg 60s linear infinite;
+            opacity: 0.5;
         }
 
         @keyframes move-blobs {
@@ -88,7 +98,7 @@ lang: id
             100% { background-position: 200% 0; }
         }
 
-        /* [UPDATE] Efek kilau hanya untuk kartu karya */
+        /* Efek kilau hanya untuk kartu karya */
         .work-card::after {
             content: '';
             position: absolute;
@@ -116,7 +126,7 @@ lang: id
     <main>
         <!-- Wrapper for Hero and Works sections to contain blobs -->
         <div class="relative overflow-hidden">
-            <!-- [DIKEMBALIKAN] Animated Background Blobs Global -->
+            <!-- Animated Background Blobs Global -->
             <div class="absolute inset-0 z-0 opacity-20">
                 <div class="absolute top-0 left-0 w-96 h-96 lg:w-[600px] lg:h-[600px] bg-cyan-500 rounded-full filter blur-3xl animated-blob-1"></div>
                 <div class="absolute top-1/3 right-0 w-96 h-96 lg:w-[700px] lg:h-[700px] bg-teal-500 rounded-full filter blur-3xl animated-blob-2"></div>
@@ -124,20 +134,12 @@ lang: id
             </div>
             
             <!-- ===== Hero Section ===== -->
-            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 lg:pt-20">
+            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center pt-28 pb-16 lg:pt-20">
 
-                <!-- [UPDATE] Latar belakang gambar bergerak 2 lapis dengan tinggi 110vh -->
-                <div class="absolute top-0 bottom-[-10vh] left-0 right-0 z-0 overflow-hidden">
-                    <!-- Lapis Belakang (Lambat) -->
-                    <div class="hero-bg-layer-1 absolute inset-0 flex w-[200%] opacity-30">
-                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
-                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
-                    </div>
-                    <!-- Lapis Depan (Cepat) -->
-                    <div class="hero-bg-layer-2 absolute inset-0 flex w-[200%] opacity-50">
-                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
-                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
-                    </div>
+                <!-- Latar belakang gambar bergerak 2 lapis -->
+                <div class="absolute top-[-5vh] bottom-[-15vh] left-0 right-0 z-0 overflow-hidden">
+                    <div class="hero-bg-layer hero-bg-layer-1"></div>
+                    <div class="hero-bg-layer hero-bg-layer-2"></div>
                 </div>
 
                 <!-- Blob khusus Hero (Layer 2) -->
@@ -173,7 +175,7 @@ lang: id
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {% for card in site.data.landing_id.karya %}
-                        <!-- [UPDATE] Work Card dengan kelas 'work-card' -->
+                        <!-- Work Card dengan kelas 'work-card' -->
                         <div class="group work-card relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
                             <div class="relative w-full h-56 overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
@@ -205,8 +207,8 @@ lang: id
                         </div>
                         {% endfor %}
                     </div>
-                    <!-- Tombol Lihat Postingan Lainnya -->
-                    <div class="text-center mt-16">
+                    <!-- [UPDATE] Tombol Lihat Postingan Lainnya dengan jarak yang diseragamkan -->
+                    <div class="text-center mt-10">
                         <a href="/id/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
                             Lihat Postingan Lainnya
                         </a>
