@@ -1,63 +1,80 @@
-<!-- ===== Cookie Consent Popup ===== -->
-<!-- 
-  File Include untuk Persetujuan Cookie.
-  Komponen ini menggunakan Alpine.js dan memerlukan variabel `cookieConsent` 
-  yang diinisialisasi pada tag <body> utama.
--->
-<div
-    x-data="{ show: false }"
-    x-init="
-        if (cookieConsent === null) {
-            setTimeout(() => { show = true }, 500);
-        }
-    "
-    x-show="show"
-    x-cloak
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-[9999] flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm p-4"
->
-    <!-- Container for image and card -->
-    <div 
-        x-show="show"
-        x-transition:enter="transition ease-out duration-300 delay-100"
-        x-transition:enter-start="opacity-0 transform scale-95"
-        x-transition:enter-end="opacity-100 transform scale-100"
-        class="relative w-full max-w-sm"
-    >
+<!-- ===== Cookie Consent Banner ===== -->
+<style>
+    /* --- Vanilla JS Transition & Visibility States for Banner --- */
+    .v-cloak {
+        display: none !important;
+    }
+    .banner {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-out, visibility 0.3s;
+    }
+    .banner.is-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    .banner .banner-content {
+        transform: scale(0.95);
+        transition: transform 0.3s ease-out;
+    }
+    .banner.is-visible .banner-content {
+        transform: scale(1);
+    }
+</style>
 
+<div id="cookie-consent-banner" class="banner v-cloak fixed inset-0 z-[9999] flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div class="banner-content relative w-full max-w-sm">
         <!-- Decorative Image -->
         <div class="absolute bottom-full w-full">
-           <img 
-              src="/assets/image/nurimator-night.webp" 
-              alt="" 
-              class="w-full h-auto"
-              style="aspect-ratio: 16 / 9; object-fit: cover;"
-              onerror="this.style.display='none'"
-            >
+            <img src="/assets/image/nurimator-night.webp" alt="" class="w-full h-auto" style="aspect-ratio: 16 / 9; object-fit: cover;" onerror="this.style.display='none'">
         </div>
-
         <!-- Cookie Card -->
         <div class="bg-[#1f2937] border border-gray-700/80 rounded-lg shadow-2xl p-5 w-full">
             <p class="text-sm text-gray-300">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
             <div class="mt-4 flex justify-end space-x-3">
-                <button
-                    @click="show = false; cookieConsent = 'no'; localStorage.setItem('cookieConsent', 'no')"
-                    class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-600/50 hover:bg-gray-600/80 rounded-md transition-colors"
-                >
+                <button id="cookie-consent-no" class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-600/50 hover:bg-gray-600/80 rounded-md transition-colors">
                     No
                 </button>
-                <button
-                    @click="show = false; cookieConsent = 'yes'; localStorage.setItem('cookieConsent', 'yes')"
-                    class="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-500 rounded-md transition-colors"
-                >
+                <button id="cookie-consent-yes" class="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-500 rounded-md transition-colors">
                     Yes
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- COOKIE CONSENT BANNER LOGIC ---
+        const cookieBanner = document.getElementById('cookie-consent-banner');
+        const cookieBtnYes = document.getElementById('cookie-consent-yes');
+        const cookieBtnNo = document.getElementById('cookie-consent-no');
+
+        function showCookieBanner() {
+            if (!cookieBanner) return;
+            cookieBanner.classList.remove('v-cloak');
+            setTimeout(() => cookieBanner.classList.add('is-visible'), 100);
+        }
+
+        function hideCookieBanner() {
+            if (!cookieBanner) return;
+            cookieBanner.classList.remove('is-visible');
+        }
+
+        if (cookieBanner) {
+            const consent = localStorage.getItem('cookieConsent');
+            if (consent === null) {
+                setTimeout(showCookieBanner, 500);
+            }
+
+            cookieBtnYes.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'yes');
+                hideCookieBanner();
+            });
+            cookieBtnNo.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'no');
+                hideCookieBanner();
+            });
+        }
+    });
+</script>

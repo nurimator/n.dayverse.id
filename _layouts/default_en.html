@@ -11,7 +11,6 @@
     {% assign current_page_id = page.page_id %}
     {% assign alternate_posts = all_articles | where: "page_id", current_page_id %}
 
-
     {% for alt in alternate_posts %}
         <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url | absolute_url }}" />
     {% endfor %}
@@ -23,9 +22,6 @@
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- AlpineJS for Interactivity -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -108,44 +104,37 @@
             background-size: contain;
         }
 
-        /* Center the button if it's the only element in a paragraph */
         .article-content p:has(> .download-link:only-child) {
             text-align: center;
         }
 
-        /* Prevents content flashing before Alpine.js initializes */
-        [x-cloak] { display: none !important; }
+        /* --- Vanilla JS Transition & Visibility States --- */
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-out, visibility 0.3s;
+        }
+        .modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.3s ease-out;
+        }
+        .modal.is-visible .modal-content {
+            transform: scale(1);
+        }
     </style>
 </head>
-<body class="bg-[#18212f] lg:bg-gray-900 text-gray-300" x-data="{ tocOpen: false, tocLgVisible: false, cookieConsent: localStorage.getItem('cookieConsent') }">
+<body class="bg-[#18212f] lg:bg-gray-900 text-gray-300">
 
     <!-- ===== Mobile TOC Modal ===== -->
-    <div 
-        x-show="tocOpen"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300" 
-        x-transition:enter-start="opacity-0" 
-        x-transition:enter-end="opacity-100" 
-        x-transition:leave="transition ease-in duration-200" 
-        x-transition:leave-start="opacity-100" 
-        x-transition:leave-end="opacity-0" 
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center p-4" 
-        @click="tocOpen = false"
-    >
-        <div 
-            @click.stop 
-            x-show="tocOpen" 
-            x-transition:enter="transition ease-out duration-300" 
-            x-transition:enter-start="opacity-0 scale-95" 
-            x-transition:enter-end="opacity-100 scale-100" 
-            x-transition:leave="transition ease-in duration-200" 
-            x-transition:leave-start="opacity-100 scale-100" 
-            x-transition:leave-end="opacity-0 scale-95" 
-            class="relative bg-[#1f2937] w-full max-w-md max-h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-700/80"
-        >
+    <div id="mobile-toc-modal" class="modal fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center p-4">
+        <div id="mobile-toc-content" class="modal-content relative bg-[#1f2937] w-full max-w-md max-h-[75vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-700/80">
             <div class="flex justify-between items-center p-4 border-b border-gray-700/80 flex-shrink-0">
                 <h3 class="text-lg font-bold text-white">Table of Contents</h3>
-                <button @click="tocOpen = false" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+                <button id="mobile-toc-close-btn" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
             </div>
             <nav id="mobile-toc" class="p-6 space-y-3 overflow-y-auto"></nav>
         </div>
@@ -168,12 +157,12 @@
                                     <span>{{ page.date | date: "%d %B %Y" }}</span>
                                     <span class="text-gray-600">•</span>
                                     
-                                    <button @click="tocOpen = !tocOpen" class="lg:hidden text-teal-400 hover:text-teal-300 transition-colors">
+                                    <button id="mobile-toc-open-btn" class="lg:hidden text-teal-400 hover:text-teal-300 transition-colors">
                                         Show Table of Contents
                                     </button>
 
-                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-teal-400 hover:text-teal-300 transition-colors">
-                                        <span x-text="tocLgVisible ? 'Hide Table of Contents' : 'Show Table of Contents'"></span>
+                                    <button id="desktop-toc-toggle-btn" class="hidden lg:inline-flex text-teal-400 hover:text-teal-300 transition-colors">
+                                        <span id="desktop-toc-toggle-text">Show Table of Contents</span>
                                     </button>
                                 </div>
                             </div>
@@ -192,27 +181,10 @@
                     <aside class="lg:col-span-3">
                         <div class="sticky top-28 space-y-8">
                             
-                            <div x-data="{
-                                    setHeight() {
-                                        this.$nextTick(() => {
-                                            if (this.tocLgVisible && this.$refs.tocContent) {
-                                                this.$el.style.height = this.$refs.tocContent.scrollHeight + 'px';
-                                            } else if (!this.tocLgVisible && this.$refs.authorContent) {
-                                                this.$el.style.height = this.$refs.authorContent.scrollHeight + 'px';
-                                            }
-                                        });
-                                    }
-                                }"
-                                 x-init="
-                                    setTimeout(() => setHeight(), 100);
-                                    $watch('tocLgVisible', () => setHeight());
-                                 "
-                                 @resize.window.debounce.200="setHeight()"
-                                 class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden transition-all duration-500 ease-in-out">
+                            <div id="sidebar-card" class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden transition-all duration-500 ease-in-out">
                                 
                                 <!-- Slide 1: Author Info -->
-                                <div x-ref="authorContent" x-cloak class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out" 
-                                     :class="{ 'opacity-0 translate-y-full': tocLgVisible, 'opacity-100 translate-y-0': !tocLgVisible }">
+                                <div id="author-content" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out opacity-100 translate-y-0">
                                     <div class="p-6 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0">
                                         <img src="{{ page.author_avatar | relative_url }}" alt="Profile picture of {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-teal-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
                                         <div class="text-left lg:text-center">
@@ -224,12 +196,11 @@
                                 </div>
 
                                 <!-- Slide 2: Table of Contents -->
-                                <div x-ref="tocContent" x-cloak class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out" 
-                                     :class="{ 'opacity-100 translate-y-0': tocLgVisible, 'opacity-0 -translate-y-full': !tocLgVisible }">
-                                     <div class="p-6">
-                                         <h3 class="text-lg font-bold text-white mb-4">Table of Contents</h3>
-                                         <nav id="desktop-toc" class="space-y-2 pr-2"></nav>
-                                     </div>
+                                <div id="desktop-toc-content" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out opacity-0 -translate-y-full">
+                                    <div class="p-6">
+                                        <h3 class="text-lg font-bold text-white mb-4">Table of Contents</h3>
+                                        <nav id="desktop-toc" class="space-y-2 pr-2"></nav>
+                                    </div>
                                 </div>
 
                             </div>
@@ -269,6 +240,9 @@
 
     {% include footer.html %}
     
+    <!-- Include the cookie consent banner -->
+    {% include cookie-consent.html %}
+    
     <script src="{{ '/assets/prism/prism.js' | relative_url }}"></script>
 
     <script>
@@ -283,7 +257,97 @@
     </script>
     
     <script>
+        // --- VANILLA JS FOR ARTICLE LAYOUT ---
         document.addEventListener('DOMContentLoaded', function () {
+            
+            // --- STATE MANAGEMENT ---
+            const appState = {
+                tocLgVisible: false,
+            };
+
+            // --- ELEMENT SELECTORS ---
+            const mobileTocModal = document.getElementById('mobile-toc-modal');
+            const openMobileTocBtn = document.getElementById('mobile-toc-open-btn');
+            const closeMobileTocBtn = document.getElementById('mobile-toc-close-btn');
+
+            const desktopTocToggleBtn = document.getElementById('desktop-toc-toggle-btn');
+            const desktopTocToggleText = document.getElementById('desktop-toc-toggle-text');
+            const sidebarCard = document.getElementById('sidebar-card');
+            const authorContent = document.getElementById('author-content');
+            const desktopTocContent = document.getElementById('desktop-toc-content');
+
+            // --- UTILITY: DEBOUNCE ---
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // --- SIDEBAR TOC & AUTHOR SLIDER ---
+            function setSidebarHeight() {
+                requestAnimationFrame(() => {
+                    if (!sidebarCard || !authorContent || !desktopTocContent) return;
+                    if (appState.tocLgVisible) {
+                        sidebarCard.style.height = desktopTocContent.scrollHeight + 'px';
+                    } else {
+                        sidebarCard.style.height = authorContent.scrollHeight + 'px';
+                    }
+                });
+            }
+
+            function updateSidebarView() {
+                if (!authorContent || !desktopTocContent || !desktopTocToggleText) return;
+                if (appState.tocLgVisible) {
+                    authorContent.classList.remove('opacity-100', 'translate-y-0');
+                    authorContent.classList.add('opacity-0', 'translate-y-full');
+                    desktopTocContent.classList.remove('opacity-0', '-translate-y-full');
+                    desktopTocContent.classList.add('opacity-100', 'translate-y-0');
+                    desktopTocToggleText.textContent = 'Hide Table of Contents';
+                } else {
+                    authorContent.classList.add('opacity-100', 'translate-y-0');
+                    authorContent.classList.remove('opacity-0', 'translate-y-full');
+                    desktopTocContent.classList.add('opacity-0', '-translate-y-full');
+                    desktopTocContent.classList.remove('opacity-100', 'translate-y-0');
+                    desktopTocToggleText.textContent = 'Show Table of Contents';
+                }
+            }
+
+            if (desktopTocToggleBtn) {
+                desktopTocToggleBtn.addEventListener('click', () => {
+                    appState.tocLgVisible = !appState.tocLgVisible;
+                    updateSidebarView();
+                    setSidebarHeight();
+                });
+                
+                setSidebarHeight();
+                window.addEventListener('resize', debounce(setSidebarHeight, 200));
+            }
+
+            // --- MOBILE TOC MODAL ---
+            function openMobileToc() {
+                if (mobileTocModal) mobileTocModal.classList.add('is-visible');
+            }
+            function closeMobileToc() {
+                if (mobileTocModal) mobileTocModal.classList.remove('is-visible');
+            }
+            
+            if (openMobileTocBtn) openMobileTocBtn.addEventListener('click', openMobileToc);
+            if (closeMobileTocBtn) closeMobileTocBtn.addEventListener('click', closeMobileToc);
+            if (mobileTocModal) {
+                 mobileTocModal.addEventListener('click', (e) => {
+                    if (e.target === mobileTocModal) {
+                        closeMobileToc();
+                    }
+                });
+            }
+
+            // --- TOC GENERATION & SCROLLSPY ---
             const content = document.querySelector('.article-content');
             const desktopTocContainer = document.getElementById('desktop-toc');
             const mobileTocContainer = document.getElementById('mobile-toc');
@@ -301,7 +365,7 @@
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    document.body.dispatchEvent(new CustomEvent('close-toc'));
+                    closeMobileToc();
                 });
                 return link;
             };
@@ -324,7 +388,7 @@
                         behavior: 'smooth'
                     });
                     
-                    document.body.dispatchEvent(new CustomEvent('close-toc'));
+                    closeMobileToc();
                 }
             };
 
@@ -366,16 +430,9 @@
             });
             
             if (!hasHeadings) {
-                const tocControlButtons = document.querySelectorAll('button[x-text], button.lg\\:hidden');
-                tocControlButtons.forEach(btn => btn.style.display = 'none');
+                if(openMobileTocBtn) openMobileTocBtn.style.display = 'none';
+                if(desktopTocToggleBtn) desktopTocToggleBtn.style.display = 'none';
             }
-
-            document.body.addEventListener('close-toc', () => {
-                const alpineComponent = document.body.__x;
-                if (alpineComponent && alpineComponent.data.tocOpen) {
-                    alpineComponent.data.tocOpen = false;
-                }
-            });
 
             const observer = new IntersectionObserver(entries => {
                 let isAnyIntersecting = false;
@@ -415,8 +472,6 @@
     </script>
 
     <script src="/assets/js/global.js" defer></script>
-    
-    {% include cookie-consent.html %}
 
 </body>
 </html>
