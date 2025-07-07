@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const optionEl = document.createElement('a');
       optionEl.href = '#';
       optionEl.className = (option.value === currentSelection) 
-        ? 'block p-3 text-sm text-white bg-blue-600 rounded-lg' 
+        ? 'block p-3 text-sm text-white bg-teal-600 rounded-lg' 
         : 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
       optionEl.textContent = option.label;
       optionEl.dataset.value = option.value;
@@ -184,19 +184,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const itemType = item.type || '';
     
     return `
-      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-blue-500/50 hover:-translate-y-1">
+      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-teal-500/50 hover:-translate-y-1">
         <a href="${itemUrl}" class="block group h-full flex flex-col">
           <div class="relative flex-shrink-0 h-48">
             <div class="absolute inset-0 shimmer"></div>
-            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="w-full h-full object-cover opacity-0 transition-all duration-500 group-hover:scale-105" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
+            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="w-full h-full object-cover opacity-0 transition-all duration-500" loading="lazy" onload="this.style.opacity='1'; this.previousElementSibling.remove();">
           </div>
           <div class="p-5 flex flex-col flex-grow">
             <div class="flex items-center space-x-2">
               <span class="text-xs font-semibold text-cyan-400">${itemType.toUpperCase()}</span>
               <span class="text-gray-500">&bull;</span>
-              <span class="text-xs font-semibold text-blue-400">${itemCategory}</span>
+              <span class="text-xs font-semibold text-teal-400">${itemCategory}</span>
             </div>
-            <h3 class="mt-2 text-lg font-bold text-white transition-colors group-hover:text-blue-400 line-clamp-2 flex-grow">${itemTitle}</h3>
+            <h3 class="mt-2 text-lg font-bold text-white transition-colors group-hover:text-teal-400 line-clamp-2 flex-grow">${itemTitle}</h3>
             <p class="mt-2 text-gray-400 text-sm line-clamp-2">${itemExcerpt}</p>
           </div>
         </a>
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const clearFilterUrl = searchQuery ? `${clearFilterBasePath}?q=${encodeURIComponent(searchQuery)}` : clearFilterBasePath;
         clearFilterHTML = `
           <p class="text-sm text-gray-400">
-            ${translations.noResults.try[currentLang]} <a href="${clearFilterUrl}" class="text-blue-400 hover:underline font-medium">${translations.noResults.clearFilterLink[currentLang]}</a>.
+            ${translations.noResults.try[currentLang]} <a href="${clearFilterUrl}" class="text-teal-400 hover:underline font-medium">${translations.noResults.clearFilterLink[currentLang]}</a>.
           </p>
         `;
       }
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (searchQuery) {
         searchOtherLangHTML = `
           <p class="text-sm text-gray-400">
-            ${translations.noResults.searchInSuggestion[currentLang]} <a href="${alternateUrl}" class="text-blue-400 hover:underline font-medium">${otherLangName}</a>.
+            ${translations.noResults.searchInSuggestion[currentLang]} <a href="${alternateUrl}" class="text-teal-400 hover:underline font-medium">${otherLangName}</a>.
           </p>
         `;
       }
