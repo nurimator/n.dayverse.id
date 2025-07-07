@@ -1,14 +1,14 @@
 ---
 layout: null
-lang: id
+lang: en
 ---
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
-    <title>Halaman Donasi | Nurimator</title>
+    <title>Donation Page | Nurimator</title>
     {% include favicon.html %}
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,11 +22,11 @@ lang: id
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827;
-            color: #d1d5db;
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
             overflow-x: hidden;
         }
-        /* FIXED: Added blob animation styles */
+        /* Blob animation styles */
         @keyframes move-blobs {
             0%, 100% {
                 transform: translateY(0) translateX(0) scale(1);
@@ -53,56 +53,63 @@ lang: id
 
     {% include header-v2.html %}
 
-    <!-- FIXED: Added relative positioning to main to contain the blobs -->
+    <!-- Main content with relative positioning to contain the blobs -->
     <main class="bg-gray-800/50 relative overflow-hidden pt-16 lg:pt-28">
-        <!-- FIXED: Added animated blob background -->
+        <!-- Animated blob background -->
         <div class="absolute inset-0 z-0 opacity-20">
-            <div class="absolute top-0 -left-24 w-96 h-96 bg-teal-500 rounded-full filter blur-3xl animated-blob-1"></div>
-            <div class="absolute bottom-0 -right-24 w-80 h-80 bg-pink-500 rounded-full filter blur-3xl animated-blob-2"></div>
+            <!-- MODIFIED: Changed blob position to top-left -->
+            <div class="absolute top-0 -left-24 w-96 h-96 bg-pink-500 rounded-full filter blur-3xl animated-blob-1"></div>
+            <!-- MODIFIED: Changed blob position to bottom-right -->
+            <div class="absolute bottom-0 -right-24 w-80 h-80 bg-teal-500 rounded-full filter blur-3xl animated-blob-2"></div>
         </div>
 
-        <!-- FIXED: Added relative and z-10 to the container to place it above the blobs -->
+        <!-- Container with relative and z-10 to place it above the blobs -->
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-16 relative z-10">
             <!-- Page Header -->
             <div class="text-center max-w-3xl mx-auto">
-                <!-- FIXED: Changed heading text -->
-                <h1 class="text-4xl md:text-5xl font-extrabold text-white">Dukung Kami</h1>
-                <p class="mt-4 text-lg text-gray-400">Setiap kontribusi Anda, besar maupun kecil, sangat berarti bagi kami untuk terus mengembangkan proyek-proyek open-source yang bermanfaat dan dapat diakses oleh semua orang.</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">Support Us</h1>
+                <p class="mt-4 text-lg text-gray-400">Every contribution, big or small, means the world to us and helps us continue to develop useful and accessible open-source projects for everyone.</p>
             </div>
 
             <!-- Donation Cards -->
-                        <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Kartu Donasi Lokal -->
-                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
-                    <img src="https://placehold.co/150x80/1f2937/2dd4bf?text=Lynk.id" alt="[Logo Lynk.id]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Gambar+Tidak+Tersedia';">
-                    <h2 class="text-2xl font-bold text-white mb-2">Donasi Lokal</h2>
-                    <p class="text-gray-400 mb-8 flex-grow">Untuk para pendukung di Indonesia, Anda dapat memberikan donasi dengan mudah dan aman melalui platform Lynk.id.</p>
-                    <a href="https://lynk.id/nurimator" target="_blank" rel="noopener noreferrer" class="relative w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-teal-700 transition-colors duration-300 flex items-center justify-center space-x-2">
-                        <span>Donasi melalui Lynk.id</span>
+            <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Global Donation Card (Ko-fi) -->
+                <!-- MODIFIED: Updated hover style -->
+                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/20">
+                    <img src="https://placehold.co/150x80/1f2937/ec4899?text=Ko-fi" alt="[Ko-fi Logo]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Image+Not+Available';">
+                    <h2 class="text-2xl font-bold text-white mb-2">Global Donation</h2>
+                    <p class="text-gray-400 mb-8 flex-grow">For our international supporters, you can show your support by buying us a coffee through Ko-fi. Thank you!</p>
+                    <!-- MODIFIED: Updated button style -->
+                    <a href="https://ko-fi.com/nurimator" target="_blank" rel="noopener noreferrer" class="relative w-full bg-pink-600 text-white font-bold py-4 px-10 rounded-lg text-lg hover:bg-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+                        <span>Support via Ko-fi</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.46451 7.05023C7.46451 6.49795 7.91222 6.05023 8.46451 6.05023H16.9496C16.9497 6.05023 16.9498 6.05023 16.95 6.05023H16.9645C17.5168 6.05023 17.9645 6.49795 17.9645 7.05023V15.5502C17.9645 16.1025 17.5168 16.5502 16.9645 16.5502C16.4122 16.5502 15.9645 16.1025 15.9645 15.5502V9.44973L7.7574 17.6568C7.36688 18.0474 6.73371 18.0474 6.34319 17.6568C5.95266 17.2663 5.95266 16.6331 6.34319 16.2426L14.5356 8.05023H8.46451C7.91222 8.05023 7.46451 7.60252 7.46451 7.05023Z"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Local Donation Card (Lynk.id) -->
+                <!-- MODIFIED: Updated hover style -->
+                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
+                    <img src="https://placehold.co/150x80/1f2937/2dd4bf?text=Lynk.id" alt="[Lynk.id Logo]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Image+Not+Available';">
+                    <h2 class="text-2xl font-bold text-white mb-2">Local Donation</h2>
+                    <p class="text-gray-400 mb-8 flex-grow">For supporters in Indonesia, you can donate easily and securely through the Lynk.id platform.</p>
+                    <!-- MODIFIED: Updated button style -->
+                    <a href="https://lynk.id/nurimator" target="_blank" rel="noopener noreferrer" class="relative w-full bg-teal-600 text-white font-bold py-4 px-10 rounded-lg text-lg hover:bg-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+                        <span>Donate via Lynk.id</span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.46451 7.05023C7.46451 6.49795 7.91222 6.05023 8.46451 6.05023H16.9496C16.9497 6.05023 16.9498 6.05023 16.95 6.05023H16.9645C17.5168 6.05023 17.9645 6.49795 17.9645 7.05023V15.5502C17.9645 16.1025 17.5168 16.5502 16.9645 16.5502C16.4122 16.5502 15.9645 16.1025 15.9645 15.5502V9.44973L7.7574 17.6568C7.36688 18.0474 6.73371 18.0474 6.34319 17.6568C5.95266 17.2663 5.95266 16.6331 6.34319 16.2426L14.5356 8.05023H8.46451C7.91222 8.05023 7.46451 7.60252 7.46451 7.05023Z"/>
                         </svg>
                     </a>
                 </div>
 
-                <!-- Kartu Donasi Global -->
-                <div class="bg-gray-800 rounded-2xl border border-gray-700/80 p-8 flex flex-col items-center text-center shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink-500/20">
-                    <img src="https://placehold.co/150x80/1f2937/ec4899?text=Ko-fi" alt="[Logo Ko-fi]" class="w-auto h-20 rounded-lg mb-6" onerror="this.onerror=null;this.src='https://placehold.co/150x80/1f2937/FFFFFF?text=Gambar+Tidak+Tersedia';">
-                    <h2 class="text-2xl font-bold text-white mb-2">Donasi Global</h2>
-                    <p class="text-gray-400 mb-8 flex-grow">Untuk pendukung internasional, Anda dapat memberikan dukungan dengan membeli kopi untuk kami melalui Ko-fi. Terima kasih!</p>
-                    <a href="https://ko-fi.com/nurimator" target="_blank" rel="noopener noreferrer" class="relative w-full bg-pink-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-pink-700 transition-colors duration-300 flex items-center justify-center space-x-2">
-                        <span>Dukung lewat Ko-fi</span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.46451 7.05023C7.46451 6.49795 7.91222 6.05023 8.46451 6.05023H16.9496C16.9497 6.05023 16.9498 6.05023 16.95 6.05023H16.9645C17.5168 6.05023 17.9645 6.49795 17.9645 7.05023V15.5502C17.9645 16.1025 17.5168 16.5502 16.9645 16.5502C16.4122 16.5502 15.9645 16.1025 15.9645 15.5502V9.44973L7.7574 17.6568C7.36688 18.0474 6.73371 18.0474 6.34319 17.6568C5.95266 17.2663 5.95266 16.6331 6.34319 16.2426L14.5356 8.05023H8.46451C7.91222 8.05023 7.46451 7.60252 7.46451 7.05023Z"/>
-                        </svg>
-                    </a>
-				</div>
             </div>
         </div>
     </main>
 
     {% include footer.html %}
 
-    <script src="/main.js"></script>
+    <script src="/assets/js/global.js" defer></script>
 </body>
 </html>
