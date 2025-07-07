@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Donasi', href: '/id/donate.html' }
                 ],
                 infoLinks: [
-                    { text: 'Term and Conditions', href: '/term-and-conditions.html' },
-                    { text: 'Privacy Policy', href: '/privacy-policy.html' },
-                    { text: 'License', href: '/license.html' },
-                    { text: 'Disclaimer', href: '/disclaimer.html' },
-                    { text: 'Tentang Kami', href: '/id/about.html' }
+                    { text: 'Term and Conditions', href: '/term-and-conditions' },
+                    { text: 'Privacy Policy', href: '/privacy-policy' },
+                    { text: 'License', href: '/license' },
+                    { text: 'Disclaimer', href: '/disclaimer' },
+                    { text: 'Tentang Kami', href: '/id/about-us' }
                 ]
             }
         },
@@ -74,14 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Articles', href: '/en/articles/' },
                     { text: 'Design Resources', href: '/en/resources/' },
                     { text: 'Media', href: '/en/media/' },
-                    { text: 'Donate', href: '/en/donate.html' }
+                    { text: 'Donate', href: '/en/donate' }
                 ],
                  infoLinks: [
-                    { text: 'Term and Conditions', href: '/term-and-conditions.html' },
-                    { text: 'Privacy Policy', href: '/privacy-policy.html' },
-                    { text: 'License', href: '/license.html' },
-                    { text: 'Disclaimer', href: '/disclaimer.html' },
-                    { text: 'About Us', href: '/en/about-us.html' }
+                    { text: 'Term and Conditions', href: '/term-and-conditions' },
+                    { text: 'Privacy Policy', href: '/privacy-policy' },
+                    { text: 'License', href: '/license' },
+                    { text: 'Disclaimer', href: '/disclaimer' },
+                    { text: 'About Us', href: '/en/about-us' }
                 ]
             }
         }
