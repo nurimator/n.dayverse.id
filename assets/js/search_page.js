@@ -1,15 +1,5 @@
-/**
- * search-page.js
- * * Berisi semua skrip yang hanya berjalan di halaman pencarian/daftar.
- * - Memfilter, menyortir, dan merender daftar item.
- * - Mengelola state filter (jenis, kategori, urutan).
- * - Menampilkan pesan "tidak ada hasil" yang lebih informatif dengan opsi reset filter.
- * - Tergantung pada variabel global `searchableData` dan `pageConfig` yang harus 
- * didefinisikan di HTML sebelum skrip ini dimuat.
- */
 document.addEventListener('DOMContentLoaded', function () {
 
-  // Berhenti menjalankan skrip jika ini bukan halaman pencarian/daftar.
   if (!document.getElementById('search-page-marker')) {
     return;
   }
@@ -33,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
   
-  // [MODIFIKASI] Deteksi bahasa dan objek terjemahan terpusat
   const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'id';
   const translations = {
     types: {
