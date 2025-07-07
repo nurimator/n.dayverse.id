@@ -88,7 +88,8 @@ lang: id
             100% { background-position: 200% 0; }
         }
 
-        .group::after {
+        /* [UPDATE] Efek kilau hanya untuk kartu karya */
+        .work-card::after {
             content: '';
             position: absolute;
             top: 0;
@@ -101,7 +102,7 @@ lang: id
             transition: none;
         }
 
-        .group:hover::after {
+        .work-card:hover::after {
             transform: translateX(-101%);
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -125,17 +126,17 @@ lang: id
             <!-- ===== Hero Section ===== -->
             <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-16 lg:pt-20">
 
-                <!-- [UPDATE] Latar belakang gambar bergerak 2 lapis (Layer 1) -->
-                <div class="absolute inset-0 z-0 overflow-hidden">
+                <!-- [UPDATE] Latar belakang gambar bergerak 2 lapis dengan tinggi 110vh -->
+                <div class="absolute top-0 bottom-[-10vh] left-0 right-0 z-0 overflow-hidden">
                     <!-- Lapis Belakang (Lambat) -->
                     <div class="hero-bg-layer-1 absolute inset-0 flex w-[200%] opacity-30">
-                        <img src="/assets/image/hello-nurimator-1.webp" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
-                        <img src="/assets/image/hello-nurimator-1.webp" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
+                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
+                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
                     </div>
                     <!-- Lapis Depan (Cepat) -->
                     <div class="hero-bg-layer-2 absolute inset-0 flex w-[200%] opacity-50">
-                        <img src="/assets/image/hello-nurimator-2.webp" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
-                        <img src="/assets/image/hello-nurimator-2.webp" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
+                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
+                        <img src="https://placehold.co/1920x1080/111827/1f2937?text=Latar+Belakang" class="w-1/2 h-full object-cover flex-shrink-0" alt="">
                     </div>
                 </div>
 
@@ -150,7 +151,7 @@ lang: id
                     <!-- Konten Teks -->
                     <div class="max-w-4xl mx-auto">
                         <h1 class="hero-title font-extrabold text-white mb-6">
-                            Selamat Datang di Website <span class="text-teal-400">Nurimator</span>.
+                            ID Selamat Datang di Website <span class="text-teal-400">Nurimator</span>.
                         </h1>
                         <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
                             Sumber informasi tentang animasi, teknologi, dan eksplorasi digital lainnya. Dirancang agar mudah dipahami dan siap digunakan dalam berbagai konteks kreatif.
@@ -172,8 +173,8 @@ lang: id
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {% for card in site.data.landing_id.karya %}
-                        <!-- Work Card -->
-                        <div class="group relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
+                        <!-- [UPDATE] Work Card dengan kelas 'work-card' -->
+                        <div class="group work-card relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
                             <div class="relative w-full h-56 overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
                                 <img
