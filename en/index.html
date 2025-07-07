@@ -36,8 +36,6 @@ lang: en
     <title>Nurimator | Animator & Designer</title>
     {% include favicon.html %}
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- AlpineJS for Interactivity -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <!-- Google Fonts Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,8 +116,6 @@ lang: en
             transform: translateX(-101%);
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        /* Prevents content flashing before Alpine.js initializes */
-        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
@@ -426,6 +422,5 @@ lang: en
         });
     </script>
     <script src="/assets/js/global.js" defer></script>
-    {% include cookie-consent.html %}
 </body>
 </html>
