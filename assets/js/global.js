@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Media', href: '/en/media/' },
                     { text: 'Donate', href: '/en/donate' }
                 ],
-                 infoLinks: [
+                infoLinks: [
                     { text: 'Term and Conditions', href: '/term-and-conditions' },
                     { text: 'Privacy Policy', href: '/privacy-policy' },
                     { text: 'License', href: '/license' },
@@ -106,7 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const a = document.createElement('a');
         a.href = item.href;
         a.textContent = item.text.toUpperCase(); 
-        a.className = 'menu-item-hidden transition-all duration-300 bg-gray-700/80 backdrop-blur-md border border-gray-600/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center hover:bg-gray-600/80';
+        // Hapus bg-gray-700/80 dari inisialisasi awal. Akan ditambahkan kembali di setupLanguageSwitcherUI
+        // untuk opsi yang tidak aktif.
+        a.className = 'menu-item-hidden transition-all duration-300 backdrop-blur-md border border-gray-600/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center';
         if (item.dataLang) {
             a.dataset.lang = item.dataLang;
             a.classList.add('lang-option');
@@ -148,9 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     // Logika global untuk pergantian URL (disederhanakan)
                     if (currentPath.startsWith('/en/')) {
-                         if (targetLang === 'id') newHref = currentPath.replace('/en/', '/id/');
+                            if (targetLang === 'id') newHref = currentPath.replace('/en/', '/id/');
                     } else if (currentPath.startsWith('/id/')) {
-                         if (targetLang === 'en') newHref = currentPath.replace('/id/', '/en/');
+                            if (targetLang === 'en') newHref = currentPath.replace('/id/', '/en/');
                     } else {
                         // Halaman tanpa awalan bahasa (misal: /privacy-policy.html)
                         isAvailable = false;
@@ -246,12 +248,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentLangDisplay = document.getElementById('current-lang-display');
         if (currentLangDisplay) currentLangDisplay.textContent = pageLang.toUpperCase();
         
+        // Timeout ini mungkin tidak lagi diperlukan dengan logika yang diperbaiki,
+        // tetapi tetap dipertahankan untuk keamanan jika ada penundaan rendering.
         setTimeout(() => {
             document.querySelectorAll('.lang-option').forEach(link => {
+                // Hapus semua kelas yang terkait dengan status aktif/tidak aktif sebelumnya
+                link.classList.remove('bg-teal-600', 'cursor-default', 'bg-gray-700/80', 'hover:bg-gray-600/80', 'opacity-50', 'cursor-not-allowed');
+                link.removeEventListener('click', e => e.preventDefault()); // Hapus listener lama jika ada
+
                 if (link.dataset.lang === pageLang) {
+                    // Tambahkan kelas untuk bahasa aktif
                     link.classList.add('bg-teal-600', 'cursor-default');
-                    link.classList.remove('hover:bg-gray-600/80');
-                    link.addEventListener('click', e => e.preventDefault());
+                    link.addEventListener('click', e => e.preventDefault()); // Nonaktifkan klik untuk bahasa aktif
+                } else {
+                    // Tambahkan kembali kelas abu-abu dan hover untuk bahasa tidak aktif
+                    link.classList.add('bg-gray-700/80', 'hover:bg-gray-600/80');
+                    // Periksa kembali ketersediaan terjemahan jika diperlukan
+                    if (link.title === 'Terjemahan tidak tersedia') { // Ini mengandalkan title yang diset di createMenuItem
+                        link.classList.add('opacity-50', 'cursor-not-allowed');
+                        link.addEventListener('click', e => e.preventDefault());
+                    }
                 }
             });
         }, 100);
@@ -322,6 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setUiLanguage();
     setFooterLanguage();
     
+    // Panggil setupAnimatedMenu untuk semua menu Anda
     setupAnimatedMenu('desktop-lang-switcher-button', 'desktop-lang-switcher-menu', langMenuItems);
     setupAnimatedMenu('desktop-dropdown-button', 'desktop-dropdown-menu', mainMenuItems);
     setupAnimatedMenu('mobile-lang-switcher-button', 'mobile-lang-switcher-menu', langMenuItems);
@@ -356,6 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
+    // Panggil setupLanguageSwitcherUI setelah semua menu bahasa dibuat
     setupLanguageSwitcherUI();
     
     desktopSearchForm?.addEventListener('submit', handleSearch);
