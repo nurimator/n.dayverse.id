@@ -24,7 +24,7 @@ Small things like spacing between elements, consistent colors, or icon alignment
 
 ## 3. Ask Questions and Discuss Actively
 
-![three variations](/assets/image/trivar.webp)  
+![three variations](/assets/image/triver.webp)  
 In a team, asking questions isn't a sign of weakness—it shows a desire to understand. Open discussions, whether with fellow developers or designers, can broaden perspectives and speed up development.
 
 ## 4. Stay Updated with Industry Trends

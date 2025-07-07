@@ -5,15 +5,19 @@
   yang diinisialisasi pada tag <body> utama.
 -->
 <style>
-  /* Aturan CSS ini ditambahkan untuk memastikan popup selalu menempel di layar (viewport).
-    Penggunaan !important adalah untuk mengatasi kemungkinan konflik dengan style lain
-    yang mungkin mengubah perilaku 'position: fixed'.
-  */
+  /* Aturan CSS ini ditambahkan untuk memastikan popup selalu menempel di layar (viewport). */
   #cookie-consent-wrapper {
     position: fixed !important;
-    bottom: 1rem !important; /* 16px */
-    left: 1rem !important; /* 16px */
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     z-index: 9999 !important;
+    padding: 1rem; /* 16px */
+  }
+  @media (min-width: 768px) {
+    #cookie-consent-wrapper {
+      right: auto !important;
+    }
   }
 </style>
 
@@ -27,32 +31,38 @@
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 transform translate-y-0"
     x-transition:leave-end="opacity-0 transform translate-y-4"
-    class="flex items-end space-x-4"
+    class="flex justify-center md:justify-start"
 >
-    <!-- Cookie Card -->
-    <div class="bg-[#1f2937] border border-gray-700/80 rounded-lg shadow-2xl p-5 w-full max-w-sm">
-        <p class="text-sm text-gray-300">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
-        <div class="mt-4 flex justify-end space-x-3">
-            <button
-                @click="cookieConsent = 'no'; localStorage.setItem('cookieConsent', 'no')"
-                class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-600/50 hover:bg-gray-600/80 rounded-md transition-colors"
+    <!-- Container for image and card -->
+    <div class="relative w-full max-w-sm">
+
+        <!-- Decorative Image -->
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 w-24" style="margin-bottom: -28px;">
+           <img 
+              src="/assets/image/hello-nurimator-2.webp" 
+              alt="" 
+              class="w-full h-auto"
+              onerror="this.style.display='none'"
             >
-                No
-            </button>
-            <button
-                @click="cookieConsent = 'yes'; localStorage.setItem('cookieConsent', 'yes')"
-                class="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-500 rounded-md transition-colors"
-            >
-                Yes
-            </button>
+        </div>
+
+        <!-- Cookie Card -->
+        <div class="bg-[#1f2937] border border-gray-700/80 rounded-lg shadow-2xl p-5 w-full">
+            <p class="text-sm text-gray-300">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+            <div class="mt-4 flex justify-end space-x-3">
+                <button
+                    @click="cookieConsent = 'no'; localStorage.setItem('cookieConsent', 'no')"
+                    class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-600/50 hover:bg-gray-600/80 rounded-md transition-colors"
+                >
+                    No
+                </button>
+                <button
+                    @click="cookieConsent = 'yes'; localStorage.setItem('cookieConsent', 'yes')"
+                    class="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-500 rounded-md transition-colors"
+                >
+                    Yes
+                </button>
+            </div>
         </div>
     </div>
-    
-    <!-- Decorative Image outside the card -->
-    <img 
-        src="/assets/image/hello-nurimator-2.webp"   
-        alt="" 
-        class="w-24 h-auto hidden md:block"
-        onerror="this.style.display='none'"
-    >
 </div>
