@@ -26,6 +26,7 @@
         }
     </style>
 
+<!-- Header dengan z-index: 50 -->
 <header id="header" class="bg-gray-900/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-gray-700/50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Konten header utama untuk mobile dan desktop -->
@@ -54,7 +55,7 @@
                 <div class="relative" id="desktop-dropdown-container">
                     <button id="desktop-dropdown-button" class="text-white p-2 font-semibold hover:text-gray-300 flex items-center space-x-2 transition-colors">
                         <span>Menu</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2928 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/></svg>
                     </button>
                 </div>
             </div>
@@ -86,11 +87,13 @@
     </div>
 </header>
 
-<!-- [UPDATE] Latar belakang menu dengan transisi -->
-<div id="menu-background-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30"></div>
+<!-- [PERUBAHAN DI SINI] Menggunakan inline style untuk z-index overlay -->
+<!-- Ini untuk memastikan tidak ada file CSS lain yang menimpa nilai z-index ini. -->
+<div id="menu-background-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm" style="z-index: 40;"></div>
 
-<!-- Kontainer Menu Desktop & Mobile -->
-<div id="desktop-lang-switcher-menu" class="fixed z-45 flex-col items-end space-y-2 hidden"></div>
-<div id="desktop-dropdown-menu" class="fixed z-45 flex-col items-end space-y-2 hidden"></div>
-<div id="mobile-lang-switcher-menu" class="fixed z-45 flex-col items-end space-y-2 hidden"></div>
-<div id="mobile-menu" class="fixed z-45 flex-col items-end space-y-2 hidden lg:hidden"></div>
+<!-- [PERUBAHAN DI SINI] Menggunakan inline style untuk z-index menu -->
+<!-- Nilai 55 sengaja dibuat lebih tinggi dari header (50) dan overlay (40) untuk memastikannya selalu di atas. -->
+<div id="desktop-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden" style="z-index: 55;"></div>
+<div id="desktop-dropdown-menu" class="fixed flex-col items-end space-y-2 hidden" style="z-index: 55;"></div>
+<div id="mobile-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden" style="z-index: 55;"></div>
+<div id="mobile-menu" class="fixed flex-col items-end space-y-2 hidden lg:hidden" style="z-index: 55;"></div>
