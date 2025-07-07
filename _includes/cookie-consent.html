@@ -4,27 +4,33 @@
   Komponen ini menggunakan Alpine.js dan memerlukan variabel `cookieConsent` 
   yang diinisialisasi pada tag <body> utama.
 -->
+<style>
+  /* Aturan CSS ini ditambahkan untuk memastikan popup selalu menempel di layar (viewport).
+    Penggunaan !important adalah untuk mengatasi kemungkinan konflik dengan style lain
+    yang mungkin mengubah perilaku 'position: fixed'.
+  */
+  #cookie-consent-wrapper {
+    position: fixed !important;
+    bottom: 1rem !important; /* 16px */
+    left: 1rem !important; /* 16px */
+    z-index: 9999 !important;
+  }
+</style>
+
 <div
+    id="cookie-consent-wrapper"
     x-show="cookieConsent === null"
+    x-cloak
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 transform translate-y-4"
     x-transition:enter-end="opacity-100 transform translate-y-0"
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 transform translate-y-0"
     x-transition:leave-end="opacity-0 transform translate-y-4"
-    class="fixed bottom-4 left-4 z-50 bg-[#1f2937] border border-gray-700/80 rounded-lg shadow-2xl p-5 max-w-sm relative overflow-hidden"
-    style="display: none;"
+    class="flex items-end space-x-4"
 >
-    <!-- Decorative Background Image -->
-    <img 
-        src="/assets/image/hello-nurimator-2.webp" 
-        alt="" 
-        class="absolute -bottom-5 -right-5 w-28 h-auto opacity-10 z-0"
-        onerror="this.style.display='none'"
-    >
-
-    <!-- Content -->
-    <div class="relative z-10">
+    <!-- Cookie Card -->
+    <div class="bg-[#1f2937] border border-gray-700/80 rounded-lg shadow-2xl p-5 w-full max-w-sm">
         <p class="text-sm text-gray-300">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
         <div class="mt-4 flex justify-end space-x-3">
             <button
@@ -41,4 +47,12 @@
             </button>
         </div>
     </div>
+    
+    <!-- Decorative Image outside the card -->
+    <img 
+        src="/assets/image/hello-nurimator-2.webp"   
+        alt="" 
+        class="w-24 h-auto hidden md:block"
+        onerror="this.style.display='none'"
+    >
 </div>
