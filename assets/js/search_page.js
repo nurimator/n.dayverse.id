@@ -107,6 +107,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const createToggle = (button, menu) => {
       if (!button || !menu) return;
+      
+      // [PERBAIKAN] z-index diatur ke 20, nilai tertinggi dalam sistem lapisan baru.
+      menu.classList.add('z-20');
+
       button.addEventListener('click', (e) => {
         e.stopPropagation();
         const isHidden = menu.classList.contains('hidden');
@@ -185,22 +189,22 @@ document.addEventListener('DOMContentLoaded', function () {
     
     let mediaIconHTML = '';
     if (itemType === 'Media') {
-      // [PERBAIKAN] Ikon diberi z-index tertinggi (z-30) agar selalu di atas.
+      // [PERBAIKAN] z-index diatur ke 15, di atas gambar (z-10)
       mediaIconHTML = `
-        <div class="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg z-30 pointer-events-none">
+        <div class="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg z-15 pointer-events-none">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"></path></svg>
         </div>
       `;
     }
     
-    // [PERBAIKAN] Logika onload diubah untuk menargetkan '.shimmer' secara spesifik.
-    // Gambar kini diposisikan absolut dengan z-20 agar berada di atas shimmer (z-10).
     return `
       <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-teal-500/50 hover:-translate-y-1">
         <a href="${itemUrl}" class="block group h-full flex flex-col">
           <div class="relative flex-shrink-0 h-48 bg-gray-900">
-            <div class="absolute inset-0 shimmer z-10"></div>
-            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-500 z-20" loading="lazy" onload="this.style.opacity='1'; const shimmer = this.parentElement.querySelector('.shimmer'); if (shimmer) shimmer.remove();">
+            {/* [PERBAIKAN] z-index shimmer diatur ke 5 (lapisan bawah) */}
+            <div class="absolute inset-0 shimmer z-5"></div>
+            {/* [PERBAIKAN] z-index gambar diatur ke 10 (di atas shimmer) */}
+            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-500 z-10" loading="lazy" onload="this.style.opacity='1'; const shimmer = this.parentElement.querySelector('.shimmer'); if (shimmer) shimmer.remove();">
             ${mediaIconHTML}
           </div>
           <div class="p-5 flex flex-col flex-grow">
