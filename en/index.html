@@ -21,7 +21,7 @@ lang: en
       return;
     }
 
-    // If no language has been chosen, detect from the browser language
+    // If no preference is saved, detect from browser language
     const browserLang = navigator.language || navigator.userLanguage;
     if (browserLang.startsWith('id')) {
       window.location.replace('/id/');
@@ -44,10 +44,35 @@ lang: en
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
     </noscript>
 
-    <link rel="preload" as="image" href="/assets/image/swarm-mobile.webp">
+    <link rel="preload" as="image" href="https://placehold.co/1920x1080/111827/1f2937?text=Background">
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+        
+        /* Seamless looping animation for the background */
+        @keyframes endless-scroll-left-bg {
+            from { background-position: 0 0; }
+            to { background-position: -1920px 0; } /* Replace with your actual image width */
+        }
+
+        .hero-bg-layer {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://placehold.co/1920x1080/111827/1f2937?text=Background');
+            background-repeat: repeat-x;
+            background-size: auto 100%; /* Fill height, width is auto */
+        }
+
+        .hero-bg-layer-1 {
+            animation: endless-scroll-left-bg 80s linear infinite;
+            opacity: 0.3;
+        }
+
+        .hero-bg-layer-2 {
+            animation: endless-scroll-left-bg 60s linear infinite;
+            opacity: 0.5;
+        }
+
         @keyframes move-blobs {
             0%, 100% { transform: translateY(0) translateX(0) scale(1); }
             25% { transform: translateY(20px) translateX(-30px) scale(1.1); }
@@ -57,20 +82,39 @@ lang: en
         .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
         .animated-blob-3 { animation: move-blobs 18s infinite ease-in-out; }
+        
         .hero-title {
-            /* Responsive font size: min 40px, preferred 7vw, max 72px */
             font-size: clamp(2.5rem, 7vw, 4.5rem);
             line-height: 1.1;
         }
         
         .shimmer {
-        background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.2s infinite linear;
+            background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.2s infinite linear;
         }
         @keyframes shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Shimmer effect for work cards only */
+        .work-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(101%);
+            pointer-events: none;
+            transition: none;
+        }
+
+        .work-card:hover::after {
+            transform: translateX(-101%);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
     </style>
@@ -82,96 +126,70 @@ lang: en
     <main>
         <!-- Wrapper for Hero and Works sections to contain blobs -->
         <div class="relative overflow-hidden">
-            <!-- Animated Background Blobs -->
+            <!-- Animated Background Blobs Global -->
             <div class="absolute inset-0 z-0 opacity-20">
                 <div class="absolute top-0 left-0 w-96 h-96 lg:w-[600px] lg:h-[600px] bg-cyan-500 rounded-full filter blur-3xl animated-blob-1"></div>
                 <div class="absolute top-1/3 right-0 w-96 h-96 lg:w-[700px] lg:h-[700px] bg-teal-500 rounded-full filter blur-3xl animated-blob-2"></div>
                 <div class="absolute bottom-0 left-1/4 w-96 h-96 lg:w-[500px] lg:h-[500px] bg-emerald-600 rounded-full filter blur-3xl animated-blob-3"></div>
             </div>
-
+            
             <!-- ===== Hero Section ===== -->
-            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-visible pt-28 pb-16 lg:pt-20">
+            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center pt-28 pb-16 lg:pt-20">
 
-            <!-- Desktop Background Images -->
-            <div class="hidden lg:block absolute inset-0 z-5 pointer-events-none">
-                <!-- Left -->
-                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
-                <img 
-                    src="/assets/image/hello-nurimator-1.webp" 
-                    alt="Minecraft Scene Background 1" 
-                    class="rounded-2xl h-[75vh] w-auto" 
-                    width="600" height="800"
-                    fetchpriority="high"
-                    onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
-                </div>
-                <!-- Right -->
-                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
-                <img 
-                    src="/assets/image/hello-nurimator-2.webp" 
-                    alt="Minecraft Scene Background 2" 
-                    class="rounded-2xl h-[75vh] w-auto" 
-                    width="600" height="800"
-                    fetchpriority="high"
-                    onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
-                </div>
-            </div>
-
-            <!-- Main Content Container -->
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-
-                <!-- Mobile Image -->
-                <div class="lg:hidden mx-auto mb-12 w-[90vw] max-w-md aspect-[16/9] relative overflow-hidden rounded-2xl">
-                <img 
-                    src="/assets/image/swarm-mobile.webp"
-                    alt="Nurimator Hero Image"
-                    decoding="async"
-                    fetchpriority="high"
-                    width="800"
-                    height="450"
-                    class="w-full h-auto"
-                    onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
+                <!-- 2-layer moving background -->
+                <div class="absolute top-[-5vh] bottom-[-15vh] left-0 right-0 z-0 overflow-hidden">
+                    <div class="hero-bg-layer hero-bg-layer-1"></div>
+                    <div class="hero-bg-layer hero-bg-layer-2"></div>
                 </div>
 
-                <!-- Text Content -->
-                <div class="max-w-4xl mx-auto">
-                <h1 class="hero-title font-extrabold text-white mb-6">
-                    Welcome to the Website of <span class="text-teal-400">Nurimator</span>.
-                </h1>
-                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
-                    A source of information about animation, technology, and other digital explorations. Designed to be easily understood and ready to use in various creative contexts.
-                </p>
-                <a href="/#karya" class="inline-block bg-teal-700 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                    View Works
-                </a>
+                <!-- Hero-specific blobs (Layer 2) -->
+                <div class="absolute inset-0 z-10 pointer-events-none opacity-50">
+                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-800 rounded-full filter blur-3xl animated-blob-1"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-800 rounded-full filter blur-3xl animated-blob-2"></div>
                 </div>
-            </div>
+
+                <!-- Main Content Container (Layer 3) -->
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center">
+                    <!-- Text Content -->
+                    <div class="max-w-4xl mx-auto">
+                        <h1 class="hero-title font-extrabold text-white mb-6">
+                            Welcome to the <span class="text-teal-400">Nurimator</span> Website.
+                        </h1>
+                        <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
+                            A source of information on animation, technology, and other digital explorations. Designed to be easily understood and ready for use in various creative contexts.
+                        </p>
+                        <a href="/#works" class="inline-block bg-teal-700 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                            See My Works
+                        </a>
+                    </div>
+                </div>
             </section>
 
             <!-- ===== Works Portfolio Section ===== -->
-            <section id="karya" class="relative z-10 py-20 sm:py-28 bg-transparent">
+            <section id="works" class="relative z-10 pt-20 pb-10 sm:pt-28 sm:pb-14 bg-transparent">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Works I Have Created</h2>
-                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Here are some of the animation and 3D model works that I have created.</p>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Creations I've Made</h2>
+                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Here are some of the animation and 3D modeling works I have created.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {% for card in site.data.landing_en.karya %}
-                        <!-- Work Card -->
-                        <div class="group bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
+                        <!-- Work Card with 'work-card' class -->
+                        <div class="group work-card relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
                             <div class="relative w-full h-56 overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
                                 <img
                                 src="{{ card.gambar }}"
                                 alt="{{ card.alt_gambar }}"
-                                class="w-full h-full object-cover opacity-0 transition-all duration-300 group-hover:scale-105"
+                                class="w-full h-full object-cover opacity-0 transition-all duration-300"
                                 loading="lazy"
                                 fetchpriority="low"
                                 onload="
-                                    const shimmer{{ forloop.index }} = this.previousElementSibling;
+                                    const shimmer2{{ forloop.index }} = this.previousElementSibling;
                                     setTimeout(() => {
-                                      this.style.opacity = '1';
-                                      if (shimmer{{ forloop.index }}) shimmer{{ forloop.index }}.remove();
+                                        this.style.opacity = '1';
+                                        if (shimmer2{{ forloop.index }}) shimmer2{{ forloop.index }}.remove();
                                     }, {{ forloop.index | times: 500 | plus: 500 }});
                                 "
                                 onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
@@ -189,10 +207,10 @@ lang: en
                         </div>
                         {% endfor %}
                     </div>
-                    <!-- View More Posts Button -->
-                    <div class="text-center mt-16">
+                    <!-- See Other Posts Button -->
+                    <div class="text-center mt-10">
                         <a href="/en/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                            View More Posts
+                            See Other Posts
                         </a>
                     </div>
                 </div>
@@ -265,7 +283,7 @@ lang: en
                                     </svg>
                                     <p class="text-lg text-gray-300 mb-6">"{{ testimoni.kutipan }}"</p>
                                     <div class="flex items-center">
-                                        <img src="{{ testimoni.foto }}" alt="Photo of {{ testimoni.nama }}" class="w-12 h-12 rounded-full mr-4 border-2 border-teal-400" fetchpriority="low" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=AV';">
+                                        <img src="{{ testimoni.foto }}" alt="Foto {{ testimoni.nama }}" class="w-12 h-12 rounded-full mr-4 border-2 border-teal-400" fetchpriority="low" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/FFFFFF?text=AV';">
                                         <div>
                                             <h4 class="font-bold text-white">{{ testimoni.nama }}</h4>
                                             <p class="text-sm text-gray-400">{{ testimoni.jabatan }}</p>

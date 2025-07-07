@@ -1,17 +1,17 @@
 ---
 layout: null
-lang: id
+lang: en
 ---
 
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
 <script>
   (function () {
-    // Jangan jalankan kalau sudah di path bahasa
+    // Do not run if already on a language path
     if (window.location.pathname.startsWith('/id/') || window.location.pathname.startsWith('/en/')) return;
 
-    // Cek apakah user pernah pilih bahasa sebelumnya (disimpan di localStorage)
+    // Check if the user has previously selected a language (stored in localStorage)
     const savedLang = localStorage.getItem('preferredLang');
     if (savedLang === 'id') {
       window.location.replace('/id/');
@@ -21,7 +21,7 @@ lang: id
       return;
     }
 
-    // Kalau belum pernah pilih, deteksi dari bahasa browser
+    // If no preference is saved, detect from browser language
     const browserLang = navigator.language || navigator.userLanguage;
     if (browserLang.startsWith('id')) {
       window.location.replace('/id/');
@@ -36,7 +36,7 @@ lang: id
     <title>Nurimator | Animator & Designer</title>
     {% include favicon.html %}
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Optimasi Google Fonts -->
+    <!-- Google Fonts Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -44,10 +44,35 @@ lang: id
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
     </noscript>
 
-    <link rel="preload" as="image" href="/assets/image/swarm-mobile.webp">
+    <link rel="preload" as="image" href="https://placehold.co/1920x1080/111827/1f2937?text=Background">
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #111827; color: #d1d5db; overflow-x: hidden; }
+        
+        /* Seamless looping animation for the background */
+        @keyframes endless-scroll-left-bg {
+            from { background-position: 0 0; }
+            to { background-position: -1920px 0; } /* Replace with your actual image width */
+        }
+
+        .hero-bg-layer {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://placehold.co/1920x1080/111827/1f2937?text=Background');
+            background-repeat: repeat-x;
+            background-size: auto 100%; /* Fill height, width is auto */
+        }
+
+        .hero-bg-layer-1 {
+            animation: endless-scroll-left-bg 80s linear infinite;
+            opacity: 0.3;
+        }
+
+        .hero-bg-layer-2 {
+            animation: endless-scroll-left-bg 60s linear infinite;
+            opacity: 0.5;
+        }
+
         @keyframes move-blobs {
             0%, 100% { transform: translateY(0) translateX(0) scale(1); }
             25% { transform: translateY(20px) translateX(-30px) scale(1.1); }
@@ -57,20 +82,39 @@ lang: id
         .animated-blob-1 { animation: move-blobs 15s infinite ease-in-out; }
         .animated-blob-2 { animation: move-blobs 20s infinite ease-in-out reverse; }
         .animated-blob-3 { animation: move-blobs 18s infinite ease-in-out; }
+        
         .hero-title {
-            /* Responsive font size: min 40px, preferred 7vw, max 72px */
             font-size: clamp(2.5rem, 7vw, 4.5rem);
             line-height: 1.1;
         }
         
         .shimmer {
-        background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.2s infinite linear;
+            background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.2s infinite linear;
         }
         @keyframes shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Shimmer effect for work cards only */
+        .work-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(101%);
+            pointer-events: none;
+            transition: none;
+        }
+
+        .work-card:hover::after {
+            transform: translateX(-101%);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
     </style>
@@ -82,96 +126,70 @@ lang: id
     <main>
         <!-- Wrapper for Hero and Works sections to contain blobs -->
         <div class="relative overflow-hidden">
-            <!-- Animated Background Blobs -->
+            <!-- Animated Background Blobs Global -->
             <div class="absolute inset-0 z-0 opacity-20">
                 <div class="absolute top-0 left-0 w-96 h-96 lg:w-[600px] lg:h-[600px] bg-cyan-500 rounded-full filter blur-3xl animated-blob-1"></div>
                 <div class="absolute top-1/3 right-0 w-96 h-96 lg:w-[700px] lg:h-[700px] bg-teal-500 rounded-full filter blur-3xl animated-blob-2"></div>
                 <div class="absolute bottom-0 left-1/4 w-96 h-96 lg:w-[500px] lg:h-[500px] bg-emerald-600 rounded-full filter blur-3xl animated-blob-3"></div>
             </div>
-
+            
             <!-- ===== Hero Section ===== -->
-            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center overflow-visible pt-28 pb-16 lg:pt-20">
+            <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center pt-28 pb-16 lg:pt-20">
 
-            <!-- Gambar Desktop Kiri dan Kanan -->
-            <div class="hidden lg:block absolute inset-0 z-5 pointer-events-none">
-                <!-- Kiri -->
-                <div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[10%]">
-                <img 
-                    src="/assets/image/hello-nurimator-1.webp" 
-                    alt="Latar Adegan Minecraft 1" 
-                    class="rounded-2xl h-[75vh] w-auto" 
-                    width="600" height="800"
-                    fetchpriority="high"
-                    onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
-                </div>
-                <!-- Kanan -->
-                <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%]">
-                <img 
-                    src="/assets/image/hello-nurimator-2.webp" 
-                    alt="Latar Adegan Minecraft 2" 
-                    class="rounded-2xl h-[75vh] w-auto" 
-                    width="600" height="800"
-                    fetchpriority="high"
-                    onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Image+Not+Found';">
-                </div>
-            </div>
-
-            <!-- Container Konten Utama -->
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-
-                <!-- Gambar Mobile -->
-                <div class="lg:hidden mx-auto mb-12 w-[90vw] max-w-md aspect-[16/9] relative overflow-hidden rounded-2xl">
-                <img 
-                    src="/assets/image/swarm-mobile.webp"
-                    alt="Gambar Hero Nurimator"
-                    decoding="async"
-                    fetchpriority="high"
-                    width="800"
-                    height="450"
-                    class="w-full h-auto"
-                    onerror="this.onerror=null;this.src='https://placehold.co/800x450/1f2937/FFFFFF?text=Image+Not+Found';">
+                <!-- 2-layer moving background -->
+                <div class="absolute top-[-5vh] bottom-[-15vh] left-0 right-0 z-0 overflow-hidden">
+                    <div class="hero-bg-layer hero-bg-layer-1"></div>
+                    <div class="hero-bg-layer hero-bg-layer-2"></div>
                 </div>
 
-                <!-- Konten Teks -->
-                <div class="max-w-4xl mx-auto">
-                <h1 class="hero-title font-extrabold text-white mb-6">
-                    ID Selamat Datang di Website <span class="text-teal-400">Nurimator</span>.
-                </h1>
-                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
-                    Sumber informasi tentang animasi, teknologi, dan eksplorasi digital lainnya. Dirancang agar mudah dipahami dan siap digunakan dalam berbagai konteks kreatif.
-                </p>
-                <a href="/#karya" class="inline-block bg-teal-700 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                    Lihat Karya
-                </a>
+                <!-- Hero-specific blobs (Layer 2) -->
+                <div class="absolute inset-0 z-10 pointer-events-none opacity-50">
+                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-800 rounded-full filter blur-3xl animated-blob-1"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-800 rounded-full filter blur-3xl animated-blob-2"></div>
                 </div>
-            </div>
+
+                <!-- Main Content Container (Layer 3) -->
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center">
+                    <!-- Text Content -->
+                    <div class="max-w-4xl mx-auto">
+                        <h1 class="hero-title font-extrabold text-white mb-6">
+                            Welcome to the <span class="text-teal-400">Nurimator</span> Website.
+                        </h1>
+                        <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 mb-10">
+                            A source of information on animation, technology, and other digital explorations. Designed to be easily understood and ready for use in various creative contexts.
+                        </p>
+                        <a href="/#works" class="inline-block bg-teal-700 text-white font-bold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                            See My Works
+                        </a>
+                    </div>
+                </div>
             </section>
 
             <!-- ===== Works Portfolio Section ===== -->
-            <section id="karya" class="relative z-10 py-20 sm:py-28 bg-transparent">
+            <section id="works" class="relative z-10 pt-20 pb-10 sm:pt-28 sm:pb-14 bg-transparent">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
-                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Creations I've Made</h2>
+                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Here are some of the animation and 3D modeling works I have created.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {% for card in site.data.landing_id.karya %}
-                        <!-- Work Card -->
-                        <div class="group bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
+                        {% for card in site.data.landing_en.karya %}
+                        <!-- Work Card with 'work-card' class -->
+                        <div class="group work-card relative bg-gray-800/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl">
                             <div class="relative w-full h-56 overflow-hidden">
                                 <div class="absolute inset-0 shimmer"></div>
                                 <img
                                 src="{{ card.gambar }}"
                                 alt="{{ card.alt_gambar }}"
-                                class="w-full h-full object-cover opacity-0 transition-all duration-300 group-hover:scale-105"
+                                class="w-full h-full object-cover opacity-0 transition-all duration-300"
                                 loading="lazy"
                                 fetchpriority="low"
                                 onload="
-                                    const shimmer{{ forloop.index }} = this.previousElementSibling;
+                                    const shimmer2{{ forloop.index }} = this.previousElementSibling;
                                     setTimeout(() => {
-                                      this.style.opacity = '1';
-                                      if (shimmer{{ forloop.index }}) shimmer{{ forloop.index }}.remove();
+                                        this.style.opacity = '1';
+                                        if (shimmer2{{ forloop.index }}) shimmer2{{ forloop.index }}.remove();
                                     }, {{ forloop.index | times: 500 | plus: 500 }});
                                 "
                                 onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
@@ -189,10 +207,10 @@ lang: id
                         </div>
                         {% endfor %}
                     </div>
-                    <!-- Tombol Lihat Postingan Lainnya -->
-                    <div class="text-center mt-16">
-                        <a href="/id/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                            Lihat Postingan Lainnya
+                    <!-- See Other Posts Button -->
+                    <div class="text-center mt-10">
+                        <a href="/en/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                            See Other Posts
                         </a>
                     </div>
                 </div>
@@ -205,8 +223,8 @@ lang: id
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <!-- Community Call to Action -->
                     <div class="text-center lg:text-left">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ikuti Perjalanan Saya</h2>
-                        <p class="text-gray-400 text-lg mb-8">Dukung saya untuk terus berkarya dan berbagi cerita melalui animasi. Ikuti media sosial saya dan jadilah bagian dari komunitas!</p>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Follow My Journey</h2>
+                        <p class="text-gray-400 text-lg mb-8">Support me to continue creating and sharing stories through animation. Follow my social media and be part of the community!</p>
                         
                         <!-- Social Media Buttons -->
                         <div class="flex flex-row gap-4 justify-center lg:justify-start mb-8">
@@ -236,7 +254,7 @@ lang: id
                         </div>
                         <!-- Donation Button -->
                         <button class="bg-teal-700 text-white font-bold py-4 px-10 rounded-lg text-lg hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                            Donasi Sekarang
+                            Donate Now
                         </button>
                     </div>
 
@@ -244,7 +262,7 @@ lang: id
                     <div id="testimonial-slider" class="relative w-full max-w-lg mx-auto min-w-0">
                         <div class="overflow-hidden rounded-2xl bg-gray-800 border border-gray-700">
                             <div id="slider-track" class="slider-track flex transition-transform duration-500 ease-in-out">
-                                {% for testimoni in site.data.landing_id.testimoni %}
+                                {% for testimoni in site.data.landing_en.testimoni %}
                                 <!-- Testimonial Slide -->
                                 <div class="testimonial-slide w-full flex-shrink-0 p-8 sm:p-12">
                                     <svg 
@@ -276,12 +294,12 @@ lang: id
                             </div>
                         </div>
                         <!-- Slider Controls -->
-                        <button id="prev-slide" aria-label="Mundurkan" class="absolute top-1/2 -translate-y-1/2 -left-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-lg backdrop-blur-sm transition-colors z-10 hidden sm:block">
+                        <button id="prev-slide" aria-label="Previous" class="absolute top-1/2 -translate-y-1/2 -left-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-lg backdrop-blur-sm transition-colors z-10 hidden sm:block">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.7071 5.29289C16.0976 5.68342 16.0976 6.31658 15.7071 6.70711L10.4142 12L15.7071 17.2929C16.0976 17.6834 16.0976 18.3166 15.7071 18.7071C15.3165 19.0976 14.6834 19.0976 14.2929 18.7071L8.46963 12.8839C7.98148 12.3957 7.98148 11.6043 8.46963 11.1161L14.2929 5.29289C14.6834 4.90237 15.3165 4.90237 15.7071 5.29289Z"/>
                             </svg>
                         </button>
-                        <button id="next-slide" aria-label="Majukan" class="absolute top-1/2 -translate-y-1/2 -right-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-lg backdrop-blur-sm transition-colors z-10 hidden sm:block">
+                        <button id="next-slide" aria-label="Next" class="absolute top-1/2 -translate-y-1/2 -right-4 bg-gray-700/50 hover:bg-gray-600/80 text-white p-3 rounded-lg backdrop-blur-sm transition-colors z-10 hidden sm:block">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 5.29289C8.68342 4.90237 9.31658 4.90237 9.70711 5.29289L15.5303 11.1161C16.0185 11.6043 16.0185 12.3957 15.5303 12.8839L9.70711 18.7071C9.31658 19.0976 8.68342 19.0976 8.29289 18.7071C7.90237 18.3166 7.90237 17.6834 8.29289 17.2929L13.5858 12L8.29289 6.70711C7.90237 6.31658 7.90237 5.68342 8.29289 5.29289Z"/>
                             </svg>

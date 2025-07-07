@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="{{ '/assets/prism/prism.css' | relative_url }}">
     
     <style>
+        /* --- General Styling with Teal Theme --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #18212f;
@@ -48,16 +49,16 @@
             .article-content h2 { font-size: 1.75rem; }
             .article-content h3 { font-size: 1.5rem; }
         }
-        .article-content a { font-size: 1rem; color: #60a5fa; text-decoration: underline; text-decoration-color: #60a5fa; transition: color 0.3s; }
-        .article-content a:hover { color: #93c5fd; }
+        .article-content a { font-size: 1rem; color: #2dd4bf; text-decoration: underline; text-decoration-color: #2dd4bf; transition: color 0.3s; }
+        .article-content a:hover { color: #5eead4; }
         .article-content ul { list-style-type: disc; font-size: 1rem; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
         .article-content ol { list-style-type: decimal; font-size: 1rem; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
-        .article-content blockquote { font-size: 1rem; border-left: 4px solid #3b82f6; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #9ca3af; }
+        .article-content blockquote { font-size: 1rem; border-left: 4px solid #0d9488; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #9ca3af; }
         pre[class*="language-"] { font-size: 0.875rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 1rem; overflow-x: auto; }
         .article-content img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 4px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
         
         .toc-link.active {
-            color: #60a5fa;
+            color: #2dd4bf; /* Teal color for active TOC link */
             font-weight: 600;
         }
 
@@ -70,30 +71,30 @@
             }
         }
         
-        /* --- Definisi CSS untuk Tombol Download --- */
+        /* --- New Download Button Style --- */
         .article-content .download-link {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            margin: 0.5rem 0;
-            border: 1px solid transparent;
-            font-size: 1rem;
-            font-weight: 600;
-            line-height: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            background-color: #0d9488; /* bg-teal-700 */
             color: white !important;
-            background-color: #2563eb;
+            font-weight: 600; /* font-semibold */
+            padding: 0.75rem 2rem; /* py-3 px-8 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-size: 1rem; /* text-base */
             text-decoration: none !important;
-            transition: background-color 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+            transition: all 0.3s ease-in-out;
+            transform: scale(1);
         }
 
         .article-content .download-link:hover {
-            background-color: #1d4ed8;
+            background-color: #0f766e; /* hover:bg-teal-600 */
             color: white !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* hover:shadow-lg */
+            transform: scale(1.05);
         }
 
+        /* Restored Download Icon */
         .article-content .download-link::after {
             content: '';
             display: inline-block;
@@ -107,7 +108,7 @@
             background-size: contain;
         }
 
-        /* PERUBAHAN: Membuat tombol download di tengah jika sendirian di dalam paragraf */
+        /* Center the button if it's the only element in a paragraph */
         .article-content p:has(> .download-link:only-child) {
             text-align: center;
         }
@@ -157,17 +158,17 @@
                     <div class="lg:col-span-9">
                         <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
                             <div class="mb-8">
-                                <p class="text-base font-semibold text-blue-400">{{ page.category }}</p>
+                                <p class="text-base font-semibold text-teal-400">{{ page.category }}</p>
                                 <h1 id="page-top" class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
                                 <div class="mt-6 flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
                                     <span>{{ page.date | date: "%d %B %Y" }}</span>
                                     <span class="text-gray-600">•</span>
                                     
-                                    <button @click="tocOpen = !tocOpen" class="lg:hidden text-blue-400 hover:text-blue-300 transition-colors">
+                                    <button @click="tocOpen = !tocOpen" class="lg:hidden text-teal-400 hover:text-teal-300 transition-colors">
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-blue-400 hover:text-blue-300 transition-colors">
+                                    <button @click="tocLgVisible = !tocLgVisible" class="hidden lg:inline-flex text-teal-400 hover:text-teal-300 transition-colors">
                                         <span x-text="tocLgVisible ? 'Sembunyikan Daftar Isi' : 'Tampilkan Daftar Isi'"></span>
                                     </button>
                                 </div>
@@ -209,7 +210,7 @@
                                 <div x-ref="authorContent" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out" 
                                      :class="{ 'opacity-0 translate-y-full': tocLgVisible, 'opacity-100 translate-y-0': !tocLgVisible }">
                                     <div class="p-6 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0">
-                                        <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-blue-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                        <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-teal-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
                                         <div class="text-left lg:text-center">
                                             <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
                                             <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
@@ -239,7 +240,7 @@
                                         <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
                                             <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Image';">
                                             <div>
-                                                <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                                <p class="text-sm font-semibold text-white group-hover:text-teal-400 transition-colors line-clamp-2">{{ post.title }}</p>
                                             </div>
                                         </a>
                                         {% assign count = count | plus: 1 %}
@@ -247,7 +248,7 @@
                                     {% endfor %}
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/blog/" class="block w-full text-center px-4 py-2 bg-gray-700/50 hover:bg-gray-700/80 text-white font-semibold text-sm rounded-lg transition-colors">
+                                    <a href="/blog/" class="block w-full text-center px-4 py-2 bg-teal-800/60 hover:bg-teal-800/90 text-white font-semibold text-sm rounded-lg transition-colors">
                                         Lihat Semua Post
                                     </a>
                                 </div>
@@ -292,7 +293,6 @@
                 const link = document.createElement('a');
                 link.href = '#page-top';
                 link.textContent = 'Pendahuluan';
-                // PERUBAHAN: Menghapus 'font-semibold' agar gaya seragam
                 link.classList.add('block', 'text-sm', 'text-gray-400', 'hover:text-white', 'transition-all', 'duration-200', 'toc-link', 'toc-top-link');
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -304,8 +304,6 @@
 
             desktopTocContainer.appendChild(createTopLink());
             mobileTocContainer.appendChild(createTopLink());
-
-            // PERUBAHAN: Menghapus garis pemisah
             
             const handleTocClick = (event) => {
                 event.preventDefault();
