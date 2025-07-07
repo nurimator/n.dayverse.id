@@ -39,6 +39,11 @@ We support creative ownership. Any content you create using our platform or tool
 
 > Please ensure that any Minecraft-related visuals used in your work also comply with Mojang’s terms and community guidelines.
 
+## Third-Party Logos and Trademarks
+
+Some logos displayed on this website are trademarks or registered trademarks of their respective owners. These are used for informational and referential purposes only. Nurimator is not affiliated with, endorsed by, or sponsored by these companies.
+
+
 ## Third-Party Assets
 
 This website uses several libraries and tools that are licensed separately. These include but are not limited to:
