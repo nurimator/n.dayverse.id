@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     return `
-      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-teal-500/50 hover:-translate-y-1">
+      <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-teal-500/50 hover:-translate-y-1 hover:shadow-teal-500/20">
         <a href="${itemUrl}" class="block group h-full flex flex-col">
           <div class="relative flex-shrink-0 h-48 bg-gray-900">
             <div class="absolute inset-0 shimmer z-5"></div>
