@@ -1,8 +1,3 @@
----
-layout: null
-lang: id
----
-
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
@@ -111,6 +106,12 @@ lang: id
         .work-card:hover::after {
             transform: translateX(-101%);
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* [UPDATE] Optimasi animasi kartu untuk performa lebih baik */
+        .work-card {
+            /* Memberi petunjuk ke browser untuk mengoptimalkan animasi transform dan box-shadow */
+            will-change: transform, box-shadow;
         }
     </style>
 </head>
