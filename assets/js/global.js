@@ -21,18 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mainMenuItems = {
         id: [
+            { href: '/id/', text: 'Beranda' },
             { href: '/id/articles/', text: 'Artikel' },
             { href: '/id/resources/', text: 'Bahan Desain' },
             { href: '/id/media/', text: 'Media' },
-            { href: '/id/donate.html', text: 'Donasi' },
-            { href: '/id/tentang.html', text: 'Tentang' }
+            { href: '/id/donate.html', text: 'Donasi' }
         ],
         en: [
+            { href: '/en/', text: 'Home' },
             { href: '/en/articles/', text: 'Articles' },
             { href: '/en/resources/', text: 'Resources' },
             { href: '/en/media/', text: 'Media' },
-            { href: '/en/donate.html', text: 'Donate' },
-            { href: '/en/about.html', text: 'About' }
+            { href: '/en/donate.html', text: 'Donate' }
         ]
     };
 
