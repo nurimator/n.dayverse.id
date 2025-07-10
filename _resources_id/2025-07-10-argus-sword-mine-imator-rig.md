@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_id
 title: "Rig Mine-imator Pedang Argus"
 date: 2025-07-01 09:30:00 +0700
 category: "Rig"

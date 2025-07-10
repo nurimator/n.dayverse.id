@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_en
 title: "Argus Sword Mine-imator Rig"
 date: 2025-07-01 09:30:00 +0700
 category: "Rig"
