@@ -61,6 +61,19 @@ defaults:
     values:
       lang: "en"
 
+  - scope:
+      path: ""
+      type: "resources_id" # Nama koleksi harus cocok dengan yang di atas
+    values:
+      lang: "id"
+
+  # Atur default untuk koleksi Bahasa Inggris
+  - scope:
+      path: ""
+      type: "resources_en" # Nama koleksi harus cocok dengan yang di atas
+    values:
+      lang: "en"
+
 # ========================
 # Pengecualian Build
 # ========================
