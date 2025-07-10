@@ -24,12 +24,12 @@ collections:
   articles_en:
     output: true
     permalink: /en/articles/:title/
-  media_id:
-    output: true
-    permalink: /id/media/:title/
   resources_id:
     output: true
-    permalink: /id/resources/:title/    
+    permalink: /id/resources/:title/
+  resources_en:
+    output: true
+    permalink: /en/resources/:title/        
   legals:
     output: true
     permalink: /:title/  
