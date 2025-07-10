@@ -2,7 +2,8 @@
 layout: default
 title: "Argus Sword Mine-imator Rig"
 date: 2025-07-01 09:30:00 +0700
-category: "Figma"
+category: "Rig"
+page_id: 10
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
