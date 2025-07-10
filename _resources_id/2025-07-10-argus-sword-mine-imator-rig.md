@@ -9,7 +9,7 @@ author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
 author_avatar: "/assets/image/nurimator-logo-512.webp"
 type: "Resource"
-image: "https://placehold.co/1200x600/111827/7986cb?text=Argus+Sword"
+image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AArgus+Sword"
 ---
 
 ## Ringkasan
@@ -31,4 +31,4 @@ Terdapat lima varian rig pedang yang masing-masing mengikuti desain dari skin re
 Rig ini dapat digunakan untuk berbagai jenis proyek animasi yang memerlukan elemen senjata dengan desain yang kuat dan bervariasi. Link Download tersedia di bagian bawah halaman ini.
 
 
-<a href="https://www.mediafire.com/file/osd0rl7mld1gvg0/Argus_Sword_by_nurimator.rar/file" download class="download-link">Download File gambar</a>
+<a href="https://www.mediafire.com/file/osd0rl7mld1gvg0/Argus_Sword_by_nurimator.rar/file" download class="download-link">Download</a>
