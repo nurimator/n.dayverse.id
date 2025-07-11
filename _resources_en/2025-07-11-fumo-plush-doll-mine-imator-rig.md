@@ -7,7 +7,7 @@ page_id: "11"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AFumo+Plush+Doll"
 ---
 
-Have you ever wanted to create Minecraft animations featuring Fumo plush dolls? This rig offers a simple and fun way to bring those soft, expressive characters into your scenes with ease.
+Fumo dolls are known for their cute and expressive charm across the internet, but what if they showed up in Minecraft? This rig lets you turn that idea into a fun animation project.
 
 ## Overview
 
