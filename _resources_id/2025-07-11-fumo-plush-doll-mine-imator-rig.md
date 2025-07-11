@@ -6,6 +6,7 @@ category: "Rig Mine-imator"
 page_id: "11"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0ABoneka+Fumo"
 ---
+Pernahkah terpikir untuk membuat animasi Minecraft yang menampilkan boneka Fumo? Rig ini bisa menjadi cara yang sederhana dan menyenangkan untuk menghadirkan karakter imut dan ekspresif tersebut ke dalam  animasimu.
 
 ## Ringkasan
 

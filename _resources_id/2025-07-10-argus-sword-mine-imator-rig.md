@@ -7,6 +7,8 @@ page_id: "10"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AArgus+Sword"
 ---
 
+Pernah membayangkan membuat animasi Minecraft yang menghadirkan pedang milik Argus dari Mobile Legends? Rig ini bisa menjadi pilihan tepat untuk menambahkan sentuhan visual yang kuat ke dalam proyek animasimu.
+
 ## Ringkasan
 
 Rig ini adalah model pedang Argus dari game *Mobile Legends: Bang Bang* yang dibuat khusus untuk keperluan animasi di *Mine-imator*. Rig ini hanya mencakup senjatanya saja dan dirancang agar mudah digunakan dalam berbagai proyek bertema Minecraft. Setiap model dibuat dengan menyesuaikan bentuk dan tampilan visual dari versi aslinya, sehingga tetap terasa akurat namun tetap cocok digunakan dalam gaya animasi blok.
