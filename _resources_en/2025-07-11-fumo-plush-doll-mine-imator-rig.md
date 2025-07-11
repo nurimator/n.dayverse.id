@@ -1,6 +1,6 @@
 ---
 layout: resource_en
-title: "Argus Sword Mine-imator Rig"
+title: "Fumo Plush Doll Mine-imator Rig"
 date: 2025-07-11 09:30:00 +0700
 category: "Rig Mine-imator"
 page_id: "11"
@@ -24,5 +24,5 @@ There are three Fumo plush doll rigs available, each representing a well-known c
 This rig is ideal for enhancing scenes with a casual, comedic, or slice-of-life tone. The download link can be found at the bottom of this page.
 
 
-<a href="https://www.mediafire.com/file/osd0rl7mld1gvg0/Argus_Sword_by_nurimator.rar/file" download class="download-link">Download</a>
+<a href="https://www.mediafire.com/file/qjzqbuga5t9zegt/Fumo_Rig_by_Nurimator.rar/file" download class="download-link">Download</a>
 

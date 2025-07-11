@@ -1,10 +1,10 @@
 ---
 layout: resource_id
-title: "Rig Mine-imator Pedang Argus"
+title: "Rig Mine-imator Boneka Fumo"
 date: 2025-07-11 09:30:00 +0700
 category: "Rig Mine-imator"
 page_id: "11"
-image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AFumo+Plush+Doll"
+image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0ABoneka+Fumo"
 ---
 
 ## Ringkasan
@@ -24,4 +24,4 @@ Terdapat tiga varian rig Fumo plush doll yang tersedia, masing-masing mewakili k
 Rig ini dapat digunakan untuk memperkaya suasana dalam animasi bertema kasual, komedi, atau slice-of-life. Link download tersedia di bagian bawah halaman ini.
 
 
-<a href="https://www.mediafire.com/file/osd0rl7mld1gvg0/Argus_Sword_by_nurimator.rar/file" download class="download-link">Download</a>
+<a href="https://www.mediafire.com/file/qjzqbuga5t9zegt/Fumo_Rig_by_Nurimator.rar/file" download class="download-link">Download</a>
