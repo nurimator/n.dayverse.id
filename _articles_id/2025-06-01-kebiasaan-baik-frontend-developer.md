@@ -7,7 +7,7 @@ page_id: "5"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
-author_avatar: "/assets/image/nurimator-logo-512.webp"
+author_avatar: "/assets/image/nurimator-logo-128.webp"
 type: "Artikel"
 image: "/assets/image/armor-trim.webp"
 ---
@@ -59,5 +59,5 @@ Menjaga agar task tetap jelas, pull request mudah ditinjau, dan komunikasi dalam
 
 Kebiasaan baik tidak dibentuk dalam sehari. Tapi dengan niat dan konsistensi, Anda bisa tumbuh menjadi frontend developer yang tidak hanya andal secara teknis, tapi juga solid dalam kerja tim dan punya nilai lebih di mata perusahaan maupun komunitas. [mine-imator](https://www.mineimator.com)
 
-<a href="/assets/image/nurimator-logo-512.webp" download class="download-link">Download File gambar</a>
+<a href="/assets/image/nurimator-logo-128.webp" download class="download-link">Download File gambar</a>
 

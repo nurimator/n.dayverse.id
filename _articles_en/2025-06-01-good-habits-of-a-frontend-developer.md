@@ -7,7 +7,7 @@ page_id: "5"
 author: "Nurhidayat"
 author_role: "Author"
 author_bio: "Writes about anything I find interesting."
-author_avatar: "/assets/image/nurimator-logo-512.webp"
+author_avatar: "/assets/image/nurimator-logo-128.webp"
 type: "Artikel"
 image: "/assets/image/armor-trim.webp"
 ---

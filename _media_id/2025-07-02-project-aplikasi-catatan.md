@@ -6,7 +6,7 @@ category: "Aplikasi"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
-author_avatar: "/assets/image/nurimator-logo-512.webp"
+author_avatar: "/assets/image/nurimator-logo-128.webp"
 type: "Media"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Aplikasi+Catatan"
 ---

@@ -7,7 +7,7 @@ page_id: "6"
 author: "Nurhidayat"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
-author_avatar: "/assets/image/nurimator-logo-512.webp"
+author_avatar: "/assets/image/nurimator-logo-128.webp"
 type: "Artikel"
 image: "/assets/image/morning-breeze.webp"
 ---
