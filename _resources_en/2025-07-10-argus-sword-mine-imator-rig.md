@@ -7,7 +7,7 @@ page_id: "10"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AArgus+Sword"
 ---
 
-Ever thought about creating a Minecraft animation that features Argus’s sword from Mobile Legends? This rig offers a great way to bring that powerful design into your project with ease.
+If you enjoy mixing elements from different games into your animation projects, Argus’s sword is a solid addition. It’s bold in design, visually distinct, and fits surprisingly well with Minecraft’s blocky charm.
 
 ## Overview
 
