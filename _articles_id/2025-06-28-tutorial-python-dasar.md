@@ -1,5 +1,5 @@
 ---
-layout: default_id
+layout: article_id
 title: "Tutorial Dasar Python: Memahami Dasar-dasar Bahasa Python"
 date: 2025-06-28 11:00:00 +0700
 category: "Tutorial"

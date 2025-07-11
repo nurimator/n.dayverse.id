@@ -1,14 +1,9 @@
 ---
-layout: default_id
+layout: resource_id
 title: "Rig Mine-imator Pedang Argus"
 date: 2025-07-10 09:30:00 +0700
-category: "Rig"
+category: "Rig Mine-imator"
 page_id: "10"
-author: "Nurhidayat"
-author_role: "Penulis"
-author_bio: "Menulis tentang apa saja yang menurutku menarik."
-author_avatar: "/assets/image/nurimator-logo-512.webp"
-type: "Resource"
 image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AArgus+Sword"
 ---
 

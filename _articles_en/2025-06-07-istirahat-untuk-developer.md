@@ -1,5 +1,5 @@
 ---
-layout: default_en
+layout: article_en
 title: "Pentingnya Istirahat untuk Developer: Jangan Terus di Depan Layar!"
 date: 2025-06-07 15:45:00 +0700
 category: "Kesehatan Digital"

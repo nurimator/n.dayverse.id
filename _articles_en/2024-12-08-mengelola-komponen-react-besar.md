@@ -1,5 +1,5 @@
 ---
-layout: default_en
+layout: article_en
 title: "Strategi Mengelola Komponen React yang Semakin Kompleks"
 date: 2025-05-25 11:45:00 +0700
 category: "Tutorial"

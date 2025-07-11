@@ -46,33 +46,54 @@ plugins:
 # ========================
 # Default Layout
 # ========================
-
 defaults:
+  # Artikel Bahasa Indonesia
   - scope:
       path: ""
-      type: "articles_id" # Nama koleksi harus cocok dengan yang di atas
+      type: "articles_id"
     values:
       lang: "id"
+      type: "Artikel"
+      author: "Nurhidayat"
+      author_role: "Penulis"
+      author_bio: "Menulis tentang apa saja yang menurutku menarik."
+      author_avatar: "/assets/image/nurimator-logo-512.webp"
 
-  # Atur default untuk koleksi Bahasa Inggris
+  # Artikel Bahasa Inggris
   - scope:
       path: ""
-      type: "articles_en" # Nama koleksi harus cocok dengan yang di atas
+      type: "articles_en"
     values:
       lang: "en"
+      type: "Artikel"
+      author: "Nurhidayat"
+      author_role: "Author"
+      author_bio: "Writes about anything I find interesting."
+      author_avatar: "/assets/image/nurimator-logo-512.webp"
 
+  # Resource Bahasa Indonesia
   - scope:
       path: ""
-      type: "resources_id" # Nama koleksi harus cocok dengan yang di atas
+      type: "resources_id"
     values:
       lang: "id"
+      type: "Resource"
+      author: "Nurhidayat"
+      author_role: "Penulis"
+      author_bio: "Menulis tentang apa saja yang menurutku menarik."
+      author_avatar: "/assets/image/nurimator-logo-512.webp"
 
-  # Atur default untuk koleksi Bahasa Inggris
+  # Resource Bahasa Inggris
   - scope:
       path: ""
-      type: "resources_en" # Nama koleksi harus cocok dengan yang di atas
+      type: "resources_en"
     values:
       lang: "en"
+      type: "Resource"
+      author: "Nurhidayat"
+      author_role: "Author"
+      author_bio: "Writes about anything I find interesting."
+      author_avatar: "/assets/image/nurimator-logo-512.webp"
 
 # ========================
 # Pengecualian Build

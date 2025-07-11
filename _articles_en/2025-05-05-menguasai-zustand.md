@@ -1,5 +1,5 @@
 ---
-layout: default_en
+layout: article_en
 title: "Menguasai State Management di React dengan Zustand"
 date: 2025-05-05 10:30:00 +0700
 category: "Tutorial"

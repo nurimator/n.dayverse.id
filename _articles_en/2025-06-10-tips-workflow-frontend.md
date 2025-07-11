@@ -1,5 +1,5 @@
 ---
-layout: default_en
+layout: article_en
 title: "5 Tips Menyusun Workflow yang Nyaman untuk Frontend Developer"
 date: 2025-06-10 09:30:00 +0700
 category: "Produktivitas"

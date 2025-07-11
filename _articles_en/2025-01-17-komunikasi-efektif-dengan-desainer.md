@@ -1,5 +1,5 @@
 ---
-layout: default_en
+layout: article_en
 title: "Komunikasi Efektif antara Developer dan Desainer"
 date: 2025-01-17 13:00:00 +0700
 category: "Kolaborasi"

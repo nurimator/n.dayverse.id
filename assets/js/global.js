@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 navLinks: [
                     { text: 'All Content', href: '/en/all/' },
                     { text: 'Articles', href: '/en/articles/' },
-                    { text: 'Design Resources', href: '/en/resources/' },
+                    { text: 'Resources', href: '/en/resources/' },
                     { text: 'Media', href: '/en/media/' },
                     { text: 'Donate', href: '/en/donate' }
                 ],
