@@ -4,7 +4,7 @@ title: "Argus Sword Mine-imator Rig"
 date: 2025-07-10 09:30:00 +0700
 category: "Rig Mine-imator"
 page_id: "10"
-image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AArgus+Sword"
+image: "/assets/image/argus_sword_mine_imator.webp"
 ---
 
 If you enjoy mixing elements from different games into your animation projects, Argus’s sword is a solid addition. It’s bold in design, visually distinct, and fits surprisingly well with Minecraft’s blocky charm.

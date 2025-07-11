@@ -4,7 +4,7 @@ title: "Rig Mine-imator Pedang Argus"
 date: 2025-07-10 09:30:00 +0700
 category: "Rig Mine-imator"
 page_id: "10"
-image: "https://placehold.co/1200x600/111827/7986cb?text=Mine-imator+Rig%0AArgus+Sword"
+image: "/assets/image/argus_sword_mine_imator.webp"
 ---
 
 Ada sesuatu yang khas dari desain pedang Argus yang membuatnya langsung dikenali. Kini, versi rig-nya hadir untuk Mine-imator, siap digunakan dalam animasi Minecraft dengan sentuhan aksi dan nuansa Mobile Legends.
