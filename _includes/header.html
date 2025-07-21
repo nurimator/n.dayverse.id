@@ -1,30 +1,51 @@
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #111827; /* bg-gray-900 */
-        /*    padding-top: 80px;  Placeholder for fixed header */
-        }
-        /* Kelas untuk item menu yang terlihat */
-        .menu-item-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Kelas untuk item menu yang tersembunyi */
-        .menu-item-hidden {
-            opacity: 0;
-            transform: translateY(-15px);
-        }
-        /* [UPDATE] Transisi untuk latar belakang menu */
-        #menu-background-overlay {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s;
-        }
-        #menu-background-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #111827; /* bg-gray-900 */
+    /*    padding-top: 80px;  Placeholder for fixed header */
+    }
+    /* Kelas untuk item menu yang terlihat */
+    .menu-item-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    /* Kelas untuk item menu yang tersembunyi */
+    .menu-item-hidden {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    /* [UPDATE] Hapus efek blur overlay dan buat container menu seperti dropdown */
+    .header-dropdown-menu {
+        background: #1f2937; /* bg-gray-800 */
+        border: 1px solid rgba(55, 65, 81, 0.8); /* border-gray-700/80 */
+        border-radius: 0.75rem; /* rounded-xl */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        padding: 0.5rem; /* p-2 */
+        min-width: 12rem; /* w-48 */
+    }
+    .header-menu-item {
+        display: block;
+        padding: 0.75rem; /* p-3 */
+        font-size: 0.875rem; /* text-sm */
+        color: white;
+        text-decoration: none;
+        border-radius: 0.5rem; /* rounded-lg */
+        transition: background-color 0.2s ease;
+        text-align: left;
+        width: 100%;
+    }
+    .header-menu-item:hover {
+        background-color: rgba(55, 65, 81, 1); /* hover:bg-gray-700 */
+    }
+    .header-menu-item.active {
+        background-color: #0f766e; /* bg-teal-600 */
+        cursor: default;
+    }
+    .header-menu-item.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
 
 <!-- Header dengan z-index: 50 -->
 <header id="header" class="bg-gray-900/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-gray-700/50">
@@ -87,13 +108,8 @@
     </div>
 </header>
 
-<!-- [PERUBAHAN DI SINI] Menggunakan inline style untuk z-index overlay -->
-<!-- Ini untuk memastikan tidak ada file CSS lain yang menimpa nilai z-index ini. -->
-<div id="menu-background-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm" style="z-index: 40;"></div>
-
-<!-- [PERUBAHAN DI SINI] Menggunakan inline style untuk z-index menu -->
-<!-- Nilai 55 sengaja dibuat lebih tinggi dari header (50) dan overlay (40) untuk memastikannya selalu di atas. -->
-<div id="desktop-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden" style="z-index: 55;"></div>
-<div id="desktop-dropdown-menu" class="fixed flex-col items-end space-y-2 hidden" style="z-index: 55;"></div>
-<div id="mobile-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden" style="z-index: 55;"></div>
-<div id="mobile-menu" class="fixed flex-col items-end space-y-2 hidden lg:hidden" style="z-index: 55;"></div>
+<!-- [PERUBAHAN DI SINI] Hapus overlay blur dan ubah z-index menu -->
+<div id="desktop-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden header-dropdown-menu" style="z-index: 55;"></div>
+<div id="desktop-dropdown-menu" class="fixed flex-col items-end space-y-2 hidden header-dropdown-menu" style="z-index: 55;"></div>
+<div id="mobile-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden header-dropdown-menu" style="z-index: 55;"></div>
+<div id="mobile-menu" class="fixed flex-col items-end space-y-2 hidden lg:hidden header-dropdown-menu" style="z-index: 55;"></div>

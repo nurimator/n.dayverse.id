@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const desktopSearchInput = document.querySelector('#desktop-search-form input[name="q"]');
     const mobileSearchInput = document.querySelector('#mobile-search-input');
     const desktopMenuButtonText = document.querySelector('#desktop-dropdown-button span');
-    const menuBackgroundOverlay = document.getElementById('menu-background-overlay');
 
     // --- Data untuk Menu & Terjemahan UI ---
     const langMenuItems = [
@@ -87,30 +86,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
     
-    // --- Sistem Kontrol Menu Terpusat ---
+    // --- Sistem Kontrol Menu Terpusat (Disederhanakan) ---
     const activeMenus = new Map();
 
-    const closeAllMenus = (excludeId = null, instant = false) => {
+    const closeAllMenus = (excludeId = null) => {
         activeMenus.forEach((menuControl, menuId) => {
             if (menuId !== excludeId) {
-                menuControl.close(instant);
+                menuControl.close();
             }
         });
-        // Sembunyikan overlay hanya jika kita menutup SEMUA menu (bukan saat beralih)
-        if (!excludeId) {
-            if (menuBackgroundOverlay) menuBackgroundOverlay.classList.remove('visible');
-        }
     };
 
     const createMenuItem = (item) => {
         const a = document.createElement('a');
         a.href = item.href;
-        a.textContent = item.text.toUpperCase(); 
+        a.textContent = item.text;
         
-        // [PERBAIKAN DI SINI] 
-        // Tambahkan kelas background abu-abu secara default untuk SEMUA item menu.
-        // Fungsi setupLanguageSwitcherUI akan menimpanya nanti untuk item bahasa yang aktif.
-        a.className = 'menu-item-hidden transition-all duration-300 backdrop-blur-md border border-gray-600/50 text-white font-medium text-sm rounded-lg block w-48 py-3 px-4 text-center bg-gray-700/80 hover:bg-gray-600/80';
+        // Gunakan class CSS yang sudah didefinisikan di header
+        a.className = 'header-menu-item';
         
         if (item.dataLang) {
             a.dataset.lang = item.dataLang;
@@ -166,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const menuItemElement = createMenuItem(newItem);
                 
                 if (!isAvailable) {
-                    menuItemElement.classList.add('opacity-50', 'cursor-not-allowed');
+                    menuItemElement.classList.add('disabled');
                     menuItemElement.title = 'Terjemahan tidak tersedia';
                     menuItemElement.addEventListener('click', e => e.preventDefault());
                 }
@@ -179,12 +172,9 @@ document.addEventListener('DOMContentLoaded', function () {
             itemsToRender.forEach(item => menu.appendChild(createMenuItem(item)));
         }
 
-        const menuItems = Array.from(menu.children);
-
         const openMenu = () => {
             if (isOpen) return;
             isOpen = true;
-            if (menuBackgroundOverlay) menuBackgroundOverlay.classList.add('visible');
 
             const buttonRect = button.getBoundingClientRect();
             const headerHeight = header.offsetHeight;
@@ -192,51 +182,21 @@ document.addEventListener('DOMContentLoaded', function () {
             menu.style.right = `${window.innerWidth - buttonRect.right}px`;
             menu.classList.remove('hidden');
             menu.classList.add('flex');
-            menuItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.classList.add('menu-item-visible');
-                    item.classList.remove('menu-item-hidden');
-                }, index * 75);
-            });
         };
 
-        const closeMenu = (instant = false) => {
+        const closeMenu = () => {
             if (!isOpen) return;
             isOpen = false;
-
-            if (instant) {
-                // Tutup langsung tanpa animasi
-                menu.classList.add('hidden');
-                menu.classList.remove('flex');
-                menuItems.forEach(item => {
-                    item.classList.remove('menu-item-visible');
-                    item.classList.add('menu-item-hidden');
-                });
-            } else {
-                // Tutup dengan animasi
-                const reversedItems = [...menuItems].reverse();
-                reversedItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.classList.remove('menu-item-visible');
-                        item.classList.add('menu-item-hidden');
-                    }, index * 75);
-                });
-                setTimeout(() => {
-                    menu.classList.add('hidden');
-                    menu.classList.remove('flex');
-                }, reversedItems.length * 75 + 50);
-            }
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
         };
 
         button.addEventListener('click', (e) => {
             e.stopPropagation();
             if (isOpen) {
-                // Jika menu ini sudah terbuka, tutup dengan animasi.
-                closeMenu(false);
-                if (menuBackgroundOverlay) menuBackgroundOverlay.classList.remove('visible');
+                closeMenu();
             } else {
-                // Jika membuka menu baru, tutup menu lain secara instan.
-                closeAllMenus(menuId, true);
+                closeAllMenus(menuId);
                 openMenu();
             }
         });
@@ -251,24 +211,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentLangDisplay = document.getElementById('current-lang-display');
         if (currentLangDisplay) currentLangDisplay.textContent = pageLang.toUpperCase();
         
-        // Timeout ini mungkin tidak lagi diperlukan dengan logika yang diperbaiki,
-        // tetapi tetap dipertahankan untuk keamanan jika ada penundaan rendering.
         setTimeout(() => {
             document.querySelectorAll('.lang-option').forEach(link => {
-                // Hapus semua kelas yang terkait dengan status aktif/tidak aktif sebelumnya
-                link.classList.remove('bg-teal-600', 'cursor-default', 'bg-gray-700/80', 'hover:bg-gray-600/80', 'opacity-50', 'cursor-not-allowed');
-                link.removeEventListener('click', e => e.preventDefault()); // Hapus listener lama jika ada
+                // Hapus semua kelas status sebelumnya
+                link.classList.remove('active', 'disabled');
 
                 if (link.dataset.lang === pageLang) {
                     // Tambahkan kelas untuk bahasa aktif
-                    link.classList.add('bg-teal-600', 'cursor-default');
-                    link.addEventListener('click', e => e.preventDefault()); // Nonaktifkan klik untuk bahasa aktif
+                    link.classList.add('active');
+                    link.addEventListener('click', e => e.preventDefault());
                 } else {
-                    // Tambahkan kembali kelas abu-abu dan hover untuk bahasa tidak aktif
-                    link.classList.add('bg-gray-700/80', 'hover:bg-gray-600/80');
                     // Periksa kembali ketersediaan terjemahan jika diperlukan
-                    if (link.title === 'Terjemahan tidak tersedia') { // Ini mengandalkan title yang diset di createMenuItem
-                        link.classList.add('opacity-50', 'cursor-not-allowed');
+                    if (link.title === 'Terjemahan tidak tersedia') {
+                        link.classList.add('disabled');
                         link.addEventListener('click', e => e.preventDefault());
                     }
                 }
@@ -349,8 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (mobileSearchOpenButton) {
         mobileSearchOpenButton.addEventListener('click', () => {
-            closeAllMenus(null, true);
-            if (menuBackgroundOverlay) menuBackgroundOverlay.classList.remove('visible');
+            closeAllMenus();
             if (headerMainContent) headerMainContent.classList.add('hidden');
             if (mobileSearchView) {
                 mobileSearchView.classList.remove('hidden');
@@ -370,11 +324,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    if(menuBackgroundOverlay) {
-        menuBackgroundOverlay.addEventListener('click', () => {
-            closeAllMenus(null, false); // Tutup semua menu dengan animasi
-        });
-    }
+    // Tutup menu saat klik di luar
+    window.addEventListener('click', () => {
+        closeAllMenus();
+    });
     
     // Panggil setupLanguageSwitcherUI setelah semua menu bahasa dibuat
     setupLanguageSwitcherUI();
