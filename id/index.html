@@ -95,24 +95,61 @@ lang: id
             100% { background-position: 200% 0; }
         }
 
-        /* Efek kilau hanya untuk kartu karya */
-        .work-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: translateX(101%);
-            pointer-events: none;
-            transition: none;
-        }
+        /* Optimasi untuk works section */
+    .work-card {
+        transform: translateZ(0); /* Hardware acceleration */
+        will-change: transform;
+    }
 
-        .work-card:hover::after {
-            transform: translateX(-101%);
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    .work-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: translateX(101%);
+        pointer-events: none;
+        transition: none;
+        will-change: transform;
+    }
+
+    .work-card:hover::after {
+        transform: translateX(-101%);
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Lazy loading placeholder yang lebih ringan */
+    .lazy-placeholder {
+        animation: shimmer-light 1.5s ease-in-out infinite;
+    }
+
+    @keyframes shimmer-light {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    .lazy-load {
+        transition: opacity 0.3s ease;
+    }
+
+    /* Line clamp untuk deskripsi */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Reduce motion untuk pengguna yang sensitif */
+    @media (prefers-reduced-motion: reduce) {
+        .work-card,
+        .work-card::after {
+            transition: none !important;
+            animation: none !important;
         }
+    }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-300">
@@ -163,47 +200,53 @@ lang: id
 
             <!-- ===== Works Portfolio Section ===== -->
             <section id="karya" class="relative z-10 pt-20 pb-10 sm:pt-28 sm:pb-14 bg-transparent">
-                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center max-w-3xl mx-auto mb-16">
-                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
-                        <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
-                    </div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]">Karya yang pernah saya buat</h2>
+            <p class="text-gray-300 text-lg [text-shadow:0_1px_8px_rgba(0,0,0,0.7)]">Berikut adalah beberapa karya animasi dan model 3D yang telah saya ciptakan.</p>
+        </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {% for card in site.data.landing_id.karya %}
-                        <!-- Work Card dengan kelas 'work-card' -->
-                        <div class="group work-card relative bg-gray-800/80 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
-                            <div class="relative w-full h-56 overflow-hidden">
-                                <div class="absolute inset-0 shimmer"></div>
-                                <img
-                                src="{{ card.gambar }}"
-                                alt="{{ card.alt_gambar }}"
-                                class="w-full h-full object-cover opacity-0 transition-all duration-300"
-                                loading="lazy"
-                                fetchpriority="low"
-                                onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
-                                >
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
-                                <p class="text-gray-400 mb-4 text-sm">{{ card.deskripsi }}</p>
-                                <div class="flex flex-wrap gap-2">
-                                    {% for tag in card.tags %}
-                                    <span class="{{ tag.kelas_bg }} {{ tag.kelas_text }} text-xs font-semibold px-2.5 py-1 rounded-full">{{ tag.nama }}</span>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for card in site.data.landing_id.karya limit:6 %}
+            <!-- Work Card dengan optimasi -->
+            <div class="group work-card relative bg-gray-800/80 rounded-2xl overflow-hidden border border-gray-700/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
+                <div class="relative w-full h-56 overflow-hidden bg-gray-700">
+                    <!-- Lazy loading dengan Intersection Observer -->
+                    <img
+                        data-src="{{ card.gambar }}"
+                        alt="{{ card.alt_gambar }}"
+                        class="w-full h-full object-cover opacity-0 transition-opacity duration-300 lazy-load"
+                        loading="lazy"
+                        decoding="async"
+                        onerror="this.src='https://placehold.co/600x400/111827/FFFFFF?text=Image+Not+Found';"
+                    >
+                    <!-- Loading placeholder yang lebih ringan -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 bg-[length:200%_100%] animate-pulse lazy-placeholder"></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 transition-colors duration-300 group-hover:text-teal-400">{{ card.judul }}</h3>
+                    <p class="text-gray-400 mb-4 text-sm line-clamp-2">{{ card.deskripsi }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tag in card.tags limit:3 %}
+                        <span class="{{ tag.kelas_bg }} {{ tag.kelas_text }} text-xs font-semibold px-2.5 py-1 rounded-full">{{ tag.nama }}</span>
                         {% endfor %}
-                    </div>
-                    <!-- [UPDATE] Tombol Lihat Postingan Lainnya dengan jarak yang diseragamkan -->
-                    <div class="text-center mt-10">
-                        <a href="/id/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                            Lihat Postingan Lainnya
-                        </a>
+                        {% if card.tags.size > 3 %}
+                        <span class="bg-gray-600 text-gray-300 text-xs font-semibold px-2.5 py-1 rounded-full">+{{ card.tags.size | minus: 3 }}</span>
+                        {% endif %}
                     </div>
                 </div>
-            </section>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Button dengan loading state -->
+        <div class="text-center mt-10">
+            <a href="/id/articles/" class="inline-block bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg text-base hover:bg-teal-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                Lihat Postingan Lainnya
+            </a>
+        </div>
+    </div>
+</section>
         </div>
 
         <!-- ===== Community Section ===== -->
@@ -306,8 +349,46 @@ lang: id
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            
-            // --- Testimonial Slider Logic ---
+        
+        // --- Lazy Loading untuk gambar ---
+        const lazyImages = document.querySelectorAll('.lazy-load');
+        
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const placeholder = img.nextElementSibling;
+                        
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        
+                        img.onload = () => {
+                            img.style.opacity = '1';
+                            if (placeholder && placeholder.classList.contains('lazy-placeholder')) {
+                                placeholder.style.opacity = '0';
+                                setTimeout(() => placeholder.remove(), 300);
+                            }
+                        };
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.1
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+        } else {
+            // Fallback untuk browser lama
+            lazyImages.forEach(img => {
+                img.src = img.dataset.src;
+                img.style.opacity = '1';
+            });
+        }
+
+        // --- Testimonial Slider Logic (existing) ---
             const slider = document.getElementById('testimonial-slider');
             if (slider) {
                 const sliderTrack = slider.querySelector('#slider-track');
@@ -412,7 +493,7 @@ lang: id
                     });
                 }
             }
-        });
+    });
     </script>
     <script src="/assets/js/global.js" defer></script>
 </body>
