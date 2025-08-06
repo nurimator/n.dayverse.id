@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const sortFilterMenu = document.getElementById('sort-filter-menu');
   const desktopSearchInput = document.getElementById('desktop-search-input');
   const mobileSearchInput = document.getElementById('mobile-search-input');
+  
+  // Tambahkan elemen paginasi
+  const paginationContainer = document.getElementById('pagination-container');
+  const prevPageButton = document.getElementById('prev-page');
+  const nextPageButton = document.getElementById('next-page');
+  const pageNumbersContainer = document.getElementById('page-numbers');
 
   // Validasi Data & State
   if (typeof searchableData === 'undefined' || typeof pageConfig === 'undefined') {
@@ -52,12 +58,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-
   // --- State Management ---
   const allItems = searchableData;
   let selectedType = pageConfig.preselectedType || 'all';
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
+  
+  // Tambahkan state untuk paginasi
+  let currentPage = 1;
+  const itemsPerPage = 6;
+  let totalPages = 1;
+  let currentFilteredItems = [];
 
   // Tambahkan state baru untuk menyimpan kategori yang dipilih
   let selectedCategories = new Set(['all']); // Mulai dengan 'all' selected
@@ -69,6 +80,109 @@ document.addEventListener('DOMContentLoaded', function () {
     const words = contentWithoutCodeblocks.split(' ');
     if (words.length <= numWords) return contentWithoutCodeblocks;
     return words.slice(0, numWords).join(' ') + '...';
+  };
+
+  // Fungsi untuk membuat pagination HTML
+  const createPaginationHTML = () => {
+    if (totalPages <= 1) {
+      if (paginationContainer) paginationContainer.style.display = 'none';
+      return;
+    }
+    
+    if (paginationContainer) paginationContainer.style.display = 'flex';
+    
+    // Update tombol prev/next
+    if (prevPageButton) {
+      prevPageButton.disabled = currentPage === 1;
+      prevPageButton.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          updateView();
+          scrollToTop();
+        }
+      };
+    }
+    
+    if (nextPageButton) {
+      nextPageButton.disabled = currentPage === totalPages;
+      nextPageButton.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          updateView();
+          scrollToTop();
+        }
+      };
+    }
+    
+    // Generate page numbers
+    if (pageNumbersContainer) {
+      pageNumbersContainer.innerHTML = '';
+      
+      // Tentukan range halaman yang akan ditampilkan
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+      
+      // Adjust range jika terlalu sedikit halaman
+      if (endPage - startPage < 4) {
+        if (startPage === 1) {
+          endPage = Math.min(totalPages, startPage + 4);
+        } else if (endPage === totalPages) {
+          startPage = Math.max(1, endPage - 4);
+        }
+      }
+      
+      // Tampilkan halaman pertama jika tidak dalam range
+      if (startPage > 1) {
+        const firstPageButton = createPageButton(1);
+        pageNumbersContainer.appendChild(firstPageButton);
+        
+        if (startPage > 2) {
+          const ellipsis = document.createElement('span');
+          ellipsis.className = 'px-2 py-2 text-sm text-gray-400';
+          ellipsis.textContent = '...';
+          pageNumbersContainer.appendChild(ellipsis);
+        }
+      }
+      
+      // Tampilkan halaman dalam range
+      for (let i = startPage; i <= endPage; i++) {
+        const pageButton = createPageButton(i);
+        pageNumbersContainer.appendChild(pageButton);
+      }
+      
+      // Tampilkan halaman terakhir jika tidak dalam range
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          const ellipsis = document.createElement('span');
+          ellipsis.className = 'px-2 py-2 text-sm text-gray-400';
+          ellipsis.textContent = '...';
+          pageNumbersContainer.appendChild(ellipsis);
+        }
+        
+        const lastPageButton = createPageButton(totalPages);
+        pageNumbersContainer.appendChild(lastPageButton);
+      }
+    }
+  };
+
+  // Fungsi untuk membuat tombol halaman
+  const createPageButton = (pageNum) => {
+    const button = document.createElement('button');
+    button.className = pageNum === currentPage 
+      ? 'px-3 py-2 text-sm font-medium text-white bg-teal-600 border border-teal-600'
+      : 'px-3 py-2 text-sm font-medium text-gray-400 bg-gray-800 border border-gray-700 hover:bg-gray-700 hover:text-white';
+    button.textContent = pageNum;
+    button.onclick = () => {
+      currentPage = pageNum;
+      updateView();
+      scrollToTop();
+    };
+    return button;
+  };
+
+  // Fungsi untuk scroll ke atas
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
@@ -154,6 +268,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           }
 
+          // Reset ke halaman pertama ketika filter berubah
+          currentPage = 1;
           repopulateAllDropdowns();
           onSelectCallback(Array.from(selectedCategories));
         });
@@ -167,6 +283,8 @@ document.addEventListener('DOMContentLoaded', function () {
         optionEl.addEventListener('click', (e) => {
           e.preventDefault(); 
           e.stopPropagation();
+          // Reset ke halaman pertama ketika filter berubah
+          currentPage = 1;
           onSelectCallback(option.value);
           menuElement.classList.add('hidden');
         });
@@ -174,9 +292,6 @@ document.addEventListener('DOMContentLoaded', function () {
       
       menuElement.appendChild(optionEl);
     });
-    
-    // Hapus tombol "Apply" untuk category menu
-    // (kode untuk tombol Apply dihapus)
   };
 
   const setupDropdowns = () => {
@@ -258,6 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     populateCustomDropdown(sortFilterMenu, sortOptions, currentSortCriteria, (value) => {
       currentSortCriteria = value;
+      currentPage = 1; // Reset ke halaman pertama ketika sorting berubah
       updateView();
     });
   };
@@ -331,10 +447,28 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
+    // Simpan hasil filter untuk paginasi
+    currentFilteredItems = filteredItems;
+    
+    // Hitung total halaman
+    totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    
+    // Pastikan currentPage tidak melebihi totalPages
+    if (currentPage > totalPages && totalPages > 0) {
+      currentPage = totalPages;
+    }
+    
+    // Ambil item untuk halaman saat ini
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const itemsForCurrentPage = filteredItems.slice(startIndex, endIndex);
+
     postsContainer.innerHTML = '';
-    if (filteredItems.length > 0) {
-      filteredItems.forEach(item => { postsContainer.innerHTML += createItemCardHTML(item); });
-    } else {
+    if (itemsForCurrentPage.length > 0) {
+      itemsForCurrentPage.forEach(item => { 
+        postsContainer.innerHTML += createItemCardHTML(item); 
+      });
+    } else if (filteredItems.length === 0) {
       const otherLang = currentLang === 'id' ? 'en' : 'id';
       const otherLangName = currentLang === 'id' ? translations.noResults.otherLangName.id : translations.noResults.otherLangName.en;
       
@@ -373,10 +507,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
         
     if (pageTitle) {
+      const totalResults = filteredItems.length;
+      const resultText = totalResults > 0 ? ` (${totalResults} hasil)` : '';
       pageTitle.textContent = searchQuery
-        ? `${translations.pageTitles.resultsFor[currentLang]} "${searchQuery}"`
-        : pageConfig.defaultTitle;
+        ? `${translations.pageTitles.resultsFor[currentLang]} "${searchQuery}"${resultText}`
+        : pageConfig.defaultTitle + (totalResults > 0 ? ` (${totalResults} konten)` : '');
     }
+    
+    // Update paginasi
+    createPaginationHTML();
     
     repopulateAllDropdowns();
   };
