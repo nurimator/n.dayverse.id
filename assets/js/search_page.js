@@ -90,15 +90,18 @@ document.addEventListener('DOMContentLoaded', function () {
           const totalCategories = options.length - 1; // Minus 'all' option
           const selectedCount = selectedCategories.size - (selectedCategories.has('all') ? 1 : 0);
           
-          if (selectedCategories.has('all') || selectedCount === totalCategories) {
+          if (selectedCategories.has('all')) {
             checkboxState = '✓'; // All selected
+          } else if (selectedCount === totalCategories) {
+            checkboxState = '✓'; // All individual categories selected
           } else if (selectedCount > 0) {
             checkboxState = '−'; // Partial selection (dash)
           } else {
             checkboxState = ''; // None selected
           }
         } else {
-          checkboxState = selectedCategories.has(option.value) ? '✓' : '';
+          // Untuk kategori individual: jika 'all' terpilih ATAU kategori ini terpilih
+          checkboxState = (selectedCategories.has('all') || selectedCategories.has(option.value)) ? '✓' : '';
         }
         
         optionEl.innerHTML = `
@@ -116,26 +119,37 @@ document.addEventListener('DOMContentLoaded', function () {
           
           if (option.value === 'all') {
             // Toggle all categories
-            if (selectedCategories.has('all') || selectedCategories.size === options.length - 1) {
+            if (selectedCategories.has('all')) {
               // Unselect all
               selectedCategories.clear();
             } else {
-              // Select all
+              // Select all - set semua kategori termasuk 'all'
               selectedCategories.clear();
               options.forEach(opt => selectedCategories.add(opt.value));
             }
           } else {
             // Toggle individual category
-            if (selectedCategories.has(option.value)) {
-              selectedCategories.delete(option.value);
-              selectedCategories.delete('all'); // Remove 'all' if individual item unchecked
+            if (selectedCategories.has('all')) {
+              // Jika 'all' aktif, hapus 'all' dan set semua kategori individual kecuali yang diklik
+              selectedCategories.delete('all');
+              options.forEach(opt => {
+                if (opt.value !== 'all' && opt.value !== option.value) {
+                  selectedCategories.add(opt.value);
+                }
+              });
             } else {
-              selectedCategories.add(option.value);
-              // Check if all individual categories are now selected
-              const individualCategories = options.filter(opt => opt.value !== 'all');
-              const allIndividualSelected = individualCategories.every(opt => selectedCategories.has(opt.value));
-              if (allIndividualSelected) {
-                selectedCategories.add('all');
+              // Toggle kategori individual normal
+              if (selectedCategories.has(option.value)) {
+                selectedCategories.delete(option.value);
+              } else {
+                selectedCategories.add(option.value);
+                // Check if all individual categories are now selected
+                const individualCategories = options.filter(opt => opt.value !== 'all');
+                const allIndividualSelected = individualCategories.every(opt => selectedCategories.has(opt.value));
+                if (allIndividualSelected) {
+                  selectedCategories.clear();
+                  selectedCategories.add('all');
+                }
               }
             }
           }
@@ -144,8 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
           repopulateAllDropdowns();
           onSelectCallback(Array.from(selectedCategories));
           
-          // Don't close menu immediately to allow multiple selections
-          // menuElement.classList.add('hidden');
+          // Close menu after selection
+          menuElement.classList.add('hidden');
         });
       } else {
         // Regular dropdown behavior for non-category menus
@@ -165,18 +179,8 @@ document.addEventListener('DOMContentLoaded', function () {
       menuElement.appendChild(optionEl);
     });
     
-    // Tambahkan tombol "Apply" untuk category menu
-    if (isCategoryMenu) {
-      const applyButton = document.createElement('button');
-      applyButton.className = 'w-full mt-2 p-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors';
-      applyButton.textContent = currentLang === 'id' ? 'Terapkan' : 'Apply';
-      applyButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        menuElement.classList.add('hidden');
-      });
-      menuElement.appendChild(applyButton);
-    }
+    // Hapus tombol "Apply" untuk category menu
+    // (kode untuk tombol Apply dihapus)
   };
 
   const setupDropdowns = () => {
@@ -273,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let mediaIconHTML = '';
     if (itemType === 'Media') {
       mediaIconHTML = `
-        <div class="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg z-20 pointer-events-none">
+        <div class="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg z-18 pointer-events-none">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"></path></svg>
         </div>
       `;
@@ -395,10 +399,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (initialCategory) {
       const categories = initialCategory.split(',').map(cat => cat.trim());
       selectedCategories = new Set(categories);
-      // Jangan set 'all' jika ada kategori spesifik
-      if (!selectedCategories.has('all') && selectedCategories.size > 0) {
-        selectedCategories.delete('all');
-      }
+      // Jangan set 'all' jika ada kategori spesifik dari URL
+      selectedCategories.delete('all');
+    } else {
+      // Kondisi default: semua kategori terpilih dengan 'all' aktif
+      selectedCategories = new Set(['all']);
     }
     
     setupDropdowns();
