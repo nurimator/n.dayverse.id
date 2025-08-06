@@ -153,13 +153,9 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             }
           }
-          
-          // Update the display and trigger callback
+
           repopulateAllDropdowns();
           onSelectCallback(Array.from(selectedCategories));
-          
-          // Close menu after selection
-          menuElement.classList.add('hidden');
         });
       } else {
         // Regular dropdown behavior for non-category menus
@@ -192,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const createToggle = (button, menu) => {
       if (!button || !menu) return;
       
-      menu.classList.add('z-20');
+      menu.classList.add('z-30');
 
       button.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -277,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let mediaIconHTML = '';
     if (itemType === 'Media') {
       mediaIconHTML = `
-        <div class="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg z-18 pointer-events-none">
+        <div class="absolute top-2 right-2 bg-black/50 p-1.5 rounded-lg z-10 pointer-events-none">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 256 256"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"></path></svg>
         </div>
       `;
@@ -407,8 +403,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     setupDropdowns();
-
-    // Beri sedikit waktu agar browser bisa merender skeleton sebelum proses berat dimulai
     setTimeout(() => {
         updateView();
     }, 10);
