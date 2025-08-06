@@ -91,9 +91,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (paginationContainer) paginationContainer.style.display = 'flex';
     
-    // Update tombol prev/next
+    // Update tombol prev/next dengan tinggi yang sama
     if (prevPageButton) {
       prevPageButton.disabled = currentPage === 1;
+      prevPageButton.className = `px-3 py-2 text-sm font-medium bg-gray-800 border border-gray-700 rounded-l-lg ${
+        currentPage === 1 
+          ? 'text-gray-500 opacity-50 cursor-not-allowed' 
+          : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+      }`;
       prevPageButton.onclick = () => {
         if (currentPage > 1) {
           currentPage--;
@@ -105,6 +110,11 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (nextPageButton) {
       nextPageButton.disabled = currentPage === totalPages;
+      nextPageButton.className = `px-3 py-2 text-sm font-medium bg-gray-800 border border-gray-700 rounded-r-lg ${
+        currentPage === totalPages 
+          ? 'text-gray-500 opacity-50 cursor-not-allowed' 
+          : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+      }`;
       nextPageButton.onclick = () => {
         if (currentPage < totalPages) {
           currentPage++;
@@ -138,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         if (startPage > 2) {
           const ellipsis = document.createElement('span');
-          ellipsis.className = 'px-2 py-2 text-sm text-gray-400';
+          ellipsis.className = 'px-2 py-2 text-sm text-gray-400 h-[36px] flex items-center';
           ellipsis.textContent = '...';
           pageNumbersContainer.appendChild(ellipsis);
         }
@@ -154,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
           const ellipsis = document.createElement('span');
-          ellipsis.className = 'px-2 py-2 text-sm text-gray-400';
+          ellipsis.className = 'px-2 py-2 text-sm text-gray-400 h-[36px] flex items-center';
           ellipsis.textContent = '...';
           pageNumbersContainer.appendChild(ellipsis);
         }
@@ -165,12 +175,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // Fungsi untuk membuat tombol halaman
+  // Fungsi untuk membuat tombol halaman dengan tinggi yang sama
   const createPageButton = (pageNum) => {
     const button = document.createElement('button');
     button.className = pageNum === currentPage 
-      ? 'px-3 py-2 text-sm font-medium text-white bg-teal-600 border border-teal-600'
-      : 'px-3 py-2 text-sm font-medium text-gray-400 bg-gray-800 border border-gray-700 hover:bg-gray-700 hover:text-white';
+      ? 'px-3 py-2 text-sm font-medium text-white bg-teal-600 border border-teal-600 h-[36px]'
+      : 'px-3 py-2 text-sm font-medium text-gray-400 bg-gray-800 border border-gray-700 hover:bg-gray-700 hover:text-white h-[36px]';
     button.textContent = pageNum;
     button.onclick = () => {
       currentPage = pageNum;
@@ -394,13 +404,19 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       `;
     }
+
+    // Lazy loading: hanya load gambar untuk halaman selain halaman pertama
+    const shouldLazyLoad = currentPage > 1;
+    const imgAttributes = shouldLazyLoad 
+      ? `data-src="${itemImage}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-500 z-10 lazy"`
+      : `src="${itemImage}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-500 z-10"`;
     
     return `
       <div class="post-item bg-gray-800 rounded-2xl overflow-hidden h-full shadow-lg transition-all duration-300 border border-gray-700/80 hover:border-teal-500/50 hover:-translate-y-1 hover:shadow-teal-500/20">
         <a href="${itemUrl}" class="block group h-full flex flex-col">
           <div class="relative flex-shrink-0 h-48 bg-gray-900">
             <div class="absolute inset-0 shimmer"></div>
-            <img src="${itemImage}" alt="[Gambar] ${itemTitle}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-500 z-10" loading="lazy" onload="this.style.opacity='1'; const shimmer = this.parentElement.querySelector('.shimmer'); if (shimmer) shimmer.remove();">
+            <img ${imgAttributes} alt="[Gambar] ${itemTitle}" loading="lazy" onload="this.style.opacity='1'; const shimmer = this.parentElement.querySelector('.shimmer'); if (shimmer) shimmer.remove();">
             ${mediaIconHTML}
           </div>
           <div class="p-5 flex flex-col flex-grow">
@@ -414,6 +430,32 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         </a>
       </div>`;
+  };
+
+  // Lazy loading function untuk memuat gambar ketika card terlihat
+  const initLazyLoading = () => {
+    const lazyImages = document.querySelectorAll('img.lazy');
+    
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.classList.remove('lazy');
+            observer.unobserve(img);
+          }
+        });
+      });
+
+      lazyImages.forEach(img => imageObserver.observe(img));
+    } else {
+      // Fallback untuk browser yang tidak support IntersectionObserver
+      lazyImages.forEach(img => {
+        img.src = img.dataset.src;
+        img.classList.remove('lazy');
+      });
+    }
   };
 
   const updateView = () => {
@@ -468,6 +510,11 @@ document.addEventListener('DOMContentLoaded', function () {
       itemsForCurrentPage.forEach(item => { 
         postsContainer.innerHTML += createItemCardHTML(item); 
       });
+      
+      // Initialize lazy loading setelah konten dimuat
+      setTimeout(() => {
+        initLazyLoading();
+      }, 100);
     } else if (filteredItems.length === 0) {
       const otherLang = currentLang === 'id' ? 'en' : 'id';
       const otherLangName = currentLang === 'id' ? translations.noResults.otherLangName.id : translations.noResults.otherLangName.en;
@@ -508,10 +555,10 @@ document.addEventListener('DOMContentLoaded', function () {
         
     if (pageTitle) {
       const totalResults = filteredItems.length;
-      const resultText = totalResults > 0 ? ` (${totalResults} hasil)` : '';
+      const resultText = totalResults > 0 ? ` (${totalResults})` : '';
       pageTitle.textContent = searchQuery
         ? `${translations.pageTitles.resultsFor[currentLang]} "${searchQuery}"${resultText}`
-        : pageConfig.defaultTitle + (totalResults > 0 ? ` (${totalResults} konten)` : '');
+        : pageConfig.defaultTitle + resultText;
     }
     
     // Update paginasi
