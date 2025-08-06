@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
   let selectedCategory = 'all';
   let currentSortCriteria = 'date-desc';
 
+  // Tambahkan state baru untuk menyimpan kategori yang dipilih
+  let selectedCategories = new Set(['all']); // Mulai dengan 'all' selected
+
   // --- Fungsi-fungsi Inti Halaman Pencarian ---
   const truncateWords = (text, numWords) => {
     if (!text) return '';
@@ -71,21 +74,109 @@ document.addEventListener('DOMContentLoaded', function () {
   const populateCustomDropdown = (menuElement, options, currentSelection, onSelectCallback) => {
     if (!menuElement) return;
     menuElement.innerHTML = '';
+    
+    // Jika ini adalah dropdown kategori, gunakan checkbox
+    const isCategoryMenu = menuElement === categoryFilterMenu;
+    
     options.forEach(option => {
       const optionEl = document.createElement('a');
       optionEl.href = '#';
-      optionEl.className = (option.value === currentSelection) 
-        ? 'block p-3 text-sm text-white bg-teal-600 rounded-lg' 
-        : 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
-      optionEl.textContent = option.label;
-      optionEl.dataset.value = option.value;
-      optionEl.addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        onSelectCallback(option.value);
-        menuElement.classList.add('hidden');
-      });
+      optionEl.className = 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg flex items-center space-x-3';
+      
+      if (isCategoryMenu) {
+        // Tentukan status checkbox
+        let checkboxState = '';
+        if (option.value === 'all') {
+          const totalCategories = options.length - 1; // Minus 'all' option
+          const selectedCount = selectedCategories.size - (selectedCategories.has('all') ? 1 : 0);
+          
+          if (selectedCategories.has('all') || selectedCount === totalCategories) {
+            checkboxState = '✓'; // All selected
+          } else if (selectedCount > 0) {
+            checkboxState = '−'; // Partial selection (dash)
+          } else {
+            checkboxState = ''; // None selected
+          }
+        } else {
+          checkboxState = selectedCategories.has(option.value) ? '✓' : '';
+        }
+        
+        optionEl.innerHTML = `
+          <div class="w-4 h-4 border border-gray-400 rounded flex items-center justify-center text-xs font-bold ${
+            checkboxState ? 'bg-teal-600 border-teal-600 text-white' : 'bg-transparent'
+          }">
+            ${checkboxState}
+          </div>
+          <span class="flex-1">${option.label}</span>
+        `;
+        
+        optionEl.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          if (option.value === 'all') {
+            // Toggle all categories
+            if (selectedCategories.has('all') || selectedCategories.size === options.length - 1) {
+              // Unselect all
+              selectedCategories.clear();
+            } else {
+              // Select all
+              selectedCategories.clear();
+              options.forEach(opt => selectedCategories.add(opt.value));
+            }
+          } else {
+            // Toggle individual category
+            if (selectedCategories.has(option.value)) {
+              selectedCategories.delete(option.value);
+              selectedCategories.delete('all'); // Remove 'all' if individual item unchecked
+            } else {
+              selectedCategories.add(option.value);
+              // Check if all individual categories are now selected
+              const individualCategories = options.filter(opt => opt.value !== 'all');
+              const allIndividualSelected = individualCategories.every(opt => selectedCategories.has(opt.value));
+              if (allIndividualSelected) {
+                selectedCategories.add('all');
+              }
+            }
+          }
+          
+          // Update the display and trigger callback
+          repopulateAllDropdowns();
+          onSelectCallback(Array.from(selectedCategories));
+          
+          // Don't close menu immediately to allow multiple selections
+          // menuElement.classList.add('hidden');
+        });
+      } else {
+        // Regular dropdown behavior for non-category menus
+        optionEl.className = (option.value === currentSelection) 
+          ? 'block p-3 text-sm text-white bg-teal-600 rounded-lg' 
+          : 'block p-3 text-sm text-white hover:bg-gray-700 rounded-lg';
+        optionEl.textContent = option.label;
+        optionEl.dataset.value = option.value;
+        optionEl.addEventListener('click', (e) => {
+          e.preventDefault(); 
+          e.stopPropagation();
+          onSelectCallback(option.value);
+          menuElement.classList.add('hidden');
+        });
+      }
+      
       menuElement.appendChild(optionEl);
     });
+    
+    // Tambahkan tombol "Apply" untuk category menu
+    if (isCategoryMenu) {
+      const applyButton = document.createElement('button');
+      applyButton.className = 'w-full mt-2 p-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors';
+      applyButton.textContent = currentLang === 'id' ? 'Terapkan' : 'Apply';
+      applyButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        menuElement.classList.add('hidden');
+      });
+      menuElement.appendChild(applyButton);
+    }
   };
 
   const setupDropdowns = () => {
@@ -134,7 +225,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const searchQuery = urlParams.get('q');
       const newParams = new URLSearchParams();
       if (searchQuery) newParams.set('q', searchQuery);
-      if (selectedCategory !== 'all') newParams.set('category', selectedCategory);
+      if (!selectedCategories.has('all') && selectedCategories.size > 0) {
+        newParams.set('category', Array.from(selectedCategories).join(','));
+      }
       
       const queryString = newParams.toString();
       window.location.href = targetPath + (queryString ? '?' + queryString : '');
@@ -149,8 +242,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     const categoryOptions = [{ value: 'all', label: translations.categories.all[currentLang] }];
     Array.from(categories).sort().forEach(cat => categoryOptions.push({ value: cat, label: cat }));
-    populateCustomDropdown(categoryFilterMenu, categoryOptions, selectedCategory, (value) => {
-      selectedCategory = value;
+    
+    // Update callback untuk category dropdown
+    populateCustomDropdown(categoryFilterMenu, categoryOptions, null, (selectedCategoriesArray) => {
+      selectedCategories = new Set(selectedCategoriesArray);
       updateView();
     });
 
@@ -211,7 +306,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
     let filteredItems = allItems.filter(item => {
       if (selectedType !== 'all' && item.type !== selectedType) return false;
-      if (selectedCategory !== 'all' && (!Array.isArray(item.categories) || !item.categories.includes(selectedCategory))) return false;
+      
+      // Update filter logic untuk multiple categories
+      if (!selectedCategories.has('all')) {
+        if (!Array.isArray(item.categories)) return false;
+        const hasMatchingCategory = item.categories.some(cat => selectedCategories.has(cat));
+        if (!hasMatchingCategory) return false;
+      }
+      
       if (searchQuery) {
         const title = (item.title || '').toLowerCase();
         const content = (item.content || '').replace(/```[\s\S]*?```/g, '').toLowerCase();
@@ -239,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const newPath = window.location.pathname.replace(`/${currentLang}/`, `/${otherLang}/`);
       const alternateUrl = newPath + window.location.search;
       
-      const areFiltersActive = selectedType !== 'all' || selectedCategory !== 'all';
+      const areFiltersActive = selectedType !== 'all' || !selectedCategories.has('all');
       
       let clearFilterHTML = '';
       if (areFiltersActive) {
@@ -288,8 +390,15 @@ document.addEventListener('DOMContentLoaded', function () {
       if (desktopSearchInput) desktopSearchInput.value = initialQuery;
       if (mobileSearchInput) mobileSearchInput.value = initialQuery;
     }
+    
+    // Update initialization untuk multiple categories
     if (initialCategory) {
-        selectedCategory = initialCategory;
+      const categories = initialCategory.split(',').map(cat => cat.trim());
+      selectedCategories = new Set(categories);
+      // Jangan set 'all' jika ada kategori spesifik
+      if (!selectedCategories.has('all') && selectedCategories.size > 0) {
+        selectedCategories.delete('all');
+      }
     }
     
     setupDropdowns();
