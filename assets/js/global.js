@@ -18,33 +18,45 @@ document.addEventListener('DOMContentLoaded', function () {
         { href: '#', text: 'English', dataLang: 'en' }
     ];
 
-    // Tambahkan data subdomain menu
+    // Update data subdomain menu dengan dukungan multi-bahasa
     const subdomainMenuItems = [
         { 
             href: '#', 
             text: 'nurimator.com', 
-            description: 'Situs utama - Konten kreatif dan edukasi',
+            description: {
+                id: 'Situs utama - Konten kreatif dan edukasi',
+                en: 'Main site - Creative content and education'
+            },
             colorClass: 'main',
             subdomain: 'main'
         },
         { 
             href: '#', 
             text: 'u.nurimator.com', 
-            description: 'Utilities - Tools dan aplikasi berguna',
+            description: {
+                id: 'Utilities - Tools dan aplikasi berguna',
+                en: 'Utilities - Useful tools and applications'
+            },
             colorClass: 'utilities',
             subdomain: 'utilities'
         },
         { 
             href: '#', 
             text: 'n.nurimator.com', 
-            description: 'Notes - Catatan dan dokumentasi',
+            description: {
+                id: 'Notes - Catatan dan dokumentasi',
+                en: 'Notes - Notes and documentation'
+            },
             colorClass: 'notes',
             subdomain: 'notes'
         },
         { 
             href: '#', 
             text: 'app.nurimator.com', 
-            description: 'Applications - Aplikasi web interaktif',
+            description: {
+                id: 'Applications - Aplikasi web interaktif',
+                en: 'Applications - Interactive web applications'
+            },
             colorClass: 'app',
             subdomain: 'app'
         }
@@ -144,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return a;
     };
 
-    // Fungsi khusus untuk membuat item subdomain menu
-    const createSubdomainMenuItem = (item) => {
+    // Update fungsi untuk membuat item subdomain menu dengan support multi-bahasa
+    const createSubdomainMenuItem = (item, lang) => {
         const a = document.createElement('a');
         a.href = item.href;
         a.className = `subdomain-menu-item ${item.colorClass}`;
@@ -161,10 +173,15 @@ document.addEventListener('DOMContentLoaded', function () {
             a.addEventListener('click', e => e.preventDefault());
         }
         
+        // Gunakan deskripsi sesuai bahasa yang aktif
+        const description = typeof item.description === 'object' 
+            ? item.description[lang] || item.description.id 
+            : item.description;
+        
         a.innerHTML = `
             <div>
                 <div class="font-semibold text-white">${item.text}</div>
-                <div class="text-xs text-gray-400 mt-1">${item.description}</div>
+                <div class="text-xs text-gray-400 mt-1">${description}</div>
             </div>
             <div class="w-2 h-2 rounded-full ${getColorDot(item.colorClass)}"></div>
         `;
@@ -195,10 +212,10 @@ document.addEventListener('DOMContentLoaded', function () {
             menu.removeChild(menu.firstChild);
         }
         
-        // Logika khusus untuk subdomain menu
+        // Logika khusus untuk subdomain menu dengan support multi-bahasa
         if (menuId === 'logo-dropdown-menu') {
             subdomainMenuItems.forEach(item => {
-                menu.appendChild(createSubdomainMenuItem(item));
+                menu.appendChild(createSubdomainMenuItem(item, pageLang));
             });
         } else if (menuId.includes('lang-switcher')) {
             const currentPath = window.location.pathname;
@@ -343,10 +360,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!footerStrings) return;
 
-        document.getElementById('footer-description').textContent = footerStrings.description;
-        document.getElementById('footer-nav-title').textContent = footerStrings.navTitle;
-        document.getElementById('footer-info-title').textContent = footerStrings.infoTitle;
-        document.getElementById('footer-social-title').textContent = footerStrings.socialTitle;
+        const footerDescription = document.getElementById('footer-description');
+        const footerNavTitle = document.getElementById('footer-nav-title');
+        const footerInfoTitle = document.getElementById('footer-info-title');
+        const footerSocialTitle = document.getElementById('footer-social-title');
+
+        if (footerDescription) footerDescription.textContent = footerStrings.description;
+        if (footerNavTitle) footerNavTitle.textContent = footerStrings.navTitle;
+        if (footerInfoTitle) footerInfoTitle.textContent = footerStrings.infoTitle;
+        if (footerSocialTitle) footerSocialTitle.textContent = footerStrings.socialTitle;
 
         const navLinksContainer = document.getElementById('footer-nav-links');
         if (navLinksContainer) {
