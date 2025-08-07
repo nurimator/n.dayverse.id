@@ -2,11 +2,11 @@
 # Konfigurasi Situs
 # ========================
 
-title: Nurimator
+title: dayverse.id
 email: rotamirun@gmail.com
 description: >-
-  Membangun ekosistem digital yang kolaboratif dan inovatif
-  untuk masa depan yang lebih baik.
+    Driven by curiosity as a foundation,
+    Reaching into diverse spaces of creation.
 baseurl: "" # kosongkan jika di username.github.io
 url: "https://nurimator.github.io"
 author: nurimator

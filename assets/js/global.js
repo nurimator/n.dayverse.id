@@ -22,43 +22,43 @@ document.addEventListener('DOMContentLoaded', function () {
     const subdomainMenuItems = [
         { 
             href: '#', 
-            text: 'nurimator.com', 
+            text: 'dayverse.id', 
             description: {
-                id: 'Situs utama - Konten kreatif dan edukasi',
-                en: 'Main site - Creative content and education'
+                id: 'Main website - Konten utama dan portal',
+                en: 'Main website - Main content and portal'
             },
             colorClass: 'main',
             subdomain: 'main'
         },
         { 
             href: '#', 
-            text: 'u.nurimator.com', 
+            text: 'u.dayverse.id', 
             description: {
-                id: 'Utilities - Tools dan aplikasi berguna',
-                en: 'Utilities - Useful tools and applications'
+                id: 'Urdzien - Pembahasan pemikiran kritis',
+                en: 'Urdzien - Critical thinking discussions'
             },
-            colorClass: 'utilities',
-            subdomain: 'utilities'
+            colorClass: 'urdzien',
+            subdomain: 'urdzien'
         },
         { 
             href: '#', 
-            text: 'n.nurimator.com', 
+            text: 'n.dayverse.id', 
             description: {
-                id: 'Notes - Catatan dan dokumentasi',
-                en: 'Notes - Notes and documentation'
+                id: 'Nurimator - Pembahasan animasi minecraft dan desain',
+                en: 'Nurimator - Minecraft animation and design discussions'
             },
-            colorClass: 'notes',
-            subdomain: 'notes'
+            colorClass: 'nurimator',
+            subdomain: 'nurimator'
         },
         { 
             href: '#', 
-            text: 'app.nurimator.com', 
+            text: 'app.dayverse.id', 
             description: {
-                id: 'Applications - Aplikasi web interaktif',
-                en: 'Applications - Interactive web applications'
+                id: 'Web App - Aplikasi web interaktif',
+                en: 'Web App - Interactive web applications'
             },
-            colorClass: 'app',
-            subdomain: 'app'
+            colorClass: 'webapp',
+            subdomain: 'webapp'
         }
     ];
 
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
             searchPlaceholder: 'Cari...',
             menuButton: 'Menu',
             footer: {
-                description: 'Sebuah ruang berkarya dari bentuk dan tanya, menghadirkan gerak, warna, dan kisah yang menyimpan makna.',
+                description: 'Dengan rasa ingin tahu sebagai landasan, Membuka ruang cipta keberagaman.',
                 navTitle: 'Navigasi',
                 infoTitle: 'Informasi',
                 socialTitle: 'Ikuti kami',
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
             searchPlaceholder: 'Search...',
             menuButton: 'Menu',
             footer: {
-                description: 'A creative space of form and inquiry, presenting motion, color, and stories that hold meaning.',
+                description: 'Driven by curiosity as a foundation, Reaching into diverse spaces of creation.',
                 navTitle: 'Navigation',
                 infoTitle: 'Information',
                 socialTitle: 'Follow us',
