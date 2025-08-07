@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return a;
     };
 
-    // Update fungsi untuk membuat item subdomain menu dengan support multi-bahasa
+    // Update fungsi untuk membuat item subdomain menu tanpa bulatan
     const createSubdomainMenuItem = (item, lang) => {
         const a = document.createElement('a');
         a.href = item.href;
@@ -183,21 +183,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="font-semibold text-white">${item.text}</div>
                 <div class="text-xs text-gray-400 mt-1">${description}</div>
             </div>
-            <div class="w-2 h-2 rounded-full ${getColorDot(item.colorClass)}"></div>
         `;
         
         return a;
-    };
-
-    // Fungsi untuk mendapatkan warna dot berdasarkan class
-    const getColorDot = (colorClass) => {
-        switch (colorClass) {
-            case 'main': return 'bg-teal-500';
-            case 'utilities': return 'bg-blue-500';
-            case 'notes': return 'bg-amber-500';
-            case 'app': return 'bg-violet-500';
-            default: return 'bg-gray-500';
-        }
     };
 
     const setupAnimatedMenu = (buttonId, menuId, itemsData) => {
@@ -205,69 +193,79 @@ document.addEventListener('DOMContentLoaded', function () {
         const menu = document.getElementById(menuId);
         if (!button || !menu) return;
         
-        const pageLang = document.documentElement.lang || 'id';
-        
         let isOpen = false;
-        while (menu.firstChild) {
-            menu.removeChild(menu.firstChild);
-        }
         
-        // Logika khusus untuk subdomain menu dengan support multi-bahasa
-        if (menuId === 'logo-dropdown-menu') {
-            subdomainMenuItems.forEach(item => {
-                menu.appendChild(createSubdomainMenuItem(item, pageLang));
-            });
-        } else if (menuId.includes('lang-switcher')) {
-            const currentPath = window.location.pathname;
-            const currentLang = pageLang;
+        const populateMenu = () => {
+            const pageLang = document.documentElement.lang || 'id';
+            
+            // Bersihkan menu terlebih dahulu
+            while (menu.firstChild) {
+                menu.removeChild(menu.firstChild);
+            }
+            
+            // Logika khusus untuk subdomain menu dengan support multi-bahasa
+            if (menuId === 'logo-dropdown-menu') {
+                subdomainMenuItems.forEach(item => {
+                    menu.appendChild(createSubdomainMenuItem(item, pageLang));
+                });
+            } else if (menuId.includes('lang-switcher')) {
+                const currentPath = window.location.pathname;
+                const currentLang = pageLang;
 
-            langMenuItems.forEach(item => {
-                const targetLang = item.dataLang;
-                let newHref = '#';
-                let isAvailable = true;
+                langMenuItems.forEach(item => {
+                    const targetLang = item.dataLang;
+                    let newHref = '#';
+                    let isAvailable = true;
 
-                if (targetLang === currentLang) {
-                    // Tautan untuk bahasa saat ini, tidak perlu href
-                } else if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
-                    // Logika prioritas untuk halaman konten spesifik
-                    const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
-                    if (alternatePost && alternatePost.url) {
-                        newHref = alternatePost.url;
+                    if (targetLang === currentLang) {
+                        // Tautan untuk bahasa saat ini, tidak perlu href
+                    } else if (typeof postMeta !== 'undefined' && typeof allSitePosts !== 'undefined') {
+                        // Logika prioritas untuk halaman konten spesifik
+                        const alternatePost = allSitePosts.find(p => String(p.page_id) === String(postMeta.page_id) && p.lang === targetLang);
+                        if (alternatePost && alternatePost.url) {
+                            newHref = alternatePost.url;
+                        } else {
+                            isAvailable = false; // Terjemahan tidak ditemukan
+                        }
                     } else {
-                        isAvailable = false; // Terjemahan tidak ditemukan
+                        // Logika global untuk pergantian URL (disederhanakan)
+                        if (currentPath.startsWith('/en/')) {
+                                if (targetLang === 'id') newHref = currentPath.replace('/en/', '/id/');
+                        } else if (currentPath.startsWith('/id/')) {
+                                if (targetLang === 'en') newHref = currentPath.replace('/id/', '/en/');
+                        } else {
+                            // Halaman tanpa awalan bahasa (misal: /privacy-policy.html)
+                            isAvailable = false;
+                        }
                     }
-                } else {
-                    // Logika global untuk pergantian URL (disederhanakan)
-                    if (currentPath.startsWith('/en/')) {
-                            if (targetLang === 'id') newHref = currentPath.replace('/en/', '/id/');
-                    } else if (currentPath.startsWith('/id/')) {
-                            if (targetLang === 'en') newHref = currentPath.replace('/id/', '/en/');
-                    } else {
-                        // Halaman tanpa awalan bahasa (misal: /privacy-policy.html)
-                        isAvailable = false;
+
+                    const newItem = { ...item, href: newHref };
+                    const menuItemElement = createMenuItem(newItem);
+                    
+                    if (!isAvailable) {
+                        menuItemElement.classList.add('disabled');
+                        menuItemElement.title = 'Terjemahan tidak tersedia';
+                        menuItemElement.addEventListener('click', e => e.preventDefault());
                     }
-                }
 
-                const newItem = { ...item, href: newHref };
-                const menuItemElement = createMenuItem(newItem);
-                
-                if (!isAvailable) {
-                    menuItemElement.classList.add('disabled');
-                    menuItemElement.title = 'Terjemahan tidak tersedia';
-                    menuItemElement.addEventListener('click', e => e.preventDefault());
-                }
+                    menu.appendChild(menuItemElement);
+                });
+            } else {
+                // Logika untuk menu lainnya
+                const itemsToRender = itemsData[pageLang] || itemsData.id || itemsData;
+                itemsToRender.forEach(item => menu.appendChild(createMenuItem(item)));
+            }
+        };
 
-                menu.appendChild(menuItemElement);
-            });
-        } else {
-            // Logika untuk menu lainnya
-            const itemsToRender = itemsData[pageLang] || itemsData.id || itemsData;
-            itemsToRender.forEach(item => menu.appendChild(createMenuItem(item)));
-        }
+        // Populate menu saat pertama kali
+        populateMenu();
 
         const openMenu = () => {
             if (isOpen) return;
             isOpen = true;
+
+            // Re-populate menu setiap kali dibuka untuk memastikan bahasa terkini
+            populateMenu();
 
             const buttonRect = button.getBoundingClientRect();
             const headerHeight = header.offsetHeight;
@@ -303,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        activeMenus.set(menuId, { open: openMenu, close: closeMenu });
+        activeMenus.set(menuId, { open: openMenu, close: closeMenu, populate: populateMenu });
     };
 
     // --- Fungsi Global Lainnya ---
@@ -399,6 +397,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // Tambahkan fungsi untuk memperbarui semua menu sesuai bahasa
+    const updateMenusForLanguageChange = () => {
+        activeMenus.forEach((menuControl) => {
+            if (menuControl.populate) {
+                menuControl.populate();
+            }
+        });
+    };
+
     // --- Inisialisasi ---
     setUiLanguage();
     setFooterLanguage();
@@ -409,6 +416,24 @@ document.addEventListener('DOMContentLoaded', function () {
     setupAnimatedMenu('desktop-dropdown-button', 'desktop-dropdown-menu', mainMenuItems);
     setupAnimatedMenu('mobile-lang-switcher-button', 'mobile-lang-switcher-menu', langMenuItems);
     setupAnimatedMenu('mobile-menu-button', 'mobile-menu', mainMenuItems);
+
+    // Tambahkan observer untuk perubahan bahasa
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                setUiLanguage();
+                setFooterLanguage();
+                updateMenusForLanguageChange();
+                setupLanguageSwitcherUI();
+            }
+        });
+    });
+
+    // Mulai observasi perubahan atribut lang pada element html
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['lang']
+    });
 
     if (mobileSearchOpenButton) {
         mobileSearchOpenButton.addEventListener('click', () => {
