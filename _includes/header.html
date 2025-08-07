@@ -45,6 +45,49 @@
         opacity: 0.5;
         cursor: not-allowed;
     }
+    /* Tambahan style untuk subdomain menu */
+    .subdomain-menu-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        font-size: 0.875rem;
+        color: white;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+        text-align: left;
+        width: 100%;
+        border-left: 3px solid transparent;
+    }
+    .subdomain-menu-item:hover {
+        background-color: rgba(55, 65, 81, 1);
+        transform: translateX(2px);
+    }
+    .subdomain-menu-item.main {
+        border-left-color: #14b8a6; /* teal-500 */
+    }
+    .subdomain-menu-item.main:hover {
+        background-color: rgba(20, 184, 166, 0.1);
+    }
+    .subdomain-menu-item.utilities {
+        border-left-color: #3b82f6; /* blue-500 */
+    }
+    .subdomain-menu-item.utilities:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+    .subdomain-menu-item.notes {
+        border-left-color: #f59e0b; /* amber-500 */
+    }
+    .subdomain-menu-item.notes:hover {
+        background-color: rgba(245, 158, 11, 0.1);
+    }
+    .subdomain-menu-item.app {
+        border-left-color: #8b5cf6; /* violet-500 */
+    }
+    .subdomain-menu-item.app:hover {
+        background-color: rgba(139, 92, 246, 0.1);
+    }
 </style>
 
 <!-- Header dengan z-index: 50 -->
@@ -52,7 +95,15 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Konten header utama untuk mobile dan desktop -->
         <div id="header-main-content" class="flex items-center justify-between h-16 lg:h-20">
-            <a href="/index.html" class="text-2xl font-bold text-white tracking-wider">nurimator<span class="text-teal-500">.com</span></a>
+            <!-- Update logo dengan dropdown -->
+            <div class="relative" id="logo-dropdown-container">
+                <button id="logo-dropdown-button" class="text-2xl font-bold text-white tracking-wider hover:text-gray-300 transition-colors flex items-center space-x-1">
+                    <span>nurimator<span class="text-teal-500">.com</span></span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.8839 15.5303C12.3957 16.0185 11.6043 16.0185 11.1161 15.5303L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"/>
+                    </svg>
+                </button>
+            </div>
             
             <!-- Kontrol Desktop -->
             <div class="hidden lg:flex items-center space-x-2">
@@ -108,7 +159,8 @@
     </div>
 </header>
 
-<!-- [PERUBAHAN DI SINI] Hapus overlay blur dan ubah z-index menu -->
+<!-- [PERUBAHAN DI SINI] Tambahkan menu dropdown logo -->
+<div id="logo-dropdown-menu" class="fixed flex-col items-start space-y-1 hidden header-dropdown-menu" style="z-index: 55; min-width: 16rem;"></div>
 <div id="desktop-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden header-dropdown-menu" style="z-index: 55;"></div>
 <div id="desktop-dropdown-menu" class="fixed flex-col items-end space-y-2 hidden header-dropdown-menu" style="z-index: 55;"></div>
 <div id="mobile-lang-switcher-menu" class="fixed flex-col items-end space-y-2 hidden header-dropdown-menu" style="z-index: 55;"></div>

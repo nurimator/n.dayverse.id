@@ -18,6 +18,38 @@ document.addEventListener('DOMContentLoaded', function () {
         { href: '#', text: 'English', dataLang: 'en' }
     ];
 
+    // Tambahkan data subdomain menu
+    const subdomainMenuItems = [
+        { 
+            href: '#', 
+            text: 'nurimator.com', 
+            description: 'Situs utama - Konten kreatif dan edukasi',
+            colorClass: 'main',
+            subdomain: 'main'
+        },
+        { 
+            href: '#', 
+            text: 'u.nurimator.com', 
+            description: 'Utilities - Tools dan aplikasi berguna',
+            colorClass: 'utilities',
+            subdomain: 'utilities'
+        },
+        { 
+            href: '#', 
+            text: 'n.nurimator.com', 
+            description: 'Notes - Catatan dan dokumentasi',
+            colorClass: 'notes',
+            subdomain: 'notes'
+        },
+        { 
+            href: '#', 
+            text: 'app.nurimator.com', 
+            description: 'Applications - Aplikasi web interaktif',
+            colorClass: 'app',
+            subdomain: 'app'
+        }
+    ];
+
     const mainMenuItems = {
         id: [
             { href: '/id/', text: 'Beranda' },
@@ -112,6 +144,45 @@ document.addEventListener('DOMContentLoaded', function () {
         return a;
     };
 
+    // Fungsi khusus untuk membuat item subdomain menu
+    const createSubdomainMenuItem = (item) => {
+        const a = document.createElement('a');
+        a.href = item.href;
+        a.className = `subdomain-menu-item ${item.colorClass}`;
+        
+        // Tandai item aktif berdasarkan subdomain saat ini
+        const currentHost = window.location.hostname;
+        const isActive = (item.subdomain === 'main' && currentHost === 'nurimator.com') ||
+                        currentHost === item.text;
+        
+        if (isActive) {
+            a.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
+            a.style.cursor = 'default';
+            a.addEventListener('click', e => e.preventDefault());
+        }
+        
+        a.innerHTML = `
+            <div>
+                <div class="font-semibold text-white">${item.text}</div>
+                <div class="text-xs text-gray-400 mt-1">${item.description}</div>
+            </div>
+            <div class="w-2 h-2 rounded-full ${getColorDot(item.colorClass)}"></div>
+        `;
+        
+        return a;
+    };
+
+    // Fungsi untuk mendapatkan warna dot berdasarkan class
+    const getColorDot = (colorClass) => {
+        switch (colorClass) {
+            case 'main': return 'bg-teal-500';
+            case 'utilities': return 'bg-blue-500';
+            case 'notes': return 'bg-amber-500';
+            case 'app': return 'bg-violet-500';
+            default: return 'bg-gray-500';
+        }
+    };
+
     const setupAnimatedMenu = (buttonId, menuId, itemsData) => {
         const button = document.getElementById(buttonId);
         const menu = document.getElementById(menuId);
@@ -124,7 +195,12 @@ document.addEventListener('DOMContentLoaded', function () {
             menu.removeChild(menu.firstChild);
         }
         
-        if (menuId.includes('lang-switcher')) {
+        // Logika khusus untuk subdomain menu
+        if (menuId === 'logo-dropdown-menu') {
+            subdomainMenuItems.forEach(item => {
+                menu.appendChild(createSubdomainMenuItem(item));
+            });
+        } else if (menuId.includes('lang-switcher')) {
             const currentPath = window.location.pathname;
             const currentLang = pageLang;
 
@@ -179,7 +255,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const buttonRect = button.getBoundingClientRect();
             const headerHeight = header.offsetHeight;
             menu.style.top = `${headerHeight + 8}px`; 
-            menu.style.right = `${window.innerWidth - buttonRect.right}px`;
+            
+            // Posisi khusus untuk logo dropdown (di kiri)
+            if (menuId === 'logo-dropdown-menu') {
+                menu.style.left = `${buttonRect.left}px`;
+                menu.style.right = 'auto';
+            } else {
+                menu.style.right = `${window.innerWidth - buttonRect.right}px`;
+                menu.style.left = 'auto';
+            }
+            
             menu.classList.remove('hidden');
             menu.classList.add('flex');
         };
@@ -296,7 +381,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setUiLanguage();
     setFooterLanguage();
     
-    // Panggil setupAnimatedMenu untuk semua menu Anda
+    // Panggil setupAnimatedMenu untuk semua menu termasuk logo dropdown
+    setupAnimatedMenu('logo-dropdown-button', 'logo-dropdown-menu', subdomainMenuItems);
     setupAnimatedMenu('desktop-lang-switcher-button', 'desktop-lang-switcher-menu', langMenuItems);
     setupAnimatedMenu('desktop-dropdown-button', 'desktop-dropdown-menu', mainMenuItems);
     setupAnimatedMenu('mobile-lang-switcher-button', 'mobile-lang-switcher-menu', langMenuItems);
