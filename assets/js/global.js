@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
             href: '#', 
             text: 'dayverse.id', 
             description: {
-                id: 'Main website - Konten utama dan portal',
-                en: 'Main website - Main content and portal'
+                id: 'Situs utama',
+                en: 'Main site'
             },
             colorClass: 'main',
             subdomain: 'main'
@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
             href: '#', 
             text: 'u.dayverse.id', 
             description: {
-                id: 'Urdzien - Pembahasan pemikiran kritis',
-                en: 'Urdzien - Critical thinking discussions'
+                id: 'Urdzien — Gagasan & Keilmuan',
+                en: 'Urdzien — Ideas & Knowledge'
             },
             colorClass: 'urdzien',
             subdomain: 'urdzien'
@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
             href: '#', 
             text: 'n.dayverse.id', 
             description: {
-                id: 'Nurimator - Pembahasan animasi minecraft dan desain',
-                en: 'Nurimator - Minecraft animation and design discussions'
+                id: 'Nurimator — Animasi & desain',
+                en: 'Nurimator — Animation & design'
             },
             colorClass: 'nurimator',
             subdomain: 'nurimator'
@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
             href: '#', 
             text: 'app.dayverse.id', 
             description: {
-                id: 'Web App - Aplikasi web interaktif',
-                en: 'Web App - Interactive web applications'
+                id: 'Aplikasi web',
+                en: 'Web app'
             },
             colorClass: 'webapp',
             subdomain: 'webapp'
@@ -156,16 +156,29 @@ document.addEventListener('DOMContentLoaded', function () {
         return a;
     };
 
-    // Update fungsi untuk membuat item subdomain menu tanpa bulatan
+    // Function untuk mendeteksi subdomain berdasarkan warna aksen logo
+    const detectCurrentSubdomain = () => {
+        const logo = document.querySelector('#logo-dropdown-button span .text-teal-500, #logo-dropdown-button span .text-amber-500, #logo-dropdown-button span .text-blue-500, #logo-dropdown-button span .text-slate-500');
+        
+        if (!logo) return 'main'; // default
+        
+        if (logo.classList.contains('text-teal-500')) return 'nurimator';
+        if (logo.classList.contains('text-amber-500')) return 'main';
+        if (logo.classList.contains('text-blue-500')) return 'urdzien';
+        if (logo.classList.contains('text-slate-500')) return 'webapp';
+        
+        return 'main'; // fallback
+    };
+
+    // Update fungsi untuk membuat item subdomain menu dengan icon home
     const createSubdomainMenuItem = (item, lang) => {
         const a = document.createElement('a');
         a.href = item.href;
         a.className = `subdomain-menu-item ${item.colorClass}`;
         
-        // Tandai item aktif berdasarkan subdomain saat ini
-        const currentHost = window.location.hostname;
-        const isActive = (item.subdomain === 'main' && currentHost === 'nurimator.com') ||
-                        currentHost === item.text;
+        // Deteksi subdomain aktif berdasarkan warna aksen logo
+        const currentSubdomain = detectCurrentSubdomain();
+        const isActive = item.subdomain === currentSubdomain;
         
         if (isActive) {
             a.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
@@ -178,7 +191,22 @@ document.addEventListener('DOMContentLoaded', function () {
             ? item.description[lang] || item.description.id 
             : item.description;
         
+        // Tentukan warna icon berdasarkan status aktif dan subdomain
+        let iconColor = 'currentColor'; // putih default
+        if (isActive) {
+            switch (item.colorClass) {
+                case 'main': iconColor = '#f59e0b'; break; // amber-500
+                case 'urdzien': iconColor = '#3b82f6'; break; // blue-500
+                case 'nurimator': iconColor = '#14b8a6'; break; // teal-500
+                case 'webapp': iconColor = '#64748b'; break; // slate-500
+                default: iconColor = 'currentColor';
+            }
+        }
+        
         a.innerHTML = `
+            <svg class="subdomain-home-icon" viewBox="0 0 16 16" fill="${iconColor}" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
+            </svg>
             <div>
                 <div class="font-semibold text-white">${item.text}</div>
                 <div class="text-xs text-gray-400 mt-1">${description}</div>
