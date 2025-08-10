@@ -181,19 +181,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const isActive = item.subdomain === currentSubdomain;
         
         if (isActive) {
-            // Gunakan warna aksen OKLCH sebagai background untuk item aktif
+            // Gunakan warna Tailwind -700 sebagai background untuk item aktif
             switch (item.colorClass) {
                 case 'main': 
-                    a.style.backgroundColor = 'oklch(75.8% 0.1 83.87)'; // amber-500
+                    a.style.backgroundColor = '#d97706'; // amber-700
                     break;
                 case 'urdzien': 
-                    a.style.backgroundColor = 'oklch(63.0% 0.24 264.05)'; // blue-500
+                    a.style.backgroundColor = '#1d4ed8'; // blue-700
                     break;
                 case 'nurimator': 
-                    a.style.backgroundColor = 'oklch(70.4% 0.14 182.503)'; // teal-500
+                    a.style.backgroundColor = '#0f766e'; // teal-700
                     break;
                 case 'webapp': 
-                    a.style.backgroundColor = 'oklch(52.5% 0.02 253.89)'; // slate-500
+                    a.style.backgroundColor = '#475569'; // slate-700
                     break;
                 default: 
                     a.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
