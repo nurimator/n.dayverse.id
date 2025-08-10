@@ -181,19 +181,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const isActive = item.subdomain === currentSubdomain;
         
         if (isActive) {
-            // Gunakan warna aksen sebagai background untuk item aktif
+            // Gunakan warna aksen OKLCH sebagai background untuk item aktif
             switch (item.colorClass) {
                 case 'main': 
-                    a.style.backgroundColor = '#f59e0b'; // amber-500
+                    a.style.backgroundColor = 'oklch(75.8% 0.1 83.87)'; // amber-500
                     break;
                 case 'urdzien': 
-                    a.style.backgroundColor = '#3b82f6'; // blue-500
+                    a.style.backgroundColor = 'oklch(63.0% 0.24 264.05)'; // blue-500
                     break;
                 case 'nurimator': 
-                    a.style.backgroundColor = '#14b8a6'; // teal-500
+                    a.style.backgroundColor = 'oklch(70.4% 0.14 182.503)'; // teal-500
                     break;
                 case 'webapp': 
-                    a.style.backgroundColor = '#64748b'; // slate-500
+                    a.style.backgroundColor = 'oklch(52.5% 0.02 253.89)'; // slate-500
                     break;
                 default: 
                     a.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
@@ -210,13 +210,16 @@ document.addEventListener('DOMContentLoaded', function () {
         // Icon selalu putih baik aktif maupun tidak
         const iconColor = 'white';
         
+        // Tentukan warna deskripsi berdasarkan status aktif
+        const descriptionColor = isActive ? 'text-white' : 'text-gray-400';
+        
         a.innerHTML = `
             <svg class="subdomain-home-icon" viewBox="0 0 16 16" fill="${iconColor}" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0L0 6V8H1V15H4V10H7V15H15V8H16V6L14 4.5V1H11V2.25L8 0ZM9 10H12V13H9V10Z"/>
             </svg>
             <div>
                 <div class="font-semibold text-white">${item.text}</div>
-                <div class="text-xs text-gray-400 mt-1">${description}</div>
+                <div class="text-xs ${descriptionColor} mt-1">${description}</div>
             </div>
         `;
         
@@ -286,10 +289,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     menu.appendChild(menuItemElement);
                 });
                 
-                // Panggil setupLanguageSwitcherUI setelah menu bahasa terpopulasi
-                if (menuId.includes('lang-switcher')) {
-                    setTimeout(() => setupLanguageSwitcherUI(), 10);
-                }
+                // Panggil langsung tanpa delay
+                setupLanguageSwitcherUI();
             } else {
                 // Logika untuk menu lainnya
                 const itemsToRender = itemsData[pageLang] || itemsData.id || itemsData;
@@ -347,35 +348,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Fungsi Global Lainnya ---
     const setupLanguageSwitcherUI = () => {
         const pageLang = document.documentElement.lang || 'id';
-        
         const currentLangDisplay = document.getElementById('current-lang-display');
         if (currentLangDisplay) currentLangDisplay.textContent = pageLang.toUpperCase();
-        
-        // Tunggu sebentar untuk memastikan menu sudah terpopulasi
-        setTimeout(() => {
-            document.querySelectorAll('.lang-option').forEach(link => {
-                // Hapus semua kelas status sebelumnya
-                link.classList.remove('active', 'disabled');
 
-                if (link.dataset.lang === pageLang) {
-                    // Tambahkan kelas untuk bahasa aktif
-                    link.classList.add('active');
-                    // Hapus event listener lama dan tambahkan yang baru untuk mencegah navigasi
-                    const newLink = link.cloneNode(true);
-                    link.parentNode.replaceChild(newLink, link);
-                    newLink.addEventListener('click', e => e.preventDefault());
-                } else {
-                    // Periksa kembali ketersediaan terjemahan jika diperlukan
-                    if (link.title === 'Terjemahan tidak tersedia') {
-                        link.classList.add('disabled');
-                        // Pastikan event listener untuk disabled state
-                        const newLink = link.cloneNode(true);
-                        link.parentNode.replaceChild(newLink, link);
-                        newLink.addEventListener('click', e => e.preventDefault());
-                    }
-                }
-            });
-        }, 150); // Tingkatkan sedikit delay untuk memastikan menu terpopulasi
+        document.querySelectorAll('.lang-option').forEach(link => {
+            link.classList.remove('active', 'disabled');
+            if (link.dataset.lang === pageLang) {
+                link.classList.add('active');
+                link.addEventListener('click', e => e.preventDefault());
+            } else if (link.title === 'Terjemahan tidak tersedia') {
+                link.classList.add('disabled');
+                link.addEventListener('click', e => e.preventDefault());
+            }
+        });
     };
 
     const handleSearch = (event) => {
@@ -509,8 +494,8 @@ document.addEventListener('DOMContentLoaded', function () {
         closeAllMenus();
     });
     
-    // Panggil setupLanguageSwitcherUI di akhir setelah semua menu terbuat
-    setTimeout(() => setupLanguageSwitcherUI(), 200);
+    // Hapus setTimeout terakhir untuk setupLanguageSwitcherUI
+    // setTimeout(() => setupLanguageSwitcherUI(), 200);
     
     desktopSearchForm?.addEventListener('submit', handleSearch);
     mobileSearchForm?.addEventListener('submit', handleSearch);
