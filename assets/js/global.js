@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
             href: '#', 
             text: 'u.dayverse.id', 
             description: {
-                id: 'Urdzien — Gagasan & Keilmuan',
-                en: 'Urdzien — Ideas & Knowledge'
+                id: 'Urdzien - Gagasan & Keilmuan',
+                en: 'Urdzien - Ideas & Knowledge'
             },
             colorClass: 'urdzien',
             subdomain: 'urdzien'
@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
             href: '#', 
             text: 'n.dayverse.id', 
             description: {
-                id: 'Nurimator — Animasi & desain',
-                en: 'Nurimator — Animation & design'
+                id: 'Nurimator - Animasi & desain',
+                en: 'Nurimator - Animation & design'
             },
             colorClass: 'nurimator',
             subdomain: 'nurimator'
@@ -181,7 +181,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const isActive = item.subdomain === currentSubdomain;
         
         if (isActive) {
-            a.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
+            // Gunakan warna aksen sebagai background untuk item aktif
+            switch (item.colorClass) {
+                case 'main': 
+                    a.style.backgroundColor = '#f59e0b'; // amber-500
+                    break;
+                case 'urdzien': 
+                    a.style.backgroundColor = '#3b82f6'; // blue-500
+                    break;
+                case 'nurimator': 
+                    a.style.backgroundColor = '#14b8a6'; // teal-500
+                    break;
+                case 'webapp': 
+                    a.style.backgroundColor = '#64748b'; // slate-500
+                    break;
+                default: 
+                    a.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
+            }
             a.style.cursor = 'default';
             a.addEventListener('click', e => e.preventDefault());
         }
@@ -191,17 +207,8 @@ document.addEventListener('DOMContentLoaded', function () {
             ? item.description[lang] || item.description.id 
             : item.description;
         
-        // Tentukan warna icon berdasarkan status aktif dan subdomain
-        let iconColor = 'currentColor'; // putih default
-        if (isActive) {
-            switch (item.colorClass) {
-                case 'main': iconColor = '#f59e0b'; break; // amber-500
-                case 'urdzien': iconColor = '#3b82f6'; break; // blue-500
-                case 'nurimator': iconColor = '#14b8a6'; break; // teal-500
-                case 'webapp': iconColor = '#64748b'; break; // slate-500
-                default: iconColor = 'currentColor';
-            }
-        }
+        // Icon selalu putih baik aktif maupun tidak
+        const iconColor = 'white';
         
         a.innerHTML = `
             <svg class="subdomain-home-icon" viewBox="0 0 16 16" fill="${iconColor}" xmlns="http://www.w3.org/2000/svg">
@@ -278,6 +285,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     menu.appendChild(menuItemElement);
                 });
+                
+                // Panggil setupLanguageSwitcherUI setelah menu bahasa terpopulasi
+                if (menuId.includes('lang-switcher')) {
+                    setTimeout(() => setupLanguageSwitcherUI(), 10);
+                }
             } else {
                 // Logika untuk menu lainnya
                 const itemsToRender = itemsData[pageLang] || itemsData.id || itemsData;
@@ -339,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentLangDisplay = document.getElementById('current-lang-display');
         if (currentLangDisplay) currentLangDisplay.textContent = pageLang.toUpperCase();
         
+        // Tunggu sebentar untuk memastikan menu sudah terpopulasi
         setTimeout(() => {
             document.querySelectorAll('.lang-option').forEach(link => {
                 // Hapus semua kelas status sebelumnya
@@ -347,16 +360,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (link.dataset.lang === pageLang) {
                     // Tambahkan kelas untuk bahasa aktif
                     link.classList.add('active');
-                    link.addEventListener('click', e => e.preventDefault());
+                    // Hapus event listener lama dan tambahkan yang baru untuk mencegah navigasi
+                    const newLink = link.cloneNode(true);
+                    link.parentNode.replaceChild(newLink, link);
+                    newLink.addEventListener('click', e => e.preventDefault());
                 } else {
                     // Periksa kembali ketersediaan terjemahan jika diperlukan
                     if (link.title === 'Terjemahan tidak tersedia') {
                         link.classList.add('disabled');
-                        link.addEventListener('click', e => e.preventDefault());
+                        // Pastikan event listener untuk disabled state
+                        const newLink = link.cloneNode(true);
+                        link.parentNode.replaceChild(newLink, link);
+                        newLink.addEventListener('click', e => e.preventDefault());
                     }
                 }
             });
-        }, 100);
+        }, 150); // Tingkatkan sedikit delay untuk memastikan menu terpopulasi
     };
 
     const handleSearch = (event) => {
@@ -452,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 setUiLanguage();
                 setFooterLanguage();
                 updateMenusForLanguageChange();
-                setupLanguageSwitcherUI();
+                // setupLanguageSwitcherUI akan dipanggil otomatis dari populateMenu
             }
         });
     });
@@ -490,8 +509,8 @@ document.addEventListener('DOMContentLoaded', function () {
         closeAllMenus();
     });
     
-    // Panggil setupLanguageSwitcherUI setelah semua menu bahasa dibuat
-    setupLanguageSwitcherUI();
+    // Panggil setupLanguageSwitcherUI di akhir setelah semua menu terbuat
+    setTimeout(() => setupLanguageSwitcherUI(), 200);
     
     desktopSearchForm?.addEventListener('submit', handleSearch);
     mobileSearchForm?.addEventListener('submit', handleSearch);
