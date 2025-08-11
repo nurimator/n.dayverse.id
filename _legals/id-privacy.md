@@ -7,7 +7,7 @@ page_id: 10002
 lang: "id"
 ---
 
-Selamat datang di Kebijakan Privasi **dayverse.id**. Privasi Anda sangat penting bagi kami. Kebijakan ini bertujuan untuk memberikan transparansi penuh mengenai jenis informasi yang kami kumpulkan dari Anda atau yang Anda berikan saat mengunjungi situs web kami di [**https://dayverse.id**](https://www.google.com/search?q=https://dayverse.id) ("Situs Web"). Kebijakan ini juga menjelaskan praktik kami dalam mengumpulkan, menggunakan, menjaga, melindungi, dan dalam situasi tertentu, mengungkapkan informasi tersebut.
+Selamat datang di Kebijakan Privasi **dayverse.id**. Privasi Anda sangat penting bagi kami. Kebijakan ini bertujuan untuk memberikan transparansi penuh mengenai jenis informasi yang kami kumpulkan dari Anda atau yang Anda berikan saat mengunjungi situs web kami di [**https://dayverse.id**](https://www.dayverse.id) ("Situs Web"). Kebijakan ini juga menjelaskan praktik kami dalam mengumpulkan, menggunakan, menjaga, melindungi, dan dalam situasi tertentu, mengungkapkan informasi tersebut.
 
 Kebijakan ini berlaku untuk informasi yang kami kumpulkan melalui Situs Web ini, serta dalam komunikasi elektronik (seperti email dan formulir kontak) antara Anda dan Situs Web ini.
 

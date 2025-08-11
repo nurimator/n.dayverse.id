@@ -8,7 +8,7 @@ lang: "en"
 ---
 
 
-These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User") and **dayverse.id** ("We", "Us", "Our") governing your access to and use of our website located at [**https://dayverse.id**](https://www.google.com/search?q=https://dayverse.id) ("Website") and all services, features, and content offered through it ("Services").
+These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User") and **dayverse.id** ("We", "Us", "Our") governing your access to and use of our website located at [**https://dayverse.id**](https://www.dayverse.id) ("Website") and all services, features, and content offered through it ("Services").
 
 Please read these Terms carefully before using our Website. By accessing, registering, or using the Website and our Services, you expressly acknowledge that you have read, understood, and agree to be bound by all of these Terms and our Privacy Policy. If you do not agree with any part of these Terms, you are strictly prohibited from accessing or using this Website.
 

@@ -7,7 +7,7 @@ page_id: 10002
 lang: "en"
 ---
 
-Welcome to the Privacy Policy of **dayverse.id**. Your privacy is very important to us. This policy aims to provide full transparency regarding the types of information we collect from you or that you provide when you visit our website at [**https://dayverse.id**](https://www.google.com/search?q=https://dayverse.id) ("Website"). This policy also describes our practices for collecting, using, maintaining, protecting, and, in certain situations, disclosing that information.
+Welcome to the Privacy Policy of **dayverse.id**. Your privacy is very important to us. This policy aims to provide full transparency regarding the types of information we collect from you or that you provide when you visit our website at [**https://dayverse.id**](https://www.dayverse.id) ("Website"). This policy also describes our practices for collecting, using, maintaining, protecting, and, in certain situations, disclosing that information.
 
 This policy applies to information we collect on this Website and in electronic communications (such as email and contact forms) between you and this Website.
 

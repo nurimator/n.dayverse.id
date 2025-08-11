@@ -96,10 +96,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Donasi', href: '/id/donate.html' }
                 ],
                 infoLinks: [
-                    { text: 'Term and Conditions', href: '/term-and-conditions' },
-                    { text: 'Privacy Policy', href: '/privacy-policy' },
-                    { text: 'License', href: '/license' },
-                    { text: 'Disclaimer', href: '/disclaimer' },
+                    { text: 'Term and Conditions', href: '/id/terms-and-conditions' },
+                    { text: 'Privacy Policy', href: '/id/privacy-policy' },
+                    { text: 'License', href: '/id/license' },
+                    { text: 'Disclaimer', href: '/id/disclaimer' },
                     { text: 'Tentang Kami', href: '/id/about-us' }
                 ]
             }
@@ -120,10 +120,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     { text: 'Donate', href: '/en/donate' }
                 ],
                 infoLinks: [
-                    { text: 'Term and Conditions', href: '/term-and-conditions' },
-                    { text: 'Privacy Policy', href: '/privacy-policy' },
-                    { text: 'License', href: '/license' },
-                    { text: 'Disclaimer', href: '/disclaimer' },
+                    { text: 'Term and Conditions', href: '/en/terms-and-conditions' },
+                    { text: 'Privacy Policy', href: '/en/privacy-policy' },
+                    { text: 'License', href: '/en/license' },
+                    { text: 'Disclaimer', href: '/en/disclaimer' },
                     { text: 'About Us', href: '/en/about-us' }
                 ]
             }

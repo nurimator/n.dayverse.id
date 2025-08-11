@@ -2,12 +2,12 @@
 layout: legal_id
 title: "Syarat dan Ketentuan Penggunaan Website"
 date: 10 August 2025
-permalink: /id/term-and-conditions
+permalink: /id/terms-and-conditions
 page_id: 10001
 lang: "id"
 ---
 
-Syarat dan Ketentuan ("Ketentuan") ini merupakan perjanjian yang mengikat secara hukum antara Anda ("Pengguna") dan **dayverse.id** ("Kami") yang mengatur akses Anda ke dan penggunaan situs web kami dengan alamat [**https://dayverse.id**](https://www.google.com/search?q=https://dayverse.id) ("Situs Web") serta semua layanan, fitur, dan konten yang ditawarkan melaluinya ("Layanan").
+Syarat dan Ketentuan ("Ketentuan") ini merupakan perjanjian yang mengikat secara hukum antara Anda ("Pengguna") dan **dayverse.id** ("Kami") yang mengatur akses Anda ke dan penggunaan situs web kami dengan alamat [**https://dayverse.id**](https://www.dayverse.id) ("Situs Web") serta semua layanan, fitur, dan konten yang ditawarkan melaluinya ("Layanan").
 
 Mohon baca Ketentuan ini dengan saksama sebelum menggunakan Situs Web kami. Dengan mengakses, mendaftar, atau menggunakan Situs Web dan Layanan kami, Anda secara tegas mengakui bahwa Anda telah membaca, memahami, dan setuju untuk terikat oleh semua Ketentuan ini serta Kebijakan Privasi kami. Jika Anda tidak menyetujui salah satu bagian dari Ketentuan ini, maka Anda dilarang keras untuk mengakses atau menggunakan Situs Web ini.
 
