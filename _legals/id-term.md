@@ -1,7 +1,7 @@
 ---
 layout: legal_id
-title: "Syarat dan Ketentuan Penggunaan Website"
-updated_date: 10 August 2025
+title: "Syarat dan Ketentuan"
+updated_date: 10 Agustus 2025
 permalink: /id/terms-and-conditions
 page_id: 10001
 lang: "id"
@@ -24,7 +24,7 @@ Mohon baca Ketentuan ini dengan saksama sebelum menggunakan Situs Web kami. Deng
 
 Situs Web kami adalah sebuah platform multifaset yang menyediakan konten informatif, materi kreatif, serta berbagai aplikasi dan permainan berbasis web yang dirancang untuk edukasi, produktivitas, dan hiburan. Kami berhak untuk mengubah, menangguhkan, atau menghentikan aspek apa pun dari Layanan kami setiap saat, tanpa pemberitahuan sebelumnya dan tanpa kewajiban apa pun kepada Anda.
 
-### **3\. Pendaftaran dan Keamanan Akun (Jika Berlaku)**
+### **3\. Pendaftaran dan Keamanan Akun**
 
 * Untuk mengakses beberapa fitur Situs Web, Anda mungkin diminta untuk membuat Akun. Anda harus berusia minimal 18 tahun, atau telah mendapatkan izin dari orang tua atau wali yang sah jika Anda berusia di bawah 18 tahun, untuk membuat Akun.  
 * Anda setuju untuk memberikan informasi yang akurat, terkini, dan lengkap selama proses pendaftaran dan memperbarui informasi tersebut agar tetap akurat. Kami berhak menangguhkan atau menghentikan Akun Anda jika informasi yang diberikan terbukti tidak akurat, tidak terkini, atau tidak lengkap.  

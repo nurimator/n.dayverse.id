@@ -1,7 +1,7 @@
 ---
 layout: legal_id
 title: "Disclaimer"
-updated_date: 10 August 2025
+updated_date: 10 Agustus 2025
 permalink: /id/disclaimer
 page_id: 10002
 lang: "id"

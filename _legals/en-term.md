@@ -25,7 +25,7 @@ Please read these Terms carefully before using our Website. By accessing, regist
 
 Our Website is a multifaceted platform that provides informative content, creative materials, and various web-based applications and games designed for education, productivity, and entertainment. We reserve the right to modify, suspend, or discontinue any aspect of our Services at any time, without prior notice and without any liability to you.
 
-### **3\. Account Registration and Security (If Applicable)**
+### **3\. Account Registration and Security**
 
 * To access some features of the Website, you may be required to create an Account. You must be at least 18 years old, or have obtained permission from a parent or legal guardian if you are under 18, to create an Account.  
 * You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate. We reserve the right to suspend or terminate your Account if any information provided proves to be inaccurate, not current, or incomplete.  

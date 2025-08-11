@@ -1,7 +1,7 @@
 ---
 layout: legal_id
 title: "Ketentuan Lisensi"
-updated_date: 10 August 2025
+updated_date: 10 Agustus 2025
 permalink: /id/license
 page_id: 10003
 lang: "id"
