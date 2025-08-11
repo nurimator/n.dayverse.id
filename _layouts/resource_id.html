@@ -7,9 +7,9 @@
     <title>{{ page.title }} | {{ site.title | default: "Nurimator" }}</title>
     {% include favicon.html %}
 
-    {% assign all_articles = site.resources_id | concat: site.resources_en %}
+    {% assign all_resources = site.resources_id | concat: site.resources_en %}
     {% assign current_page_id = page.page_id %}
-    {% assign alternate_posts = all_articles | where: "page_id", current_page_id %}
+    {% assign alternate_posts = all_resources | where: "page_id", current_page_id %}
 
     {% for alt in alternate_posts %}
         <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url | absolute_url }}" />
@@ -41,24 +41,23 @@
             background-color: #18212f;
             color: #d1d5db;
         }
-        .article-content p { font-size: 1rem; line-height: 1.75; margin-bottom: 1.5rem; text-align: left; }
-        .article-content h2 { font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; }
-        .article-content h3 { font-size: 1.125rem; font-weight: 600; color: #e5e7eb; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+        .article-content p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.25rem; text-align: left; }
+        .article-content h2 { font-size: 1.125rem; font-weight: 700; color: #ffffff; margin-top: 1.75rem; margin-bottom: 0.875rem; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; }
+        .article-content h3 { font-size: 1rem; font-weight: 600; color: #e5e7eb; margin-top: 1.5rem; margin-bottom: 0.625rem; }
         @media (min-width: 768px) {
-            .article-content h2 { font-size: 1.75rem; }
-            .article-content h3 { font-size: 1.5rem; }
+            .article-content h2 { font-size: 1.4rem; }
+            .article-content h3 { font-size: 1.2rem; }
         }
-        .article-content a { font-size: 1rem; color: #2dd4bf; text-decoration: underline; text-decoration-color: #2dd4bf; transition: color 0.3s; }
+        .article-content a { font-size: 0.95rem; color: #2dd4bf; text-decoration: underline; text-decoration-color: #2dd4bf; transition: color 0.3s; }
         .article-content a:hover { color: #5eead4; }
-        .article-content ul { list-style-type: disc; font-size: 1rem; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
-        .article-content ol { list-style-type: decimal; font-size: 1rem; margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.75; }
-        .article-content blockquote { font-size: 1rem; border-left: 4px solid #0d9488; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #9ca3af; }
-        pre[class*="language-"] { font-size: 0.875rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 1rem; overflow-x: auto; }
-        .article-content img { width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 4px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
+        .article-content ul { list-style-type: disc; font-size: 0.95rem; margin-left: 1.25rem; margin-bottom: 1.25rem; line-height: 1.7; }
+        .article-content ol { list-style-type: decimal; font-size: 0.95rem; margin-left: 1.25rem; margin-bottom: 1.25rem; line-height: 1.7; }
+        .article-content blockquote { font-size: 0.95rem; border-left: 4px solid #0d9488; padding-left: 1.25rem; margin: 1.25rem 0; font-style: italic; color: #9ca3af; }
+        pre[class*="language-"] { font-size: 0.8125rem; background: #283140 !important; border-radius: 0.75rem; border: 1px solid #374151; padding: 0.875rem; overflow-x: auto; }
+        .article-content img { width: 100%; height: auto; border-radius: 0.875rem; margin-bottom: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border: 3px solid rgba(55, 65, 81, 0.5); display: block; margin-left: auto; margin-right: auto; }
         
         .toc-link.active {
             color: #2dd4bf; /* Teal color for active TOC link */
-            font-weight: 600;
         }
 
         .gradual-gap-grid {
@@ -66,7 +65,7 @@
         }
         @media (min-width: 1024px) {
             .gradual-gap-grid {
-                gap: clamp(2rem, calc(2rem + 1rem * (100vw - 64rem) / (80rem - 64rem)), 3rem);
+                gap: clamp(1.5rem, calc(1.5rem + 0.5rem * (100vw - 64rem) / (80rem - 64rem)), 2rem);
             }
         }
         
@@ -77,9 +76,9 @@
             background-color: #0d9488; /* bg-teal-700 */
             color: white !important;
             font-weight: 600; /* font-semibold */
-            padding: 0.75rem 2rem; /* py-3 px-8 */
+            padding: 0.625rem 1.5rem; /* Smaller padding */
             border-radius: 0.5rem; /* rounded-lg */
-            font-size: 1rem; /* text-base */
+            font-size: 0.875rem; /* Smaller font size */
             text-decoration: none !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
             transition: all 0.3s ease-in-out;
@@ -96,12 +95,12 @@
         .article-content .download-link::after {
             content: '';
             display: inline-block;
-            width: 1.25rem;
-            height: 1.25rem;
-            margin-left: 0.75rem;
+            width: 1rem;
+            height: 1rem;
+            margin-left: 0.5rem;
             background-color: currentColor;
-            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
-            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M240,136v64a16,16,0,0,1-16,16H32a16,16,0,0,1-16-16V136a16,16,0,0,1,16-16H72a8,8,0,0,1,0,16H32v64H224V136H184a8,8,0,0,1,0-16h40A16,16,0,0,1,240,136Zm-117.66-2.34a8,8,0,0,0,11.32,0l48-48a8,8,0,0,0-11.32-11.32L136,108.69V24a8,8,0,0,0-16,0v84.69L85.66,74.34A8,8,0,0,0,74.34,85.66ZM200,168a12,12,0,1,0-12,12A12,12,0,0,0,200,168Z"></path></svg>');
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M240,136v64a16,16,0,0,1-16,16H32a16,16,0,0,1-16-16V136a16,16,0,0,1,16-16H72a8,8,0,0,1,0,16H32v64H224V136H184a8,8,0,0,1,0-16h40A16,16,0,0,1,240,136Zm-117.66-2.34a8,8,0,0,0,11.32,0l48-48a8,8,0,0,0-11.32-11.32L136,108.69V24a8,8,0,0,0-16,0v84.69L85.66,74.34A8,8,0,0,0,74.34,85.66ZM200,168a12,12,0,1,0-12,12A12,12,0,0,0,200,168Z"></path></svg>');
             background-repeat: no-repeat;
             background-size: contain;
         }
@@ -149,80 +148,88 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gradual-gap-grid">
                     
-                    <!-- ===== Konten Utama ===== -->
-                    <div class="lg:col-span-9">
-                        <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-10 rounded-2xl">
-                            <div class="mb-8">
-                                <p class="text-base font-semibold text-teal-400">{{ page.category }}</p>
-                                <h1 id="page-top" class="mt-2 text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
-                                <div class="mt-6 flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
+                    <!-- ===== Left Empty Space (for centering) ===== -->
+                    <div class="hidden lg:block lg:col-span-2"></div>
+
+                    <!-- ===== Main Content ===== -->
+                    <div class="lg:col-span-7 order-1">
+                        <article class="bg-transparent lg:bg-[#18212f] lg:border lg:border-gray-700/80 lg:shadow lg:p-8 rounded-2xl">
+                            <div class="mb-6">
+                                <p class="text-sm font-semibold text-teal-400 mb-2">{{ page.category }}</p>
+                                <h1 id="page-top" class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">{{ page.title }}</h1>
+                                <div class="mt-4 flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
                                     <span>{{ page.date | date: "%d %B %Y" }}</span>
                                     <span class="text-gray-600">•</span>
                                     
-                                    <button id="mobile-toc-open-btn" class="lg:hidden text-teal-400 hover:text-teal-300 transition-colors">
+                                    <button id="mobile-toc-open-btn" class="lg:hidden text-teal-400 hover:text-teal-300 transition-colors text-sm">
                                         Tampilkan Daftar Isi
                                     </button>
 
-                                    <button id="desktop-toc-toggle-btn" class="hidden lg:inline-flex text-teal-400 hover:text-teal-300 transition-colors">
+                                    <button id="desktop-toc-toggle-btn" class="hidden lg:inline-flex text-teal-400 hover:text-teal-300 transition-colors text-sm">
                                         <span id="desktop-toc-toggle-text">Tampilkan Daftar Isi</span>
                                     </button>
                                 </div>
                             </div>
 
                             {% if page.image %}
-                            <img src="{{ page.image | relative_url }}" alt="Gambar utama untuk {{ page.title }}" class="w-full rounded-2xl shadow-lg mb-12 border-4 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Gambar+Tidak+Ditemukan';">
+                            <img src="{{ page.image | relative_url }}" alt="Gambar utama untuk {{ page.title }}" class="w-full rounded-xl shadow-lg mb-8 border-3 border-gray-700/50" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Gambar+Tidak+Ditemukan';">
                             {% endif %}
 
                             <div class="prose prose-invert max-w-none article-content">
                                 {{ content }}
                             </div>
                         </article>
-                    </div>
 
-                    <!-- ===== Sidebar Kanan (Sticky) ===== -->
-                    <aside class="lg:col-span-3">
-                        <div class="sticky top-28 space-y-8">
-                            
-                            <div id="sidebar-card" class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden transition-all duration-500 ease-in-out">
-                                
-                                <!-- Slide 1: Info Penulis -->
-                                <div id="author-content" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out opacity-100 translate-y-0">
-                                    <div class="p-6 flex items-center space-x-4 lg:flex-col lg:space-y-4 lg:space-x-0">
-                                        <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 lg:w-24 lg:h-24 rounded-full flex-shrink-0 lg:mx-auto border-4 border-teal-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
-                                        <div class="text-left lg:text-center">
-                                            <h4 class="text-lg font-bold text-white">{{ page.author }}</h4>
-                                            <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
-                                            <p class="text-xs text-gray-500 mt-2">{{ page.author_bio }}</p>
-                                        </div>
+                        <!-- ===== Tablet Author Card (Between Main Content and Related Posts) ===== -->
+                        <div class="hidden md:block lg:hidden mt-8">
+                            <div class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden">
+                                <div class="p-5 flex items-center space-x-4">
+                                    <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-16 h-16 rounded-full flex-shrink-0 border-3 border-teal-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                    <div class="text-left flex-1">
+                                        <h4 class="text-base font-bold text-white">{{ page.author }}</h4>
+                                        <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ page.author_bio }}</p>
                                     </div>
                                 </div>
-
-                                <!-- Slide 2: Daftar Isi -->
-                                <div id="desktop-toc-content" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out opacity-0 -translate-y-full">
-                                    <div class="p-6">
-                                        <h3 class="text-lg font-bold text-white mb-4">Daftar Isi</h3>
-                                        <nav id="desktop-toc" class="space-y-2 pr-2"></nav>
-                                    </div>
-                                </div>
-
                             </div>
-                            
+                        </div>
+
+                        <!-- ===== Related Posts (Below Main Content on Desktop/Tablet) ===== -->
+                        <div class="hidden md:block mt-8">
                             <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
-                                <h3 class="text-lg font-bold text-white mb-4">Postingan Terbaru</h3>
-                                <div class="space-y-4">
-                                    {% assign latest_posts = site.resources_id | sort: "date" | reverse %}
+                                <h3 class="text-lg font-bold text-white mb-4">Postingan Terkait</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {% assign related_posts = site.resources_id | where: "category", page.category | sort: "date" | reverse %}
                                     {% assign count = 0 %}
-                                    {% for post in latest_posts %}
-                                        {% if post.url != page.url and count < 3 %}
+                                    {% for post in related_posts %}
+                                        {% if post.url != page.url and count < 4 %}
                                         <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
-                                            <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Gambar';">
-                                            <div>
-                                                <p class="text-sm font-semibold text-white group-hover:text-teal-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                            <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Gambar';">
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-white group-hover:text-teal-400 transition-colors line-clamp-2 leading-relaxed">{{ post.title }}</p>
+                                                <p class="text-xs text-teal-400 mt-1">{{ post.category }}</p>
                                             </div>
                                         </a>
                                         {% assign count = count | plus: 1 %}
                                         {% endif %}
                                     {% endfor %}
+                                    
+                                    {% comment %} If not enough related posts from same category, fill with other recent posts {% endcomment %}
+                                    {% if count < 4 %}
+                                        {% assign remaining_posts = site.resources_id | sort: "date" | reverse %}
+                                        {% for post in remaining_posts %}
+                                            {% if post.url != page.url and post.category != page.category and count < 4 %}
+                                            <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
+                                                <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-20 h-20 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Gambar';">
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-semibold text-white group-hover:text-teal-400 transition-colors line-clamp-2 leading-relaxed">{{ post.title }}</p>
+                                                    <p class="text-xs text-teal-400 mt-1">{{ post.category }}</p>
+                                                </div>
+                                            </a>
+                                            {% assign count = count | plus: 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                                 <div class="mt-6">
                                     <a href="/id/all/" class="block w-full text-center px-4 py-2 bg-teal-800/60 hover:bg-teal-800/90 text-white font-semibold text-sm rounded-lg transition-colors">
@@ -230,6 +237,99 @@
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Right Sidebar (Author & TOC - Desktop Only) ===== -->
+                    <aside class="hidden lg:block lg:col-span-3 order-2">
+                        <div class="sticky top-28 space-y-8">
+                            
+                            <div id="sidebar-card" class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow relative overflow-hidden transition-all duration-500 ease-in-out max-w-sm mx-0">
+                                
+                                <!-- Slide 1: Author Info -->
+                                <div id="author-content" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out opacity-100 translate-y-0">
+                                    <div class="p-5 flex flex-col space-y-4">
+                                        <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-20 h-20 rounded-full flex-shrink-0 mx-auto border-3 border-teal-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                        <div class="text-center flex-1">
+                                            <h4 class="text-base font-bold text-white">{{ page.author }}</h4>
+                                            <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                            <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ page.author_bio }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 2: Table of Contents -->
+                                <div id="desktop-toc-content" class="absolute inset-x-0 top-0 transition-all duration-500 ease-in-out opacity-0 -translate-y-full">
+                                    <div class="p-5">
+                                        <h3 class="text-base font-bold text-white mb-4">Daftar Isi</h3>
+                                        <nav id="desktop-toc" class="space-y-2 pr-2"></nav>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                    </aside>
+
+                    <!-- ===== Mobile Sidebar (Author & Related Posts) ===== -->
+                    <aside class="md:hidden order-2">
+                        <div class="space-y-8 mt-8">
+                            
+                            <!-- Mobile Author Card -->
+                            <div class="bg-[#18212f] rounded-2xl border border-gray-700/80 shadow">
+                                <div class="p-5 flex items-center space-x-4">
+                                    <img src="{{ page.author_avatar | relative_url }}" alt="Foto profil {{ page.author }}" class="w-16 h-16 rounded-full flex-shrink-0 border-3 border-teal-500/50" onerror="this.onerror=null;this.src='https://placehold.co/150x150/1f2937/FFFFFF?text=AP';">
+                                    <div class="text-left flex-1">
+                                        <h4 class="text-base font-bold text-white">{{ page.author }}</h4>
+                                        <p class="text-sm text-gray-400 mt-1">{{ page.author_role }}</p>
+                                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ page.author_bio }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mobile Related Posts -->
+                            <div class="bg-[#18212f] p-6 rounded-2xl border border-gray-700/80 shadow">
+                                <h3 class="text-lg font-bold text-white mb-4">Postingan Terkait</h3>
+                                <div class="space-y-4">
+                                    {% assign mobile_related_posts = site.resources_id | where: "category", page.category | sort: "date" | reverse %}
+                                    {% assign mobile_count = 0 %}
+                                    {% for post in mobile_related_posts %}
+                                        {% if post.url != page.url and mobile_count < 3 %}
+                                        <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
+                                            <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Gambar';">
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-white group-hover:text-teal-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                                <p class="text-xs text-teal-400 mt-1">{{ post.category }}</p>
+                                            </div>
+                                        </a>
+                                        {% assign mobile_count = mobile_count | plus: 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% comment %} If not enough related posts for mobile, fill with other posts {% endcomment %}
+                                    {% if mobile_count < 3 %}
+                                        {% assign mobile_remaining_posts = site.resources_id | sort: "date" | reverse %}
+                                        {% for post in mobile_remaining_posts %}
+                                            {% if post.url != page.url and post.category != page.category and mobile_count < 3 %}
+                                            <a href="{{ post.url | relative_url }}" class="flex items-center space-x-4 group">
+                                                <img src="{{ post.image | relative_url }}" alt="Gambar untuk {{ post.title }}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/100x100/111827/FFFFFF?text=Gambar';">
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-semibold text-white group-hover:text-teal-400 transition-colors line-clamp-2">{{ post.title }}</p>
+                                                    <p class="text-xs text-teal-400 mt-1">{{ post.category }}</p>
+                                                </div>
+                                            </a>
+                                            {% assign mobile_count = mobile_count | plus: 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="mt-6">
+                                    <a href="/id/all/" class="block w-full text-center px-4 py-2 bg-teal-800/60 hover:bg-teal-800/90 text-white font-semibold text-sm rounded-lg transition-colors">
+                                        Lihat Semua Postingan
+                                    </a>
+                                </div>
+                            </div>
+                            
                         </div>
                     </aside>
 
