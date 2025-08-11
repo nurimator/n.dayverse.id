@@ -1,7 +1,7 @@
 ---
 layout: legal_en
 title: "Disclaimer"
-date: 10 August 2025
+updated_date: 10 August 2025
 permalink: /en/disclaimer
 page_id: 10004
 lang: "en"

@@ -1,7 +1,7 @@
 ---
 layout: legal_en
 title: "Terms and Conditions"
-date: 10 August 2025
+updated_date: 10 August 2025
 permalink: /en/terms-and-conditions
 page_id: 10001
 lang: "en"

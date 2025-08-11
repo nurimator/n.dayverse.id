@@ -1,7 +1,7 @@
 ---
 layout: legal_id
 title: "Kebijakan Privasi"
-date: 10 August 2025
+updated_date: 10 August 2025
 permalink: /id/privacy-policy
 page_id: 10002
 lang: "id"

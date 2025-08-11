@@ -1,7 +1,7 @@
 ---
 layout: legal_en
 title: "About Us"
-date: 10 August 2025
+updated_date: 10 August 2025
 permalink: /en/about-us
 page_id: 9904
 lang: "en"

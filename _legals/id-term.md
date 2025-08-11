@@ -1,7 +1,7 @@
 ---
 layout: legal_id
 title: "Syarat dan Ketentuan Penggunaan Website"
-date: 10 August 2025
+updated_date: 10 August 2025
 permalink: /id/terms-and-conditions
 page_id: 10001
 lang: "id"

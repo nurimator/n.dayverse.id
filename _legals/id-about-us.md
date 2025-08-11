@@ -1,7 +1,7 @@
 ---
 layout: legal_id
 title: "Tentang Kami"
-date: 10 Agustus 2025
+updated_date: 10 Agustus 2025
 permalink: /id/about-us
 page_id: 9904
 lang: "id"

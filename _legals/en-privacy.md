@@ -1,8 +1,8 @@
 ---
 layout: legal_en
 title: "Privacy Policy"
-date: 10 August 2025
-permalink: /en/privacy
+updated_date: 10 August 2025
+permalink: /en/privacy-policy
 page_id: 10002
 lang: "en"
 ---

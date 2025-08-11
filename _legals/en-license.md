@@ -1,7 +1,7 @@
 ---
 layout: legal_en
 title: "License Notice"
-date: 10 August 2025
+updated_date: 10 August 2025
 permalink: /en/license
 page_id: 10003
 lang: "en"
