@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines }}{% else %}{{ site.description | strip_html | strip_newlines }}{% endif %}">
+    
+    <!-- Judul Halaman Dinamis untuk SEO yang lebih baik -->
+    <title>{{ page.title }} | {{ site.title | default: "Nurimator" }}</title>
+    {% include favicon.html %}
+
+    {% assign current_page_id = page.page_id %}
+    {% assign alternate_posts = site.legals | where: "page_id", current_page_id %}
+
+    {% for alt in alternate_posts %}
+        <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url | absolute_url }}" />
+    {% endfor %}
+
+    {%- assign fallback = alternate_posts | where: "lang", "en" | first -%}
+    {%- if fallback -%}
+        <link rel="alternate" hreflang="x-default" href="{{ fallback.url | absolute_url }}" />
+    {%- endif -%}
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+     
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Gaya Kustom untuk Konten Artikel -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18212f; /* Warna latar belakang asli */
+            color: #d1d5db; /* Warna teks asli (text-gray-300) */
+        }
+
+        /* Kontainer untuk konten yang dihasilkan dari markdown */
+        .article-content {
+            /* Kosongkan karena gaya diterapkan pada elemen turunan */
+        }
+
+        /* Paragraf */
+        .article-content p {
+            font-size: 1rem; /* 16px */
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        /* Judul H2 */
+        .article-content h2 {
+            font-size: 1.25rem;  /* 20px - mobile */
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #374151; /* Border asli */
+            padding-bottom: 0.5rem;
+        }
+
+        /* Judul H3 */
+        .article-content h3 {
+            font-size: 1.125rem; /* 18px - mobile */
+            font-weight: 600;
+            color: #e5e7eb; /* Warna asli */
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Skala responsif untuk judul di layar yang lebih besar */
+        @media (min-width: 768px) {
+            .article-content h2 { font-size: 1.75rem; }  /* 28px */
+            .article-content h3 { font-size: 1.5rem; }   /* 24px */
+        }
+
+        /* Tautan (Diubah dari biru ke teal) */
+        .article-content a {
+            font-size: 1rem; /* cocok dengan ukuran p */
+            color: #2dd4bf; /* Warna tautan teal (teal-400) */
+            text-decoration: underline;
+            text-decoration-color: #2dd4bf; /* Warna garis bawah tautan teal */
+            transition: color 0.3s;
+        }
+        .article-content a:hover {
+            color: #5eead4; /* Warna hover tautan teal (teal-300) */
+        }
+
+        /* Daftar Tidak Berurutan */
+        .article-content ul {
+            list-style-type: disc;
+            font-size: 1rem;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+        /* Daftar Berurutan */
+        .article-content ol {
+            list-style-type: decimal;
+            font-size: 1rem;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Kutipan (Border diubah dari biru ke teal) */
+        .article-content blockquote {
+            font-size: 1rem;
+            border-left: 4px solid #14b8a6; /* Border kutipan teal (teal-500) */
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #9ca3af; /* Warna teks asli */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Memanggil header dari file terpisah -->
+    {% include header.html %}
+
+    <!-- Konten Utama yang Dinamis dengan Latar Belakang Polos -->
+    <main class="py-16 sm:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl pt-8 pb-16 lg:pt-10 lg:pb-20">
+            
+            <!-- Post Header Baru -->
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">{{ page.title }}</h1>
+                {% if page.date %}
+                <p class="mt-4 text-lg text-gray-400">Effective Date: {{ page.date | date: "%d %B %Y" }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Wrapper untuk menerapkan gaya kustom pada konten markdown -->
+            <div class="article-content">
+                {{ content }}
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Memanggil footer dari file terpisah -->
+    {% include footer.html %}
+    
+    <script src="/assets/js/global.js" defer></script>
+     
+</body>
+</html>
