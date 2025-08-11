@@ -158,14 +158,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function untuk mendeteksi subdomain berdasarkan warna aksen logo
     const detectCurrentSubdomain = () => {
-        const logo = document.querySelector('#logo-dropdown-button span .text-teal-700, #logo-dropdown-button span .text-amber-700, #logo-dropdown-button span .text-blue-700, #logo-dropdown-button span .text-slate-700');
+        const logo = document.querySelector('#logo-dropdown-button span .text-teal-600, #logo-dropdown-button span .text-amber-600, #logo-dropdown-button span .text-blue-600, #logo-dropdown-button span .text-slate-600');
         
         if (!logo) return 'main'; // default
         
-        if (logo.classList.contains('text-teal-700')) return 'nurimator';
-        if (logo.classList.contains('text-amber-700')) return 'main';
-        if (logo.classList.contains('text-blue-700')) return 'urdzien';
-        if (logo.classList.contains('text-slate-700')) return 'webapp';
+        if (logo.classList.contains('text-teal-600')) return 'nurimator';
+        if (logo.classList.contains('text-amber-600')) return 'main';
+        if (logo.classList.contains('text-blue-600')) return 'urdzien';
+        if (logo.classList.contains('text-slate-600')) return 'webapp';
         
         return 'main'; // fallback
     };
