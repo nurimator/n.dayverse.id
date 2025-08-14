@@ -7,6 +7,7 @@
     <title>{{ page.title }} | {{ site.title | default: "Nurimator" }}</title>
     {% include favicon.html %}
 
+    <link rel="canonical" href="{{ page.url | absolute_url }}" />
     {% assign all_articles = site.articles_id | concat: site.articles_en %}
     {% assign current_page_id = page.page_id %}
     {% assign alternate_posts = all_articles | where: "page_id", current_page_id %}
