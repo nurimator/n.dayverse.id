@@ -3,7 +3,7 @@ layout: default
 title: "Proyek: Aplikasi Catatan Sederhana"
 date: 2025-07-02 10:30:00 +0700
 category: "Aplikasi"
-author: "Nurhidayat"
+author: "Nurimator"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
 author_avatar: "/assets/image/nurimator-logo-128.webp"

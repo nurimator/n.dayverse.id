@@ -3,7 +3,7 @@ layout: default
 title: "Proyek: Website Portfolio Pribadi"
 date: 2025-07-03 10:00:00 +0700
 category: "Website"
-author: "Nurhidayat"
+author: "Nurimator"
 author_role: "Penulis"
 author_bio: "Menulis tentang apa saja yang menurutku menarik."
 author_avatar: "/assets/image/nurimator-logo-128.webp"
